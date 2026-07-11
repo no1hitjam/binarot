@@ -1,4 +1,5 @@
 import './style.css'
+import { sCardIconMarkup } from './cardIcons'
 import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
 
 type tCard = {
@@ -199,6 +200,7 @@ function objResolveReading(objLeft: tCard, objRight: tCard, sOp: tOperator): tCa
 function sCardItemMarkup(objCard: tCard): string {
   return `
     <article class="card-item">
+      ${sCardIconMarkup(objCard.sBinaryValue)}
       <h3>${objCard.sName} <span class="binary-value">(${objCard.sBinaryValue})</span></h3>
       <p>Represents ${objCard.sMeaning}.</p>
     </article>
@@ -274,6 +276,7 @@ const sCardsMarkup: string = arrCardPages
     (objPage: tCardPage) => `
       <li>
         <a class="card-item card-item-link" href="#card/${objPage.sSlug}">
+          ${sCardIconMarkup(objPage.sSlug)}
           <h3>${objPage.sName} <span class="binary-value">(${objPage.sLabel})</span></h3>
           <p>Represents ${objPage.sMeaning}.</p>
         </a>
@@ -298,7 +301,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
     <section class="tab-panel is-active" data-panel="cards">
       <div id="cards-index">
-        <h2>Binarot Card Values</h2>
+        <h2>Binarot Cards and Operations</h2>
         <ul class="card-list">
           ${sCardsMarkup}
         </ul>
@@ -398,8 +401,13 @@ function sCardSlugFromHash(): string | null {
 function sCardDetailMarkup(objPage: tCardPage): string {
   return `
     <button type="button" class="card-detail-back" id="card-detail-back">&larr; All cards</button>
-    <h2>${objPage.sName} <span class="binary-value">(${objPage.sLabel})</span></h2>
-    <p class="card-detail-meaning">Represents ${objPage.sMeaning}.</p>
+    <div class="card-detail-header">
+      ${sCardIconMarkup(objPage.sSlug, 'card-icon-detail')}
+      <div class="card-detail-heading">
+        <h2>${objPage.sName} <span class="binary-value">(${objPage.sLabel})</span></h2>
+        <p class="card-detail-meaning">Represents ${objPage.sMeaning}.</p>
+      </div>
+    </div>
     <p class="card-detail-description">${objPage.sDescription}</p>
   `
 }

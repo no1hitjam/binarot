@@ -191,10 +191,18 @@ Moving forward, remember that you do not need to immediately share every insight
     },
     '1100': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Seed (0) represents beginnings, ideas, and origins.
+The boundary that shapes our view is only as strong as the simple truth we choose to center within it. In this quiet alignment, The Seed (0) intersected with The Frame (1100) through the discerning filter of an AND operation. The final result returns you to The Seed (0), describing a pristine, boundless environment where rigid viewpoints and external structures dissolve, leaving only the raw, unadorned essence of your initial concept.
+
+When structured perspectives meet the absolute point of origin, the logic of the cards reminds you that every elaborate mental framework must ultimately grow from a single, fundamental thought. This outcome suggests a space of refreshing clarity, where the pressure to categorize your life or enforce strict mental boundaries falls away. The environment around you right now is not asking you to build a complex architecture for your thoughts, but rather to enjoy the open freedom of an unshaped horizon.
+
+Moving forward, consider that you do not need to have a perfect plan or a rigid outlook to protect the integrity of your direction. Sometimes, the most constructive approach is to step entirely outside of your usual mental habits and let your ideas exist without conditions. Give yourself permission to let go of the structural layout for a moment, and trust the simple, quiet wisdom of your earliest inclinations.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Frame (1100) represents perspective, structure, and state of mind.
+A single spark of insight gains its true meaning only when we build a window wide enough to look through. In this expansive alignment, The Seed (0) gracefully integrated with The Frame (1100) through the welcoming threshold of an OR operation. The final result manifests as The Frame (1100), describing a deliberate, well-ordered environment where perspective, mental clarity, and structural boundaries shape the world around you.
+
+By allowing the raw origin of your ideas to merge with a cohesive state of mind, you have stepped into a space where thoughts can finally take structured form. This reading highlights an environment that rewards organization, intentional focus, and the conscious choosing of your own viewpoint. You are standing in a clearing where the chaos of pure potential settles into a balanced, clear geometry, allowing you to see exactly where everything fits.
+
+Moving forward, remember that the way you choose to define your boundaries will ultimately determine how much room you have to grow. You do not need to let every passing thought disrupt your focus when you have the capacity to maintain a stable, supportive mental architecture. Trust the structural changes you are making, lean into your current clarity, and let your refined perspective guide your choices with quiet confidence.
 `,
     },
     '1101': {

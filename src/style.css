@@ -523,11 +523,39 @@ code {
   line-height: 1.5;
 }
 
-.dev-controls {
+.dev-controls,
+.birthday-controls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
   margin-bottom: 1.25rem;
+}
+
+.dev-controls {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.birthday-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 28rem;
+}
+
+.birthday-meta {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.birthday-result .card-item {
+  max-width: 28rem;
+}
+
+.birthday-sign {
+  margin: 1rem 0 0;
+  max-width: 36rem;
+  color: var(--text);
+  line-height: 1.6;
 }
 
 .dev-field {
@@ -579,7 +607,8 @@ code {
     justify-self: center;
   }
 
-  .dev-controls {
+  .dev-controls,
+  .birthday-controls {
     grid-template-columns: 1fr;
   }
 }

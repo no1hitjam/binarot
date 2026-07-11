@@ -2005,3 +2005,41 @@ The State (1111) represents organization, authority, and the political. The coin
 export function sReadingText(sLeftBinary: string, sRightBinary: string, sOp: tOperator): string {
   return objReadingTexts[sLeftBinary]?.[sRightBinary]?.[sOp]?.trim() ?? ''
 }
+
+/** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence). */
+export function sStyledReadingText(sText: string): string {
+  if (!sText) {
+    return ''
+  }
+
+  const arrParagraphs = sText.split(/\n\n+/)
+
+  const arrStyled = arrParagraphs.map((sParagraph: string, nIndex: number) => {
+    let sResult = sParagraph
+
+    if (nIndex === 0) {
+      const objFirst = /^([^\s][^.!?]*)([.!?])/.exec(sResult)
+      if (objFirst) {
+        const sFirst = `${objFirst[1]}${objFirst[2]}`
+        sResult = `<strong class="reading-text-lead">${sFirst}</strong>${sResult.slice(sFirst.length)}`
+      }
+    }
+
+    if (nIndex === arrParagraphs.length - 1) {
+      const objLast = /([^\s][^.!?]*)([.!?])\s*$/.exec(sResult)
+      if (objLast && objLast.index !== undefined) {
+        const sLast = `${objLast[1]}${objLast[2]}`
+        sResult =
+          `${sResult.slice(0, objLast.index)}<strong>${sLast}</strong>${sResult.slice(objLast.index + sLast.length)}`
+      }
+    }
+
+    if (nIndex === 1) {
+      sResult = `<span class="reading-text-accent">${sResult}</span>`
+    }
+
+    return sResult
+  })
+
+  return arrStyled.join('\n\n<span class="reading-text-sep" aria-hidden="true">✦✦</span>\n\n')
+}

@@ -1,5 +1,5 @@
 import './style.css'
-import { sReadingText, type tOperator } from './readingTexts'
+import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
 
 type tCard = {
   sName: string
@@ -77,7 +77,7 @@ function sReadingResultMarkup(
   const objResult = objResolveReading(objLeft, objRight, sOp)
   const sSymbol = sOp === 'AND' ? '&' : '|'
   const sText = sReadingText(objLeft.sBinaryValue, objRight.sBinaryValue, sOp)
-  const sTextMarkup = sText ? `<p class="reading-text">${sText}</p>` : ''
+  const sTextMarkup = sText ? `<p class="reading-text">${sStyledReadingText(sText)}</p>` : ''
   const sAiMarkup = bIncludeAiInstructions
     ? `<p class="dev-ai-instructions">${sDevAiInstructions}</p>`
     : ''
@@ -187,6 +187,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <h2>About Binarot</h2>
       <p>
         Binarot blends symbolic tarot interpretation with binary progression, moving from <code>0</code> to <code>1111</code>.
+      </p>
+      <p>
+        This was made with the significant help of AI. I, the human developer, chose the card symbols, but basically all of the remaining text is AI generated.
       </p>
     </section>
   </main>

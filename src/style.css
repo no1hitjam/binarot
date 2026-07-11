@@ -390,9 +390,31 @@ code {
 
 .reading-text {
   margin: 0.85rem 0 0;
-  color: var(--text-muted);
+  color: #ddd6e8;
   white-space: pre-wrap;
   line-height: 1.65;
+}
+
+.reading-text-lead,
+.reading-text-accent {
+  color: #c4a8f0;
+}
+
+.reading-text-lead {
+  display: block;
+  margin-bottom: 0.85rem;
+  font-size: 1.15em;
+  font-style: italic;
+}
+
+.reading-text-sep {
+  display: block;
+  margin: 0.35rem 0;
+  color: #c4a8f0;
+  font-size: 1.35em;
+  letter-spacing: 0.35em;
+  text-align: center;
+  user-select: none;
 }
 
 .dev-ai-instructions {

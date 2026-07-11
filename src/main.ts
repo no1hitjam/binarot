@@ -66,7 +66,20 @@ function sCardItemMarkup(objCard: tCard): string {
 }
 
 const sDevAiInstructions =
-  'Binarot is a tarot-like deck where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply. This results in a final card. Given the following reading, generate three concise paragraphs describing the meaning of the result. Give a sort of vague piece of life-advice without being too prescriptive, and use a soothing tone.'
+  `
+  Binarot is a tarot-like deck where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply. This results in a final card. Given the following reading, generate three concise paragraphs describing the meaning of the result. Give a sort of vague piece of life-advice without being too prescriptive, and use a soothing tone.
+  
+  <br><br>
+
+  The first sentence of the first paragraph should be a kind of enigmatic introduction that is something quotable to take to heart.
+  The second sentence should duly summarize the two cards and operation that created the result. The third sentence is a description of the result and what kind of environment this describes.
+
+  <br><br>
+
+  When writing the name of a card, capitalize the first letter and follow with its number in parentheses like so: "...The Seed (0)".
+
+  <br><br>
+ `
 
 function sReadingResultMarkup(
   objLeft: tCard,
@@ -198,10 +211,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="about">
       <h2>About Binarot</h2>
       <p>
-        Binarot blends symbolic tarot interpretation with binary progression, moving from <code>0</code> to <code>1111</code>.
+        Binarot blends symbolic tarot interpretation with binary operations.
       </p>
       <p>
-        This was made with the significant help of AI. I, the human developer, chose the card symbols, but basically all of the remaining text is AI generated.
+        There is an associated symbol for each binary number <code>0</code> to <code>1111</code>.
+      </p>
+      <p>
+        The rules are to draw two cards and flip a coin (Heads is AND, Tails is OR) to get an AND/OR operation to apply and get a result. The job of the reader is to interpret the result in context of the operation that created it. For this site, the reader is me having prompted AI to get a reading for every combination.
+      </p>
+      <p>
+        The card symbols were chosen by myself, a human, as both meaningful symbols slightly related to their given numbers, but also computer puns.
       </p>
     </section>
   </main>
@@ -275,7 +294,6 @@ const objReadingResult = document.querySelector<HTMLDivElement>('#reading-result
 
 const arrDrawLoadLines: string[] = [
   'shuffling deck...',
-  'sampling entropy...',
   'drawing left card...',
   'drawing right card...',
   'flipping AND/OR coin...',
@@ -306,7 +324,7 @@ function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void 
   objReadingResult.hidden = false
   objReadingResult.innerHTML = `
     <div class="reading-console" aria-live="polite">
-      <p class="reading-console-line reading-console-prompt"><span class="reading-console-caret">&gt;</span> binarot.draw();</p>
+      <p class="reading-console-line reading-console-prompt"><span class="reading-console-caret">&gt;</span> binarot draw</p>
       <p class="reading-console-line reading-console-status">executing...</p>
       <div class="reading-console-log" id="reading-console-log"></div>
     </div>

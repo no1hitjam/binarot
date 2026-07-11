@@ -86,55 +86,107 @@ This alignment suggests that you are entering a season where the path ahead is n
 If you find yourself feeling a bit overwhelmed by the sheer number of directions, decisions, or desires currently surfacing in your life, consider this a gentle reminder to trust your inner resonance. There is no need to rush into a permanent decision or force yourself down a path just because it seems expected. Give yourself permission to pause at the crossroads, to sample the options before you, and to listen to what truly harmonizes with your core. Trust that by simply honoring what feels most authentic in the present moment, the path you step onto will unfold exactly as it is meant to.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+There is a gentle, expansive momentum that happens when a single idea finally touches the wider world. When the quiet purity of The Seed (0) meets the dynamic, winding energy of The Fork (101) through the generous OR operation, your perspective naturally widens. Instead of being forced to choose between the safety of a fresh beginning and the complexity of the road ahead, you are given the space to hold both. This reading marks the beautiful transition where a solitary thought blossoms into a landscape of active choices, inviting you to step out of the abstract and into the tangible world.
+
+This alignment softly suggests that you have outgrown the waiting room of pure potential. With The Fork emerging as your final card, the energy of the reading shifts from merely conceiving an idea to actively consuming and engaging with what life has laid out before you. A crossroads can sometimes feel intimidating, but here, it is a sign of true abundance. It means your foundation is now secure enough to support exploration, encouraging you to see where different paths might lead and what new harmonies they might spark within you.
+
+If you are currently standing before a set of diverging options and feeling the pressure to choose perfectly, let this be a gentle reminder to release that weight. You do not need to map out the entire journey before taking a single step. Give yourself permission to simply take in what is being offered, listen quietly to what resonates with your spirit, and move gently toward what feels right in this exact moment. Trust that whichever path you wander down, the original seed of your intention is already safely carried within you, quietly guiding your way.
 `,
     },
     '110': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and mercantilism. Result: The Seed (0) represents beginnings, ideas, and origins.
+The intersection of The Seed (0) and The Port (110) under the precise filtering of the AND operation reveals a beautiful, quiet truth: by keeping only what both cards share, your current momentum is pulling you back to absolute fundamentals. While The Port speaks of grand gateways, bustling commerce, and wide-open horizons, combining it strictly with The Seed strips away the external noise, the complex logistics, and the overwhelming choices of the marketplace. The AND logic filters out the vastness of the world, leaving you with the core essence that unites a journey's destination with its very first step—the pure, unadulterated spark of potential.
+
+Because The Seed emerges as your final result, the reading highlights a profound return to origins, intentions, and raw ideas. Even when standing at the edge of a massive transition or staring out at a new horizon, the most vital element right now isn't the scale of the world outside, but the integrity of the concept you are carrying. This card suggests that any grand plans or complex ventures are being distilled down to their absolute roots, encouraging you to focus on the quiet internal space where things are first conceived before they are ever built or traded.
+
+As you move forward, look inward to the simplest, most foundational elements of what you are trying to create or experience. When choices feel vast and overwhelming, clarity often comes from stripping away the excess until only the essential truth remains. Trust that by honoring the smallest, most genuine parts of your current path, you are giving yourself the solid ground needed for whatever eventually grows from it; there is immense power in letting a beginning simply be a beginning.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and mercantilism. Result: The Port (110) represents gateways, discovery, and mercantilism.
+The synthesis of The Seed and The Port through the inclusive lens of the OR operation suggests that your current path is expanding, capturing both the raw potential of a fresh start and the structured opportunities of a final destination. Because the OR logic gathers everything either card offers, you don't have to choose between keeping an idea in its pure, conceptual stage or pushing it out into the bustling marketplace of reality. The universe isn't asking you to compromise; it is validating both your quiet internal origins and your grander external ambitions, blending them into a single, cohesive landscape.
+
+With The Port emerging as your final result, the focus shifts beautifully toward transition, discovery, and exchange. Ports are places where deep waters meet stable land—they are zones of transit where goods, ideas, and people cross thresholds into the unknown. The appearance of this card indicates that you are standing at a major gateway, ready to trade old, familiar perspectives for new, enriching experiences. The foundational energy of The Seed has successfully traveled to the docks of The Port, transforming a simple, hidden beginning into an active hub of discovery and outward connection.
+
+As you navigate this period of transition, allow yourself to simply stand at the threshold for a moment without rushing to anchor down or immediately set sail. True discovery often happens in the space between where you started and where you are going, so trust that the gateways opening before you will naturally guide your next steps. Lean into the natural flow of exchange—letting go of what no longer serves you to make room for the new arrivals coming across the horizon—and remember that every beginning carries its own destination, just as every destination contains a new seed.
 `,
     },
     '111': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Seed (0) represents beginnings, ideas, and origins.
+The intersection of The Seed (0) and The Tree (111) under the filtering lens of the AND operation brings you to a point of profound simplification, stripping away the complexity of fully realized growth to reveal what is most essential. While the Tree (111) speaks to the sprawling canopy of life—with all its branches, leaves, and visible achievements—combining it strictly with The Seed (0) means keeping only what exists in both states. The AND logic filters out the massive, intricate structure of the final result, leaving you entirely with the concentrated blueprint that made it all possible in the first place.
+
+With the Seed emerging as your final result, the universe is drawing your focus away from outward expansion and directing it back toward your core intentions. Even if you are surrounded by complex projects, long-term ambitions, or the sheer weight of everything you have grown so far, the reading suggests that the most vital energy right now is the quiet, internal spark of your original ideas. This is a moment to appreciate the pure, unburdened potential of a starting point, recognizing that every massive canopy is completely contained within a single, silent origin.
+
+As you navigate your current season, allow yourself to step back from the pressure of constant expansion and instead tend to the foundations of your inner world. When the path ahead feels cluttered with too many branches to prune or directions to take, clarity can be found by returning to the simplest version of what you want to nurture. Trust that by protecting and honoring the small, genuine core of your endeavors, you are preserving the very essence that allows everything else to flourish naturally in its own time.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+In the quiet expanse of becoming, the destination gently cradles the memory of where it all began. When you cast your intentions, The Seed (0) met The Tree (111) through the expansive choice of an OR operation. The final result leaves you with The Tree (111), describing a lush, fully realized environment where your roots have successfully anchored and your branches are free to stretch toward the skyline.
+
+Because the logic of your path chose inclusion over exclusion, there is no pressure to choose between the raw spark of a fresh idea and its grand culmination. You are standing in a space of abundant overflow, where the early trials of beginnings have naturally matured into something substantial and self-sustaining. Allow yourself to rest under the canopy of what has been built, recognizing that you gracefully contain both the origin and the harvest.
+
+Moving forward, remember that you do not always have to force a new beginning to feel a sense of purpose. Sometimes, the wisest action is simply to inhabit your own expanse and trust the reach you have already established. Let the wind move through you, and gently permit yourself to grow without boundaries.
 `,
     },
     '1000': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+True clarity is found not in what you gather, but in the essential truth that remains when everything else is stripped away. In this alignment of your path, The Seed (0) intersected with The Agent (1000) under the strict filter of an AND operation. The final result returns you to The Seed (0), describing a quiet, minimalist environment of pure potential where the clutter of execution fades, leaving only the raw essence of what matters most.
+
+When independent will meets the absolute point of origin, the logic of the universe demands that you pause before the first step is even taken. This outcome suggests a space where your immense drive and capacity for action are being funneled back into a single, concentrated point of intent. There is no need to rush into motion; the environment around you right now is perfectly content to let you sit with the quiet power of a blank slate.
+
+Moving forward, consider that the most impactful actions often stem from a willingness to return to the very beginning. You do not need to force momentum or rely solely on sheer willpower to make your mark on the world. Allow yourself to simply exist in the space of what could be, and trust that the right spark will ignite when the time is right.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
+When you open the door to every possibility, your own capacity to choose becomes the ultimate compass. In this unfolding moment, The Seed (0) combined with The Agent (1000) through the welcoming threshold of an OR operation. The final result manifests as The Agent (1000), describing a dynamic, open-ended environment of absolute autonomy where individual drive and personal agency take center stage.
+
+By embracing both the spark of inception and the momentum of execution, you have cleared a vast canvas for your own will to reshape the landscape. This reading suggests you are stepping into a clearing where the hesitation of beginnings dissolves into the empowering freedom of direct choice. You are completely unburdened by past constraints, standing in a space that fully responds to your unique intent and direction.
+
+Moving forward, remember that having the power to act means you also possess the grace to decide exactly when and where to apply it. You do not need to look outward for permission or validation when the path ahead is entirely yours to define. Step into your own capability, move with steady intent, and let your internal compass guide your strides.
 `,
     },
     '1001': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, meetings, and plots. Result: The Seed (0) represents beginnings, ideas, and origins.
+To find the core of a collective dream, one must look beneath the gathering to the silent spark that brought everyone together. In this quiet intersection, The Seed (0) met The Table (1001) under the unifying filter of an AND operation. The final result returns you to The Seed (0), describing a pristine, foundational environment where the noise of collaboration clears away to reveal the singular, underlying purpose that started it all.
+
+When the drive to assemble meets the absolute point of origin, the logic of the cards suggests that the plans and plots themselves are less important than the shared intent behind them. This outcome indicates a space of profound distillation, where complex social dynamics or group endeavors are stripped of their outer layers, leaving only a pure, concentrated idea. It is an invitation to look past the logistics of the meeting and reconnect with the raw, unspoken inspiration that connects you to others.
+
+Moving forward, consider that the most enduring alliances are sustained not by elaborate structures, but by a simple, mutual understanding of the beginning. You do not need to orchestrate complicated arrangements or manage every detail of your interactions right now. Trust the quiet essence of what is being formed, allow the foundational truth to stabilize, and let things grow organically from the ground up.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, meetings, and plots. Result: The Table (1001) represents gathering, meetings, and plots.
+In the warmth of a shared space, the whisper of an early thought naturally expands to welcome the voices of the many. In this gathering of forces, The Seed (0) integrated with The Table (1001) through the expansive landscape of an OR operation. The final result manifests as The Table (1001), describing a vibrant, collaborative environment where individual inspirations readily merge into shared strategies, meetings, and collective blueprints.
+
+Because your path chose an inclusive framework, the solitary spark of an idea has been granted the room to pull in community, structure, and cooperative energy. This reading highlights a space teeming with potential connection, where plans are being woven together and the table is fully set for meaningful interaction. You are no longer working in isolation; the environment around you actively supports the merging of minds and the alignment of shared goals.
+
+Moving forward, remember that you do not have to carry the weight of a new venture entirely on your own shoulders. Sometimes, the most constructive step is simply to pull up a chair, listen to the ideas circulating around you, and allow the collective momentum to carry things forward. Trust the strength of the network you are building, and let the collaborative process unfold at its own natural pace.
 `,
     },
     '1010': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
+The truest reflection of yourself is not found in what you copy, but in the original spark that remains unchanged before the glass. In this quiet alignment, The Seed (0) intersected with The Clone (1010) through the precise filter of an AND operation. The final result leaves you with The Seed (0), describing a pristine, singular environment where all external echoes fade away, leaving only the unadulterated essence of your first, truest concept.
+
+When the concept of a perfect duplicate meets the absolute point of origin, the logic of the cards reminds you that a copy can only ever inherit what was already present at the start. This outcome suggests a space of profound simplification, where you are being drawn away from comparison, duplication, or the desire to match others symmetrically. The environment around you right now is not asking you to replicate past success or mirror someone else's journey, but simply to sit with the raw purity of your own beginning.
+
+Moving forward, consider that you do not need to repeat yourself or look for validation in external mirrors to prove your worth. Sometimes, the most powerful stance is to step back from the cycle of reproduction and trust the integrity of your initial idea. Allow the reflections around you to grow quiet, and give yourself permission to nurture the simple, quiet truth of where you currently stand.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+When you step into a hall of mirrors, every reflection offers a new doorway to understanding who you are. In this expansive alignment, The Seed (0) gracefully merged with The Clone (1010) through the welcoming threshold of an OR operation. The final result manifests as The Clone (1010), describing a symmetrical, resonant environment where patterns repeat, parallel paths open up, and equality and balance define the space around you.
+
+By opening the floor to both the initial spark and its multi-faceted reflections, you have entered a landscape of profound symmetry and duplication. This outcome suggests an environment where your thoughts and actions are being mirrored back to you by the world, allowing you to see your choices play out in real time. It is a space of equal footing, where you can find comfort in shared experiences and the steady, rhythmic reproduction of steady habits.
+
+Moving forward, remember that you do not have to constantly reinvent yourself to find a sense of alignment or progress. Sometimes, the most transformative thing you can do is look at the patterns you are naturally repeating and embrace the harmony within them. Trust the reflections that feel true, treat those around you as equals on a parallel journey, and allow the steady rhythm of your environment to carry you forward.
 `,
     },
     '1011': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Seed (0) represents beginnings, ideas, and origins.
+Deep within the hidden vault of the mind, the greatest treasure is always the simple truth that first set you on your journey. In this quiet convergence, The Seed (0) intersected with The Cache (1011) through the discerning filter of an AND operation. The final result returns you to The Seed (0), describing an unadorned, foundational environment where the weight of accumulated secrets and complex information falls away, leaving only the pure, raw potential of your original intent.
+
+When vast stores of hidden knowledge meet the absolute point of origin, the logic of the cards suggests that the most valuable asset you hold is not what you have gathered, but what you started with. This outcome indicates a space of beautiful distillation, where intellectual clutter or the anxiety of protecting your resources is stripped away. The environment right now isn't asking you to decipher a complex mystery or hoard your insights, but rather to look at your path with fresh, unburdened eyes.
+
+Moving forward, consider that you do not need to possess all the answers or unlock every secret to be fully prepared for what comes next. Sometimes, the most profound wisdom lies in returning to a state of simple curiosity and letting go of the need to manage every piece of information. Allow yourself to trust the integrity of your earliest ideas, step away from the archives, and let your journey unfold from a place of quiet, uncomplicated beginnings.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The most profound mysteries do not lock the door behind them, but rather invite you to bring your earliest curiosities into the deep. In this expansive convergence, The Seed (0) gracefully integrated with The Cache (1011) through the inclusive threshold of an OR operation. The final result manifests as The Cache (1011), describing a rich, deeply layered environment of accumulated wisdom, hidden truths, and quiet resourcefulness waiting to be uncovered.
+
+By allowing both the raw spark of an idea and the vast storage of experience to coexist, you have unlocked an archive of immense personal value. This reading points to a space where your internal wealth—be it knowledge, insights, or quiet reserves of strength—is fully available to support you. You are entering a landscape that encourages you to look beneath the surface and appreciate the substantial depth you have quietly built over time.
+
+Moving forward, remember that you do not need to immediately share every insight or exhaust all your resources to validate your progress. Sometimes, there is great strength in keeping a few treasures to yourself while you quietly study the map of your own experience. Trust the depth of what you know, allow your accumulated wisdom to steady your steps, and let your inner wealth guide you without rushing to reveal it all.
 `,
     },
     '1100': {

@@ -222,12 +222,76 @@ function objFindCardByBinary(sBinary: string): tCard {
 const objDrawButton = document.querySelector<HTMLButtonElement>('#reading-draw')!
 const objReadingResult = document.querySelector<HTMLDivElement>('#reading-result')!
 
+const arrDrawLoadLines: string[] = [
+  'shuffling deck...',
+  'sampling entropy...',
+  'drawing left card...',
+  'drawing right card...',
+  'flipping AND/OR coin...',
+  'resolving bitwise operation...',
+]
+
+let nDrawLoadTimer: number | undefined
+
+function vClearDrawLoadTimer(): void {
+  if (nDrawLoadTimer !== undefined) {
+    window.clearTimeout(nDrawLoadTimer)
+    nDrawLoadTimer = undefined
+  }
+}
+
+function vAppendConsoleLine(objLog: HTMLElement, sText: string, sClass: string = ''): void {
+  const objLine = document.createElement('p')
+  objLine.className = `reading-console-line${sClass ? ` ${sClass}` : ''}`
+  objLine.textContent = sText
+  objLog.appendChild(objLine)
+  objLog.scrollTop = objLog.scrollHeight
+}
+
+function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void {
+  vClearDrawLoadTimer()
+
+  objDrawButton.disabled = true
+  objReadingResult.hidden = false
+  objReadingResult.innerHTML = `
+    <div class="reading-console" aria-live="polite">
+      <p class="reading-console-line reading-console-prompt"><span class="reading-console-caret">&gt;</span> binarot.draw();</p>
+      <p class="reading-console-line reading-console-status">executing...</p>
+      <div class="reading-console-log" id="reading-console-log"></div>
+    </div>
+  `
+
+  const objLog = document.querySelector<HTMLElement>('#reading-console-log')!
+  let nLineIndex = 0
+
+  function vStep(): void {
+    if (nLineIndex < arrDrawLoadLines.length) {
+      vAppendConsoleLine(objLog, arrDrawLoadLines[nLineIndex]!)
+      nLineIndex += 1
+      nDrawLoadTimer = window.setTimeout(vStep, 20 + Math.floor(Math.random() * 30))
+      return
+    }
+
+    vAppendConsoleLine(objLog, 'done.', 'reading-console-done')
+    nDrawLoadTimer = window.setTimeout(() => {
+      const objConsole = objReadingResult.querySelector('.reading-console')
+      const objOutput = document.createElement('div')
+      objOutput.className = 'reading-console-output'
+      objOutput.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp)
+      objReadingResult.appendChild(objOutput)
+      objConsole?.classList.add('is-complete')
+      objDrawButton.disabled = false
+      nDrawLoadTimer = undefined
+    }, 180)
+  }
+
+  nDrawLoadTimer = window.setTimeout(vStep, 150)
+}
+
 objDrawButton.addEventListener('click', () => {
   const [objLeft, objRight] = arrDrawTwoCards()
   const sOp = sFlipCoin()
-
-  objReadingResult.hidden = false
-  objReadingResult.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp)
+  vRunDrawConsole(objLeft, objRight, sOp)
 })
 
 const objDevLeft = document.querySelector<HTMLSelectElement>('#dev-left')!

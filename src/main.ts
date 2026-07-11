@@ -116,16 +116,28 @@ function sCardOptionsMarkup(sSelectedBinary: string): string {
     .join('')
 }
 
-const sCardsMarkup: string = arrCards
-  .map(
+const sCardsMarkup: string = [
+  ...arrCards.map(
     (objCard: tCard) => `
       <li class="card-item">
         <h3>${objCard.sName} <span class="binary-value">(${objCard.sBinaryValue})</span></h3>
         <p>Represents ${objCard.sMeaning}.</p>
       </li>
     `,
-  )
-  .join('')
+  ),
+  `
+      <li class="card-item">
+        <h3>AND <span class="binary-value">(&)</span></h3>
+        <p>Represents intersection, filtering, and what both cards share.</p>
+      </li>
+    `,
+  `
+      <li class="card-item">
+        <h3>OR <span class="binary-value">(|)</span></h3>
+        <p>Represents union, expansion, and everything either card offers.</p>
+      </li>
+    `,
+].join('')
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main class="site">

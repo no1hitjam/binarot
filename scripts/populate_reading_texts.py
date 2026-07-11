@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,7 +48,7 @@ CARDS_BY_VALUE = {int(obj_card["binary"], 2): obj_card for obj_card in CARDS}
 
 
 def s_card_summary(obj_card: dict[str, str]) -> str:
-    return f"{obj_card['name']} represents {obj_card['meaning']}."
+    return f"{obj_card['name']} ({obj_card['binary']}) represents {obj_card['meaning']}."
 
 
 def s_reading_text(obj_left: dict[str, str], obj_right: dict[str, str], s_op: str) -> str:
@@ -69,8 +68,11 @@ def s_reading_text(obj_left: dict[str, str], obj_right: dict[str, str], s_op: st
     )
 
 
-def s_ts_string(s_value: str) -> str:
-    return json.dumps(s_value, ensure_ascii=False)
+def s_ts_template_literal(s_value: str) -> str:
+    s_escaped = (
+        s_value.replace("\\", "\\\\").replace("`", "\\`").replace("${", "\\${")
+    )
+    return f"`\n{s_escaped}\n`"
 
 
 def s_build_typescript() -> str:
@@ -97,11 +99,12 @@ def s_build_typescript() -> str:
             if obj_left["binary"] == obj_right["binary"]:
                 continue
 
-            s_and = s_ts_string(s_reading_text(obj_left, obj_right, "AND"))
-            s_or = s_ts_string(s_reading_text(obj_left, obj_right, "OR"))
-            arr_lines.append(
-                f"    '{obj_right['binary']}': {{ AND: {s_and}, OR: {s_or} }},"
-            )
+            s_and = s_ts_template_literal(s_reading_text(obj_left, obj_right, "AND"))
+            s_or = s_ts_template_literal(s_reading_text(obj_left, obj_right, "OR"))
+            arr_lines.append(f"    '{obj_right['binary']}': {{")
+            arr_lines.append(f"      AND: {s_and},")
+            arr_lines.append(f"      OR: {s_or},")
+            arr_lines.append("    },")
         arr_lines.append("  },")
 
     arr_lines.extend(
@@ -109,7 +112,7 @@ def s_build_typescript() -> str:
             "}",
             "",
             "export function sReadingText(sLeftBinary: string, sRightBinary: string, sOp: tOperator): string {",
-            "  return objReadingTexts[sLeftBinary]?.[sRightBinary]?.[sOp] ?? ''",
+            "  return objReadingTexts[sLeftBinary]?.[sRightBinary]?.[sOp]?.trim() ?? ''",
             "}",
             "",
         ]

@@ -65,6 +65,57 @@ function sCardItemMarkup(objCard: tCard): string {
   `
 }
 
+const sDevAiInstructions =
+  'Binarot is a tarot-like deck where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply. This results in a final card. Given the following reading, generate three concise paragraphs describing the meaning of the result. Give a sort of vague piece of life-advice without being too prescriptive, and use a soothing tone.'
+
+function sReadingResultMarkup(
+  objLeft: tCard,
+  objRight: tCard,
+  sOp: tOperator,
+  bIncludeAiInstructions: boolean = false,
+): string {
+  const objResult = objResolveReading(objLeft, objRight, sOp)
+  const sSymbol = sOp === 'AND' ? '&' : '|'
+  const sText = sReadingText(objLeft.sBinaryValue, objRight.sBinaryValue, sOp)
+  const sTextMarkup = sText ? `<p class="reading-text">${sText}</p>` : ''
+  const sAiMarkup = bIncludeAiInstructions
+    ? `<p class="dev-ai-instructions">${sDevAiInstructions}</p>`
+    : ''
+
+  return `
+    <div class="reading-spread">
+      ${sCardItemMarkup(objLeft)}
+      <div class="reading-coin" aria-label="Coin landed on ${sOp}">
+        <span class="reading-coin-face">${sOp}</span>
+        <span class="reading-coin-symbol binary-value">${sSymbol}</span>
+      </div>
+      ${sCardItemMarkup(objRight)}
+    </div>
+    <p class="reading-equation">
+      <span class="binary-value">${objLeft.sBinaryValue}</span>
+      ${sSymbol}
+      <span class="binary-value">${objRight.sBinaryValue}</span>
+      =
+      <span class="binary-value">${objResult.sBinaryValue}</span>
+    </p>
+    <div class="reading-final">
+      <h3>Result</h3>
+      ${sCardItemMarkup(objResult)}
+      ${sAiMarkup}
+      ${sTextMarkup}
+    </div>
+  `
+}
+
+function sCardOptionsMarkup(sSelectedBinary: string): string {
+  return arrCards
+    .map((objCard: tCard) => {
+      const sSelected = objCard.sBinaryValue === sSelectedBinary ? ' selected' : ''
+      return `<option value="${objCard.sBinaryValue}"${sSelected}>${objCard.sName} (${objCard.sBinaryValue})</option>`
+    })
+    .join('')
+}
+
 const sCardsMarkup: string = arrCards
   .map(
     (objCard: tCard) => `
@@ -86,6 +137,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <nav class="tabs" aria-label="Binarot sections">
       <button type="button" class="tab-button is-active" data-tab="cards" aria-selected="true">Cards</button>
       <button type="button" class="tab-button" data-tab="reading" aria-selected="false">Reading</button>
+      <button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
 
@@ -104,6 +156,31 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </p>
       <button type="button" class="reading-draw" id="reading-draw">Draw a reading</button>
       <div class="reading-result" id="reading-result" hidden></div>
+    </section>
+
+    <section class="tab-panel" data-panel="dev">
+      <h2>Dev Reading</h2>
+      <p class="reading-intro">
+        Choose any two cards and coin face to preview a reading.
+      </p>
+      <form class="dev-controls" id="dev-form">
+        <label class="dev-field">
+          <span>First card</span>
+          <select id="dev-left" name="left">${sCardOptionsMarkup('0')}</select>
+        </label>
+        <label class="dev-field">
+          <span>Coin</span>
+          <select id="dev-op" name="op">
+            <option value="AND" selected>AND</option>
+            <option value="OR">OR</option>
+          </select>
+        </label>
+        <label class="dev-field">
+          <span>Second card</span>
+          <select id="dev-right" name="right">${sCardOptionsMarkup('1')}</select>
+        </label>
+      </form>
+      <div class="reading-result" id="dev-result"></div>
     </section>
 
     <section class="tab-panel" data-panel="about">
@@ -138,40 +215,35 @@ arrTabButtons.forEach((objButton: HTMLButtonElement) => {
   })
 })
 
+function objFindCardByBinary(sBinary: string): tCard {
+  return arrCards.find((objCard: tCard) => objCard.sBinaryValue === sBinary)!
+}
+
 const objDrawButton = document.querySelector<HTMLButtonElement>('#reading-draw')!
 const objReadingResult = document.querySelector<HTMLDivElement>('#reading-result')!
 
 objDrawButton.addEventListener('click', () => {
   const [objLeft, objRight] = arrDrawTwoCards()
   const sOp = sFlipCoin()
-  const objResult = objResolveReading(objLeft, objRight, sOp)
-  const sSymbol = sOp === 'AND' ? '&' : '|'
-  const sText = sReadingText(objLeft.sBinaryValue, objRight.sBinaryValue, sOp)
-  const sTextMarkup = sText
-    ? `<p class="reading-text">${sText}</p>`
-    : ''
 
   objReadingResult.hidden = false
-  objReadingResult.innerHTML = `
-    <div class="reading-spread">
-      ${sCardItemMarkup(objLeft)}
-      <div class="reading-coin" aria-label="Coin landed on ${sOp}">
-        <span class="reading-coin-face">${sOp}</span>
-        <span class="reading-coin-symbol binary-value">${sSymbol}</span>
-      </div>
-      ${sCardItemMarkup(objRight)}
-    </div>
-    <p class="reading-equation">
-      <span class="binary-value">${objLeft.sBinaryValue}</span>
-      ${sSymbol}
-      <span class="binary-value">${objRight.sBinaryValue}</span>
-      =
-      <span class="binary-value">${objResult.sBinaryValue}</span>
-    </p>
-    <div class="reading-final">
-      <h3>Result</h3>
-      ${sCardItemMarkup(objResult)}
-      ${sTextMarkup}
-    </div>
-  `
+  objReadingResult.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp)
 })
+
+const objDevLeft = document.querySelector<HTMLSelectElement>('#dev-left')!
+const objDevRight = document.querySelector<HTMLSelectElement>('#dev-right')!
+const objDevOp = document.querySelector<HTMLSelectElement>('#dev-op')!
+const objDevResult = document.querySelector<HTMLDivElement>('#dev-result')!
+
+function vUpdateDevReading(): void {
+  const objLeft = objFindCardByBinary(objDevLeft.value)
+  const objRight = objFindCardByBinary(objDevRight.value)
+  const sOp = objDevOp.value as tOperator
+
+  objDevResult.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp, true)
+}
+
+objDevLeft.addEventListener('change', vUpdateDevReading)
+objDevRight.addEventListener('change', vUpdateDevReading)
+objDevOp.addEventListener('change', vUpdateDevReading)
+vUpdateDevReading()

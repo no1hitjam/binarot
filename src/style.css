@@ -188,6 +188,11 @@ code {
   font-size: 1rem;
 }
 
+.reading-text {
+  margin: 0.85rem 0 0;
+  color: #374151;
+}
+
 @media (max-width: 640px) {
   .reading-spread {
     grid-template-columns: 1fr;
@@ -220,7 +225,8 @@ code {
     color: #d1d5db;
   }
 
-  .reading-intro {
+  .reading-intro,
+  .reading-text {
     color: #d1d5db;
   }
 

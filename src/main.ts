@@ -1,4 +1,5 @@
 import './style.css'
+import { sReadingText, type tOperator } from './readingTexts'
 
 type tCard = {
   sName: string
@@ -24,8 +25,6 @@ const arrCards: tCard[] = [
   { sName: 'The Forum', sBinaryValue: '1110', sMeaning: 'nobility, philosophy, and debate' },
   { sName: 'The State', sBinaryValue: '1111', sMeaning: 'organization, authority, and the political' },
 ]
-
-type tOperator = 'AND' | 'OR'
 
 function nCardValue(objCard: tCard): number {
   return parseInt(objCard.sBinaryValue, 2)
@@ -147,6 +146,10 @@ objDrawButton.addEventListener('click', () => {
   const sOp = sFlipCoin()
   const objResult = objResolveReading(objLeft, objRight, sOp)
   const sSymbol = sOp === 'AND' ? '&' : '|'
+  const sText = sReadingText(objLeft.sBinaryValue, objRight.sBinaryValue, sOp)
+  const sTextMarkup = sText
+    ? `<p class="reading-text">${sText}</p>`
+    : ''
 
   objReadingResult.hidden = false
   objReadingResult.innerHTML = `
@@ -168,6 +171,7 @@ objDrawButton.addEventListener('click', () => {
     <div class="reading-final">
       <h3>Result</h3>
       ${sCardItemMarkup(objResult)}
+      ${sTextMarkup}
     </div>
   `
 })

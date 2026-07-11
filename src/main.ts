@@ -192,8 +192,47 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </main>
 `
 
+const sCookieTab = 'binarot_tab'
+const nCookieMaxAge = 60 * 60 * 24 * 365
+
+function sCookieValue(sName: string): string | null {
+  const sPrefix = `${encodeURIComponent(sName)}=`
+  const arrParts = document.cookie.split(';')
+
+  for (const sPart of arrParts) {
+    const sTrimmed = sPart.trim()
+    if (sTrimmed.startsWith(sPrefix)) {
+      return decodeURIComponent(sTrimmed.slice(sPrefix.length))
+    }
+  }
+
+  return null
+}
+
+function vSetCookie(sName: string, sValue: string): void {
+  document.cookie = `${encodeURIComponent(sName)}=${encodeURIComponent(sValue)}; path=/; max-age=${nCookieMaxAge}; SameSite=Lax`
+}
+
 const arrTabButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.tab-button'))
 const arrTabPanels = Array.from(document.querySelectorAll<HTMLElement>('.tab-panel'))
+
+function bTabExists(sTabId: string): boolean {
+  return arrTabButtons.some((objButton: HTMLButtonElement) => objButton.dataset.tab === sTabId)
+}
+
+function vActivateTab(sTabId: string): void {
+  arrTabButtons.forEach((objTabButton: HTMLButtonElement) => {
+    const bIsActive = objTabButton.dataset.tab === sTabId
+    objTabButton.classList.toggle('is-active', bIsActive)
+    objTabButton.setAttribute('aria-selected', String(bIsActive))
+  })
+
+  arrTabPanels.forEach((objPanel: HTMLElement) => {
+    objPanel.classList.toggle('is-active', objPanel.dataset.panel === sTabId)
+  })
+
+  vSetCookie(sCookieTab, sTabId)
+}
 
 arrTabButtons.forEach((objButton: HTMLButtonElement) => {
   objButton.addEventListener('click', () => {
@@ -203,17 +242,14 @@ arrTabButtons.forEach((objButton: HTMLButtonElement) => {
       return
     }
 
-    arrTabButtons.forEach((objTabButton: HTMLButtonElement) => {
-      const bIsActive = objTabButton === objButton
-      objTabButton.classList.toggle('is-active', bIsActive)
-      objTabButton.setAttribute('aria-selected', String(bIsActive))
-    })
-
-    arrTabPanels.forEach((objPanel: HTMLElement) => {
-      objPanel.classList.toggle('is-active', objPanel.dataset.panel === sTabId)
-    })
+    vActivateTab(sTabId)
   })
 })
+
+const sSavedTab = sCookieValue(sCookieTab)
+if (sSavedTab !== null && bTabExists(sSavedTab)) {
+  vActivateTab(sSavedTab)
+}
 
 function objFindCardByBinary(sBinary: string): tCard {
   return arrCards.find((objCard: tCard) => objCard.sBinaryValue === sBinary)!
@@ -299,15 +335,49 @@ const objDevRight = document.querySelector<HTMLSelectElement>('#dev-right')!
 const objDevOp = document.querySelector<HTMLSelectElement>('#dev-op')!
 const objDevResult = document.querySelector<HTMLDivElement>('#dev-result')!
 
+const sDevCookieLeft = 'binarot_dev_left'
+const sDevCookieRight = 'binarot_dev_right'
+const sDevCookieOp = 'binarot_dev_op'
+
+function bSelectHasValue(objSelect: HTMLSelectElement, sValue: string): boolean {
+  return Array.from(objSelect.options).some((objOption: HTMLOptionElement) => objOption.value === sValue)
+}
+
+function vRestoreDevControls(): void {
+  const sLeft = sCookieValue(sDevCookieLeft)
+  const sRight = sCookieValue(sDevCookieRight)
+  const sOp = sCookieValue(sDevCookieOp)
+
+  if (sLeft !== null && bSelectHasValue(objDevLeft, sLeft)) {
+    objDevLeft.value = sLeft
+  }
+
+  if (sRight !== null && bSelectHasValue(objDevRight, sRight)) {
+    objDevRight.value = sRight
+  }
+
+  if (sOp !== null && bSelectHasValue(objDevOp, sOp)) {
+    objDevOp.value = sOp
+  }
+}
+
+function vSaveDevControls(): void {
+  vSetCookie(sDevCookieLeft, objDevLeft.value)
+  vSetCookie(sDevCookieRight, objDevRight.value)
+  vSetCookie(sDevCookieOp, objDevOp.value)
+}
+
 function vUpdateDevReading(): void {
   const objLeft = objFindCardByBinary(objDevLeft.value)
   const objRight = objFindCardByBinary(objDevRight.value)
   const sOp = objDevOp.value as tOperator
 
+  vSaveDevControls()
   objDevResult.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp, true)
 }
 
 objDevLeft.addEventListener('change', vUpdateDevReading)
 objDevRight.addEventListener('change', vUpdateDevReading)
 objDevOp.addEventListener('change', vUpdateDevReading)
+vRestoreDevControls()
 vUpdateDevReading()

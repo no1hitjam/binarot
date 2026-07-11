@@ -5,26 +5,166 @@ type tCard = {
   sName: string
   sBinaryValue: string
   sMeaning: string
+  sDescription: string
+}
+
+type tCardPage = {
+  sSlug: string
+  sName: string
+  sLabel: string
+  sMeaning: string
+  sDescription: string
 }
 
 const arrCards: tCard[] = [
-  { sName: 'The Seed', sBinaryValue: '0', sMeaning: 'beginnings, ideas, and origins' },
-  { sName: 'The Flag', sBinaryValue: '1', sMeaning: 'claims, power, and sovereignty' },
-  { sName: 'The Call', sBinaryValue: '10', sMeaning: 'summonings, duty, and serendipity' },
-  { sName: 'The Link', sBinaryValue: '11', sMeaning: 'connections, promises, and security' },
-  { sName: 'The Host', sBinaryValue: '100', sMeaning: 'shelter, ownership, and grace' },
-  { sName: 'The Fork', sBinaryValue: '101', sMeaning: 'consumption, resonance, and diverging paths' },
-  { sName: 'The Port', sBinaryValue: '110', sMeaning: 'gateways, discovery, and mercantilism' },
-  { sName: 'The Tree', sBinaryValue: '111', sMeaning: 'fullness, growth, and reach' },
-  { sName: 'The Agent', sBinaryValue: '1000', sMeaning: 'independence, will, and action' },
-  { sName: 'The Table', sBinaryValue: '1001', sMeaning: 'gathering, meetings, and plots' },
-  { sName: 'The Clone', sBinaryValue: '1010', sMeaning: 'mirrors, reproduction, and equality' },
-  { sName: 'The Cache', sBinaryValue: '1011', sMeaning: 'secrets, knowledge, and wealth' },
-  { sName: 'The Frame', sBinaryValue: '1100', sMeaning: 'perspective, structure, and state of mind' },
-  { sName: 'The Shell', sBinaryValue: '1101', sMeaning: 'protection, boundaries, and rigidity' },
-  { sName: 'The Forum', sBinaryValue: '1110', sMeaning: 'nobility, philosophy, and debate' },
-  { sName: 'The State', sBinaryValue: '1111', sMeaning: 'organization, authority, and the political' },
+  {
+    sName: 'The Seed',
+    sBinaryValue: '0',
+    sMeaning: 'beginnings, ideas, and origins',
+    sDescription:
+      'The Seed is the zero point—the quiet before form. It holds beginnings, unshaped ideas, and the first private spark of intent. In computing terms it is the null origin, the empty register waiting for a write. Drawn alone, it asks you to return to what has not yet been claimed, built, or named.',
+  },
+  {
+    sName: 'The Flag',
+    sBinaryValue: '1',
+    sMeaning: 'claims, power, and sovereignty',
+    sDescription:
+      'The Flag is the first bit set—a claim planted in open ground. It speaks of power, sovereignty, and the act of declaring that something is yours to stand for. Like a boolean true or a raised signal flag in code, it marks a stance that others must now reckon with.',
+  },
+  {
+    sName: 'The Call',
+    sBinaryValue: '10',
+    sMeaning: 'summonings, duty, and serendipity',
+    sDescription:
+      'The Call arrives from outside the quiet self: a summons, a duty, a chance encounter that redirects the path. It is the function invoked from afar, the interrupt that breaks the idle loop. When it appears, timing matters as much as will—something is asking to be answered.',
+  },
+  {
+    sName: 'The Link',
+    sBinaryValue: '11',
+    sMeaning: 'connections, promises, and security',
+    sDescription:
+      'The Link binds two things into one reliable whole. It covers promises, partnerships, and the security that comes from a shared protocol. Think handshake, hyperlink, or trusted connection—the strength of the bond is the point, not either endpoint alone.',
+  },
+  {
+    sName: 'The Host',
+    sBinaryValue: '100',
+    sMeaning: 'shelter, ownership, and grace',
+    sDescription:
+      'The Host is shelter and stewardship: the machine that serves, the home that holds, the owner who makes room. It is grace expressed as infrastructure—space offered so others (or your own projects) can live. Ownership here is less conquest than caretaking.',
+  },
+  {
+    sName: 'The Fork',
+    sBinaryValue: '101',
+    sMeaning: 'consumption, resonance, and diverging paths',
+    sDescription:
+      'The Fork is the branch point—where one line of code, one appetite, or one life splits into many. It speaks of consumption and resonance: taking something in and feeling which path vibrates true. Divergence is not failure here; it is the shape of choice.',
+  },
+  {
+    sName: 'The Port',
+    sBinaryValue: '110',
+    sMeaning: 'gateways, discovery, and trade',
+    sDescription:
+      'The Port is a threshold between waters and land, between systems and strangers. It governs gateways, discovery, and exchange—the open socket where traffic arrives. trade in this deck means trade of ideas and goods alike: what crosses the threshold changes both sides.',
+  },
+  {
+    sName: 'The Tree',
+    sBinaryValue: '111',
+    sMeaning: 'fullness, growth, and reach',
+    sDescription:
+      'The Tree is fullness realized—roots deep, canopy wide, every bit set in its low nibble. It means growth that has become structure, reach that casts shade. Hierarchy and organic sprawl live together here: a living directory of what has been allowed to flourish.',
+  },
+  {
+    sName: 'The Agent',
+    sBinaryValue: '1000',
+    sMeaning: 'independence, will, and action',
+    sDescription:
+      'The Agent acts on its own recognizance. Independence, will, and decisive motion define it—the process that runs without waiting for permission. It is autonomy made visible: a worker thread with intent, a person who moves because they chose to.',
+  },
+  {
+    sName: 'The Table',
+    sBinaryValue: '1001',
+    sMeaning: 'gathering, consumption, and plots',
+    sDescription:
+      'The Table is where parties assemble—consumption, councils, quiet plots over shared surface. In data it is the schema that holds many rows; in life it is the room where plans become collective. What is spoken here can reorder the kingdom.',
+  },
+  {
+    sName: 'The Clone',
+    sBinaryValue: '1010',
+    sMeaning: 'mirrors, reproduction, and equality',
+    sDescription:
+      'The Clone multiplies a pattern until reflection becomes environment. Mirrors, copies, and equality live here—the duplicate that asks whether sameness is comfort or erasure. In code it is the deep copy; in spirit it is the question of what deserves to be repeated.',
+  },
+  {
+    sName: 'The Cache',
+    sBinaryValue: '1011',
+    sMeaning: 'secrets, knowledge, and wealth',
+    sDescription:
+      'The Cache stores what was costly to obtain: secrets, hard-won knowledge, quiet wealth. It is the hidden buffer close to the throne of attention—fast to retrieve for those who know the key, invisible to those who do not. Hoard wisely; stale treasure misleads.',
+  },
+  {
+    sName: 'The Frame',
+    sBinaryValue: '1100',
+    sMeaning: 'perspective, structure, and state of mind',
+    sDescription:
+      'The Frame is the viewport through which reality is rendered. Perspective, mental structure, and state of mind are its domain—the window object, the aspect ratio of belief. Change the frame and the same scene becomes another story.',
+  },
+  {
+    sName: 'The Shell',
+    sBinaryValue: '1101',
+    sMeaning: 'protection, boundaries, and rigidity',
+    sDescription:
+      'The Shell is armor and interface: protection, boundaries, and the rigidity that keeps chaos out. It is the command shell around a vulnerable kernel, the exoskeleton that can either preserve life or lock it in. Hard edges have a cost and a purpose.',
+  },
+  {
+    sName: 'The Forum',
+    sBinaryValue: '1110',
+    sMeaning: 'nobility, philosophy, and debate',
+    sDescription:
+      'The Forum is the public square of thought—nobility of mind, philosophy, and open debate. Ideas contend here under rules of speech rather than force. It is the message board of the realm: status is earned in argument, not only in title.',
+  },
+  {
+    sName: 'The State',
+    sBinaryValue: '1111',
+    sMeaning: 'organization, authority, and politics',
+    sDescription:
+      'The State is the full register—organization, authority, and politics machine that coordinates the many. Every bit lit, it is governance as system: laws, institutions, and the weight of collective order. Power here is structural, not merely personal.',
+  },
 ]
+
+const arrOperatorPages: tCardPage[] = [
+  {
+    sSlug: 'and',
+    sName: 'AND',
+    sLabel: '&',
+    sMeaning: 'intersection, filtering, and what both cards share',
+    sDescription:
+      'AND is the coin of intersection. It keeps only what both cards share, filtering the reading down to overlap, necessity, and the narrow truth that survives scrutiny. In bitwise terms it is masking; in meaning it is discernment—what remains when excess is refused.',
+  },
+  {
+    sSlug: 'or',
+    sName: 'OR',
+    sLabel: '|',
+    sMeaning: 'union, expansion, and everything either card offers',
+    sDescription:
+      'OR is the coin of union. It gathers everything either card offers, expanding the field instead of cutting it down. Bitwise it sets bits generously; symbolically it is inclusion, abundance, and the permission to hold more than one truth at once.',
+  },
+]
+
+function objCardPageFromCard(objCard: tCard): tCardPage {
+  return {
+    sSlug: objCard.sBinaryValue,
+    sName: objCard.sName,
+    sLabel: objCard.sBinaryValue,
+    sMeaning: objCard.sMeaning,
+    sDescription: objCard.sDescription,
+  }
+}
+
+const arrCardPages: tCardPage[] = [...arrCards.map(objCardPageFromCard), ...arrOperatorPages]
+
+function objFindCardPage(sSlug: string): tCardPage | undefined {
+  return arrCardPages.find((objPage: tCardPage) => objPage.sSlug === sSlug)
+}
 
 function nCardValue(objCard: tCard): number {
   return parseInt(objCard.sBinaryValue, 2)
@@ -129,28 +269,18 @@ function sCardOptionsMarkup(sSelectedBinary: string): string {
     .join('')
 }
 
-const sCardsMarkup: string = [
-  ...arrCards.map(
-    (objCard: tCard) => `
-      <li class="card-item">
-        <h3>${objCard.sName} <span class="binary-value">(${objCard.sBinaryValue})</span></h3>
-        <p>Represents ${objCard.sMeaning}.</p>
+const sCardsMarkup: string = arrCardPages
+  .map(
+    (objPage: tCardPage) => `
+      <li>
+        <a class="card-item card-item-link" href="#card/${objPage.sSlug}">
+          <h3>${objPage.sName} <span class="binary-value">(${objPage.sLabel})</span></h3>
+          <p>Represents ${objPage.sMeaning}.</p>
+        </a>
       </li>
     `,
-  ),
-  `
-      <li class="card-item">
-        <h3>AND <span class="binary-value">(&)</span></h3>
-        <p>Represents intersection, filtering, and what both cards share.</p>
-      </li>
-    `,
-  `
-      <li class="card-item">
-        <h3>OR <span class="binary-value">(|)</span></h3>
-        <p>Represents union, expansion, and everything either card offers.</p>
-      </li>
-    `,
-].join('')
+  )
+  .join('')
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main class="site">
@@ -167,10 +297,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </nav>
 
     <section class="tab-panel is-active" data-panel="cards">
-      <h2>Binarot Card Values</h2>
-      <ul class="card-list">
-        ${sCardsMarkup}
-      </ul>
+      <div id="cards-index">
+        <h2>Binarot Card Values</h2>
+        <ul class="card-list">
+          ${sCardsMarkup}
+        </ul>
+      </div>
+      <div id="cards-detail" class="card-detail" hidden></div>
     </section>
 
     <section class="tab-panel" data-panel="reading">
@@ -249,9 +382,61 @@ function vSetCookie(sName: string, sValue: string): void {
 
 const arrTabButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.tab-button'))
 const arrTabPanels = Array.from(document.querySelectorAll<HTMLElement>('.tab-panel'))
+const objCardsIndex = document.querySelector<HTMLElement>('#cards-index')!
+const objCardsDetail = document.querySelector<HTMLElement>('#cards-detail')!
 
 function bTabExists(sTabId: string): boolean {
   return arrTabButtons.some((objButton: HTMLButtonElement) => objButton.dataset.tab === sTabId)
+}
+
+function sCardSlugFromHash(): string | null {
+  const sHash = location.hash.replace(/^#/, '')
+  const arrMatch = /^card\/(.+)$/.exec(sHash)
+  return arrMatch?.[1] ?? null
+}
+
+function sCardDetailMarkup(objPage: tCardPage): string {
+  return `
+    <button type="button" class="card-detail-back" id="card-detail-back">&larr; All cards</button>
+    <h2>${objPage.sName} <span class="binary-value">(${objPage.sLabel})</span></h2>
+    <p class="card-detail-meaning">Represents ${objPage.sMeaning}.</p>
+    <p class="card-detail-description">${objPage.sDescription}</p>
+  `
+}
+
+function vShowCardsIndex(): void {
+  objCardsIndex.hidden = false
+  objCardsDetail.hidden = true
+  objCardsDetail.innerHTML = ''
+}
+
+function vShowCardPage(sSlug: string): void {
+  const objPage = objFindCardPage(sSlug)
+
+  if (!objPage) {
+    vShowCardsIndex()
+    return
+  }
+
+  objCardsIndex.hidden = true
+  objCardsDetail.hidden = false
+  objCardsDetail.innerHTML = sCardDetailMarkup(objPage)
+  document.querySelector<HTMLButtonElement>('#card-detail-back')?.addEventListener('click', () => {
+    history.pushState(null, '', `${location.pathname}${location.search}`)
+    vShowCardsIndex()
+  })
+}
+
+function vSyncCardRoute(): void {
+  const sSlug = sCardSlugFromHash()
+
+  if (sSlug === null) {
+    vShowCardsIndex()
+    return
+  }
+
+  vActivateTab('cards')
+  vShowCardPage(sSlug)
 }
 
 function vActivateTab(sTabId: string): void {
@@ -276,12 +461,26 @@ arrTabButtons.forEach((objButton: HTMLButtonElement) => {
       return
     }
 
+    if (sTabId !== 'cards' && sCardSlugFromHash() !== null) {
+      history.replaceState(null, '', `${location.pathname}${location.search}`)
+      vShowCardsIndex()
+    }
+
+    if (sTabId === 'cards' && sCardSlugFromHash() !== null) {
+      history.replaceState(null, '', `${location.pathname}${location.search}`)
+      vShowCardsIndex()
+    }
+
     vActivateTab(sTabId)
   })
 })
 
+window.addEventListener('hashchange', vSyncCardRoute)
+
 const sSavedTab = sCookieValue(sCookieTab)
-if (sSavedTab !== null && bTabExists(sSavedTab)) {
+if (sCardSlugFromHash() !== null) {
+  vSyncCardRoute()
+} else if (sSavedTab !== null && bTabExists(sSavedTab)) {
   vActivateTab(sSavedTab)
 }
 

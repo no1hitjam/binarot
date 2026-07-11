@@ -18,10 +18,10 @@ CARDS: list[dict[str, str]] = [
         "binary": "101",
         "meaning": "consumption, resonance, and diverging paths",
     },
-    {"name": "The Port", "binary": "110", "meaning": "gateways, discovery, and mercantilism"},
+    {"name": "The Port", "binary": "110", "meaning": "gateways, discovery, and trade"},
     {"name": "The Tree", "binary": "111", "meaning": "fullness, growth, and reach"},
     {"name": "The Agent", "binary": "1000", "meaning": "independence, will, and action"},
-    {"name": "The Table", "binary": "1001", "meaning": "gathering, meetings, and plots"},
+    {"name": "The Table", "binary": "1001", "meaning": "gathering, consumption, and plots"},
     {"name": "The Clone", "binary": "1010", "meaning": "mirrors, reproduction, and equality"},
     {"name": "The Cache", "binary": "1011", "meaning": "secrets, knowledge, and wealth"},
     {
@@ -34,7 +34,7 @@ CARDS: list[dict[str, str]] = [
     {
         "name": "The State",
         "binary": "1111",
-        "meaning": "organization, authority, and the political",
+        "meaning": "organization, authority, and politics",
     },
 ]
 

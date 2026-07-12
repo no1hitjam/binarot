@@ -1,7 +1,9 @@
 import './style.css'
 import { sCardIconMarkup } from './cardIcons'
+import { sCompatibilityText } from './compatibilityTexts'
 import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
 import { sReadingSigilMarkup } from './readingSigil'
+import { sStarmapMarkup, vBindStarmapHover } from './starmap'
 
 type tCard = {
   sName: string
@@ -243,6 +245,8 @@ function sCardItemMarkup(objCard: tCard): string {
 
 const sDevAiInstructions =
   `
+  AI Prompt for readings:
+  <br><br>
   Binarot is a tarot-like deck where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply. This results in a final card. Given the following reading, generate three concise paragraphs describing the meaning of the result. Give a sort of vague piece of life-advice without being too prescriptive, and use a soothing but direct tone.
   
   <br><br>
@@ -338,6 +342,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button is-active" data-tab="cards" aria-selected="true">Cards</button>
       <button type="button" class="tab-button" data-tab="reading" aria-selected="false">Reading</button>
       <button type="button" class="tab-button" data-tab="birthday" aria-selected="false">Birthday</button>
+      <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
       <button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -378,6 +383,34 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         </label>
       </form>
       <div class="birthday-result" id="birthday-result"></div>
+
+      <div class="birthday-compat">
+        <h3>Compatibility</h3>
+        <p class="reading-intro">
+          Enter another birthday to see how the two signs relate—as friends, partners, or something in between.
+        </p>
+        <form class="birthday-controls birthday-controls-compat" id="compat-form">
+          <label class="dev-field">
+            <span>Their month</span>
+            <select id="compat-month" name="compat-month"></select>
+          </label>
+          <label class="dev-field">
+            <span>Their day</span>
+            <select id="compat-day" name="compat-day"></select>
+          </label>
+        </form>
+        <div class="compat-result" id="compat-result"></div>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="starmap">
+      <h2>Starmap</h2>
+      <p class="reading-intro">
+        Each sign has a place in the binary sky. Values
+        <code>0</code>–<code>111</code> map to the northern hemisphere;
+        <code>1000</code>–<code>1111</code> to the southern.
+      </p>
+      ${sStarmapMarkup()}
     </section>
 
     <section class="tab-panel" data-panel="dev">
@@ -758,48 +791,96 @@ function nFirstDayOfSign(nSignIndex: number): number {
 const objBirthdayMonth = document.querySelector<HTMLSelectElement>('#birthday-month')!
 const objBirthdayDay = document.querySelector<HTMLSelectElement>('#birthday-day')!
 const objBirthdayResult = document.querySelector<HTMLDivElement>('#birthday-result')!
+const objCompatMonth = document.querySelector<HTMLSelectElement>('#compat-month')!
+const objCompatDay = document.querySelector<HTMLSelectElement>('#compat-day')!
+const objCompatResult = document.querySelector<HTMLDivElement>('#compat-result')!
 
-function vFillBirthdayMonths(): void {
-  objBirthdayMonth.innerHTML = arrMonthNames
+function vFillMonthSelect(objSelect: HTMLSelectElement): void {
+  objSelect.innerHTML = arrMonthNames
     .map((sName: string, nIndex: number) => `<option value="${nIndex + 1}">${sName}</option>`)
     .join('')
 }
 
-function vFillBirthdayDays(nMonth: number, nSelectedDay: number): void {
+function vFillDaySelect(objSelect: HTMLSelectElement, nMonth: number, nSelectedDay: number): void {
   const nDaysInMonth = arrDaysInMonthLeap[nMonth - 1]!
   const nDay = Math.min(nSelectedDay, nDaysInMonth)
 
-  objBirthdayDay.innerHTML = Array.from({ length: nDaysInMonth }, (_: unknown, nIndex: number) => {
+  objSelect.innerHTML = Array.from({ length: nDaysInMonth }, (_: unknown, nIndex: number) => {
     const nValue = nIndex + 1
     const sSelected = nValue === nDay ? ' selected' : ''
     return `<option value="${nValue}"${sSelected}>${nValue}</option>`
   }).join('')
 }
 
-function vUpdateBirthdaySign(): void {
-  const nMonth = Number(objBirthdayMonth.value)
-  const nDay = Number(objBirthdayDay.value)
+function objSignFromMonthDay(nMonth: number, nDay: number): { objCard: tCard; nDayOfSign: number } {
   const nDayOfYear = nDayOfYearFromMonthDay(nMonth, nDay)
   const nSignIndex = nSignIndexFromDayOfYear(nDayOfYear)
   const objCard = arrCards[nSignIndex]!
   const nDayOfSign = nDayOfYear - nFirstDayOfSign(nSignIndex) + 1
+  return { objCard, nDayOfSign }
+}
+
+function vUpdateBirthdaySign(): void {
+  const nMonth = Number(objBirthdayMonth.value)
+  const nDay = Number(objBirthdayDay.value)
+  const { objCard, nDayOfSign } = objSignFromMonthDay(nMonth, nDay)
 
   objBirthdayResult.innerHTML = `
     <p class="birthday-meta">Day ${nDayOfSign} of ${objCard.sName}</p>
     ${sCardItemMarkup(objCard)}
     <p class="birthday-sign">${objCard.sSign}</p>
   `
+  vUpdateCompatibility()
 }
 
-vFillBirthdayMonths()
+function vUpdateCompatibility(): void {
+  const nMonth = Number(objBirthdayMonth.value)
+  const nDay = Number(objBirthdayDay.value)
+  const nTheirMonth = Number(objCompatMonth.value)
+  const nTheirDay = Number(objCompatDay.value)
+  const { objCard: objYours, nDayOfSign: nYourDayOfSign } = objSignFromMonthDay(nMonth, nDay)
+  const { objCard: objTheirs, nDayOfSign: nTheirDayOfSign } = objSignFromMonthDay(
+    nTheirMonth,
+    nTheirDay,
+  )
+  const sText = sCompatibilityText(objYours.sBinaryValue, objTheirs.sBinaryValue)
+  const sTextMarkup = sText
+    ? `<p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>`
+    : ''
+
+  objCompatResult.innerHTML = `
+    <p class="birthday-meta">Day ${nYourDayOfSign} of ${objYours.sName} · Day ${nTheirDayOfSign} of ${objTheirs.sName}</p>
+    <div class="compat-spread">
+      ${sCardItemMarkup(objYours)}
+      <div class="compat-join" aria-hidden="true">
+        <span class="compat-join-label">X</span>
+      </div>
+      ${sCardItemMarkup(objTheirs)}
+    </div>
+    ${sTextMarkup}
+  `
+}
+
+vFillMonthSelect(objBirthdayMonth)
+vFillMonthSelect(objCompatMonth)
 
 const objToday = new Date()
 objBirthdayMonth.value = String(objToday.getMonth() + 1)
-vFillBirthdayDays(Number(objBirthdayMonth.value), objToday.getDate())
+vFillDaySelect(objBirthdayDay, Number(objBirthdayMonth.value), objToday.getDate())
+objCompatMonth.value = String(((objToday.getMonth() + 6) % 12) + 1)
+vFillDaySelect(objCompatDay, Number(objCompatMonth.value), objToday.getDate())
 
 objBirthdayMonth.addEventListener('change', () => {
-  vFillBirthdayDays(Number(objBirthdayMonth.value), Number(objBirthdayDay.value))
+  vFillDaySelect(objBirthdayDay, Number(objBirthdayMonth.value), Number(objBirthdayDay.value))
   vUpdateBirthdaySign()
 })
 objBirthdayDay.addEventListener('change', vUpdateBirthdaySign)
+
+objCompatMonth.addEventListener('change', () => {
+  vFillDaySelect(objCompatDay, Number(objCompatMonth.value), Number(objCompatDay.value))
+  vUpdateCompatibility()
+})
+objCompatDay.addEventListener('change', vUpdateCompatibility)
+
 vUpdateBirthdaySign()
+vBindStarmapHover()

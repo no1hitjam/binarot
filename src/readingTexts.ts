@@ -305,110 +305,182 @@ Do not let the multiplicity of paths paralyze your intent or make you feel rushe
     },
     '101': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Flag (1) represents claims, power, and sovereignty.
+True sovereignty is discovered not by traveling every open road, but by holding fast to your own center when the path divides. In this definitive alignment, The Flag (1) met The Fork (101) through the precise, filtering gaze of an AND operation. The final result returns you to The Flag (1), describing a commanding, singular environment where the distraction of competing choices falls away, leaving you in total possession of your own focus and personal authority.
+
+When a statement of power intersects with a crossroads of consumption and resonance, the logic of the cards demands that you filter out the noise of alternative choices. This outcome suggests an environment where a potential deviation or splitting of your energy has been gracefully narrowed back down to your core objective. You are standing in a space that doesn't require you to weigh multiple conflicting directions, but rather invites you to firmly plant your feet and claim ownership over the domain you have already established.
+
+Moving forward, consider that having options is only valuable if those choices actually align with your true purpose. You do not need to entertain every diverging path or try to satisfy every lingering curiosity just because the opportunity presents itself. Trust the clarity of the position you currently hold, let the alternative routes fade from your view, and allow yourself to rule your own path with quiet, undiverted intent.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+When you grant yourself the freedom to explore every horizon, the boundaries of your empire naturally dissolve into the open road. In this expansive alignment, The Flag (1) gracefully merged with The Fork (101) through the welcoming threshold of an OR operation. The final result manifests as The Fork (101), describing a dynamic, multi-faceted environment where diverging paths, resonant choices, and the consumption of new experiences define the landscape around you.
+
+By choosing inclusion over restriction, the rigid desire to claim territory or enforce absolute control has given way to a beautiful expanse of opportunity. This reading points to a space where your energy is free to branch out, encouraging you to taste different options and feel the unique resonance of each potential direction. You are standing at a vibrant crossroads where you are no longer bound to a single outpost, but are instead invited to engage deeply with the variety the world is offering.
+
+Moving forward, remember that standing at a crossroads is not a failure of direction, but a celebration of your personal freedom. You do not need to rush to a final decision or force a permanent commitment while you are still discovering what truly resonates with your spirit. Allow yourself to explore the various paths before you, trust your appetite for discovery, and let the journey unfold one curious step at a time.
 `,
     },
     '110': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Seed (0) represents beginnings, ideas, and origins.
+When the desire to claim your territory meets the open harbor of exploration, the only way forward is to clear the horizon entirely. In this profound intersection, The Flag (1) crossed paths with The Port (110) through the restrictive lens of an AND operation. The final result returns you to The Seed (0), describing a quiet, completely unmapped environment where previous claims and grand discoveries fade away, leaving you at an absolute point of origin.
+
+When an emblem of personal power meets a gateway of trade and external discovery, the mathematical truth of their overlap reveals that the grandest ventures must occasionally return to a blank slate to find their true worth. This outcome suggests a space of total conceptual refreshment, where the pressure to expand, negotiate, or defend your current standing is completely lifted. The environment around you right now is not asking you to sail into the unknown or plant a marker of ownership, but to rest in the stillness before any journey was conceived.
+
+Moving forward, consider that you are being gifted a rare moment of complete freedom from your past achievements and future ambitions. You do not need to broker a new deal or constantly prove your sovereignty to find a sense of security and direction. Allow the busy traffic of your goals to settle into silence, step back into the open potential of what could be, and trust that your next true destination will grow naturally from this simple, unburdened beginning.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Tree (111) represents fullness, growth, and reach.
+To extend your reach across the open sea, you must first let your intentions take deep root where you stand. In this magnificent alignment, The Flag (1) harmonized with The Port (110) through the generous expanse of an OR operation. The final result manifests as The Tree (111), describing an abundant, fully realized environment where your initial claims and your gateways of discovery have matured into a landscape of profound fullness, growth, and reach.
+
+By welcoming both the assertion of your personal sovereignty and the open channels of trade and exploration, you have created a space where your influence can naturally blossom. This reading points to an environment of absolute overflow, suggesting that your past efforts to establish yourself are now intertwining beautifully with new opportunities on the horizon. You are standing under a wide, protective canopy where you no longer need to fight to expand, as the natural momentum of your choices is already carrying your branches outward.
+
+Moving forward, remember that a truly expansive life does not require you to constantly build new fortresses or conquer unfamiliar shores. Sometimes, the most powerful stance is simply to inhabit the space you have cultivated and trust the organic reach you have established over time. Let your connections settle, allow yourself to absorb the nourishment of your current success, and gently permit your path to widen at its own graceful pace.
 `,
     },
     '111': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Flag (1) represents claims, power, and sovereignty.
+True strength is found not in the vastness of the forest, but in the singular root that anchors your claim to the earth. In this definitive alignment, The Flag (1) intersected with The Tree (111) through the precise filter of an AND operation. The final result returns you to The Flag (1), describing a commanding, focused environment where the distractions of infinite expansion fade away, leaving you in absolute possession of your core convictions and personal authority.
+
+When a statement of sovereignty meets a landscape of total growth and reach, the logic of the cards demands that you distill your energy down to what is truly yours to govern. This outcome suggests an environment where a potential overextension of your resources has been gracefully narrowed back down to your primary objective. You are standing in a space that doesn't require you to stretch your branches into every available sky, but rather invites you to firmly plant your standard and honor the territory you have already claimed.
+
+Moving forward, consider that the depth of your influence matters far more than how wide you spread your focus. You do not need to constantly seek new areas of growth or say yes to every emerging opportunity to prove your capability. Trust the absolute clarity of the position you currently hold, protect the boundaries of your own well-being, and allow yourself to rule your day-to-day path with quiet, undiverted intent.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+To plant your standard firmly in the soil is to invite the entire landscape to rise up and meet you. In this expansive convergence, The Flag (1) gracefully dissolved into The Tree (111) through the inclusive threshold of an OR operation. The final result manifests as The Tree (111), describing an abundant, deeply rooted environment where individual claims and personal power have matured naturally into a space of profound fullness, growth, and reach.
+
+By choosing a path of complete inclusion, the rigid desire to protect a border has blossomed into a sweeping canopy that offers both shelter and elevation. This reading highlights an environment of incredible overflow, suggesting that your personal sovereignty is no longer something you have to actively defend, as it has already become an organic, undeniable part of your life's landscape. You are standing in a clearing where your previous efforts have successfully anchored, giving you the stability to let your influence stretch beautifully toward the horizon.
+
+Moving forward, remember that true power does not require constant vigilance or the drawing of hard lines. Sometimes, the wisest approach is simply to trust the organic momentum of what you have built and allow yourself to inhabit your own expanse. Rest under the shade of your achievements, let your natural insights branch out without artificial limits, and gently permit yourself to flourish at a steady, peaceful pace.
 `,
     },
     '1000': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+True autonomy is not found in the constant exertion of force, but in the quiet space where action and purpose become one and the same. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been distilled through a precise AND operation with the fierce independence of The Agent (1000). This absolute convergence strips away all external noise to reveal The Seed (0), projecting a still, pristine environment of pure potential where your will is no longer a weapon to wield, but a quiet origin waiting to unfold.
+
+By aligning your need for control with your capacity for independent action, you have cleared away the clutter of competing desires. This result indicates that you do not need to fight for your position or force an immediate outcome; the intersection of your power and your will has brought you back to a state of absolute readiness. It is a landscape of profound, unblemished focus, where the pressure of the past is entirely absent and only the raw materials of creation remain.
+
+Resist the urge to strike out immediately or demand instant results from this newfound clarity. True momentum builds in the silence before the first movement, when an idea is allowed to root itself deeply without distraction. Trust the quiet strength of this blank canvas, and let your next chapter begin from a place of deliberate rest.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Table (1001) represents gathering, consumption, and plots.
+The grandest designs are never realized in isolation, but at the crossroads where individual will meets collective ambition. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been broadly integrated through an inclusive OR operation with the raw independence and action of The Agent (1000). This comprehensive gathering of internal forces expands into The Table (1001), creating a highly charged, tactical environment focused on gathering resources, consuming ideas, and orchestrating future plans.
+
+By refusing to compromise between your authority and your drive to act, you have set an expansive stage where all your capabilities are pulled to the forefront. This result indicates that you are entering a phase of active synthesis, where your independent will and your personal boundaries are combining to build a platform for tangible execution. It is a bustling, strategic landscape of preparation, demanding that you lay all your cards out in the open and begin sorting through the logistics of what comes next.
+
+Take your place at this assembly with a steady mind, recognizing that plotting your course is just as vital as the action itself. True progress during this time relies on your ability to digest the information before you and organize your assets before making a definitive move. Sit with the complexity of your current plans, digest your options carefully, and let the strategy mature before you execute it.
 `,
     },
     '1001': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Flag (1) represents claims, power, and sovereignty.
+True clarity belongs to those who can sit at a crowded table and still remember exactly who they are. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been filtered through an exacting AND operation with the complex gatherings and strategies of The Table (1001). This precise distillation brings you right back to the solitary focus of The Flag (1), establishing an environment of sharp discernment where the noise of external collaboration and planning falls away, leaving only your own uncompromised authority.
+
+By testing your personal ambition against the heavy logistics of a larger assembly, you have successfully filtered out what is non-essential. This result reveals that despite the many options, plots, and resources surrounding you, your core purpose and boundaries remain entirely distinct and unaffected. It is a clean, decisive landscape of self-possession, where you are reminded that you do not need to consume everything offered to you to maintain your ultimate command.
+
+Value the plans of the collective, but never let them overshadow the boundary lines you have drawn for yourself. True leadership in your own life requires knowing when to step back from the feast to evaluate your territory with a clear, detached eye. Stand firmly in your own domain, and let your original intentions guide your path forward.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Table (1001) represents gathering, consumption, and plots.
+True power is not diminished when it pulls up a chair to the feast; it is simply given a place to act. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been entirely incorporated through an inclusive OR operation with the strategic assembly of The Table (1001). This total gathering of forces folds completely into The Table (1001), projecting a bustling, collaborative environment where individual authority is fully absorbed into a landscape of shared resources, active consumption, and grand orchestrations.
+
+When your need for independent command merges with a larger collective plan, your personal boundaries become the very foundation of the strategy. This result indicates that your singular ambitions are no longer isolated, but are currently serving a broader feast of ideas and collaborations. It is a terrain rich with shared momentum, where every plot discussed and every asset gathered directly reinforces your ultimate standing rather than diluting it.
+
+Allow yourself to fully engage with the gathering around you without worrying that your individual voice will be lost in the noise. True influence during this chapter comes from active participation and the steady digestion of the options laid out before you, rather than standing apart. Pull up to the center of the fray, share in the resources available, and trust that your seat at this assembly is entirely secure.
 `,
     },
     '1010': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
+True reflection is found not when we multiply our image, but when we look through the mirror to find the unblemished truth underneath. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been filtered through an exacting AND operation with the reflective equality of The Clone (1010). This absolute convergence strips away the burden of replication to reveal The Seed (0), projecting a quiet, undisturbed environment of pure origin where the need to constantly match or mirror the world completely dissolves.
+
+By testing your personal power against the pressure of duplication and external standards, you have discovered a clean slate. This result indicates that you do not need to repeat past behaviors or mirror anyone else's expectations to establish your worth; the intersection of your drive and your reflection has returned you to a state of absolute potential. It is a pristine landscape of quiet beginnings, free from the exhaustion of imitation and ripe with a singular, fresh perspective.
+
+Give up the exhausting effort of trying to reproduce a specific outcome or live up to a carbon-copy ideal. True growth right now relies on allowing your own original ideas to take root without forcing them to resemble what came before. Step back into the quiet space of this new beginning, and let your intentions develop at their own natural pace.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The deepest treasures are rarely stumbled upon by chance; they are forged when our outward power aligns with the internal truths we mirror. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been expansively gathered through an inclusive OR operation with the reflective duplicate forces of The Clone (1010). This comprehensive fusion expands into The Cache (1011), projecting a quiet, secure environment of immense depth, rich with hidden knowledge, closely guarded secrets, and latent wealth.
+
+By allowing your ambition to integrate with your capacity for deep self-reflection and equality, you have unlocked an internal vault. This result suggests that you are entering a period where your external drive and your internal mirror are no longer at odds, but are actively hoarding valuable insights and resources for the future. It is a protective, insulating landscape where knowledge is currency, demanding that you value what is kept out of sight just as much as what is displayed.
+
+Recognize the immense value of what you have stored away without feeling an urgent need to spend or share it just yet. True security right now comes from knowing exactly what you possess in reserve, allowing that quiet abundance to steady your steps. Sit patiently with the wealth of your experiences, keep your own counsel, and let this hidden foundation quietly mature.
 `,
     },
     '1011': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Flag (1) represents claims, power, and sovereignty.
+True discretion does not mean hiding your strength from the world; it means knowing exactly what belongs to you when all the secrets are laid bare. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been filtered through an exacting AND operation with the hidden depth of The Cache (1011). This precise distillation returns you directly to the singular focus of The Flag (1), establishing an environment of sharp clarity where the burden of hoarding hidden knowledge falls away, leaving only your own uncompromised authority.
+
+By testing your personal ambition against a vast repository of secrets and wealth, you have discovered that your core independence requires no hidden variables to sustain itself. This result indicates that while you may possess deep insights or resources in reserve, your true power is out in the open, defined by the boundaries you actively set. It is a stark, dignified landscape of self-possession, where you are reminded that your worth is not dependent on what you conceal, but on what you openly command.
+
+Value the knowledge you carry, but do not let the weight of what is hidden complicate the simplicity of your truth. True leadership in your own life comes from standing firmly on your own ground without needing an encrypted vault to justify your position. Occupy your space with quiet confidence, and let the sheer undeniable presence of your intent be your ultimate shield.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The most enduring fortunes are not those built in the open air, but those quietly gathered in the places where no one else thinks to look. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been fully integrated through an inclusive OR operation with the hidden depth of The Cache (1011). This total gathering of forces folds completely into The Cache (1011), projecting a quiet, heavily insulated environment where individual ambition is entirely absorbed into a landscape of deep knowledge, secure secrets, and latent wealth.
+
+When your need for external command merges with a vast repository of internal resources, your boundaries become a vault rather than a battleground. This result indicates that your singular drive is currently secondary to the immense value found in your accumulated insights, experiences, and closely held truths. It is a terrain of profound security and quiet abundance, where your true power is preserved and protected out of the public eye, resting on a foundation that cannot be easily disrupted.
+
+Allow yourself to rely on the depth of what you have stored away without feeling an urgent need to prove your strength to the world outside. True confidence during this chapter comes from the silent reassurance of your own hidden assets, rather than immediate outward validation. Guard your reserves with care, trust the wealth of your experience, and let this private foundation keep you steady.
 `,
     },
     '1100': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Seed (0) represents beginnings, ideas, and origins.
+The boundaries we build around our minds are only as strong as our willingness to tear them down when a new truth demands to be born. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been filtered through an exacting AND operation with the structural constraints of The Frame (1100). This absolute distillation yields The Seed (0), establishing a quiet, unburdened environment where rigid perspectives fall away, leaving only raw potential and a blank slate waiting for your first deliberate move.
+
+By testing your personal ambition against the limits of your current state of mind, you have successfully cleared out the conceptual clutter. This result reveals that the intersection of your power and your perspective is not a fixed monument, but a point of pure origin where old definitions no longer hold sway. It is a space of profound, silent latency—a fertile void where you are free from past assumptions and entirely unaligned with any single, restrictive outlook.
+
+Allow yourself to inhabit this unformed space without rushing to construct a new set of rules or re-establish immediate control. True clarity comes when you stop trying to fit your ambitions into an old paradigm and simply let your core ideas rest in their most fundamental form. Trust the silent momentum of this blank canvas, and let your next direction reveal itself naturally from the ground up.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+The widest worldview is of little use if it lacks the structural integrity to withstand the shifting weather of the world. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been broadly integrated through an inclusive OR operation with the mental architecture of The Frame (1100). This comprehensive gathering of internal forces expands directly into The Shell (1101), projecting a highly fortified, defensive environment defined by intense protection, strict boundaries, and a necessary baseline of rigidity.
+
+By refusing to compromise between your outward ambitions and your internal mindset, you have constructed an impenetrable barrier to safeguard your focus. This result indicates that your current circumstances require a firm consolidation of your assets, where your perspective and your power combine to lock out external distractions or vulnerabilities. It is a dense, protective landscape where the primary objective is containment, ensuring that your core self is insulated within a resilient, unyielding perimeter.
+
+Embrace the security of this defensive posture without allowing your necessary boundaries to become a permanent cage. True protection during this chapter relies on knowing when to hold the line firmly, allowing your structure to absorb the pressures of your environment so you can regroup in safety. Rest securely within the defense you have established, keep your focus internal, and let this period of consolidation run its natural course.
 `,
     },
     '1101': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Flag (1) represents claims, power, and sovereignty.
+True strength is found not when we build a wall to hide behind, but when we realize our own presence is the only shield we ever needed. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been filtered through an exacting AND operation with the defensive armor of The Shell (1101). This precise distillation brings you right back to the solitary power of The Flag (1), establishing an environment of stark clarity where heavy, restrictive layers fall away to reveal your own uncompromised authority.
+
+By testing your personal ambition against the urge to over-protect yourself, you have discovered that your core independence requires no external armor to survive. This result indicates that while defensive boundaries may exist around you, your true power is active and defined by what you choose to command, not by what you fearfully lock out. It is a clean, unburdened landscape of self-possession, where you are reminded that your worth is sustained by your own innate standard rather than a rigid perimeter.
+
+Let go of the exhausting need to constantly fortify your position against imaginary threats. True command in your own life comes from standing firmly on your own ground, trusting that the simple certainty of who you are is enough to hold your territory. Occupy your space with quiet confidence, and let the undeniable presence of your intent be your ultimate protection.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+True peace belongs to those who recognize that a shield is not a prison, but a sanctuary for the spirit to rest and rebuild. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been fully integrated through an inclusive OR operation with the defensive perimeter of The Shell (1101). This total gathering of forces folds completely into The Shell (1101), projecting a heavily fortified, insular environment where individual ambition is entirely absorbed into a landscape of strict protection, firm boundaries, and structured rigidity.
+
+When your drive for independent command merges with a profound need for self-preservation, your territory naturally condenses into a stronghold. This result suggests that your immediate aspirations are currently secondary to the essential work of defending your peace and locking out external vulnerabilities. It is a terrain of absolute containment and quiet consolidation, where you are invited to pull back your energy from the front lines and allow your existing defenses to hold the world at bay.
+
+Allow yourself to inhabit this armored space without fearing that your temporary stillness will cost you your ultimate power. True resilience during this chapter comes from honoring the barriers you have erected to heal, rather than forcing yourself to be constantly exposed to the elements. Rest deeply within the security of this unyielding boundary, and let the quiet strength of your perimeter keep you entirely safe.
 `,
     },
     '1110': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Seed (0) represents beginnings, ideas, and origins.
+True wisdom is not found in winning the argument, but in returning to the quiet truth that existed before the first words were spoken. In this reading, your personal sovereignty and ambition, represented by The Flag (1), have been filtered through an exacting AND operation with the high-minded discourse of The Forum (1110). This absolute distillation yields The Seed (0), establishing a quiet, uncluttered environment of pure potential where complex philosophies and intellectual defenses strip away, leaving only a singular, raw origin waiting to grow.
+
+By testing your personal power against the pressure of public debate and grand ideals, you have cleared the ground for something entirely authentic. This result reveals that the intersection of your authority and your beliefs is not a rigid doctrine, but a clean slate, where past claims and intellectual noise dissolve into the background. It is a space of profound, silent latency—a fertile void where you are completely unburdened by the need to prove your point, leaving you free to start anew.
+
+Give yourself permission to inhabit this unformed space without rushing to construct your next argument or claim your next intellectual victory. The most enduring truths always begin in complete stillness, carrying everything they need within a single, quiet intention. Trust the empty space before you, and let your next direction reveal itself naturally from the ground up.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+The grandest architectures of order are built when the independent will of the leader aligns perfectly with the shared ideals of the assembly. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been broadly integrated through an inclusive OR operation with the high-minded discourse and philosophy of The Forum (1110). This comprehensive gathering of internal forces expands directly into The State (1111), projecting a highly structured, authoritative environment defined by systemic organization, major logistics, and institutional politics.
+
+By refusing to isolate your individual power from the larger intellectual landscape around you, you have set the stage for an all-encompassing system of order. This result indicates that your current circumstances require a high level of coordination, where your personal boundaries and your grandest principles combine to establish governance over your life. It is a dense, high-stakes landscape of structural authority, demanding that you manage your resources with meticulous precision and navigate the complex dynamics of your current position.
+
+Take command of this vast arena without letting the sheer weight of its organization overwhelm your core intent. True authority during this chapter relies on your ability to implement structure, balance competing interests, and direct the moving parts of your world with a steady, diplomatic hand. Step into this role of systematic leadership, trust the framework you have built, and let the organization carry your ambitions forward.
 `,
     },
     '1111': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Flag (1) represents claims, power, and sovereignty.
+True authority requires no grand apparatus to sustain itself; it is found when you look past the machinery of power and find the simple, steady voice of your own intent. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been filtered through an exacting AND operation with the massive institutional organization of The State (1111). This precise distillation returns you directly to the solitary focus of The Flag (1), establishing an environment of sharp clarity where complex bureaucracy and external politics fall away, leaving only your own uncompromised authority.
+
+By testing your personal ambition against the heavy logistics of a sprawling system, you have discovered that your core independence remains entirely self-contained. This result indicates that while you may operate within large structures or navigate complex political landscapes, your true power does not depend on their validation or permission. It is a clean, dignified landscape of absolute self-possession, where the rules of engagement are dictated not by the collective committee, but by your own internal standard.
+
+Value the systems you interact with, but never mistake their massive scale for your own personal direction. True leadership in your own life means knowing when to strip away the administrative noise to evaluate your territory with a clear, detached eye. Stand firmly in your own domain, trust your original mandate, and let the quiet certainty of your position guide your next move.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+The highest authority is not achieved by fighting the system, but by realizing that you have become the very foundation upon which it stands. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been fully integrated through an inclusive OR operation with the systematic governance of The State (1111). This total gathering of forces folds completely into The State (1111), projecting a highly organized, institutional environment where individual ambition is entirely absorbed into a landscape of structural authority, broad logistics, and grand politics.
+
+When your drive for independent command merges with a vast, established framework of order, your boundaries naturally expand to encompass the whole system. This result suggests that your immediate, isolated aspirations are currently secondary to the essential work of managing the complex machinery of your life and relationships. It is a terrain of profound structural stability and systemic influence, where your personal choices carry the immense weight of law and every moving part of your world relies on your steady oversight.
+
+Allow yourself to step fully into this role of systematic leadership without fearing that the scale of your responsibilities will diminish your personal freedom. True power during this chapter comes from your ability to coordinate resources, honor the existing rules of engagement, and direct the larger architecture you have set in motion. Rest in the capacity of this grand design, trust the structures you have established, and let the organization carry your intentions forward with steady momentum.
 `,
     },
   },
   '10': {
-    '0': {
-      AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-    },
-    '1': {
-      AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Link (11) represents connections, promises, and security.
-`,
-    },
     '11': {
       AND: `
 The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Call (10) represents summonings, duty, and serendipity.

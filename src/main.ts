@@ -331,7 +331,7 @@ const sCardsMarkup: string = arrCardPages
   )
   .join('')
 
-const bShowDevPanel = true
+const bShowDevPanel = false
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main class="site">

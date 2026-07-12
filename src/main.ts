@@ -331,6 +331,8 @@ const sCardsMarkup: string = arrCardPages
   )
   .join('')
 
+const bShowDevPanel = true
+
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main class="site">
     <header class="site-header">
@@ -343,7 +345,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="reading" aria-selected="false">Reading</button>
       <button type="button" class="tab-button" data-tab="birthday" aria-selected="false">Birthday</button>
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
-      <button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>
+      ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
 
@@ -413,6 +415,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sStarmapMarkup()}
     </section>
 
+    ${
+      bShowDevPanel
+        ? `
     <section class="tab-panel" data-panel="dev">
       <h2>Dev Reading</h2>
       <p class="reading-intro">
@@ -437,6 +442,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       </form>
       <div class="reading-result" id="dev-result"></div>
     </section>
+        `
+        : ''
+    }
 
     <section class="tab-panel" data-panel="about">
       <h2>About Binarot</h2>
@@ -701,57 +709,61 @@ objDrawButton.addEventListener('click', () => {
   vRunDrawConsole(objLeft, objRight, sOp)
 })
 
-const objDevLeft = document.querySelector<HTMLSelectElement>('#dev-left')!
-const objDevRight = document.querySelector<HTMLSelectElement>('#dev-right')!
-const objDevOp = document.querySelector<HTMLSelectElement>('#dev-op')!
-const objDevResult = document.querySelector<HTMLDivElement>('#dev-result')!
+if (bShowDevPanel) {
+  const objDevLeft = document.querySelector<HTMLSelectElement>('#dev-left')!
+  const objDevRight = document.querySelector<HTMLSelectElement>('#dev-right')!
+  const objDevOp = document.querySelector<HTMLSelectElement>('#dev-op')!
+  const objDevResult = document.querySelector<HTMLDivElement>('#dev-result')!
 
-const sDevCookieLeft = 'binarot_dev_left'
-const sDevCookieRight = 'binarot_dev_right'
-const sDevCookieOp = 'binarot_dev_op'
+  const sDevCookieLeft = 'binarot_dev_left'
+  const sDevCookieRight = 'binarot_dev_right'
+  const sDevCookieOp = 'binarot_dev_op'
 
-function bSelectHasValue(objSelect: HTMLSelectElement, sValue: string): boolean {
-  return Array.from(objSelect.options).some((objOption: HTMLOptionElement) => objOption.value === sValue)
-}
-
-function vRestoreDevControls(): void {
-  const sLeft = sCookieValue(sDevCookieLeft)
-  const sRight = sCookieValue(sDevCookieRight)
-  const sOp = sCookieValue(sDevCookieOp)
-
-  if (sLeft !== null && bSelectHasValue(objDevLeft, sLeft)) {
-    objDevLeft.value = sLeft
+  function bSelectHasValue(objSelect: HTMLSelectElement, sValue: string): boolean {
+    return Array.from(objSelect.options).some(
+      (objOption: HTMLOptionElement) => objOption.value === sValue,
+    )
   }
 
-  if (sRight !== null && bSelectHasValue(objDevRight, sRight)) {
-    objDevRight.value = sRight
+  function vRestoreDevControls(): void {
+    const sLeft = sCookieValue(sDevCookieLeft)
+    const sRight = sCookieValue(sDevCookieRight)
+    const sOp = sCookieValue(sDevCookieOp)
+
+    if (sLeft !== null && bSelectHasValue(objDevLeft, sLeft)) {
+      objDevLeft.value = sLeft
+    }
+
+    if (sRight !== null && bSelectHasValue(objDevRight, sRight)) {
+      objDevRight.value = sRight
+    }
+
+    if (sOp !== null && bSelectHasValue(objDevOp, sOp)) {
+      objDevOp.value = sOp
+    }
   }
 
-  if (sOp !== null && bSelectHasValue(objDevOp, sOp)) {
-    objDevOp.value = sOp
+  function vSaveDevControls(): void {
+    vSetCookie(sDevCookieLeft, objDevLeft.value)
+    vSetCookie(sDevCookieRight, objDevRight.value)
+    vSetCookie(sDevCookieOp, objDevOp.value)
   }
+
+  function vUpdateDevReading(): void {
+    const objLeft = objFindCardByBinary(objDevLeft.value)
+    const objRight = objFindCardByBinary(objDevRight.value)
+    const sOp = objDevOp.value as tOperator
+
+    vSaveDevControls()
+    objDevResult.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp, true)
+  }
+
+  objDevLeft.addEventListener('change', vUpdateDevReading)
+  objDevRight.addEventListener('change', vUpdateDevReading)
+  objDevOp.addEventListener('change', vUpdateDevReading)
+  vRestoreDevControls()
+  vUpdateDevReading()
 }
-
-function vSaveDevControls(): void {
-  vSetCookie(sDevCookieLeft, objDevLeft.value)
-  vSetCookie(sDevCookieRight, objDevRight.value)
-  vSetCookie(sDevCookieOp, objDevOp.value)
-}
-
-function vUpdateDevReading(): void {
-  const objLeft = objFindCardByBinary(objDevLeft.value)
-  const objRight = objFindCardByBinary(objDevRight.value)
-  const sOp = objDevOp.value as tOperator
-
-  vSaveDevControls()
-  objDevResult.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp, true)
-}
-
-objDevLeft.addEventListener('change', vUpdateDevReading)
-objDevRight.addEventListener('change', vUpdateDevReading)
-objDevOp.addEventListener('change', vUpdateDevReading)
-vRestoreDevControls()
-vUpdateDevReading()
 
 const nDaysInYear = 366
 const arrDaysInMonthLeap: number[] = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]

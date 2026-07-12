@@ -18,6 +18,7 @@ const nPlayHalf = nTerrainSize * 0.5 - 1.5
 const nStatueMargin = nCliffWidth + 140
 const nStatueClearSpawn = 70
 const nStatueFindRadius = 16
+const nStatueDwellSec = 10
 const nStuckTravelFrac = 0.2
 const nStuckFramesBeforeAvoid = 12
 const nAvoidAngle = 0.9
@@ -28,15 +29,29 @@ const nPitchMax = 1.35
 const nLookReturnSpeed = 1.6
 const nDefaultPitch = -0.08
 const nFloraTreeCount = 1400
-const nFloraBushCount = 2200
-const nFloraCrystalCount = 900
-const nFloraReedCount = 1200
 const nFloraMargin = nCliffWidth + 48
-const nFloraClearSpawn = 52
+const nFloraClearSpawn = 36
 const nFloraClearStatue = 24
 const nFloraMaxCliff = 0.18
+const nFloraLift = 0.35
+const nGrassCount = 2200
+const nGrassRadius = 58
+const nGrassCell = 1.85
+const nGrassClearFeet = 2.8
+const nGrassLift = 0.02
+const nGrassMaxHeightT = 0.30
+const nSnowCount = 1600
+const nSnowRadius = 62
+const nSnowCell = 2.35
+const nSnowClearFeet = 3.2
+const nSnowLift = 0.04
+const nSnowMinHeightT = 0.36
 const nSkyLift = 2560
 const nSkyTilt = 0.42
+const nStarCount = 2400
+const nStarRadius = 9000
+const nStarSize = 6.5
+const nStarDrift = 0.003
 
 type tExploreCard = {
   sName: string
@@ -64,6 +79,8 @@ let objRenderer: THREE.WebGLRenderer | null = null
 let objScene: THREE.Scene | null = null
 let objCamera: THREE.PerspectiveCamera | null = null
 let arrHeights: Float32Array | null = null
+let nTerrainMinH = 0
+let nTerrainMaxH = 1
 let nAnimFrame = 0
 let bRunning = false
 let nLastTs = 0
@@ -76,12 +93,20 @@ let nStuckFrames = 0
 let nAvoidYaw = 0
 let nAvoidUntil = 0
 let nAvoidSign = 1
+let nDwellUntil = 0
 let bLookDragging = false
 let nLookPtrId = -1
 let nLookLastX = 0
 let nLookLastY = 0
 let objSkyRoot: THREE.Group | null = null
+let objStarRoot: THREE.Group | null = null
 let arrSkyOrbits: tSkyOrbit[] = []
+let objGrassMesh: THREE.InstancedMesh | null = null
+let nGrassLastCx = Number.NaN
+let nGrassLastCz = Number.NaN
+let objSnowMesh: THREE.InstancedMesh | null = null
+let nSnowLastCx = Number.NaN
+let nSnowLastCz = Number.NaN
 
 const objPlayerPos = new THREE.Vector3(0, 20, 0)
 const objLookDir = new THREE.Vector3()
@@ -106,37 +131,31 @@ const objMatPurple = new THREE.MeshStandardMaterial({
   emissiveIntensity: 0.2,
 })
 const objMatTrunk = new THREE.MeshStandardMaterial({
-  color: 0x1c1028,
+  color: 0x2a1838,
   roughness: 0.94,
   metalness: 0.06,
 })
 const objMatCanopy = new THREE.MeshStandardMaterial({
-  color: 0x3a2468,
+  color: 0x5a38a0,
   roughness: 0.82,
   metalness: 0.1,
-  emissive: 0x1a0c38,
-  emissiveIntensity: 0.18,
+  emissive: 0x2a1458,
+  emissiveIntensity: 0.32,
 })
-const objMatShrub = new THREE.MeshStandardMaterial({
-  color: 0x2a1a42,
-  roughness: 0.9,
-  metalness: 0.05,
-  emissive: 0x140a28,
-  emissiveIntensity: 0.12,
+const objMatGrass = new THREE.MeshStandardMaterial({
+  color: 0x3a6a52,
+  roughness: 0.86,
+  metalness: 0.04,
+  emissive: 0x183828,
+  emissiveIntensity: 0.22,
+  side: THREE.DoubleSide,
 })
-const objMatCrystal = new THREE.MeshStandardMaterial({
-  color: 0x8b4dff,
-  roughness: 0.28,
-  metalness: 0.55,
-  emissive: 0x4a2088,
-  emissiveIntensity: 0.55,
-})
-const objMatReed = new THREE.MeshStandardMaterial({
-  color: 0x4a3068,
+const objMatSnow = new THREE.MeshStandardMaterial({
+  color: 0xe8b0d0,
   roughness: 0.78,
   metalness: 0.08,
-  emissive: 0x2a1840,
-  emissiveIntensity: 0.15,
+  emissive: 0x582848,
+  emissiveIntensity: 0.24,
 })
 
 const nRayHeight = 480
@@ -309,6 +328,9 @@ function objBuildTerrain(): THREE.Mesh {
     nMinH = 0
     nMaxH = nCliffHeight
   }
+
+  nTerrainMinH = nMinH
+  nTerrainMaxH = nMaxH
 
   for (let nI = 0; nI < nVertCount; nI++) {
     const nH = arrRaw[nI]!
@@ -587,6 +609,7 @@ function vDiscoverStatue(objStatue: tStatue): void {
     objMat.needsUpdate = true
   }
 
+  nDwellUntil = performance.now() / 1000 + nStatueDwellSec
   if (objTargetStatue === objStatue) {
     vCommitTarget(null)
   }
@@ -654,6 +677,11 @@ function vCommitTarget(objStatue: tStatue | null): void {
 }
 
 function vAutoNavigate(nDt: number): void {
+  const nNow = performance.now() / 1000
+  if (nNow < nDwellUntil) {
+    return
+  }
+
   if (!objTargetStatue || objTargetStatue.bFound) {
     vCommitTarget(objNearestUnfoundStatue())
   }
@@ -661,7 +689,6 @@ function vAutoNavigate(nDt: number): void {
     return
   }
 
-  const nNow = performance.now() / 1000
   const nDesiredYaw = Math.atan2(
     objTargetStatue.nX - objPlayerPos.x,
     objTargetStatue.nZ - objPlayerPos.z,
@@ -736,10 +763,10 @@ function arrFloraSites(nCount: number, nSalt: number): { nX: number; nZ: number;
   const nHalf = nTerrainSize * 0.5 - nFloraMargin
   const nGrid = Math.ceil(Math.sqrt(nCount * 4.5))
   const nCell = (nHalf * 2) / nGrid
-  const arrOut: { nX: number; nZ: number; nSeed: number }[] = []
+  const arrCandidates: { nX: number; nZ: number; nSeed: number; nPick: number }[] = []
 
-  for (let nGz = 0; nGz < nGrid && arrOut.length < nCount; nGz++) {
-    for (let nGx = 0; nGx < nGrid && arrOut.length < nCount; nGx++) {
+  for (let nGz = 0; nGz < nGrid; nGz++) {
+    for (let nGx = 0; nGx < nGrid; nGx++) {
       const nSeed = nHash2(nGx + nSalt * 17, nGz + nSalt * 29)
       if (nSeed > 0.78) {
         continue
@@ -753,39 +780,34 @@ function arrFloraSites(nCount: number, nSalt: number): { nX: number; nZ: number;
         continue
       }
 
-      arrOut.push({ nX, nZ, nSeed })
+      arrCandidates.push({
+        nX,
+        nZ,
+        nSeed,
+        nPick: nHash2(nGx + nSalt * 53, nGz + nSalt * 91),
+      })
     }
   }
 
+  if (arrCandidates.length <= nCount) {
+    return arrCandidates.map(({ nX, nZ, nSeed }) => ({ nX, nZ, nSeed }))
+  }
+
+  arrCandidates.sort((objA, objB) => objA.nPick - objB.nPick)
+  const arrOut: { nX: number; nZ: number; nSeed: number }[] = []
+  for (let nI = 0; nI < nCount; nI++) {
+    const objSite = arrCandidates[nI]!
+    arrOut.push({ nX: objSite.nX, nZ: objSite.nZ, nSeed: objSite.nSeed })
+  }
   return arrOut
 }
 
 function objBuildTreeGeos(): { objTrunk: THREE.BufferGeometry; objCanopy: THREE.BufferGeometry } {
-  const objTrunk = new THREE.CylinderGeometry(0.22, 0.38, 3.4, 5)
-  objTrunk.translate(0, 1.7, 0)
-  const objCanopy = new THREE.ConeGeometry(1.55, 3.6, 6)
-  objCanopy.translate(0, 4.4, 0)
+  const objTrunk = new THREE.CylinderGeometry(0.55, 0.95, 8.5, 5)
+  objTrunk.translate(0, 4.25, 0)
+  const objCanopy = new THREE.ConeGeometry(3.8, 9.0, 6)
+  objCanopy.translate(0, 11.0, 0)
   return { objTrunk, objCanopy }
-}
-
-function objBuildBushGeo(): THREE.BufferGeometry {
-  const objGeo = new THREE.IcosahedronGeometry(1.05, 0)
-  objGeo.scale(1.15, 0.72, 1.05)
-  objGeo.translate(0, 0.75, 0)
-  return objGeo
-}
-
-function objBuildCrystalGeo(): THREE.BufferGeometry {
-  const objGeo = new THREE.OctahedronGeometry(0.55, 0)
-  objGeo.scale(0.55, 1.85, 0.55)
-  objGeo.translate(0, 1.15, 0)
-  return objGeo
-}
-
-function objBuildReedGeo(): THREE.BufferGeometry {
-  const objGeo = new THREE.CylinderGeometry(0.06, 0.1, 2.4, 4)
-  objGeo.translate(0, 1.2, 0)
-  return objGeo
 }
 
 function vAddFlora(objParent: THREE.Object3D): void {
@@ -805,14 +827,17 @@ function vAddFlora(objParent: THREE.Object3D): void {
       const objSite = arrSites[nI]!
       const nYaw = objSite.nSeed * Math.PI * 2
       const nScale = nScaleMin + nHash2(nI + 11, Math.floor(objSite.nSeed * 9999)) * nScaleSpan
-      objDummyPos.set(objSite.nX, nSampleHeight(objSite.nX, objSite.nZ), objSite.nZ)
+      const nGround = nSampleHeight(objSite.nX, objSite.nZ) + nFloraLift
+      objDummyPos.set(objSite.nX, nGround, objSite.nZ)
       objDummyQuat.setFromAxisAngle(objUp, nYaw)
       objDummyScale.set(nScale, nScale, nScale)
       objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
       objMesh.setMatrixAt(nI, objMatrix)
     }
     objMesh.instanceMatrix.needsUpdate = true
-    objMesh.frustumCulled = true
+    // Instance transforms span the whole map; default bounds sit at the origin and cull everything.
+    objMesh.frustumCulled = false
+    objMesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), nTerrainSize)
     objParent.add(objMesh)
   }
 
@@ -820,20 +845,181 @@ function vAddFlora(objParent: THREE.Object3D): void {
   const arrTreeSites = arrFloraSites(nFloraTreeCount, 1)
   const objTreeTrunks = new THREE.InstancedMesh(objTreeGeos.objTrunk, objMatTrunk, arrTreeSites.length)
   const objTreeCanopies = new THREE.InstancedMesh(objTreeGeos.objCanopy, objMatCanopy, arrTreeSites.length)
-  vPlace(objTreeTrunks, arrTreeSites, 0.75, 1.35)
-  vPlace(objTreeCanopies, arrTreeSites, 0.75, 1.35)
+  vPlace(objTreeTrunks, arrTreeSites, 9, 16)
+  vPlace(objTreeCanopies, arrTreeSites, 9, 16)
+}
 
-  const arrBushSites = arrFloraSites(nFloraBushCount, 2)
-  const objBushes = new THREE.InstancedMesh(objBuildBushGeo(), objMatShrub, arrBushSites.length)
-  vPlace(objBushes, arrBushSites, 0.55, 1.1)
+function objBuildBladeGeo(): THREE.BufferGeometry {
+  const objBlade = new THREE.ConeGeometry(0.28, 0.58, 4)
+  objBlade.translate(0, 0.29, 0)
+  return objBlade
+}
 
-  const arrCrystalSites = arrFloraSites(nFloraCrystalCount, 3)
-  const objCrystals = new THREE.InstancedMesh(objBuildCrystalGeo(), objMatCrystal, arrCrystalSites.length)
-  vPlace(objCrystals, arrCrystalSites, 0.7, 1.6)
+function vAddGrass(objParent: THREE.Object3D): void {
+  objGrassMesh = new THREE.InstancedMesh(objBuildBladeGeo(), objMatGrass, nGrassCount)
+  objGrassMesh.frustumCulled = false
+  objGrassMesh.count = 0
+  objParent.add(objGrassMesh)
+  nGrassLastCx = Number.NaN
+  nGrassLastCz = Number.NaN
+  vUpdateGrass()
+}
 
-  const arrReedSites = arrFloraSites(nFloraReedCount, 4)
-  const objReeds = new THREE.InstancedMesh(objBuildReedGeo(), objMatReed, arrReedSites.length)
-  vPlace(objReeds, arrReedSites, 0.85, 1.4)
+function vUpdateGrass(): void {
+  if (!objGrassMesh) {
+    return
+  }
+
+  const nCx = Math.floor(objPlayerPos.x / nGrassCell)
+  const nCz = Math.floor(objPlayerPos.z / nGrassCell)
+  if (nCx === nGrassLastCx && nCz === nGrassLastCz) {
+    return
+  }
+
+  nGrassLastCx = nCx
+  nGrassLastCz = nCz
+
+  const objDummyPos = new THREE.Vector3()
+  const objDummyQuat = new THREE.Quaternion()
+  const objDummyScale = new THREE.Vector3()
+  const objEuler = new THREE.Euler(0, 0, 0, 'YXZ')
+  const objMatrix = new THREE.Matrix4()
+  const nRadius2 = nGrassRadius * nGrassRadius
+  const nClear2 = nGrassClearFeet * nGrassClearFeet
+  const nSpan = Math.ceil(nGrassRadius / nGrassCell)
+  const nPx = objPlayerPos.x
+  const nPz = objPlayerPos.z
+  let nUsed = 0
+
+  for (let nOz = -nSpan; nOz <= nSpan && nUsed < nGrassCount; nOz++) {
+    for (let nOx = -nSpan; nOx <= nSpan && nUsed < nGrassCount; nOx++) {
+      const nGx = nCx + nOx
+      const nGz = nCz + nOz
+      const nSeed = nHash2(nGx + 91, nGz + 17)
+      if (nSeed > 0.72) {
+        continue
+      }
+
+      const nJx = nHash2(nGx + 3, nGz + 51)
+      const nJz = nHash2(nGx + 67, nGz + 9)
+      const nX = (nGx + nJx) * nGrassCell
+      const nZ = (nGz + nJz) * nGrassCell
+      const nDx = nX - nPx
+      const nDz = nZ - nPz
+      const nDist2 = nDx * nDx + nDz * nDz
+      if (nDist2 > nRadius2 || nDist2 < nClear2) {
+        continue
+      }
+      if (nCliffBlend(nX, nZ) > nFloraMaxCliff) {
+        continue
+      }
+
+      const nGround = nSampleHeight(nX, nZ)
+      const nHeightT = (nGround - nTerrainMinH) / Math.max(0.001, nTerrainMaxH - nTerrainMinH)
+      if (nHeightT > nGrassMaxHeightT) {
+        continue
+      }
+
+      const nYaw = nSeed * Math.PI * 2
+      const nLean = 0.35 + nHash2(nGx + 21, nGz + 44) * 0.55
+      const nFade = 1 - Math.sqrt(nDist2) / nGrassRadius
+      const nScale = (0.85 + nHash2(nGx + 13, nGz + 29) * 0.65) * (0.7 + nFade * 0.4)
+      objDummyPos.set(nX, nGround + nGrassLift, nZ)
+      objEuler.set(nLean, nYaw, 0)
+      objDummyQuat.setFromEuler(objEuler)
+      objDummyScale.set(nScale * 1.55, nScale, nScale * 0.55)
+      objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
+      objGrassMesh.setMatrixAt(nUsed, objMatrix)
+      nUsed++
+    }
+  }
+
+  objGrassMesh.count = nUsed
+  objGrassMesh.instanceMatrix.needsUpdate = true
+}
+
+function vAddSnow(objParent: THREE.Object3D): void {
+  objSnowMesh = new THREE.InstancedMesh(objBuildBladeGeo(), objMatSnow, nSnowCount)
+  objSnowMesh.frustumCulled = false
+  objSnowMesh.count = 0
+  objParent.add(objSnowMesh)
+  nSnowLastCx = Number.NaN
+  nSnowLastCz = Number.NaN
+  vUpdateSnow()
+}
+
+function vUpdateSnow(): void {
+  if (!objSnowMesh) {
+    return
+  }
+
+  const nCx = Math.floor(objPlayerPos.x / nSnowCell)
+  const nCz = Math.floor(objPlayerPos.z / nSnowCell)
+  if (nCx === nSnowLastCx && nCz === nSnowLastCz) {
+    return
+  }
+
+  nSnowLastCx = nCx
+  nSnowLastCz = nCz
+
+  const objDummyPos = new THREE.Vector3()
+  const objDummyQuat = new THREE.Quaternion()
+  const objDummyScale = new THREE.Vector3()
+  const objEuler = new THREE.Euler(0, 0, 0, 'YXZ')
+  const objMatrix = new THREE.Matrix4()
+  const nRadius2 = nSnowRadius * nSnowRadius
+  const nClear2 = nSnowClearFeet * nSnowClearFeet
+  const nSpan = Math.ceil(nSnowRadius / nSnowCell)
+  const nPx = objPlayerPos.x
+  const nPz = objPlayerPos.z
+  let nUsed = 0
+
+  for (let nOz = -nSpan; nOz <= nSpan && nUsed < nSnowCount; nOz++) {
+    for (let nOx = -nSpan; nOx <= nSpan && nUsed < nSnowCount; nOx++) {
+      const nGx = nCx + nOx
+      const nGz = nCz + nOz
+      const nSeed = nHash2(nGx + 203, nGz + 77)
+      if (nSeed > 0.68) {
+        continue
+      }
+
+      const nJx = nHash2(nGx + 11, nGz + 88)
+      const nJz = nHash2(nGx + 55, nGz + 19)
+      const nX = (nGx + nJx) * nSnowCell
+      const nZ = (nGz + nJz) * nSnowCell
+      const nDx = nX - nPx
+      const nDz = nZ - nPz
+      const nDist2 = nDx * nDx + nDz * nDz
+      if (nDist2 > nRadius2 || nDist2 < nClear2) {
+        continue
+      }
+      if (nCliffBlend(nX, nZ) > nFloraMaxCliff) {
+        continue
+      }
+
+      const nGround = nSampleHeight(nX, nZ)
+      const nHeightT = (nGround - nTerrainMinH) / Math.max(0.001, nTerrainMaxH - nTerrainMinH)
+      if (nHeightT < nSnowMinHeightT) {
+        continue
+      }
+
+      const nYaw = nSeed * Math.PI * 2
+      const nLean = 0.35 + nHash2(nGx + 31, nGz + 62) * 0.55
+      const nFade = 1 - Math.sqrt(nDist2) / nSnowRadius
+      const nHigh = Math.min(1, (nHeightT - nSnowMinHeightT) / 0.22)
+      const nScale = (0.85 + nHash2(nGx + 41, nGz + 15) * 0.65) * (0.7 + nFade * 0.4) * (0.8 + nHigh * 0.35)
+      objDummyPos.set(nX, nGround + nSnowLift, nZ)
+      objEuler.set(nLean, nYaw, 0)
+      objDummyQuat.setFromEuler(objEuler)
+      objDummyScale.set(nScale * 1.55, nScale, nScale * 0.55)
+      objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
+      objSnowMesh.setMatrixAt(nUsed, objMatrix)
+      nUsed++
+    }
+  }
+
+  objSnowMesh.count = nUsed
+  objSnowMesh.instanceMatrix.needsUpdate = true
 }
 
 function objSkyMat(nColor: number): THREE.MeshBasicMaterial {
@@ -841,6 +1027,66 @@ function objSkyMat(nColor: number): THREE.MeshBasicMaterial {
     color: nColor,
     fog: false,
   })
+}
+
+function objBuildStarfield(): THREE.Points {
+  const arrPos = new Float32Array(nStarCount * 3)
+  const arrCol = new Float32Array(nStarCount * 3)
+  const arrPalette = [
+    [0.42, 0.32, 0.14],
+    [0.28, 0.16, 0.4],
+    [0.36, 0.18, 0.3],
+    [0.48, 0.4, 0.22],
+    [0.22, 0.12, 0.32],
+    [0.4, 0.22, 0.34],
+    [0.32, 0.26, 0.12],
+    [0.55, 0.48, 0.32],
+  ]
+
+  for (let nI = 0; nI < nStarCount; nI++) {
+    const nU = nHash2(nI + 2, nI * 5 + 9)
+    const nV = nHash2(nI * 3 + 1, nI + 17)
+    const nW = nHash2(nI + 41, nI * 11 + 3)
+    const nTheta = nU * Math.PI * 2
+    // Cover the sky and reach well below the horizon so the rim stays full.
+    const nPhi = Math.acos(1 - 1.45 * nV)
+    const nR = nStarRadius * (0.82 + nW * 0.18)
+    arrPos[nI * 3] = Math.sin(nPhi) * Math.cos(nTheta) * nR
+    arrPos[nI * 3 + 1] = Math.cos(nPhi) * nR
+    arrPos[nI * 3 + 2] = Math.sin(nPhi) * Math.sin(nTheta) * nR
+
+    const arrRgb = arrPalette[Math.floor(nHash2(nI + 7, nI * 2 + 4) * arrPalette.length)]!
+    const nRoll = nHash2(nI * 9 + 3, nI + 28)
+    // Most stars stay dim; a few remain brighter sparks.
+    const nBright = nRoll > 0.88 ? 0.7 + nRoll * 0.3 : 0.22 + nRoll * 0.28
+    arrCol[nI * 3] = arrRgb[0]! * nBright
+    arrCol[nI * 3 + 1] = arrRgb[1]! * nBright
+    arrCol[nI * 3 + 2] = arrRgb[2]! * nBright
+  }
+
+  const objGeo = new THREE.BufferGeometry()
+  objGeo.setAttribute('position', new THREE.BufferAttribute(arrPos, 3))
+  objGeo.setAttribute('color', new THREE.BufferAttribute(arrCol, 3))
+
+  const objMat = new THREE.PointsMaterial({
+    size: nStarSize,
+    sizeAttenuation: true,
+    vertexColors: true,
+    fog: false,
+    depthWrite: false,
+    transparent: true,
+    opacity: 0.92,
+  })
+
+  const objStars = new THREE.Points(objGeo, objMat)
+  objStars.frustumCulled = false
+  return objStars
+}
+
+function vAddStarfield(objParent: THREE.Object3D): void {
+  objStarRoot = new THREE.Group()
+  objStarRoot.add(objBuildStarfield())
+  objParent.add(objStarRoot)
 }
 
 function vAddSkyOrbits(objParent: THREE.Object3D): void {
@@ -884,13 +1130,16 @@ function vAddSkyOrbits(objParent: THREE.Object3D): void {
 }
 
 function vUpdateSkyOrbits(nDt: number): void {
-  if (!objSkyRoot) {
-    return
+  if (objSkyRoot) {
+    objSkyRoot.position.set(objPlayerPos.x, objPlayerPos.y + nSkyLift, objPlayerPos.z)
+    for (const objOrbit of arrSkyOrbits) {
+      objOrbit.objPivot.rotation.y += objOrbit.nSpeed * nDt
+    }
   }
 
-  objSkyRoot.position.set(objPlayerPos.x, objPlayerPos.y + nSkyLift, objPlayerPos.z)
-  for (const objOrbit of arrSkyOrbits) {
-    objOrbit.objPivot.rotation.y += objOrbit.nSpeed * nDt
+  if (objStarRoot) {
+    objStarRoot.position.copy(objPlayerPos)
+    objStarRoot.rotation.y += nStarDrift * nDt
   }
 }
 
@@ -994,6 +1243,8 @@ function vTick(nTs: number): void {
 
   vUpdateStatueProximity()
   vUpdateSkyOrbits(nDt)
+  vUpdateGrass()
+  vUpdateSnow()
   vUpdateCameraOrientation()
   objRenderer.render(objScene, objCamera)
   nAnimFrame = window.requestAnimationFrame(vTick)
@@ -1036,10 +1287,13 @@ function vInitScene(): void {
   )
   objScene.add(objSky)
 
+  vAddStarfield(objScene)
   vAddSkyOrbits(objScene)
   objScene.add(objBuildTerrain())
   vAddStatues(objScene)
   vAddFlora(objScene)
+  vAddGrass(objScene)
+  vAddSnow(objScene)
   vCommitTarget(null)
 
   vPlacePlayerOnTerrain()
@@ -1134,7 +1388,7 @@ export function sExploreMarkup(): string {
   return `
     <div class="explore" id="explore">
       <div class="explore-viewport" id="explore-viewport" role="img" aria-label="Terrain explorer — drag to look around"></div>
-      <p class="explore-caption">pilgrim · flora, sky orbits & statues</p>
+      <p class="explore-caption">pilgrim · stars, flora, orbits & statues</p>
     </div>
   `
 }

@@ -483,134 +483,214 @@ Allow yourself to step fully into this role of systematic leadership without fea
   '10': {
     '11': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Call (10) represents summonings, duty, and serendipity.
+True alignment is found not in what we seek, but in what cannot be shaken. Your reading combined the fated summons of The Call (10) with the binding promises of The Link (11) under the strict function of an AND operation, leaving you with the enduring resonance of The Call (10) as your final result. This outcome describes a focused, clarifying environment where external distractions fall away, leaving only the baseline responsibilities and inevitable encounters that you are truly meant to face.
+
+The overlap of connection and duty suggests that your current path is being narrowed by design, stripping away superficial ties to reveal a singular, urgent objective. When a summons survives the crucible of an absolute bond, it means the universe is not just suggesting a direction—it is locking it into place. You are standing in a space where convenience is replaced by commitment, and where the people or projects around you are directly tied to your immediate personal growth.
+
+Lean completely into the obligations that currently feel the most heavy or inevitable, for they are the exact anchors keeping you steady right now. Do not waste energy trying to bridge every gap or maintain every casual tie; instead, let the AND operation do its work by honoring only the paths where your deep sense of duty and your closest relationships naturally intersect. Trust the architecture of what remains when everything else is filtered out.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Link (11) represents connections, promises, and security.
+When the universe expands its parameters, the truest path forward is to build a wider net rather than a higher wall. Your reading gathered the urgent mandate of The Call (10) and the binding assurances of The Link (11) under the generous function of an OR operation, synthesizing a final landscape governed entirely by the stabilizing presence of The Link (11). This result describes an environment rich in support systems, collaborative networks, and safety nets, where the immediate pressure of an isolated duty gives way to collective strength and mutual protection.
+
+By allowing every variable to coexist, the system has prioritized integration over isolation, meaning that your personal obligations are no longer distinct from the relationships that sustain you. A summons does not disappear under an OR operation; rather, it becomes absorbed by the structure of your promises, shifting the narrative from a lonely solo quest into a shared journey. You are presently operating in a space where safety is found in numbers, and where every handshake or quiet agreement serves as a foundation for future stability.
+
+Open yourself to the collective wisdom and structural safety available to you right now, letting go of the instinct to carry every burden entirely on your own back. Do not force yourself to choose between answering a sudden internal prompt and honoring your existing commitments; instead, let the overarching architecture of your community and your routines absorb the noise. True security is built by reinforcing the bridges you have already crossed.
 `,
     },
     '100': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
+The void is not an absence of matter, but a baseline ready for a brand-new design. Your reading combined the fated urgency of The Call (10) with the sheltering sanctuary of The Host (100) under the reductive function of an AND operation, leaving you entirely cleared down to the foundational potential of The Seed (0). This outcome describes an empty, unburdened environment where past structures and immediate demands have completely canceled each other out, leaving only a blank slate and raw, unshaped potential.
+
+When the sheltering comfort of the present and the urgent call of the future share no common ground, the system naturally resets itself to absolute zero. This zero-state means you are no longer bound by the ownership of what you have built, nor are you chained to the immediate serendipity of what you expected to happen. You are standing in the quiet clearing that exists just before the very first line of code is written or the first brick is laid—a space of pure, unblemished freedom.
+
+Allow yourself to simply exist in this space of non-definition without rushing to fill the vacuum with old habits or forced obligations. Do not mistake a total lack of momentum for a failure of direction; instead, treat this temporary stillness as the essential soil required for a completely new perspective to take root. Trust the clarity of the clean slate, and let your next move grow entirely from scratch.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Port (110) represents gateways, discovery, and trade.
+The horizon belongs to those who recognize that a safe harbor can also be a launching pad. Your reading gathered the compelling mandate of The Call (10) alongside the protective sanctuary of The Host (100) under the expansive function of an OR operation, synthesizing a dynamic landscape perfectly embodied by The Port (110). This result describes an environment of active transition, cross-cultural exchange, and dualities, where the comfort of a permanent home seamlessly interfaces with the boundless curiosity of the open sea.
+
+By merging the prompt of destiny with the security of ownership, the system has transformed a static shelter into an active gateway of exchange. A true refuge is never a dead end; rather, it is a place where resources are gathered and external energies are welcomed in, turning duty into an adventure and hospitality into a point of origin. You are currently situated in a space where you hold the keys to your own domain while standing directly at the threshold of untold, incoming possibilities.
+
+Position yourself squarely at the gates of your own life, remaining open to new transactions of ideas and connections without losing your grip on what you already own. Do not isolate yourself within a comfortable fortress or wander aimlessly without a home base; instead, let your current stability act as the very platform from which you explore the unknown. True mastery lies in knowing how to keep your anchor secure while always keeping your sails ready for the wind.
 `,
     },
     '101': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Seed (0) represents beginnings, ideas, and origins.
+Silence is the ultimate matrix from which all complexity must eventually emerge. Your reading combined the fated urgency of The Call (10) with the split possibilities of The Fork (101) under the filtering function of an AND operation, reducing the equation down to the quiet origin point of The Seed (0). This outcome describes a completely neutralized environment where divergent paths and sudden duties have effectively canceled one another out, leaving you in a vacuum of pure, uncommitted potential.
+
+When the pressure to choose a path shares absolutely no common logic with an external summons, the system naturally drops its variables and returns to standard zero. This means you are currently freed from the exhausting weight of tracking multiple trajectories, and you are equally released from the immediate demand of any singular fated obligation. You are standing in that specific, profound pause where the noise of the world drops away, leaving only the raw data of a fresh start.
+
+Give yourself permission to sit quietly at the absolute beginning of things without feeling the need to immediately choose a direction or force a spark. Do not view this current lack of external signal as a loss of momentum; instead, recognize it as a necessary clearing of the field so that your next genuine insight can develop without interference. Let the dust settle completely, and let your next iteration reveal itself naturally from the baseline.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Tree (111) represents fullness, growth, and reach.
+Abundance is not a sudden stroke of luck, but the natural consequence of allowing every branch of your life to grow at its own pace. Your reading gathered the compelling directive of The Call (10) alongside the splitting trajectories of The Fork (101) under the expansive function of an OR operation, synthesizing a dense and vibrant landscape beautifully embodied by The Tree (111). This result describes an environment of absolute maximum capacity, deep integration, and complex structural growth, where every divergent choice and every fated obligation are pulled together into a singular, living network.
+
+By combining an external mandate with a crossroads of choices, the system has transformed a simple point of decision into a massive ecosystem of opportunity. You no longer have to sacrifice one path to satisfy another; instead, the OR operation ensures that every interest, duty, and resource you possess feeds into the same overarching canopy. You are currently operating in a space where your roots are firmly established, and your personal reach is expanding in multiple directions simultaneously, creating a rich tapestry of overlapping responsibilities.
+
+Embrace the complexity of your current situation instead of trying to prune away parts of yourself to make things simpler or easier to manage. Do not let the fear of being overextended prevent you from reaching toward new opportunities; instead, trust that the central trunk of your core values can support all of this various, sprawling growth. Give yourself permission to occupy your full space in the world, and let the sheer volume of what you are building find its own natural equilibrium.
 `,
     },
     '110': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Call (10) represents summonings, duty, and serendipity.
+True clarity is born when the horizon narrows to reveal the only door that was ever meant for you. Your reading combined the fated urgency of The Call (10) with the vast, open gateways of The Port (110) under the precise filtering of an AND operation, returning you directly to the focused mandate of The Call (10) as your final result. This outcome describes an environment of rigorous simplification and sudden alignment, a space where the infinite possibilities of travel and trade are stripped away to leave only your absolute, non-negotiable responsibilities.
+
+When an open port of discovery is filtered through the lens of absolute duty, it means that your wandering days are temporarily on hold to make room for a specific execution. The system has analyzed all possible paths, trades, and exits, and concluded that your truest progress lies exactly where you already stand, facing your immediate obligations. You are currently operating in a landscape where distraction is a luxury you cannot afford, and where serendipity is no longer a random occurrence but a direct consequence of your commitment.
+
+Commit yourself entirely to the immediate task or summons in front of you, letting go of the restless urge to see what else is out there on the horizon. Do not look at this sudden narrowing of options as a confinement; instead, recognize it as a profound economy of scale that protects your energy from being scattered across too many open channels. Trust the efficiency of the single path, and throw your full weight into answering the baseline requirement of the present moment.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Port (110) represents gateways, discovery, and trade.
+The ultimate destination is never a fixed coordinate, but a readiness to meet the world at its boundaries. Your reading gathered the urgent prompt of The Call (10) alongside the expansive thresholds of The Port (110) under the inclusive function of an OR operation, synthesizing a final landscape completely anchored by the exploratory nature of The Port (110). This result describes an environment of active exchange, logistical flow, and imminent departure, where the quiet pressure of a personal obligation is successfully integrated into a larger framework of exploration and strategic positioning.
+
+By allowing both the fated summons and the open gateway to exist simultaneously, the system has determined that your personal responsibilities are best fulfilled through active engagement with the outside world. Your current duties are not meant to keep you isolated or stagnant; rather, they are the very engines pushing you toward new horizons, turning every structural challenge into a point of discovery. You are standing in a high-traffic space of potential, where the tools are laid out, the lanes are open, and the incoming currents are rich with new information and resources.
+
+Keep your channels open and your systems flexible, refusing to let the weight of routine close off your access to unexpected opportunities. Do not mistake the noise of a busy transition for a lack of purpose; instead, realize that navigating this complex traffic is exactly how you are meant to find your bearings right now. Trust the momentum of the gateway you are standing in, and allow yourself to move freely through the trade-offs and transitions that are currently redefining your path.
 `,
     },
     '111': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Call (10) represents summonings, duty, and serendipity.
+The deepest roots are not grown for the sake of comfort, but to withstand the weight of a singular purpose. Your reading combined the fated urgency of The Call (10) with the vast, sprawling ecosystem of The Tree (111) under the filtering constraint of an AND operation, returning you directly to the focused execution of The Call (10) as your final result. This outcome describes a highly concentrated and clarified environment where all your expansive growth, resources, and historical progress are narrowed down to serve one immediate, undeniable objective.
+
+When an entire network of fullness and reach is distilled through an absolute condition, it signifies that your accumulated strength is meant to be spent, not just hoarded. The system has sifted through the branches of your potential and determined that your current priority is not further expansion, but the realization of an explicit duty or serendipitous timeline. You are operating in a landscape where the noise of endless self-improvement falls away, leaving only the essential core of what you must actually show up for today.
+
+Direct the full force of your maturity and accumulated knowledge toward the single most pressing commitment on your radar, letting go of the need to branch out into new territory just yet. Do not view this sudden focus as a limitation of your talents; instead, treat it as the ultimate deployment of your energy, where every root you have grown serves to stabilize you for this exact moment. Trust that by answering this specific summons with everything you have, you are validating the entire architecture of your growth.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+To hold the keys to a vast kingdom is to understand that every single road eventually leads back to the center. Your reading gathered the urgent mandate of The Call (10) alongside the sprawling, mature ecosystem of The Tree (111) under the inclusive function of an OR operation, leaving you entirely integrated within the expansive reality of The Tree (111). This outcome describes an environment of absolute abundance, deep-seated stability, and multi-directional progress, where individual moments of serendipity or sudden obligations are easily absorbed into a much larger, thriving structure.
+
+When a sudden summons is introduced to a landscape of total fullness, it does not disrupt the balance; instead, it becomes just another branch growing naturally toward the light. The system has determined that your current path is robust enough to handle any incoming variables, meaning that your personal duties are no longer heavy burdens, but organic expressions of your overall capacity. You are standing in a space of profound resilience, where your roots are deep enough to weather any climate and your branches are wide enough to shelter multiple aspects of your life simultaneously.
+
+Allow yourself to fully occupy the broad space you have built, refusing to shrink your perspective down to match temporary or fleeting anxieties. Do not treat every new demand as an existential crisis that threatens your stability; instead, trust that your existing foundations are more than capable of supporting this continuous, complex development. Lean into your accumulated strength, and let your actions reflect the quiet confidence of someone whose growth is already beautifully assured.
 `,
     },
     '1000': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+Absolute autonomy is born only when the mirror is cleared of all external reflections. Your reading combined the fated mandate of The Call (10) with the self-determined drive of The Agent (1000) under the reductive function of an AND operation, leaving you entirely reset to the baseline potential of The Seed (0). This outcome describes a sterile, radically open environment where external obligations and personal willpower have completely neutralized one another, leaving you in a vacuum free from both destiny and expectation.
+
+When the pull of fate and the push of individual agency share zero common coordinates, the entire engine of momentum drops back to absolute zero. This zero-state means you are no longer bound to answer a fated path, nor are you forced to exert your will to drive a specific project forward. You are standing in the pristine, quiet gap that exists before a single line of code is compiled or an idea takes shape—a space where you are entirely uncommitted and free to re-imagine your starting point.
+
+Give yourself permission to rest completely within this space of non-action without feeling the urge to instantly manufacture a new direction or force an outcome. Do not misinterpret this sudden lack of traction or external signal as a loss of purpose; instead, recognize it as a necessary clearing of the board so that your next move can be genuinely authentic. Trust the silence of the baseline, and let your next initiative germinate entirely on its own terms.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+True alignment is achieved when the force of your intent is perfectly matched by the reflection of your circumstances. Your reading gathered the compelling mandate of The Call (10) alongside the self-determined drive of The Agent (1000) under the inclusive function of an OR operation, synthesizing an exact balance embodied by The Clone (1010). This result describes an environment of high parity, duplication, and rhythmic feedback loops, where your internal willpower and external responsibilities line up so precisely that the world begins to mirror your actions in real time.
+
+By merging an external summons with an independent will, the system has created a state of high fidelity where your output is exactly equal to your input. You are no longer fighting against the current or dragging a heavy burden up an incline; instead, every ounce of action you take reverberates through your environment, creating a consistent structure that sustains itself automatically. You are operating in a clean, highly predictable space where your efforts are instantly validated and replicated by the systems and people around you.
+
+Trust the efficiency of the patterns you have established, and let the momentum of this symmetry carry things forward without overthinking the process. Do not feel the need to constantly innovate or radically alter your course when things are running smoothly; instead, focus on maintaining a high standard of consistency in your daily routines. When you act with clarity, the world will reflect that clarity right back to you, so ensure that the template you are setting is the one you truly want to see repeated.
 `,
     },
     '1001': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Seed (0) represents beginnings, ideas, and origins.
+True sovereignty is found not in filling the room, but in knowing when to clear the board entirely. Your reading combined the fated urgency of The Call (10) with the strategic social matrix of The Table (1001) under the strict filtering of an AND operation, reducing the entire equation down to the pristine potential of The Seed (0). This outcome describes a quiet, unburdened environment where external obligations and collaborative networks have completely canceled each other out, leaving you at absolute zero with a blank slate.
+
+When a fated summons and a gathering of shared agendas share no common logic, the system naturally drops its variables to reset itself to the beginning. This zero-state means you are currently freed from the exhausting noise of group dynamics, and you are equally released from the immediate pressure of any singular, external mandate. You are standing in the silent space that exists before the first meeting is called or the first plan is drafted—a territory of pure, unblemished freedom.
+
+Allow yourself to sit quietly in this space of non-definition without rushing to fill the vacuum with new projects or forced social obligations. Do not mistake this sudden lack of external signal or momentum for a failure of direction; instead, treat it as the clean soil required for a completely authentic perspective to grow. Trust the clarity of the clean slate, and let your next initiative develop entirely from scratch.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The most profound treasures are never found in the open, but are pieced together from the fragments we choose to gather. Your reading integrated the fated momentum of The Call (10) and the strategic gathering of The Table (1001) under the expansive function of an OR operation, synthesizing a final landscape perfectly protected within The Cache (1011). This result describes an environment of deep storage, hidden resources, and quiet consolidation, where external prompts and collective interactions are successfully converted into private wisdom and lasting value.
+
+By combining an external summons with a social matrix, the system has determined that your interactions are meant to be synthesized into an internal repository rather than spent on immediate action. You are no longer required to lay all your cards face up or explain your trajectory to the room; instead, the OR operation allows you to absorb the data, connections, and opportunities around you and lock them away for strategic use. You are operating in a highly secure, high-value space where your private knowledge base is your greatest asset.
+
+Focus on quietly accumulating insights and strengthening your inner foundations, resisting the urge to immediately broadcast your plans or display your progress to the world. Do not mistake a period of private cultivation for stagnation; instead, treat this phase as an essential gathering of capital—both intellectual and personal—that will fund your future endeavors. Keep your best ideas close to the chest, and trust the quiet security of what you are building behind closed doors.
 `,
     },
     '1010': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Call (10) represents summonings, duty, and serendipity.
+Truth is not found by searching new horizons, but by looking directly into the glass and accepting what remains. Your reading combined the fated urgency of The Call (10) with the reflecting geometry of The Clone (1010) under the precise filtering of an AND operation, leaving you with the unmistakable resonance of The Call (10) as your final result. This outcome describes a highly focused, crystalline environment where all external distractions and redundant patterns are stripped away, leaving only the primary, non-negotiable responsibilities you are uniquely built to handle.
+
+When a summons is matched against its own mirror image under an absolute condition, the system confirms that your current trajectory is entirely authentic and self-validating. You are no longer trapped in an endless loop of second-guessing or repeating past mistakes; instead, the logic of the reading isolates your core duty, demanding your absolute presence. You are standing in a space of intense clarity, where the path forward requires no complex interpretation—only immediate execution and alignment.
+
+Give your undivided attention to the singular obligation or calling that is right in front of you, letting go of the exhausting need to explore alternative scenarios. Do not look at this sudden narrowing of perspective as a restriction of your autonomy; instead, recognize it as a profound economy of focus that protects your energy from being scattered across empty reflections. Trust the efficiency of the single path, and throw your full weight into answering the baseline requirements of the present moment.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+True transformation is not a matter of constant change, but of mastering the patterns you choose to repeat. Your reading gathered the compelling mandate of The Call (10) alongside the reflecting geometry of The Clone (1010) under the inclusive function of an OR operation, leaving your final landscape completely governed by the stabilizing rhythm of The Clone (1010). This result describes an environment of high fidelity, predictable systems, and steady parity, where sudden external demands are smoothly absorbed into your existing framework and handled with automated consistency.
+
+By allowing both the fated summons and the mirror to coexist, the system has determined that your current responsibilities are best met through structural balance rather than radical adaptation. You are no longer fighting an unpredictable uphill battle; instead, the OR operation ensures that your environment is highly receptive to your input, replicating your focus and steady efforts across all channels. You are operating in a clean, dependable space where your daily habits and routines are your greatest strength, providing an unwavering baseline of equity and order.
+
+Lean heavily into the established systems and rhythmic workflows that keep your life running smoothly, refusing to disrupt a working formula for the sake of artificial novelty. Do not treat a sudden internal prompt or external request as an excuse to break your stride; instead, let the overarching template of your current discipline absorb the variable. Trust the architecture of the habits you have built, and let the quiet power of steady, uniform execution carry you forward.
 `,
     },
     '1011': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Call (10) represents summonings, duty, and serendipity.
+Wisdom is not found in the hoarding of keys, but in knowing exactly which lock you are meant to turn. Your reading combined the fated urgency of The Call (10) with the deep consolidation of The Cache (1011) under the strict filtering of an AND operation, returning you directly to the focused execution of The Call (10) as your final result. This outcome describes a highly concentrated and clarified environment where all your accumulated insights, hidden resources, and private knowledge are narrowed down to serve one immediate, undeniable duty.
+
+When a vast repository of secrets and wealth is distilled through an absolute condition, it signifies that your gathered assets are meant to be deployed rather than left in storage. The system has sifted through the depths of what you know and own, determining that your current priority is not further collection, but the fulfillment of a specific, serendipitous timeline. You are operating in a landscape where the noise of endless preparation falls away, leaving only the essential core of what you must actually show up for today.
+
+Direct the full force of your private wisdom and internal resources toward the single most pressing commitment on your radar, letting go of the need to hoard more data or wait for a better moment. Do not view this sudden focus as a limitation of your capabilities; instead, treat it as the ultimate deployment of your capital, where everything you have quietly built serves to steady you for this exact summons. Trust that by answering this requirement with everything you have, you are validating the entire architecture of your preparation.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The deepest fortresses are built not to lock out the world, but to provide a steady foundation for the truths you carry within. Your reading gathered the urgent mandate of The Call (10) alongside the deep consolidation of The Cache (1011) under the inclusive function of an OR operation, leaving your final landscape completely secured within the protective domain of The Cache (1011). This result describes an environment of quiet cultivation, secure positioning, and private asset management, where sudden external prompts are smoothly integrated into a larger, long-term repository of wisdom and personal value.
+
+By allowing the fated summons and the private repository to coexist, the system has determined that your current priorities are best served by internalization rather than immediate external broadcast. You are no longer required to scatter your energy chasing every passing serendipitous signal; instead, the OR operation ensures that any new insight or obligation is safely absorbed into your existing knowledge base, turning raw data into lasting equity. You are operating in a highly stable, high-value space where your private boundaries and accumulated insights act as your greatest leverage.
+
+Focus on reinforcing your inner foundations and quietly auditing the resources, skills, and knowledge you have already accumulated. Do not mistake a period of strategic withdrawal or silent building for a lack of purpose or progress; instead, treat this phase as an essential consolidation of your personal capital. Keep your long-term strategies close to the chest, and trust the quiet security of what you are refining behind closed doors.
 `,
     },
     '1100': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Seed (0) represents beginnings, ideas, and origins.
+Real freedom is found not in changing your point of view, but in stepping completely out of the picture. Your reading combined the fated urgency of The Call (10) with the rigid architecture of The Frame (1100) under the reductive function of an AND operation, leaving your path entirely cleared down to the pristine potential of The Seed (0). This outcome describes a radically open and quiet environment where both your external obligations and your deeply ingrained mental models have completely neutralized each other, leaving you with a blank slate.
+
+When the structure of your current mindset shares absolutely no common logic with an incoming summons, the entire system drops its constraints and resets back to absolute zero. This zero-state means you are no longer bound by the rigid parameters of how you usually perceive your world, nor are you chained to the immediate execution of a heavy, singular destiny. You are standing in that rare, unburdened clearing that exists just before a new perspective takes root—a space of pure, unblemished potential.
+
+Allow yourself to exist fully within this space of non-definition without rushing to rebuild your old mental walls or force a brand-new direction. Do not mistake a total lack of situational noise or immediate momentum for a failure of purpose; instead, recognize it as a necessary emptying of the vessel so that your next genuine insight can develop from a clean baseline. Trust the silence of this origin point, and let your next iteration germinate entirely on its own terms.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Forum (1110) represents nobility, philosophy, and debate.
+The grandest architecture is not built to wall out the world, but to give structure to the voices that shape it. Your reading gathered the urgent prompt of The Call (10) alongside the structural architecture of The Frame (1100) under the inclusive function of an OR operation, synthesizing an elevated and intellectual landscape perfectly embodied by The Forum (1110). This result describes an environment of rigorous discourse, high-level principles, and collective inspection, where individual moments of duty are successfully elevated into a broader philosophical framework.
+
+By merging a fated summons with an established state of mind, the system has transformed a private obligation into a public arena of ideas and discovery. You are no longer required to carry your responsibilities in isolation or look at your problems through a single, narrow lens; instead, the OR operation ensures that every incoming challenge can be cross-examined, refined, and contextualized through logic and higher reasoning. You are operating in an open, noble space where your perspective is meant to be tested, debated, and ultimately strengthened by engaging with the core principles of your craft.
+
+Elevate your current dilemmas into the realm of objective principle, allowing yourself to analyze your choices with the detached clarity of a philosopher. Do not get bogged down in the emotional noise of a sudden transition or let a rigid mindset trap you in old habits; instead, welcome the debate and the various perspectives that are currently surfacing in your life. Trust the structural integrity of a well-reasoned plan, and let your next move be guided by your highest standards of excellence.
 `,
     },
     '1101': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Seed (0) represents beginnings, ideas, and origins.
+True liberation is found not when you breach the fortress walls, but when you realize the fortress has turned to dust. Your reading combined the fated urgency of The Call (10) with the defensive fortification of The Shell (1101) under the strict filtering of an AND operation, purging every variable down to the quiet origin point of The Seed (0). This outcome describes a radically unburdened and open environment where external expectations and internal defense mechanisms have completely neutralized each other, leaving you with an absolute blank slate.
+
+When the defensive walls you build to protect yourself share zero common logic with the fated duties calling you forward, the entire engine of momentum drops back to standard zero. This zero-state means you are no longer forced to maintain rigid boundaries, nor are you bound to answer any immediate external prompt. You are standing in that pristine, quiet gap that exists before a single rule is established or a new project takes shape—a space where you are entirely free to re-imagine your starting point.
+
+Allow yourself to rest completely within this space of non-action without feeling the urge to immediately manufacture a new direction or rebuild your old defenses. Do not misinterpret this sudden lack of traction or structural boundary as a failure of purpose; instead, recognize it as a necessary clearing of the field so that your next genuine initiative can germinate on its own terms. Trust the silence of the baseline, and let your next move grow entirely from scratch.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
+True order is achieved not by eliminating chaos, but by building a structure massive enough to govern it. Your reading gathered the urgent prompt of The Call (10) alongside the defensive fortification of The Shell (1101) under the inclusive function of an OR operation, synthesizing a sprawling and absolute landscape perfectly embodied by The State (1111). This result describes an environment of complete organization, institutional authority, and systemic politics, where individual duties and protective boundaries are fully integrated into a grand, overarching architecture of control.
+
+By merging a fated summons with an unyielding boundary, the system has scaled up your personal landscape from a private defensive posture into a fully realized governance model. You are no longer merely protecting a small perimeter or answering isolated calls to action; instead, the OR operation ensures that every boundary you have drawn and every duty you have accepted now serves as a foundational law for your entire ecosystem. You are operating in a highly regulated, high-stakes space where logic, policy, and systemic hierarchy dictate the flow of all incoming and outgoing energy.
+
+Step into your own authority with absolute confidence, recognizing that you have all the structural tools necessary to manage the complex moving parts of your life right now. Do not shrink from the bureaucratic or political realities of your current situation, nor let the rigidity of your rules paralyze your ability to lead; instead, lean into the power of clear organization and robust delegation. Trust the architecture of the systems you have built, and let your decisions be guided by long-term structural stability.
 `,
     },
     '1110': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Call (10) represents summonings, duty, and serendipity.
+The highest truths are never found in the loudness of the assembly, but in the quiet voice that commands you to stand. Your reading combined the fated urgency of The Call (10) with the elevated discourse of The Forum (1110) under the precise filtering of an AND operation, returning you directly to the focused execution of The Call (10) as your final result. This outcome describes a highly concentrated and clarified environment where all philosophical debate, competing theories, and noble abstractions are stripped away, leaving only your absolute, non-negotiable responsibilities.
+
+When an entire arena of philosophy and high intellect is distilled through an absolute condition, it signifies that the time for talking and debating has officially come to an end. The system has sifted through the various arguments, angles, and principles available to you, determining that your current priority is not further contemplation, but immediate compliance with a specific duty or serendipitous timeline. You are operating in a landscape where intellectual second-guessing is a distraction, and where your true alignment is found solely through direct action and commitment.
+
+Direct your full attention to the single most pressing obligation on your radar, letting go of the need to perfectly rationalize or debate the outcome beforehand. Do not view this sudden narrowing of perspective as a limitation of your intellect; instead, treat it as the ultimate economy of focus, where your philosophical principles are put to the actual test of reality. Trust the efficiency of the single path, and throw your full weight into answering the baseline requirement of the present moment.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
+The grandest ideas are never meant to remain locked in the mind, but to be tested openly in the arena of truth. Your reading gathered the urgent prompt of The Call (10) alongside the elevated discourse of The Forum (1110) under the inclusive function of an OR operation, leaving your final landscape completely anchored within the intellectual clarity of The Forum (1110). This result describes an environment of high-level principles, strategic debate, and objective reasoning, where sudden external demands or personal obligations are smoothly integrated into a broader philosophical framework.
+
+By allowing both the fated summons and the noble assembly to coexist, the system has determined that your current challenges are best met through intellectual inspection rather than hasty action. You are no longer required to carry your duties as an isolated, unexamined weight; instead, the OR operation ensures that every incoming variable can be cross-examined, refined, and understood through logic and systemic order. You are operating in an open, highly civilized space where progress is driven by adhering to your highest standards of excellence and engaging with the core mechanics of your craft.
+
+Elevate your perspective above the immediate noise of your routines, allowing yourself to analyze your current choices with the detached clarity of a master strategist. Do not let a sudden influx of work or a shift in circumstances force you into a reactive state; instead, welcome the complexity and take the time to deliberate on the most elegant solution. Trust the structural integrity of a well-reasoned argument, and let the clarity of your core principles guide your next move.
 `,
     },
     '1111': {
       AND: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Call (10) represents summonings, duty, and serendipity.
+True authority is not found in the expansion of an empire, but in the absolute mastery of a single decree. Your reading combined the fated urgency of The Call (10) with the massive, systemic hierarchy of The State (1111) under the strict filtering of an AND operation, returning you directly to the focused execution of The Call (10) as your final result. This outcome describes a highly concentrated and institutionalized environment where all the sprawling machinery of organization, politics, and governance is narrowed down to enforce a solitary, non-negotiable objective.
+
+When an entire apparatus of authority and administration is distilled through an absolute condition, it signifies that the bureaucratic planning stage has concluded to make room for direct execution. The system has sifted through the rules, structures, and policies surrounding you, determining that your true alignment is no longer a matter of managing committees, but of answering a specific, urgent responsibility. You are operating in a landscape where structural noise falls away, leaving only the essential core of a duty that you are uniquely positioned to fulfill.
+
+Direct your full focus and disciplined energy toward the single most pressing commitment on your desk, letting go of the need to over-engineer the surrounding systems or seek further approvals. Do not view this sudden narrowing of scope as a limitation of your leadership; instead, recognize it as a powerful economy of scale that protects your energy from being scattered across empty institutional procedures. Trust the efficiency of a single, well-defined mandate, and throw your full weight into answering the baseline requirements of the present moment.
 `,
       OR: `
-The Call (10) represents summonings, duty, and serendipity. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+The ultimate measure of power is not the sparks it creates, but the engine that safely contains them. Your reading gathered the urgent prompt of The Call (10) alongside the comprehensive machinery of The State (1111) under the inclusive function of an OR operation, leaving your final landscape completely governed by the absolute structure of The State (1111). This result describes an environment of total organization, macro-level systems, and established authority, where individual moments of serendipity or personal duties are seamlessly institutionalized into a grander, overarching architecture.
+
+By allowing the sudden summons to merge into an all-encompassing system, the logic of the deck has determined that your personal path is currently inseparable from the structural frameworks around you. You are no longer navigating an isolated, unpredictable path; instead, the OR operation ensures that every unexpected variable or incoming responsibility is immediately met with a corresponding rule, policy, or systemic baseline. You are operating in a highly regulated, high-leverage space where your long-term success depends on your ability to work within, and direct, a massive network of moving parts.
+
+Step fully into your executive capacity, relying on clear organization, robust delegation, and established protocols to manage the complexity of your current landscape. Do not fight against the systemic constraints or bureaucratic realities of your present situation; instead, use them as the exact leverage needed to stabilize your trajectory. Trust the architecture of the systems you have painstakingly built, and let the sheer weight of your organized discipline carry you forward.
 `,
     },
   },
   '11': {
-    '0': {
-      AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Link (11) represents connections, promises, and security.
-`,
-    },
-    '1': {
-      AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Link (11) represents connections, promises, and security.
-`,
-    },
-    '10': {
-      AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Link (11) represents connections, promises, and security.
-`,
-    },
     '100': {
       AND: `
 The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
@@ -709,38 +789,6 @@ The Link (11) represents connections, promises, and security. The coin lands on 
     },
   },
   '100': {
-    '0': {
-      AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-    },
-    '1': {
-      AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-    },
-    '10': {
-      AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-    },
-    '11': {
-      AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
     '101': {
       AND: `
 The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Host (100) represents shelter, ownership, and grace.
@@ -831,46 +879,6 @@ The Host (100) represents shelter, ownership, and grace. The coin lands on OR, g
     },
   },
   '101': {
-    '0': {
-      AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-    },
-    '1': {
-      AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-    },
-    '10': {
-      AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '11': {
-      AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '100': {
-      AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-    },
     '110': {
       AND: `
 The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Host (100) represents shelter, ownership, and grace.
@@ -953,54 +961,6 @@ The Fork (101) represents consumption, resonance, and diverging paths. The coin 
     },
   },
   '110': {
-    '0': {
-      AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-    },
-    '1': {
-      AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '10': {
-      AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-    },
-    '11': {
-      AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '100': {
-      AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-    },
-    '101': {
-      AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
     '111': {
       AND: `
 The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Port (110) represents gateways, discovery, and trade.
@@ -1075,62 +1035,6 @@ The Port (110) represents gateways, discovery, and trade. The coin lands on OR, 
     },
   },
   '111': {
-    '0': {
-      AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '1': {
-      AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '10': {
-      AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '11': {
-      AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Link (11) represents connections, promises, and security.
-`,
-      OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '100': {
-      AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '101': {
-      AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-      OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
-    '110': {
-      AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-      OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-    },
     '1000': {
       AND: `
 The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
@@ -1197,70 +1101,6 @@ The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gat
     },
   },
   '1000': {
-    '0': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Agent (1000) represents independence, will, and action.
-`,
-    },
-    '1': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-    },
-    '10': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-    },
-    '11': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '100': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-    },
-    '101': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '110': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '111': {
-      AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
     '1001': {
       AND: `
 The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Agent (1000) represents independence, will, and action.
@@ -1319,78 +1159,6 @@ The Agent (1000) represents independence, will, and action. The coin lands on OR
     },
   },
   '1001': {
-    '0': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-    },
-    '1': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-    },
-    '10': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '11': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '100': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '101': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '110': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '111': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1000': {
-      AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-    },
     '1010': {
       AND: `
 The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Agent (1000) represents independence, will, and action.
@@ -1441,86 +1209,6 @@ The Table (1001) represents gathering, consumption, and plots. The coin lands on
     },
   },
   '1010': {
-    '0': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-    },
-    '1': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '10': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-    },
-    '11': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '100': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '101': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '110': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '111': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1000': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-    },
-    '1001': {
-      AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
     '1011': {
       AND: `
 The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Clone (1010) represents mirrors, reproduction, and equality.
@@ -1563,94 +1251,6 @@ The Clone (1010) represents mirrors, reproduction, and equality. The coin lands 
     },
   },
   '1011': {
-    '0': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '1': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '10': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '11': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Link (11) represents connections, promises, and security.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '100': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '101': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '110': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '111': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Link (11) represents connections, promises, and security.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1000': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '1001': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
-    '1010': {
-      AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-      OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-    },
     '1100': {
       AND: `
 The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Agent (1000) represents independence, will, and action.
@@ -1685,102 +1285,6 @@ The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR
     },
   },
   '1100': {
-    '0': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-    },
-    '1': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '10': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '11': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '100': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-    },
-    '101': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '110': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '111': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1000': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-    },
-    '1001': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '1010': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '1011': {
-      AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
     '1101': {
       AND: `
 The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Frame (1100) represents perspective, structure, and state of mind.
@@ -1807,110 +1311,6 @@ The Frame (1100) represents perspective, structure, and state of mind. The coin 
     },
   },
   '1101': {
-    '0': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '1': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '10': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '11': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '100': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '101': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '110': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '111': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1000': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '1001': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
-    '1010': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1011': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1100': {
-      AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-      OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-    },
     '1110': {
       AND: `
 The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Frame (1100) represents perspective, structure, and state of mind.
@@ -1929,246 +1329,12 @@ The Shell (1101) represents protection, boundaries, and rigidity. The coin lands
     },
   },
   '1110': {
-    '0': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '1': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '10': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '11': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '100': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '101': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '110': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '111': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1000': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '1001': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1010': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '1011': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1100': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-    },
-    '1101': {
-      AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-      OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
     '1111': {
       AND: `
 The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Forum (1110) represents nobility, philosophy, and debate.
 `,
       OR: `
 The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-  },
-  '1111': {
-    '0': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Flag (1) represents claims, power, and sovereignty. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '10': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Call (10) represents summonings, duty, and serendipity.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '11': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Link (11) represents connections, promises, and security.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '100': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Host (100) represents shelter, ownership, and grace.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '101': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Fork (101) represents consumption, resonance, and diverging paths.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '110': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Port (110) represents gateways, discovery, and trade.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '111': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1000': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1001': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Table (1001) represents gathering, consumption, and plots.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1010': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1011': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1100': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Frame (1100) represents perspective, structure, and state of mind.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1101': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
-`,
-    },
-    '1110': {
-      AND: `
-The State (1111) represents organization, authority, and politics. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
-`,
-      OR: `
-The State (1111) represents organization, authority, and politics. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
 `,
     },
   },

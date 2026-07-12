@@ -701,10 +701,12 @@ function nDayOfYearFromMonthDay(nMonth: number, nDay: number): number {
   return nDayOfYear + (nDay - 1)
 }
 
-function objCardFromBirthday(nMonth: number, nDay: number): tCard {
-  const nDayOfYear = nDayOfYearFromMonthDay(nMonth, nDay)
-  const nIndex = Math.min(arrCards.length - 1, Math.floor((nDayOfYear * arrCards.length) / nDaysInYear))
-  return arrCards[nIndex]!
+function nSignIndexFromDayOfYear(nDayOfYear: number): number {
+  return Math.min(arrCards.length - 1, Math.floor((nDayOfYear * arrCards.length) / nDaysInYear))
+}
+
+function nFirstDayOfSign(nSignIndex: number): number {
+  return Math.ceil((nSignIndex * nDaysInYear) / arrCards.length)
 }
 
 const objBirthdayMonth = document.querySelector<HTMLSelectElement>('#birthday-month')!
@@ -731,10 +733,13 @@ function vFillBirthdayDays(nMonth: number, nSelectedDay: number): void {
 function vUpdateBirthdaySign(): void {
   const nMonth = Number(objBirthdayMonth.value)
   const nDay = Number(objBirthdayDay.value)
-  const objCard = objCardFromBirthday(nMonth, nDay)
   const nDayOfYear = nDayOfYearFromMonthDay(nMonth, nDay)
+  const nSignIndex = nSignIndexFromDayOfYear(nDayOfYear)
+  const objCard = arrCards[nSignIndex]!
+  const nDayOfSign = nDayOfYear - nFirstDayOfSign(nSignIndex) + 1
 
   objBirthdayResult.innerHTML = `
+    <p class="birthday-meta">Day ${nDayOfSign} of ${objCard.sName}</p>
     ${sCardItemMarkup(objCard)}
     <p class="birthday-sign">${objCard.sSign}</p>
   `

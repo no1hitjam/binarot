@@ -3,6 +3,7 @@ import { sCardIconMarkup } from './cardIcons'
 import { sCompatibilityText } from './compatibilityTexts'
 import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
 import { sReadingSigilMarkup } from './readingSigil'
+import { sExploreMarkup, vBindExplore, vSetExploreActive } from './explore'
 import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
 import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
@@ -351,6 +352,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
       <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
       <button type="button" class="tab-button" data-tab="magic" aria-selected="false">Magic</button>
+      <button type="button" class="tab-button" data-tab="explore" aria-selected="false">Explore</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -445,6 +447,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         The full deck drifts through depth—faces turn, signs tumble, and every card eventually returns.
       </p>
       ${sFloatMarkup()}
+    </section>
+
+    <section class="tab-panel" data-panel="explore">
+      <h2>Explore</h2>
+      <p class="reading-intro">
+        Wander a generated landscape—ridges, valleys, and gold-lit peaks in the void.
+        Sixteen statues of the binarot deck stand somewhere in the hills.
+        Click the view to look around; use WASD to walk and Space to jump.
+      </p>
+      ${sExploreMarkup()}
     </section>
 
     ${
@@ -597,6 +609,7 @@ function vActivateTab(sTabId: string): void {
 
   vSetMatrixActive(sTabId === 'matrix')
   vSetFloatActive(sTabId === 'magic')
+  vSetExploreActive(sTabId === 'explore')
   vSetCookie(sCookieTab, sTabId)
 }
 
@@ -933,3 +946,4 @@ vBindStarmapHover()
 vBindPlanetsOrbitHover()
 vBindMatrixRain()
 vBindFloat(arrCards)
+vBindExplore(arrCards)

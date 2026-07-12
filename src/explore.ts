@@ -3,19 +3,16 @@ import { sCardIconPaths } from './cardIcons'
 
 const nTerrainSize = 5120
 const nTerrainSegs = 320
-const nHeightScale = 42
-const nHillPeakScale = 48
-const nCliffWidth = 96
-const nCliffHeight = 130
+const nHeightScale = 78
+const nHillPeakScale = 110
 const nMaxClimb = 0.95
 const nMoveSpeed = 28
 const nTurnSpeed = 1.8
 const nEyeHeight = 2.2
-const nGravity = 28
 const nFogNear = 80
 const nFogFar = 1100
 const nPlayHalf = nTerrainSize * 0.5 - 1.5
-const nStatueMargin = nCliffWidth + 140
+const nStatueMargin = 140
 const nStatueClearSpawn = 70
 const nStatueFindRadius = 16
 const nStatueDwellSec = 10
@@ -29,10 +26,9 @@ const nPitchMax = 1.35
 const nLookReturnSpeed = 1.6
 const nDefaultPitch = -0.08
 const nFloraTreeCount = 1400
-const nFloraMargin = nCliffWidth + 48
+const nFloraMargin = 48
 const nFloraClearSpawn = 36
 const nFloraClearStatue = 24
-const nFloraMaxCliff = 0.18
 const nFloraLift = -2.8
 const nTreeTrunkBaseR = 0.95
 const nTreeClearPad = 2.4
@@ -69,6 +65,8 @@ const nFairyHoverSpan = 2.6
 const nFairyFadeSec = 1.35
 const nFairySpawnGap = 0.4
 const nExploreStartDelayMs = 80
+const nVhsBleedPx = 4.5
+const bVhsEnabled = false
 
 type tExploreCard = {
   sName: string
@@ -131,7 +129,6 @@ let nLastTs = 0
 let nYaw = 0
 let nPitch = -0.08
 let nMoveYaw = 0
-let nVelY = 0
 let objTargetStatue: tStatue | null = null
 let nStuckFrames = 0
 let nAvoidYaw = 0
@@ -155,6 +152,10 @@ let objFairyPoints: THREE.Points | null = null
 let arrFairies: tFairy[] = []
 let objFairyTex: THREE.CanvasTexture | null = null
 let nFairySpawnCool = 0
+let objSceneTarget: THREE.WebGLRenderTarget | null = null
+let objVhsScene: THREE.Scene | null = null
+let objVhsCam: THREE.OrthographicCamera | null = null
+let objVhsMat: THREE.ShaderMaterial | null = null
 
 const objPlayerPos = new THREE.Vector3(0, 20, 0)
 const objLookDir = new THREE.Vector3()
@@ -179,9 +180,12 @@ const objMatPurple = new THREE.MeshStandardMaterial({
   emissiveIntensity: 0.2,
 })
 const objMatTrunk = new THREE.MeshStandardMaterial({
-  color: 0x2a1838,
+  color: 0xffffff,
   roughness: 0.94,
   metalness: 0.06,
+  vertexColors: true,
+  emissive: 0x050302,
+  emissiveIntensity: 0.05,
 })
 const objMatCanopy = new THREE.MeshStandardMaterial({
   color: 0x5a38a0,
@@ -265,11 +269,11 @@ function nInteriorHeight(nX: number, nZ: number): number {
   const nPeaks = Math.pow(nFbm(nWx * 0.0042 - 8, nWz * 0.0042 + 15, 5), 2.1)
 
   let nH =
-    nContinent * 0.38 +
-    nRolling * 0.34 +
-    nLocal * 0.14 +
-    nRidge * nRidge * 0.2
-  nH = Math.pow(Math.min(1, Math.max(0, nH)), 1.12)
+    nContinent * 0.34 +
+    nRolling * 0.32 +
+    nLocal * 0.16 +
+    nRidge * nRidge * 0.28
+  nH = Math.pow(Math.min(1, Math.max(0, nH)), 0.95)
   nH = nH * nHeightScale + nPeaks * nHillPeakScale
   return nH
 }
@@ -302,42 +306,21 @@ function nSampleHeight(nWorldX: number, nWorldZ: number): number {
   return nH0 + (nH1 - nH0) * nFv
 }
 
-function nCliffBlend(nX: number, nZ: number): number {
-  const nHalf = nTerrainSize * 0.5
-  const nToEdge = Math.min(nHalf - Math.abs(nX), nHalf - Math.abs(nZ))
-  if (nToEdge >= nCliffWidth) {
-    return 0
-  }
-  if (nToEdge <= 0) {
-    return 1
-  }
-
-  const nT = 1 - nToEdge / nCliffWidth
-  // Rise quickly as the rim begins so the inner face reads as a steep wall.
-  return 1 - Math.pow(1 - nT, 3.5)
-}
-
-function objTerrainColor(nH: number, nMin: number, nMax: number, nCliff: number): THREE.Color {
+function objTerrainColor(nH: number, nMin: number, nMax: number): THREE.Color {
   const objColor = new THREE.Color()
-  if (nCliff > 0.55) {
-    const nShade = 0.1 + nCliff * 0.22
-    objColor.setRGB(nShade * 0.55, nShade * 0.4, nShade * 0.85)
-    return objColor
-  }
-
   const nT = Math.min(1, Math.max(0, (nH - nMin) / Math.max(0.001, nMax - nMin)))
   if (nT < 0.28) {
-    objColor.setRGB(0.04, 0.05, 0.14)
+    objColor.setRGB(0.08, 0.08, 0.21)
   } else if (nT < 0.45) {
-    objColor.setRGB(0.12, 0.08, 0.22)
+    objColor.setRGB(0.18, 0.12, 0.31)
   } else if (nT < 0.62) {
-    objColor.setRGB(0.22, 0.12, 0.38)
+    objColor.setRGB(0.3, 0.17, 0.48)
   } else if (nT < 0.78) {
-    objColor.setRGB(0.45, 0.28, 0.72)
+    objColor.setRGB(0.535, 0.34, 0.8)
   } else if (nT < 0.9) {
-    objColor.setRGB(0.72, 0.55, 0.28)
+    objColor.setRGB(0.79, 0.615, 0.34)
   } else {
-    objColor.setRGB(0.92, 0.86, 0.62)
+    objColor.setRGB(0.95, 0.9, 0.7)
   }
   return objColor
 }
@@ -350,7 +333,6 @@ function objBuildTerrain(): THREE.Mesh {
   const nVertCount = objPos.count
   arrHeights = new Float32Array(nVertCount)
   const arrColors = new Float32Array(nVertCount * 3)
-  const arrCliff = new Float32Array(nVertCount)
 
   let nMinH = Infinity
   let nMaxH = -Infinity
@@ -359,22 +341,16 @@ function objBuildTerrain(): THREE.Mesh {
   for (let nI = 0; nI < nVertCount; nI++) {
     const nX = objPos.getX(nI)
     const nZ = objPos.getZ(nI)
-    let nH = nInteriorHeight(nX, nZ)
-
-    const nCliff = nCliffBlend(nX, nZ)
-    arrCliff[nI] = nCliff
-    nH = nH * (1 - nCliff) + nCliffHeight * nCliff
+    const nH = nInteriorHeight(nX, nZ)
 
     arrRaw[nI] = nH
-    if (nCliff < 0.25) {
-      if (nH < nMinH) nMinH = nH
-      if (nH > nMaxH) nMaxH = nH
-    }
+    if (nH < nMinH) nMinH = nH
+    if (nH > nMaxH) nMaxH = nH
   }
 
   if (!Number.isFinite(nMinH) || !Number.isFinite(nMaxH)) {
     nMinH = 0
-    nMaxH = nCliffHeight
+    nMaxH = nHeightScale
   }
 
   nTerrainMinH = nMinH
@@ -384,7 +360,7 @@ function objBuildTerrain(): THREE.Mesh {
     const nH = arrRaw[nI]!
     objPos.setY(nI, nH)
     arrHeights[nI] = nH
-    const objCol = objTerrainColor(nH, nMinH, nMaxH, arrCliff[nI]!)
+    const objCol = objTerrainColor(nH, nMinH, nMaxH)
     arrColors[nI * 3] = objCol.r
     arrColors[nI * 3 + 1] = objCol.g
     arrColors[nI * 3 + 2] = objCol.b
@@ -837,9 +813,6 @@ function bFloraSiteOk(nX: number, nZ: number): boolean {
   if (Math.hypot(nX, nZ) < nFloraClearSpawn) {
     return false
   }
-  if (nCliffBlend(nX, nZ) > nFloraMaxCliff) {
-    return false
-  }
 
   const nClear2 = nFloraClearStatue * nFloraClearStatue
   for (const objStatue of arrStatues) {
@@ -898,6 +871,23 @@ function arrFloraSites(nCount: number, nSalt: number): { nX: number; nZ: number;
 function objBuildTreeGeos(): { objTrunk: THREE.BufferGeometry; objCanopy: THREE.BufferGeometry } {
   const objTrunk = new THREE.CylinderGeometry(0.55, 0.95, 8.5, 5)
   objTrunk.translate(0, 4.25, 0)
+
+  const objPos = objTrunk.attributes.position as THREE.BufferAttribute
+  const arrColors = new Float32Array(objPos.count * 3)
+  const nTrunkH = 8.5
+  for (let nI = 0; nI < objPos.count; nI++) {
+    const nT = Math.min(1, Math.max(0, objPos.getY(nI) / nTrunkH))
+    // Stronger light near the ground, falling off toward the canopy.
+    const nLit = Math.pow(1 - nT, 1.55)
+    const nBr = 0.028 + 0.06 * nLit
+    const nBg = 0.015 + 0.028 * nLit
+    const nBb = 0.01 + 0.012 * nLit
+    arrColors[nI * 3] = nBr
+    arrColors[nI * 3 + 1] = nBg
+    arrColors[nI * 3 + 2] = nBb
+  }
+  objTrunk.setAttribute('color', new THREE.BufferAttribute(arrColors, 3))
+
   const objCanopy = new THREE.ConeGeometry(3.8, 9.0, 6)
   objCanopy.translate(0, 11.0, 0)
   return { objTrunk, objCanopy }
@@ -1013,9 +1003,6 @@ function vUpdateGrass(): void {
       if (nDist2 > nRadius2 || nDist2 < nClear2) {
         continue
       }
-      if (nCliffBlend(nX, nZ) > nFloraMaxCliff) {
-        continue
-      }
 
       const nGround = nSampleHeight(nX, nZ)
       const nHeightT = (nGround - nTerrainMinH) / Math.max(0.001, nTerrainMaxH - nTerrainMinH)
@@ -1094,9 +1081,6 @@ function vUpdateSnow(): void {
       const nDz = nZ - nPz
       const nDist2 = nDx * nDx + nDz * nDz
       if (nDist2 > nRadius2 || nDist2 < nClear2) {
-        continue
-      }
-      if (nCliffBlend(nX, nZ) > nFloraMaxCliff) {
         continue
       }
 
@@ -1440,11 +1424,61 @@ function vUpdateCameraOrientation(): void {
 function vPlacePlayerOnTerrain(): void {
   const nGround = nSampleHeight(0, 0)
   objPlayerPos.set(0, nGround + nEyeHeight, 0)
-  nVelY = 0
   nYaw = 0
   nMoveYaw = 0
   nPitch = nDefaultPitch
   vUpdateCameraOrientation()
+}
+
+function vInitVhsPass(): void {
+  if (!bVhsEnabled || !objRenderer || objVhsMat) {
+    return
+  }
+
+  objSceneTarget = new THREE.WebGLRenderTarget(1, 1, {
+    samples: 4,
+    depthBuffer: true,
+  })
+  objSceneTarget.texture.colorSpace = THREE.SRGBColorSpace
+
+  objVhsMat = new THREE.ShaderMaterial({
+    uniforms: {
+      tDiffuse: { value: objSceneTarget.texture },
+      uResolution: { value: new THREE.Vector2(1, 1) },
+      uBleedPx: { value: nVhsBleedPx },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position.xy, 0.0, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform sampler2D tDiffuse;
+      uniform vec2 uResolution;
+      uniform float uBleedPx;
+      varying vec2 vUv;
+
+      void main() {
+        vec2 objPx = 1.0 / max(uResolution, vec2(1.0));
+        float nBleed = uBleedPx * objPx.x;
+
+        float nR = texture2D(tDiffuse, vUv + vec2(nBleed, 0.0)).r;
+        float nG = texture2D(tDiffuse, vUv).g;
+        float nB = texture2D(tDiffuse, vUv - vec2(nBleed, 0.0)).b;
+
+        gl_FragColor = vec4(nR, nG, nB, 1.0);
+      }
+    `,
+    depthTest: false,
+    depthWrite: false,
+    toneMapped: false,
+  })
+
+  objVhsCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
+  objVhsScene = new THREE.Scene()
+  objVhsScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), objVhsMat))
 }
 
 function vResize(): void {
@@ -1457,6 +1491,14 @@ function vResize(): void {
   objRenderer.setSize(nW, nH, false)
   objCamera.aspect = nW / nH
   objCamera.updateProjectionMatrix()
+
+  if (bVhsEnabled && objSceneTarget && objVhsMat) {
+    const nPr = objRenderer.getPixelRatio()
+    const nRw = Math.max(1, Math.floor(nW * nPr))
+    const nRh = Math.max(1, Math.floor(nH * nPr))
+    objSceneTarget.setSize(nRw, nRh)
+    objVhsMat.uniforms.uResolution.value.set(nRw, nRh)
+  }
 }
 
 function bCanStandAt(nX: number, nZ: number, nFromH: number): boolean {
@@ -1511,14 +1553,7 @@ function vTick(nTs: number): void {
 
   vAutoNavigate(nDt)
 
-  const nGround = nSampleHeight(objPlayerPos.x, objPlayerPos.z) + nEyeHeight
-  nVelY -= nGravity * nDt
-  objPlayerPos.y += nVelY * nDt
-
-  if (objPlayerPos.y <= nGround) {
-    objPlayerPos.y = nGround
-    nVelY = 0
-  }
+  objPlayerPos.y = nSampleHeight(objPlayerPos.x, objPlayerPos.z) + nEyeHeight
 
   vUpdateStatueProximity()
   vUpdateSkyOrbits(nDt)
@@ -1526,7 +1561,15 @@ function vTick(nTs: number): void {
   vUpdateSnow()
   vUpdateFairies(nDt)
   vUpdateCameraOrientation()
-  objRenderer.render(objScene, objCamera)
+
+  if (bVhsEnabled && objSceneTarget && objVhsScene && objVhsCam && objVhsMat) {
+    objRenderer.setRenderTarget(objSceneTarget)
+    objRenderer.render(objScene, objCamera)
+    objRenderer.setRenderTarget(null)
+    objRenderer.render(objVhsScene, objVhsCam)
+  } else {
+    objRenderer.render(objScene, objCamera)
+  }
 
   if (bAwaitingReveal && objCanvasHost) {
     bAwaitingReveal = false
@@ -1542,8 +1585,8 @@ function vInitScene(): void {
   }
 
   objScene = new THREE.Scene()
-  objScene.background = new THREE.Color(0x050308)
-  objScene.fog = new THREE.Fog(0x0a0614, nFogNear, nFogFar)
+  objScene.background = new THREE.Color(0x14081c)
+  objScene.fog = new THREE.Fog(0x1e1028, nFogNear, nFogFar)
 
   objCamera = new THREE.PerspectiveCamera(70, 1, 0.1, 16000)
 
@@ -1551,22 +1594,23 @@ function vInitScene(): void {
   objRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   objRenderer.outputColorSpace = THREE.SRGBColorSpace
   objCanvasHost.appendChild(objRenderer.domElement)
+  vInitVhsPass()
 
-  const objAmb = new THREE.AmbientLight(0x6a4a9e, 0.55)
+  const objAmb = new THREE.AmbientLight(0x7a5aae, 0.85)
   objScene.add(objAmb)
 
-  const objSun = new THREE.DirectionalLight(0xffe08a, 1.15)
+  const objSun = new THREE.DirectionalLight(0xffe499, 1.6)
   objSun.position.set(120, 220, 80)
   objScene.add(objSun)
 
-  const objFill = new THREE.DirectionalLight(0x8b4dff, 0.35)
+  const objFill = new THREE.DirectionalLight(0x9a62ff, 0.55)
   objFill.position.set(-90, 60, -140)
   objScene.add(objFill)
 
   const objSky = new THREE.Mesh(
     new THREE.SphereGeometry(12000, 24, 16),
     new THREE.MeshBasicMaterial({
-      color: 0x120a1c,
+      color: 0x180c24,
       side: THREE.BackSide,
       fog: false,
     }),

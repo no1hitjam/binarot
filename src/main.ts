@@ -7,6 +7,7 @@ import { sExploreMarkup, vBindExplore, vSetExploreActive } from './explore'
 import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
 import { sHouseMarkup, vBindHouse, vSetHouseActive } from './house'
 import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
+import { sPlatformMarkup, vBindPlatform, vSetPlatformActive } from './platform'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
 
@@ -355,6 +356,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="magic" aria-selected="false">Magic</button>
       <button type="button" class="tab-button" data-tab="pilgrim" aria-selected="false">Pilgrim</button>
       <button type="button" class="tab-button" data-tab="house" aria-selected="false">House</button>
+      <button type="button" class="tab-button" data-tab="platform" aria-selected="false">Platform</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -468,6 +470,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sHouseMarkup()}
     </section>
 
+    <section class="tab-panel" data-panel="platform">
+      <h2>Platform</h2>
+      <p class="reading-intro">
+        A short side-scroller through the void. Collect binary bits, clear the gaps, and reach the
+        <code>1111</code> gate. Click the stage first so it can take keyboard focus. Sure, some of the bits are unreachable, what about it?
+      </p>
+      ${sPlatformMarkup()}
+    </section>
+
     ${
       bShowDevPanel
         ? `
@@ -530,6 +541,7 @@ const arrUnlockOrder = [
   'magic',
   'pilgrim',
   'house',
+  'platform',
   'about',
 ] as const
 const sDefaultUnlock = 'reading'
@@ -704,6 +716,7 @@ function vActivateTab(sTabId: string): void {
   vSetFloatActive(sTabId === 'magic')
   vSetExploreActive(sTabId === 'pilgrim')
   vSetHouseActive(sTabId === 'house')
+  vSetPlatformActive(sTabId === 'platform')
   vSetCookie(sCookieTab, sTabId)
   vUnlockNextFrom(sTabId)
 }
@@ -1057,3 +1070,4 @@ vBindMatrixRain()
 vBindFloat(arrCards)
 vBindExplore(arrCards)
 vBindHouse(arrCards)
+vBindPlatform()

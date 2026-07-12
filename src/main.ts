@@ -3,6 +3,8 @@ import { sCardIconMarkup } from './cardIcons'
 import { sCompatibilityText } from './compatibilityTexts'
 import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
 import { sReadingSigilMarkup } from './readingSigil'
+import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
+import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
 
 type tCard = {
@@ -345,6 +347,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="reading" aria-selected="false">Reading</button>
       <button type="button" class="tab-button" data-tab="birthday" aria-selected="false">Birthday</button>
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
+      <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
+      <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -413,6 +417,24 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <code>1000</code>–<code>1111</code> to the southern.
       </p>
       ${sStarmapMarkup()}
+    </section>
+
+    <section class="tab-panel" data-panel="planets">
+      <h2>Planets</h2>
+      <p class="reading-intro">
+        Each world wears one binarot sign. The Sun is The Seed (<code>0</code>); planets, moons,
+        and Pluto take the rest through <code>1111</code>, paired for fit. The chart uses
+        approximate heliocentric positions for today (log radius; moons drawn near their parent).
+      </p>
+      ${sPlanetsMarkup(arrCards)}
+    </section>
+
+    <section class="tab-panel" data-panel="matrix">
+      <h2>Matrix</h2>
+      <p class="reading-intro">
+        Binary rain in the binarot register—bits, masks, and operations falling through the void.
+      </p>
+      ${sMatrixMarkup()}
     </section>
 
     ${
@@ -563,6 +585,7 @@ function vActivateTab(sTabId: string): void {
     objPanel.classList.toggle('is-active', objPanel.dataset.panel === sTabId)
   })
 
+  vSetMatrixActive(sTabId === 'matrix')
   vSetCookie(sCookieTab, sTabId)
 }
 
@@ -896,3 +919,5 @@ objCompatDay.addEventListener('change', vUpdateCompatibility)
 
 vUpdateBirthdaySign()
 vBindStarmapHover()
+vBindPlanetsOrbitHover()
+vBindMatrixRain()

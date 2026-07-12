@@ -1101,6 +1101,12 @@ code {
   display: block;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+
+.explore-viewport.is-revealed canvas {
+  opacity: 1;
 }
 
 .explore-caption {
@@ -1664,6 +1670,14 @@ code {
 
 .house-log-story {
   color: var(--text);
+}
+
+.house-log .house-log-note {
+  color: var(--gold);
+  border-left: 2px solid var(--gold);
+  padding-left: 0.75rem;
+  font-style: italic;
+  background-color: color-mix(in srgb, var(--gold) 10%, transparent);
 }
 
 .house-controls {

@@ -68,6 +68,7 @@ const nFairyHoverMin = 1.1
 const nFairyHoverSpan = 2.6
 const nFairyFadeSec = 1.35
 const nFairySpawnGap = 0.4
+const nExploreStartDelayMs = 80
 
 type tExploreCard = {
   sName: string
@@ -123,7 +124,9 @@ let arrHeights: Float32Array | null = null
 let nTerrainMinH = 0
 let nTerrainMaxH = 1
 let nAnimFrame = 0
+let nStartTimer = 0
 let bRunning = false
+let bAwaitingReveal = false
 let nLastTs = 0
 let nYaw = 0
 let nPitch = -0.08
@@ -1524,6 +1527,12 @@ function vTick(nTs: number): void {
   vUpdateFairies(nDt)
   vUpdateCameraOrientation()
   objRenderer.render(objScene, objCamera)
+
+  if (bAwaitingReveal && objCanvasHost) {
+    bAwaitingReveal = false
+    objCanvasHost.classList.add('is-revealed')
+  }
+
   nAnimFrame = window.requestAnimationFrame(vTick)
 }
 
@@ -1578,6 +1587,13 @@ function vInitScene(): void {
   vResize()
 }
 
+function vCancelPendingStart(): void {
+  if (nStartTimer !== 0) {
+    window.clearTimeout(nStartTimer)
+    nStartTimer = 0
+  }
+}
+
 function vStart(): void {
   if (bRunning) {
     return
@@ -1589,16 +1605,21 @@ function vStart(): void {
   }
 
   bRunning = true
+  bAwaitingReveal = true
+  objCanvasHost?.classList.remove('is-revealed')
   nLastTs = performance.now()
   vResize()
   nAnimFrame = window.requestAnimationFrame(vTick)
 }
 
 function vStop(): void {
+  vCancelPendingStart()
   bRunning = false
+  bAwaitingReveal = false
   bLookDragging = false
   nLookPtrId = -1
   objCanvasHost?.classList.remove('is-dragging')
+  objCanvasHost?.classList.remove('is-revealed')
   vCommitTarget(null)
   if (nAnimFrame !== 0) {
     window.cancelAnimationFrame(nAnimFrame)
@@ -1688,14 +1709,26 @@ export function vBindExplore(arrCards: tExploreCard[]): void {
 
   const objPanel = document.querySelector<HTMLElement>('[data-panel="pilgrim"]')
   if (objPanel?.classList.contains('is-active')) {
-    vStart()
+    vSetExploreActive(true)
   }
 }
 
 export function vSetExploreActive(bActive: boolean): void {
-  if (bActive) {
-    vStart()
-  } else {
+  vCancelPendingStart()
+  if (!bActive) {
     vStop()
+    return
   }
+
+  // Already built: resume the loop immediately. First visit: let the tab paint
+  // before the heavy terrain / flora geometry work blocks the main thread.
+  if (objRenderer) {
+    vStart()
+    return
+  }
+
+  nStartTimer = window.setTimeout(() => {
+    nStartTimer = 0
+    vStart()
+  }, nExploreStartDelayMs)
 }

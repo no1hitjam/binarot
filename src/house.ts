@@ -11,6 +11,7 @@ type tThing = {
   sDetail: string
   sDetailEmpty?: string
   sDetailUnlock?: string
+  sDiary?: string
   sCardId?: string
   sItemId?: string
   sItemName?: string
@@ -112,7 +113,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'runner',
         sName: 'Runner rug',
         sDetail:
-          'A thin runner rug, faded to the color of old tea. The weave hides nothing but lint and a single bent pin.',
+          'A thin runner rug, faded to the color of old tea. Under the weave, pressed flat against the boards, lies a torn diary leaf—ink still dark, margins crowded with 0s and 1s.',
+        sDiary:
+          '— scribbling diary —\nThe old books lied. Gold is not the work. The true alembic is the bit: off and on, void and spark. Count not in tens. Count in powers of two, and the world rearranges.',
       },
       {
         sId: 'stairs',
@@ -141,10 +144,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'shelf',
         sName: 'Top shelf',
         sDetail:
-          'A high shelf holds a crushed hat box and a length of twine. Inside the tissue paper, pressed flat, is a binarot card—The Shell, marked 1101.',
-        sDetailEmpty:
-          'The hat box holds only crumpled tissue now. The shelf smells faintly of cedar and dust.',
-        sCardId: '1101',
+          'A high shelf holds a crushed hat box and a length of twine. Inside the box, under tissue paper, someone folded a scribbled diary leaf and hid it like a spare glove.',
+        sDiary:
+          '— scribbling diary —\nPrime matter is 0. The first ignition is 1. All that follows is only their marriage repeated. Call them what you like. I write them as 0 and 1 and the flask does not shatter.',
       },
     ],
   },
@@ -187,7 +189,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'curtains',
         sName: 'Curtains',
         sDetail:
-          'Heavy curtains drink the daylight. Drawing them aside shows a sealed window and a thin film of dust.',
+          'Heavy curtains drink the daylight. Pinned in the lining, where no guest would look, hangs a diary leaf—edges singed as if held too near a candle.',
+        sDiary:
+          '— scribbling diary —\nA vessel need not be glass. A pattern of bits is a vessel. Pour intention into 1010 and it holds. Pour fear into 0000 and it swallows. Binary is the quietest alchemy: no smoke, only state.',
       },
       {
         sId: 'study_door',
@@ -241,7 +245,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'sink',
         sName: 'Sink',
         sDetail:
-          'A porcelain sink with a rusted faucet. A drip lands every few seconds, keeping time with nothing.',
+          'A porcelain sink with a rusted faucet. Taped beneath the basin, kept dry by stubborn hope, is a diary leaf spotted with old water rings and binary scratch-work.',
+        sDiary:
+          '— scribbling diary —\nConjunction: place 0 beside 1 and you have speech. Place speech beside speech and you have law. The ancients sought the stone. We need only the string—enough bits, ordered true, and matter listens.',
       },
       {
         sId: 'basement_door',
@@ -300,7 +306,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'railing',
         sName: 'Railing',
         sDetail:
-          'The landing railing overlooks the stairwell. From here the foyer looks smaller, like a remembered room.',
+          'The landing railing overlooks the stairwell. Wedged where a spindle meets the rail, rolled tight, is another leaf from the scribbling diary.',
+        sDiary:
+          '— scribbling diary —\nI tested it on myself first. A short word in binary, spoken under breath. My hand did not turn to gold. It did something better: it remembered a motion I had never practiced. The work is not wealth. The work is capacity.',
       },
       {
         sId: 'light',
@@ -344,7 +352,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'mattress',
         sName: 'Mattress',
         sDetail:
-          'A stripped mattress on a plain frame. The ticking is stained in one corner. Nothing tucked beneath.',
+          'A stripped mattress on a plain frame. Under the ticking, slid into a slit cut by a careful knife, rests a diary leaf soft with handling.',
+        sDiary:
+          '— scribbling diary —\nHumanity sleeps in decimal habits—ten fingers, ten gods, ten commandments. Wake them with two. Teach the child 0 and 1 before names, and they will invent selves the old world cannot house. New abilities are only new encodings.',
       },
       {
         sId: 'wardrobe',
@@ -413,7 +423,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'brickwork',
         sName: 'Brickwork',
         sDetail:
-          'The bricks are older than the parlor facade. Someone sealed this room on purpose and then forgot the seal.',
+          'The bricks are older than the parlor facade. In a gap where mortar failed, folded small enough to vanish, waits a diary leaf—this one urgent, almost a warning.',
+        sDiary:
+          '— scribbling diary —\nWarning, if anyone finds these leaves: the cards in this house are not toys. Each mark is a gate. Together they sketch the Great Work in miniature—a curriculum for opening what we still call “impossible.” Hide them. Or finish what I began.',
       },
     ],
   },
@@ -480,7 +492,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'trunks',
         sName: 'Trunks',
         sDetail:
-          'Travel trunks stacked two high. The latches are stiff with age. Inside: moth-eaten wool and a broken picture frame.',
+          'Travel trunks stacked two high. The latches are stiff with age—hard shells built to keep the world out. Inside the lower trunk, under moth-eaten wool, lies a binarot card—The Shell, marked 1101.',
+        sDetailEmpty:
+          'The trunks hold moth-eaten wool and a broken picture frame. Their armor is empty of cards now.',
+        sCardId: '1101',
       },
       {
         sId: 'rafters',
@@ -583,7 +598,9 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'cot',
         sName: 'Cot',
         sDetail:
-          'A folding cot with a thin blanket. Someone prepared to wait here, and then did not.',
+          'A folding cot with a thin blanket. Between blanket and canvas, placed where a sleeper’s hand would find it, lies the last leaf of the scribbling diary.',
+        sDiary:
+          '— scribbling diary —\nLast page. If the pattern holds, binary alchemy does not crown a king. It crowns a species. One spark, then many. Off. On. Off. On—until the dark itself learns to count, and we step through as something larger than fear. I leave the rest to whoever still searches.',
       },
       {
         sId: 'vent',
@@ -686,12 +703,15 @@ function sLookText(): string {
   return `${objHere.sName}\n\n${objHere.sDescription}`
 }
 
-function vAppendLog(sText: string, sKind: 'system' | 'command' | 'story' = 'story'): void {
+function vAppendLog(sText: string, sKind: 'system' | 'command' | 'story' | 'note' = 'story'): void {
   if (!objLog) {
     return
   }
   const objEntry = document.createElement('div')
   objEntry.className = `house-log-entry house-log-${sKind}`
+  if (sKind === 'note') {
+    objEntry.style.color = 'var(--gold)'
+  }
   objEntry.textContent = sText
   objLog.appendChild(objEntry)
   objLog.scrollTop = objLog.scrollHeight
@@ -811,7 +831,7 @@ function vResetGame(): void {
     objLog.replaceChildren()
   }
   vAppendLog(
-    'You stand in a quiet house. Sixteen binarot cards are hidden somewhere inside.\nChoose where to go, or examine something nearby.',
+    'You stand in a quiet house. Sixteen binarot cards are hidden somewhere inside.\nScattered through the rooms, torn leaves of a scribbling diary whisper of binary alchemy.\nChoose where to go, or examine something nearby.',
     'system',
   )
   vAppendLog(sLookText(), 'story')
@@ -873,6 +893,9 @@ function vExamineThing(sThingId: string): void {
 
   vAppendLog(`Examine ${objThing.sName}.`, 'command')
   vAppendLog(sThingDetail(objThing), 'story')
+  if (objThing.sDiary) {
+    vAppendLog(objThing.sDiary, 'note')
+  }
 
   let bChanged = false
 

@@ -5,6 +5,8 @@ type tFloatCard = {
   sBinaryValue: string
 }
 
+type tFloaterLife = 'in' | 'alive' | 'out'
+
 type tFloater = {
   objEl: HTMLElement
   nX: number
@@ -19,7 +21,9 @@ type tFloater = {
   nVrx: number
   nVry: number
   nVrz: number
-  nScale: number
+  nBaseScale: number
+  sLife: tFloaterLife
+  nLife: number
 }
 
 type tParticle = {
@@ -37,6 +41,9 @@ type tParticle = {
 
 const nCardCount = 16
 const nParticleCount = 48
+const nParticleMax = 220
+const nClickBurstCount = 24
+const nCardBurstCount = 6
 const nFadeInMs = 2800
 const nCardW = 118
 const nCardH = 178
@@ -44,8 +51,11 @@ const nDepthNear = -80
 const nDepthFar = -520
 const nSpawnMargin = 80
 const nGoldParticleChance = 0.38
+const nSpawnSec = 0.55
+const nDespawnSec = 0.4
 
 let objStage: HTMLElement | null = null
+let objFloatRoot: HTMLElement | null = null
 let arrFloaters: tFloater[] = []
 let arrParticles: tParticle[] = []
 let nAnimFrame = 0
@@ -100,10 +110,32 @@ function vMeasureStage(): void {
   nStageH = objStage.clientHeight
 }
 
+function nEaseOutCubic(nT: number): number {
+  const nU = 1 - nT
+  return 1 - nU * nU * nU
+}
+
+function nEaseInCubic(nT: number): number {
+  return nT * nT * nT
+}
+
+function nDepthScale(nZ: number): number {
+  const nDepthT = (nZ - nDepthNear) / (nDepthFar - nDepthNear)
+  return 0.55 + (1 - Math.min(1, Math.max(0, nDepthT))) * 0.55
+}
+
+function nFloaterPop(objFloater: tFloater): number {
+  if (objFloater.sLife === 'in') {
+    return nEaseOutCubic(objFloater.nLife)
+  }
+  if (objFloater.sLife === 'out') {
+    return 1 - nEaseInCubic(objFloater.nLife)
+  }
+  return 1
+}
+
 function objSpawnFloater(objEl: HTMLElement, bSeeded: boolean): tFloater {
   const nZ = nDepthNear + Math.random() * (nDepthFar - nDepthNear)
-  const nDepthT = (nZ - nDepthNear) / (nDepthFar - nDepthNear)
-  const nScale = 0.55 + (1 - nDepthT) * 0.55
 
   let nX: number
   let nY: number
@@ -145,18 +177,33 @@ function objSpawnFloater(objEl: HTMLElement, bSeeded: boolean): tFloater {
     nVrx: (Math.random() - 0.5) * 28,
     nVry: 18 + Math.random() * 36,
     nVrz: (Math.random() - 0.5) * 12,
-    nScale,
+    nBaseScale: nDepthScale(nZ),
+    sLife: 'in',
+    nLife: 0,
   }
 }
 
 function vApplyFloater(objFloater: tFloater, nAlpha: number): void {
   const nDepthT = (objFloater.nZ - nDepthNear) / (nDepthFar - nDepthNear)
-  const nDepthFade = 0.35 + (1 - nDepthT) * 0.65
+  const nDepthFade = 0.35 + (1 - Math.min(1, Math.max(0, nDepthT))) * 0.65
+  const nScale = objFloater.nBaseScale * nFloaterPop(objFloater)
   objFloater.objEl.style.opacity = String(nAlpha * nDepthFade)
   objFloater.objEl.style.transform =
     `translate3d(${objFloater.nX}px, ${objFloater.nY}px, ${objFloater.nZ}px) ` +
     `rotateX(${objFloater.nRx}deg) rotateY(${objFloater.nRy}deg) rotateZ(${objFloater.nRz}deg) ` +
-    `scale(${objFloater.nScale})`
+    `scale(${nScale})`
+}
+
+function objCreateParticleEl(): HTMLElement {
+  const objEl = document.createElement('span')
+  objEl.setAttribute('aria-hidden', 'true')
+  return objEl
+}
+
+function vDressParticle(objEl: HTMLElement, bGold: boolean, nSize: number): void {
+  objEl.className = bGold ? 'float-particle is-gold' : 'float-particle is-purple'
+  objEl.style.width = `${nSize}px`
+  objEl.style.height = `${nSize}px`
 }
 
 function objSpawnParticle(objEl: HTMLElement, bSeeded: boolean): tParticle {
@@ -187,10 +234,8 @@ function objSpawnParticle(objEl: HTMLElement, bSeeded: boolean): tParticle {
     }
   }
 
-  objEl.className = bGold ? 'float-particle is-gold' : 'float-particle is-purple'
   const nSize = 2 + Math.random() * 4
-  objEl.style.width = `${nSize}px`
-  objEl.style.height = `${nSize}px`
+  vDressParticle(objEl, bGold, nSize)
 
   return {
     objEl,
@@ -204,6 +249,71 @@ function objSpawnParticle(objEl: HTMLElement, bSeeded: boolean): tParticle {
     nPhase: Math.random() * Math.PI * 2,
     nTwinkle: 1.2 + Math.random() * 2.4,
   }
+}
+
+function objBurstParticle(objEl: HTMLElement, nX: number, nY: number, bSubtle: boolean): tParticle {
+  const nAngle = Math.random() * Math.PI * 2
+  const nSpeed = bSubtle ? 16 + Math.random() * 36 : 40 + Math.random() * 110
+  const nSize = bSubtle ? 1.4 + Math.random() * 2.2 : 2.5 + Math.random() * 5.5
+  const bGold = Math.random() < (bSubtle ? 0.42 : 0.55)
+  const nScatter = bSubtle ? 10 : 18
+  vDressParticle(objEl, bGold, nSize)
+
+  return {
+    objEl,
+    nX: nX + (Math.random() - 0.5) * nScatter,
+    nY: nY + (Math.random() - 0.5) * nScatter,
+    nZ: nDepthNear - 20 + Math.random() * -120,
+    nVx: Math.cos(nAngle) * nSpeed,
+    nVy: Math.sin(nAngle) * nSpeed - (bSubtle ? 4 : 10) - Math.random() * (bSubtle ? 14 : 30),
+    nVz: (bSubtle ? -8 : -20) - Math.random() * (bSubtle ? 28 : 55),
+    nSize,
+    nPhase: Math.random() * Math.PI * 2,
+    nTwinkle: bSubtle ? 1.2 + Math.random() * 1.6 : 2.2 + Math.random() * 3.2,
+  }
+}
+
+function vBurstAt(nX: number, nY: number, nBurstCount: number = nClickBurstCount, bSubtle: boolean = false): void {
+  if (!objStage || !bRunning) {
+    return
+  }
+
+  const nRoom = nParticleMax - arrParticles.length
+  const nCount = Math.min(nBurstCount, Math.max(0, nRoom))
+  const nAlpha = nIntroAlpha()
+  const nTs = performance.now()
+
+  for (let nI = 0; nI < nCount; nI++) {
+    const objEl = objCreateParticleEl()
+    objStage.appendChild(objEl)
+    const objParticle = objBurstParticle(objEl, nX, nY, bSubtle)
+    arrParticles.push(objParticle)
+    vApplyParticle(objParticle, nAlpha, nTs)
+  }
+}
+
+function nClampBurstAxis(nValue: number, nSpan: number): number {
+  const nLimit = Math.max(24, nSpan * 0.5 - 16)
+  return Math.max(-nLimit, Math.min(nLimit, nValue))
+}
+
+function vCardBurstAt(nX: number, nY: number): void {
+  vBurstAt(nClampBurstAxis(nX, nStageW), nClampBurstAxis(nY, nStageH), nCardBurstCount, true)
+}
+
+function vOnFloatClick(objEvent: MouseEvent): void {
+  if (!objStage || !bRunning) {
+    return
+  }
+
+  const objRect = objStage.getBoundingClientRect()
+  if (objRect.width <= 0 || objRect.height <= 0) {
+    return
+  }
+
+  const nX = objEvent.clientX - objRect.left - objRect.width * 0.5
+  const nY = objEvent.clientY - objRect.top - objRect.height * 0.5
+  vBurstAt(nX, nY)
 }
 
 function vApplyParticle(objParticle: tParticle, nAlpha: number, nTs: number): void {
@@ -258,15 +368,27 @@ function vTick(nTs: number): void {
     objFloater.nRx += objFloater.nVrx * nDt
     objFloater.nRy += objFloater.nVry * nDt
     objFloater.nRz += objFloater.nVrz * nDt
+    objFloater.nBaseScale = nDepthScale(objFloater.nZ)
 
-    const nDepthT = (objFloater.nZ - nDepthNear) / (nDepthFar - nDepthNear)
-    objFloater.nScale = 0.55 + (1 - Math.min(1, Math.max(0, nDepthT))) * 0.55
-
-    if (bOffStage(objFloater)) {
-      const objNext = objSpawnFloater(objFloater.objEl, false)
-      arrFloaters[nI] = objNext
-      vApplyFloater(objNext, nAlpha)
-      continue
+    if (objFloater.sLife === 'in') {
+      objFloater.nLife = Math.min(1, objFloater.nLife + nDt / nSpawnSec)
+      if (objFloater.nLife >= 1) {
+        objFloater.sLife = 'alive'
+        objFloater.nLife = 1
+      }
+    } else if (objFloater.sLife === 'out') {
+      objFloater.nLife = Math.min(1, objFloater.nLife + nDt / nDespawnSec)
+      if (objFloater.nLife >= 1) {
+        vCardBurstAt(objFloater.nX, objFloater.nY)
+        const objNext = objSpawnFloater(objFloater.objEl, false)
+        arrFloaters[nI] = objNext
+        vApplyFloater(objNext, nAlpha)
+        vCardBurstAt(objNext.nX, objNext.nY)
+        continue
+      }
+    } else if (bOffStage(objFloater)) {
+      objFloater.sLife = 'out'
+      objFloater.nLife = 0
     }
 
     vApplyFloater(objFloater, nAlpha)
@@ -279,6 +401,12 @@ function vTick(nTs: number): void {
     objParticle.nZ += objParticle.nVz * nDt
 
     if (bParticleOffStage(objParticle)) {
+      if (arrParticles.length > nParticleCount) {
+        objParticle.objEl.remove()
+        arrParticles.splice(nI, 1)
+        nI -= 1
+        continue
+      }
       const objNext = objSpawnParticle(objParticle.objEl, false)
       arrParticles[nI] = objNext
       vApplyParticle(objNext, nAlpha, nTs)
@@ -310,11 +438,11 @@ function vBuildFloaters(arrCards: tFloatCard[]): void {
     const objFloater = objSpawnFloater(objEl, true)
     arrFloaters.push(objFloater)
     vApplyFloater(objFloater, 0)
+    vCardBurstAt(objFloater.nX, objFloater.nY)
   }
 
   for (let nI = 0; nI < nParticleCount; nI++) {
-    const objEl = document.createElement('span')
-    objEl.setAttribute('aria-hidden', 'true')
+    const objEl = objCreateParticleEl()
     objStage.appendChild(objEl)
     const objParticle = objSpawnParticle(objEl, true)
     arrParticles.push(objParticle)
@@ -349,18 +477,21 @@ export function sFloatMarkup(): string {
   return `
     <div class="float" id="float">
       <div class="float-stage" id="float-stage"></div>
-      <p class="float-caption">cards in the void</p>
+      <p class="float-caption">cards in the void · click to spark</p>
     </div>
   `
 }
 
 export function vBindFloat(arrCards: tFloatCard[]): void {
   objStage = document.querySelector<HTMLElement>('#float-stage')
-  if (!objStage) {
+  objFloatRoot = document.querySelector<HTMLElement>('#float')
+  if (!objStage || !objFloatRoot) {
     return
   }
 
   arrBoundCards = arrCards
+
+  objFloatRoot.addEventListener('click', vOnFloatClick)
 
   window.addEventListener('resize', () => {
     if (bRunning) {

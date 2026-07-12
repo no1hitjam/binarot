@@ -33,7 +33,13 @@ const nFloraMargin = nCliffWidth + 48
 const nFloraClearSpawn = 36
 const nFloraClearStatue = 24
 const nFloraMaxCliff = 0.18
-const nFloraLift = 0.35
+const nFloraLift = -2.8
+const nTreeTrunkBaseR = 0.95
+const nTreeClearPad = 2.4
+const nTreeScaleMin = 9
+const nTreeScaleSpan = 16
+const nTreeLookAhead = 48
+const nTreeSteerAngle = 1.15
 const nGrassCount = 2200
 const nGrassRadius = 58
 const nGrassCell = 1.85
@@ -45,13 +51,23 @@ const nSnowRadius = 62
 const nSnowCell = 2.35
 const nSnowClearFeet = 3.2
 const nSnowLift = 0.04
-const nSnowMinHeightT = 0.36
+const nSnowMinHeightT = 0.45
 const nSkyLift = 2560
 const nSkyTilt = 0.42
 const nStarCount = 2400
 const nStarRadius = 9000
 const nStarSize = 6.5
 const nStarDrift = 0.003
+const nFairyCount = 16
+const nFairyCullR = 38
+const nFairySpawnMin = 16
+const nFairySpawnMax = 28
+const nFairySpawnSpread = 0.7
+const nFairySize = 0.85
+const nFairyHoverMin = 1.1
+const nFairyHoverSpan = 2.6
+const nFairyFadeSec = 1.35
+const nFairySpawnGap = 0.4
 
 type tExploreCard = {
   sName: string
@@ -67,13 +83,38 @@ type tStatue = {
   objGlow: THREE.PointLight
 }
 
+type tTree = {
+  nX: number
+  nZ: number
+  nR: number
+}
+
 type tSkyOrbit = {
   objPivot: THREE.Object3D
   nSpeed: number
 }
 
+type tFairy = {
+  nX: number
+  nZ: number
+  nBaseY: number
+  nPhase: number
+  nOrbitR: number
+  nOrbitSpd: number
+  nBobSpd: number
+  nBobAmp: number
+  nDriftYaw: number
+  nDriftSpd: number
+  nFade: number
+  nCr: number
+  nCg: number
+  nCb: number
+  bActive: boolean
+}
+
 let arrExploreCards: tExploreCard[] = []
 let arrStatues: tStatue[] = []
+let arrTrees: tTree[] = []
 let objCanvasHost: HTMLElement | null = null
 let objRenderer: THREE.WebGLRenderer | null = null
 let objScene: THREE.Scene | null = null
@@ -107,6 +148,10 @@ let nGrassLastCz = Number.NaN
 let objSnowMesh: THREE.InstancedMesh | null = null
 let nSnowLastCx = Number.NaN
 let nSnowLastCz = Number.NaN
+let objFairyPoints: THREE.Points | null = null
+let arrFairies: tFairy[] = []
+let objFairyTex: THREE.CanvasTexture | null = null
+let nFairySpawnCool = 0
 
 const objPlayerPos = new THREE.Vector3(0, 20, 0)
 const objLookDir = new THREE.Vector3()
@@ -600,12 +645,12 @@ function vDiscoverStatue(objStatue: tStatue): void {
 
   objStatue.bFound = true
   objStatue.objRay.visible = false
-  objStatue.objGlow.intensity = 4.5
-  objStatue.objGlow.distance = 36
+  objStatue.objGlow.intensity = 1.35
+  objStatue.objGlow.distance = 22
 
   for (const objMat of objStatue.arrLitMats) {
-    objMat.emissive.set(0xe0b83a)
-    objMat.emissiveIntensity = 1.15
+    objMat.emissive.set(0x5a4418)
+    objMat.emissiveIntensity = 0.52
     objMat.needsUpdate = true
   }
 
@@ -666,6 +711,49 @@ function nTryStep(nYawDir: number, nStep: number): number {
   return Math.hypot(objPlayerPos.x - nBeforeX, objPlayerPos.z - nBeforeZ)
 }
 
+function bHitsTree(nX: number, nZ: number): boolean {
+  for (const objTree of arrTrees) {
+    const nDx = nX - objTree.nX
+    const nDz = nZ - objTree.nZ
+    const nR = objTree.nR
+    if (nDx * nDx + nDz * nDz < nR * nR) {
+      return true
+    }
+  }
+  return false
+}
+
+function nSteerAroundTrees(nDesiredYaw: number): number {
+  const nFx = Math.sin(nDesiredYaw)
+  const nFz = Math.cos(nDesiredYaw)
+  let nHitAlong = Infinity
+  let nHitAcross = 0
+
+  for (const objTree of arrTrees) {
+    const nDx = objTree.nX - objPlayerPos.x
+    const nDz = objTree.nZ - objPlayerPos.z
+    const nAlong = nDx * nFx + nDz * nFz
+    if (nAlong < 0 || nAlong > nTreeLookAhead || nAlong >= nHitAlong) {
+      continue
+    }
+
+    const nAcross = nDx * nFz - nDz * nFx
+    if (Math.abs(nAcross) > objTree.nR) {
+      continue
+    }
+
+    nHitAlong = nAlong
+    nHitAcross = nAcross
+  }
+
+  if (nHitAlong === Infinity) {
+    return nDesiredYaw
+  }
+
+  const nSide = nHitAcross >= 0 ? -1 : 1
+  return nDesiredYaw + nSide * nTreeSteerAngle
+}
+
 function vCommitTarget(objStatue: tStatue | null): void {
   if (objTargetStatue === objStatue) {
     return
@@ -697,6 +785,8 @@ function vAutoNavigate(nDt: number): void {
   let nSteerYaw = nDesiredYaw
   if (nNow < nAvoidUntil) {
     nSteerYaw = nAvoidYaw
+  } else {
+    nSteerYaw = nSteerAroundTrees(nDesiredYaw)
   }
 
   nMoveYaw += nAngleDiff(nMoveYaw, nSteerYaw) * Math.min(1, nTurnSpeed * nDt)
@@ -843,10 +933,20 @@ function vAddFlora(objParent: THREE.Object3D): void {
 
   const objTreeGeos = objBuildTreeGeos()
   const arrTreeSites = arrFloraSites(nFloraTreeCount, 1)
+  arrTrees = []
+  for (let nI = 0; nI < arrTreeSites.length; nI++) {
+    const objSite = arrTreeSites[nI]!
+    const nScale = nTreeScaleMin + nHash2(nI + 11, Math.floor(objSite.nSeed * 9999)) * nTreeScaleSpan
+    arrTrees.push({
+      nX: objSite.nX,
+      nZ: objSite.nZ,
+      nR: nTreeTrunkBaseR * nScale + nTreeClearPad,
+    })
+  }
   const objTreeTrunks = new THREE.InstancedMesh(objTreeGeos.objTrunk, objMatTrunk, arrTreeSites.length)
   const objTreeCanopies = new THREE.InstancedMesh(objTreeGeos.objCanopy, objMatCanopy, arrTreeSites.length)
-  vPlace(objTreeTrunks, arrTreeSites, 9, 16)
-  vPlace(objTreeCanopies, arrTreeSites, 9, 16)
+  vPlace(objTreeTrunks, arrTreeSites, nTreeScaleMin, nTreeScaleSpan)
+  vPlace(objTreeCanopies, arrTreeSites, nTreeScaleMin, nTreeScaleSpan)
 }
 
 function objBuildBladeGeo(): THREE.BufferGeometry {
@@ -1022,6 +1122,179 @@ function vUpdateSnow(): void {
   objSnowMesh.instanceMatrix.needsUpdate = true
 }
 
+function objFairyTexture(): THREE.CanvasTexture {
+  if (objFairyTex) {
+    return objFairyTex
+  }
+
+  const nS = 64
+  const objCanvas = document.createElement('canvas')
+  objCanvas.width = nS
+  objCanvas.height = nS
+  const objCtx = objCanvas.getContext('2d')!
+  const nMid = nS * 0.5
+  const objGrad = objCtx.createRadialGradient(nMid, nMid, 0, nMid, nMid, nMid)
+  objGrad.addColorStop(0, 'rgba(255, 255, 255, 1)')
+  objGrad.addColorStop(0.18, 'rgba(255, 248, 220, 0.95)')
+  objGrad.addColorStop(0.42, 'rgba(255, 210, 140, 0.45)')
+  objGrad.addColorStop(0.72, 'rgba(220, 160, 255, 0.12)')
+  objGrad.addColorStop(1, 'rgba(180, 120, 255, 0)')
+  objCtx.fillStyle = objGrad
+  objCtx.fillRect(0, 0, nS, nS)
+
+  objFairyTex = new THREE.CanvasTexture(objCanvas)
+  objFairyTex.colorSpace = THREE.SRGBColorSpace
+  return objFairyTex
+}
+
+function vRespawnFairy(objFairy: tFairy): void {
+  const nAng = nMoveYaw + (Math.random() * 2 - 1) * nFairySpawnSpread
+  const nDist = nFairySpawnMin + Math.random() * (nFairySpawnMax - nFairySpawnMin)
+  objFairy.nX = objPlayerPos.x + Math.sin(nAng) * nDist
+  objFairy.nZ = objPlayerPos.z + Math.cos(nAng) * nDist
+  objFairy.nBaseY =
+    nSampleHeight(objFairy.nX, objFairy.nZ) + nFairyHoverMin + Math.random() * nFairyHoverSpan
+  objFairy.nPhase = Math.random() * Math.PI * 2
+  objFairy.nOrbitR = 0.35 + Math.random() * 1.15
+  objFairy.nOrbitSpd = 1.1 + Math.random() * 2.4
+  objFairy.nBobSpd = 2.0 + Math.random() * 3.0
+  objFairy.nBobAmp = 0.22 + Math.random() * 0.55
+  objFairy.nDriftYaw = nAng + Math.PI + (Math.random() * 2 - 1) * 0.8
+  objFairy.nDriftSpd = 0.7 + Math.random() * 1.8
+  objFairy.nFade = 0
+  objFairy.bActive = true
+}
+
+function vParkFairy(objFairy: tFairy): void {
+  objFairy.bActive = false
+  objFairy.nFade = 0
+}
+
+function vAddFairies(objParent: THREE.Object3D): void {
+  arrFairies = []
+  nFairySpawnCool = 0
+  const arrPos = new Float32Array(nFairyCount * 3)
+  const arrCol = new Float32Array(nFairyCount * 3)
+  const arrPalette = [
+    [1.0, 0.92, 0.55],
+    [0.85, 0.7, 1.0],
+    [0.7, 1.0, 0.85],
+    [1.0, 0.75, 0.82],
+    [0.75, 0.88, 1.0],
+    [1.0, 0.85, 0.45],
+  ]
+
+  for (let nI = 0; nI < nFairyCount; nI++) {
+    const arrRgb = arrPalette[nI % arrPalette.length]!
+    const nBright = 0.75 + nHash2(nI + 3, nI * 11 + 5) * 0.35
+    const objFairy: tFairy = {
+      nX: 0,
+      nZ: 0,
+      nBaseY: 0,
+      nPhase: 0,
+      nOrbitR: 0,
+      nOrbitSpd: 0,
+      nBobSpd: 0,
+      nBobAmp: 0,
+      nDriftYaw: 0,
+      nDriftSpd: 0,
+      nFade: 0,
+      nCr: arrRgb[0]! * nBright,
+      nCg: arrRgb[1]! * nBright,
+      nCb: arrRgb[2]! * nBright,
+      bActive: false,
+    }
+    arrFairies.push(objFairy)
+    arrCol[nI * 3] = 0
+    arrCol[nI * 3 + 1] = 0
+    arrCol[nI * 3 + 2] = 0
+    arrPos[nI * 3] = 0
+    arrPos[nI * 3 + 1] = -999
+    arrPos[nI * 3 + 2] = 0
+  }
+
+  const objGeo = new THREE.BufferGeometry()
+  objGeo.setAttribute('position', new THREE.BufferAttribute(arrPos, 3))
+  objGeo.setAttribute('color', new THREE.BufferAttribute(arrCol, 3))
+
+  const objMat = new THREE.PointsMaterial({
+    map: objFairyTexture(),
+    size: nFairySize,
+    sizeAttenuation: true,
+    vertexColors: true,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    fog: false,
+  })
+
+  objFairyPoints = new THREE.Points(objGeo, objMat)
+  objFairyPoints.frustumCulled = false
+  objParent.add(objFairyPoints)
+}
+
+function vUpdateFairies(nDt: number): void {
+  if (!objFairyPoints) {
+    return
+  }
+
+  const objPos = objFairyPoints.geometry.getAttribute('position') as THREE.BufferAttribute
+  const objCol = objFairyPoints.geometry.getAttribute('color') as THREE.BufferAttribute
+  const nCull2 = nFairyCullR * nFairyCullR
+  const nFadeRate = 1 / nFairyFadeSec
+
+  nFairySpawnCool -= nDt
+  if (nFairySpawnCool <= 0) {
+    for (const objFairy of arrFairies) {
+      if (!objFairy.bActive) {
+        vRespawnFairy(objFairy)
+        nFairySpawnCool = nFairySpawnGap
+        break
+      }
+    }
+  }
+
+  for (let nI = 0; nI < arrFairies.length; nI++) {
+    const objFairy = arrFairies[nI]!
+    if (!objFairy.bActive) {
+      objPos.setXYZ(nI, 0, -999, 0)
+      objCol.setXYZ(nI, 0, 0, 0)
+      continue
+    }
+
+    const nDx = objFairy.nX - objPlayerPos.x
+    const nDz = objFairy.nZ - objPlayerPos.z
+    if (nDx * nDx + nDz * nDz > nCull2) {
+      vParkFairy(objFairy)
+      objPos.setXYZ(nI, 0, -999, 0)
+      objCol.setXYZ(nI, 0, 0, 0)
+      continue
+    }
+
+    if (objFairy.nFade < 1) {
+      objFairy.nFade = Math.min(1, objFairy.nFade + nFadeRate * nDt)
+    }
+
+    objFairy.nPhase += nDt
+    objFairy.nDriftYaw += Math.sin(objFairy.nPhase * 0.65) * 1.6 * nDt
+    objFairy.nX += Math.sin(objFairy.nDriftYaw) * objFairy.nDriftSpd * nDt
+    objFairy.nZ += Math.cos(objFairy.nDriftYaw) * objFairy.nDriftSpd * nDt
+
+    const nGround = nSampleHeight(objFairy.nX, objFairy.nZ)
+    const nHover = nGround + nFairyHoverMin + nFairyHoverSpan * 0.45
+    objFairy.nBaseY += (nHover - objFairy.nBaseY) * Math.min(1, 1.4 * nDt)
+
+    const nOx = Math.sin(objFairy.nPhase * objFairy.nOrbitSpd) * objFairy.nOrbitR
+    const nOz = Math.cos(objFairy.nPhase * objFairy.nOrbitSpd * 0.82) * objFairy.nOrbitR
+    const nOy = Math.sin(objFairy.nPhase * objFairy.nBobSpd) * objFairy.nBobAmp
+    objPos.setXYZ(nI, objFairy.nX + nOx, objFairy.nBaseY + nOy, objFairy.nZ + nOz)
+    objCol.setXYZ(nI, objFairy.nCr * objFairy.nFade, objFairy.nCg * objFairy.nFade, objFairy.nCb * objFairy.nFade)
+  }
+
+  objPos.needsUpdate = true
+  objCol.needsUpdate = true
+}
+
 function objSkyMat(nColor: number): THREE.MeshBasicMaterial {
   return new THREE.MeshBasicMaterial({
     color: nColor,
@@ -1187,6 +1460,9 @@ function bCanStandAt(nX: number, nZ: number, nFromH: number): boolean {
   if (Math.abs(nX) > nPlayHalf || Math.abs(nZ) > nPlayHalf) {
     return false
   }
+  if (bHitsTree(nX, nZ)) {
+    return false
+  }
 
   const nToH = nSampleHeight(nX, nZ)
   const nHoriz = Math.hypot(nX - objPlayerPos.x, nZ - objPlayerPos.z)
@@ -1245,6 +1521,7 @@ function vTick(nTs: number): void {
   vUpdateSkyOrbits(nDt)
   vUpdateGrass()
   vUpdateSnow()
+  vUpdateFairies(nDt)
   vUpdateCameraOrientation()
   objRenderer.render(objScene, objCamera)
   nAnimFrame = window.requestAnimationFrame(vTick)
@@ -1294,6 +1571,7 @@ function vInitScene(): void {
   vAddFlora(objScene)
   vAddGrass(objScene)
   vAddSnow(objScene)
+  vAddFairies(objScene)
   vCommitTarget(null)
 
   vPlacePlayerOnTerrain()

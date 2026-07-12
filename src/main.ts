@@ -578,7 +578,10 @@ function vAppendConsoleLine(objLog: HTMLElement, sText: string, sClass: string =
   objLine.className = `reading-console-line${sClass ? ` ${sClass}` : ''}`
   objLine.textContent = sText
   objLog.appendChild(objLine)
-  objLog.scrollTop = objLog.scrollHeight
+  const objBody = objLog.closest('.reading-console-body')
+  if (objBody) {
+    objBody.scrollTop = objBody.scrollHeight
+  }
 }
 
 function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void {
@@ -588,12 +591,21 @@ function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void 
   objReadingResult.hidden = false
   objReadingResult.innerHTML = `
     <div class="reading-console" aria-live="polite">
-      <p class="reading-console-line reading-console-prompt"><span class="reading-console-caret">&gt;</span> binarot draw</p>
-      <p class="reading-console-line reading-console-status">executing...</p>
-      <div class="reading-console-log" id="reading-console-log"></div>
+      <div class="reading-console-bar">
+        <span class="reading-console-traffic" aria-hidden="true"></span>
+        <span class="reading-console-title">binarot://draw</span>
+      </div>
+      <div class="reading-console-body">
+        <p class="reading-console-line reading-console-prompt"><span class="reading-console-caret">&gt;</span> binarot draw</p>
+        <p class="reading-console-line reading-console-status">executing...</p>
+        <div class="reading-console-log" id="reading-console-log"></div>
+      </div>
     </div>
   `
 
+  const objConsole = objReadingResult.querySelector('.reading-console')!
+  const objBody = objReadingResult.querySelector('.reading-console-body')!
+  const objStatus = objReadingResult.querySelector('.reading-console-status')!
   const objLog = document.querySelector<HTMLElement>('#reading-console-log')!
   let nLineIndex = 0
 
@@ -607,12 +619,15 @@ function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void 
 
     vAppendConsoleLine(objLog, 'done.', 'reading-console-done')
     nDrawLoadTimer = window.setTimeout(() => {
-      const objConsole = objReadingResult.querySelector('.reading-console')
+      objStatus.textContent = 'ready.'
       const objOutput = document.createElement('div')
       objOutput.className = 'reading-console-output'
-      objOutput.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp)
-      objReadingResult.appendChild(objOutput)
-      objConsole?.classList.add('is-complete')
+      objOutput.innerHTML = `
+        <p class="reading-console-line reading-console-section">── spread ──────────────────────────</p>
+        ${sReadingResultMarkup(objLeft, objRight, sOp)}
+      `
+      objBody.appendChild(objOutput)
+      objConsole.classList.add('is-complete')
       objDrawButton.disabled = false
       nDrawLoadTimer = undefined
     }, 180)

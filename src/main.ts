@@ -518,7 +518,21 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 `
 
 const sCookieTab = 'binarot_tab'
+const sCookieUnlock = 'binarot_unlock'
 const nCookieMaxAge = 60 * 60 * 24 * 365
+const arrUnlockOrder = [
+  'cards',
+  'reading',
+  'birthday',
+  'starmap',
+  'planets',
+  'matrix',
+  'magic',
+  'pilgrim',
+  'house',
+  'about',
+] as const
+const sDefaultUnlock = 'reading'
 
 function sCookieValue(sName: string): string | null {
   const sPrefix = `${encodeURIComponent(sName)}=`
@@ -547,6 +561,76 @@ type tRoute =
   | { sKind: 'tab'; sTabId: string }
   | { sKind: 'card'; sSlug: string }
 
+function nUnlockIndex(sTabId: string): number {
+  return arrUnlockOrder.indexOf(sTabId as (typeof arrUnlockOrder)[number])
+}
+
+function bUnlockTabId(sTabId: string): boolean {
+  return nUnlockIndex(sTabId) >= 0
+}
+
+function sNormalizeUnlock(sTabId: string | null): string {
+  if (sTabId !== null && bUnlockTabId(sTabId)) {
+    return sTabId
+  }
+  return sDefaultUnlock
+}
+
+let sFurthestUnlocked = sNormalizeUnlock(sCookieValue(sCookieUnlock))
+
+{
+  const sSavedTab = sCookieValue(sCookieTab)
+  if (
+    sSavedTab !== null &&
+    bUnlockTabId(sSavedTab) &&
+    nUnlockIndex(sSavedTab) > nUnlockIndex(sFurthestUnlocked)
+  ) {
+    sFurthestUnlocked = sSavedTab
+    vSetCookie(sCookieUnlock, sFurthestUnlocked)
+  }
+}
+
+function bTabUnlocked(sTabId: string): boolean {
+  if (sTabId === 'dev') {
+    return true
+  }
+  const nTab = nUnlockIndex(sTabId)
+  if (nTab < 0) {
+    return false
+  }
+  return nTab <= nUnlockIndex(sFurthestUnlocked)
+}
+
+function vSyncTabVisibility(): void {
+  arrTabButtons.forEach((objTabButton: HTMLButtonElement) => {
+    const sTabId = objTabButton.dataset.tab
+    if (!sTabId) {
+      return
+    }
+    objTabButton.hidden = !bTabUnlocked(sTabId)
+  })
+}
+
+function vUnlockNextFrom(sTabId: string): void {
+  const nTab = nUnlockIndex(sTabId)
+  if (nTab < 0) {
+    return
+  }
+
+  const sNext = arrUnlockOrder[nTab + 1]
+  if (!sNext) {
+    return
+  }
+
+  if (nUnlockIndex(sNext) <= nUnlockIndex(sFurthestUnlocked)) {
+    return
+  }
+
+  sFurthestUnlocked = sNext
+  vSetCookie(sCookieUnlock, sFurthestUnlocked)
+  vSyncTabVisibility()
+}
+
 function bTabExists(sTabId: string): boolean {
   return arrTabButtons.some((objButton: HTMLButtonElement) => objButton.dataset.tab === sTabId)
 }
@@ -562,7 +646,7 @@ function objRouteFromHash(): tRoute | null {
     return { sKind: 'card', sSlug: arrCard[1]! }
   }
 
-  if (bTabExists(sHash)) {
+  if (bTabExists(sHash) && bTabUnlocked(sHash)) {
     return { sKind: 'tab', sTabId: sHash }
   }
 
@@ -621,12 +705,18 @@ function vActivateTab(sTabId: string): void {
   vSetExploreActive(sTabId === 'pilgrim')
   vSetHouseActive(sTabId === 'house')
   vSetCookie(sCookieTab, sTabId)
+  vUnlockNextFrom(sTabId)
 }
 
 function vSyncRoute(): void {
   const objRoute = objRouteFromHash()
 
   if (objRoute === null) {
+    const sHash = location.hash.replace(/^#/, '')
+    if (sHash && bTabExists(sHash) && !bTabUnlocked(sHash)) {
+      vNavigate('cards', true)
+      return
+    }
     vShowCardsIndex()
     return
   }
@@ -642,6 +732,12 @@ function vSyncRoute(): void {
 }
 
 function vNavigate(sHash: string, bReplace: boolean = false): void {
+  const sTabId = sHash.startsWith('card/') ? 'cards' : sHash
+  if (sTabId !== 'cards' && bTabExists(sTabId) && !bTabUnlocked(sTabId)) {
+    vNavigate('cards', true)
+    return
+  }
+
   const sUrl = `${location.pathname}${location.search}#${sHash}`
   if (bReplace) {
     history.replaceState(null, '', sUrl)
@@ -654,7 +750,7 @@ function vNavigate(sHash: string, bReplace: boolean = false): void {
 arrTabButtons.forEach((objButton: HTMLButtonElement) => {
   objButton.addEventListener('click', () => {
     const sTabId = objButton.dataset.tab
-    if (!sTabId) {
+    if (!sTabId || !bTabUnlocked(sTabId)) {
       return
     }
     vNavigate(sTabId)
@@ -664,12 +760,15 @@ arrTabButtons.forEach((objButton: HTMLButtonElement) => {
 window.addEventListener('hashchange', vSyncRoute)
 window.addEventListener('popstate', vSyncRoute)
 
+vSyncTabVisibility()
+
 const objInitialRoute = objRouteFromHash()
 if (objInitialRoute !== null) {
   vSyncRoute()
 } else {
   const sSavedTab = sCookieValue(sCookieTab)
-  const sInitialTab = sSavedTab !== null && bTabExists(sSavedTab) ? sSavedTab : 'cards'
+  const sInitialTab =
+    sSavedTab !== null && bTabExists(sSavedTab) && bTabUnlocked(sSavedTab) ? sSavedTab : 'cards'
   vNavigate(sInitialTab, true)
 }
 

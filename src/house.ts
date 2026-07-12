@@ -132,7 +132,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'hangers',
         sName: 'Hangers',
         sDetail:
-          'Wire hangers and a few wooden ones. They click softly when the door moves. No coats remain.',
+          'Wire hangers and a few wooden ones. They click softly when the door moves. One wooden hanger still bears a claim: a binarot card clipped to it—The Flag, marked 1.',
+        sDetailEmpty:
+          'Empty hangers tick against each other. The wooden one no longer holds a claim.',
+        sCardId: '1',
       },
       {
         sId: 'shelf',
@@ -166,7 +169,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'chair',
         sName: 'Reading chair',
         sDetail:
-          'A deep chair with worn arms. The cushion still holds the ghost of a seated shape. No book left behind.',
+          'A deep chair with worn arms. The cushion still holds the ghost of a seated shape. Between cushion and frame, pressed flat, lies a binarot card—The Tree, marked 111.',
+        sDetailEmpty:
+          'The chair is empty again. The seat remembers a reader; the card does not.',
+        sCardId: '111',
       },
       {
         sId: 'hearth',
@@ -217,7 +223,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'cupboards',
         sName: 'Cupboards',
         sDetail:
-          'Cupboards full of mismatched plates and a single cracked teacup. Something was cleared out in a hurry.',
+          'Cupboards full of mismatched plates and a single cracked teacup. Behind the plates, where paths of shelving split left and right, lies a binarot card—The Fork, marked 101.',
+        sDetailEmpty:
+          'Mismatched plates and a cracked teacup remain. The split in the shelving is empty.',
+        sCardId: '101',
       },
       {
         sId: 'table',
@@ -264,7 +273,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'tins',
         sName: 'Tins',
         sDetail:
-          'Dent-sided tins stacked three high. One rattles when shaken, but opens on dust and a dried bay leaf.',
+          'Dent-sided tins stacked three high. One rattles when shaken—not a bay leaf this time, but a binarot card: The Port, marked 110.',
+        sDetailEmpty:
+          'The tins are quiet now. One lid sits crooked where something crossed from inside to out.',
+        sCardId: '110',
       },
     ],
   },
@@ -294,7 +306,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'light',
         sName: 'Hall light',
         sDetail:
-          'A bare bulb in a frosted shade. It hums faintly even when you are sure it is off.',
+          'A bare bulb in a frosted shade. It hums faintly even when you are sure it is off. Taped inside the shade, answering the hum, is a binarot card—The Call, marked 10.',
+        sDetailEmpty:
+          'The bulb still hums. The shade is empty; whatever was calling has been taken.',
+        sCardId: '10',
       },
       {
         sId: 'attic_hatch',
@@ -371,7 +386,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'bed',
         sName: 'Bed',
         sDetail:
-          'A made bed, surprisingly neat. The pillow is cold. Whoever left intended to return.',
+          'A made bed, surprisingly neat. Under the pillow, placed with intent, lies a binarot card—The Agent, marked 1000.',
+        sDetailEmpty:
+          'The pillow is cold and flat. Whoever meant to return left their will elsewhere.',
+        sCardId: '1000',
       },
     ],
   },
@@ -500,7 +518,10 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'study_desk',
         sName: 'Desk',
         sDetail:
-          'A broad desk with neat stacks of blank paper. The blotter is stained in arguments of ink.',
+          'A broad desk with neat stacks of blank paper. Under the blotter, filed as if by habit, lies a binarot card—The State, marked 1111.',
+        sDetailEmpty:
+          'Blank paper and a stained blotter remain. The desk’s order is intact; its authority has been removed.',
+        sCardId: '1111',
       },
       {
         sId: 'study_window',

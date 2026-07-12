@@ -670,6 +670,18 @@ code {
   line-height: 1.65;
 }
 
+.reading-text a.reading-text-card {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.reading-text a.reading-text-card:hover {
+  text-decoration-color: currentColor;
+}
+
 .reading-text-lead,
 .reading-text-accent {
   color: #c4a8f0;

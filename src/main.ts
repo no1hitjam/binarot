@@ -232,11 +232,11 @@ function objResolveReading(objLeft: tCard, objRight: tCard, sOp: tOperator): tCa
 
 function sCardItemMarkup(objCard: tCard): string {
   return `
-    <article class="card-item">
+    <a class="card-item card-item-link" href="#card/${objCard.sBinaryValue}">
       ${sCardIconMarkup(objCard.sBinaryValue)}
       <h3>${objCard.sName} <span class="binary-value">(${objCard.sBinaryValue})</span></h3>
       <p>Represents ${objCard.sMeaning}.</p>
-    </article>
+    </a>
   `
 }
 
@@ -270,7 +270,9 @@ function sReadingResultMarkup(
   const objResult = objResolveReading(objLow, objHigh, sOp)
   const sSymbol = sOp === 'AND' ? '&' : '|'
   const sText = sReadingText(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)
-  const sTextMarkup = sText ? `<p class="reading-text">${sStyledReadingText(sText)}</p>` : ''
+  const sTextMarkup = sText
+    ? `<p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>`
+    : ''
   const sAiMarkup = bIncludeAiInstructions
     ? `<p class="dev-ai-instructions">${sDevAiInstructions}</p>`
     : ''
@@ -445,14 +447,30 @@ const arrTabPanels = Array.from(document.querySelectorAll<HTMLElement>('.tab-pan
 const objCardsIndex = document.querySelector<HTMLElement>('#cards-index')!
 const objCardsDetail = document.querySelector<HTMLElement>('#cards-detail')!
 
+type tRoute =
+  | { sKind: 'tab'; sTabId: string }
+  | { sKind: 'card'; sSlug: string }
+
 function bTabExists(sTabId: string): boolean {
   return arrTabButtons.some((objButton: HTMLButtonElement) => objButton.dataset.tab === sTabId)
 }
 
-function sCardSlugFromHash(): string | null {
+function objRouteFromHash(): tRoute | null {
   const sHash = location.hash.replace(/^#/, '')
-  const arrMatch = /^card\/(.+)$/.exec(sHash)
-  return arrMatch?.[1] ?? null
+  if (!sHash) {
+    return null
+  }
+
+  const arrCard = /^card\/(.+)$/.exec(sHash)
+  if (arrCard) {
+    return { sKind: 'card', sSlug: arrCard[1]! }
+  }
+
+  if (bTabExists(sHash)) {
+    return { sKind: 'tab', sTabId: sHash }
+  }
+
+  return null
 }
 
 function sCardDetailMarkup(objPage: tCardPage): string {
@@ -487,21 +505,8 @@ function vShowCardPage(sSlug: string): void {
   objCardsDetail.hidden = false
   objCardsDetail.innerHTML = sCardDetailMarkup(objPage)
   document.querySelector<HTMLButtonElement>('#card-detail-back')?.addEventListener('click', () => {
-    history.pushState(null, '', `${location.pathname}${location.search}`)
-    vShowCardsIndex()
+    vNavigate('cards')
   })
-}
-
-function vSyncCardRoute(): void {
-  const sSlug = sCardSlugFromHash()
-
-  if (sSlug === null) {
-    vShowCardsIndex()
-    return
-  }
-
-  vActivateTab('cards')
-  vShowCardPage(sSlug)
 }
 
 function vActivateTab(sTabId: string): void {
@@ -518,35 +523,54 @@ function vActivateTab(sTabId: string): void {
   vSetCookie(sCookieTab, sTabId)
 }
 
+function vSyncRoute(): void {
+  const objRoute = objRouteFromHash()
+
+  if (objRoute === null) {
+    vShowCardsIndex()
+    return
+  }
+
+  if (objRoute.sKind === 'card') {
+    vActivateTab('cards')
+    vShowCardPage(objRoute.sSlug)
+    return
+  }
+
+  vActivateTab(objRoute.sTabId)
+  vShowCardsIndex()
+}
+
+function vNavigate(sHash: string, bReplace: boolean = false): void {
+  const sUrl = `${location.pathname}${location.search}#${sHash}`
+  if (bReplace) {
+    history.replaceState(null, '', sUrl)
+  } else if (location.hash !== `#${sHash}`) {
+    history.pushState(null, '', sUrl)
+  }
+  vSyncRoute()
+}
+
 arrTabButtons.forEach((objButton: HTMLButtonElement) => {
   objButton.addEventListener('click', () => {
     const sTabId = objButton.dataset.tab
-
     if (!sTabId) {
       return
     }
-
-    if (sTabId !== 'cards' && sCardSlugFromHash() !== null) {
-      history.replaceState(null, '', `${location.pathname}${location.search}`)
-      vShowCardsIndex()
-    }
-
-    if (sTabId === 'cards' && sCardSlugFromHash() !== null) {
-      history.replaceState(null, '', `${location.pathname}${location.search}`)
-      vShowCardsIndex()
-    }
-
-    vActivateTab(sTabId)
+    vNavigate(sTabId)
   })
 })
 
-window.addEventListener('hashchange', vSyncCardRoute)
+window.addEventListener('hashchange', vSyncRoute)
+window.addEventListener('popstate', vSyncRoute)
 
-const sSavedTab = sCookieValue(sCookieTab)
-if (sCardSlugFromHash() !== null) {
-  vSyncCardRoute()
-} else if (sSavedTab !== null && bTabExists(sSavedTab)) {
-  vActivateTab(sSavedTab)
+const objInitialRoute = objRouteFromHash()
+if (objInitialRoute !== null) {
+  vSyncRoute()
+} else {
+  const sSavedTab = sCookieValue(sCookieTab)
+  const sInitialTab = sSavedTab !== null && bTabExists(sSavedTab) ? sSavedTab : 'cards'
+  vNavigate(sInitialTab, true)
 }
 
 function objFindCardByBinary(sBinary: string): tCard {

@@ -1972,8 +1972,39 @@ export function sReadingText(sLeftBinary: string, sRightBinary: string, sOp: tOp
   return objReadingTexts[sLow]?.[sHigh]?.[sOp]?.trim() ?? ''
 }
 
-/** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence). */
-export function sStyledReadingText(sText: string): string {
+export type tCardLink = {
+  sName: string
+  sSlug: string
+}
+
+function sEscapeRegExp(sValue: string): string {
+  return sValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function sLinkCardNames(sText: string, arrCardLinks: readonly tCardLink[]): string {
+  if (arrCardLinks.length === 0) {
+    return sText
+  }
+
+  const arrSorted = [...arrCardLinks].sort(
+    (objA: tCardLink, objB: tCardLink) => objB.sName.length - objA.sName.length,
+  )
+
+  let sResult = sText
+  for (const objCard of arrSorted) {
+    const sName = sEscapeRegExp(objCard.sName)
+    const objPattern = new RegExp(`\\b${sName}(?:\\s*\\([^)]*\\))?`, 'g')
+    sResult = sResult.replace(
+      objPattern,
+      (sMatch: string) =>
+        `<a class="reading-text-card" href="#card/${objCard.sSlug}">${sMatch}</a>`,
+    )
+  }
+  return sResult
+}
+
+/** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence, card links). */
+export function sStyledReadingText(sText: string, arrCardLinks: readonly tCardLink[] = []): string {
   if (!sText) {
     return ''
   }
@@ -2004,7 +2035,7 @@ export function sStyledReadingText(sText: string): string {
       sResult = `<span class="reading-text-accent">${sResult}</span>`
     }
 
-    return sResult
+    return sLinkCardNames(sResult, arrCardLinks)
   })
 
   return arrStyled.join('\n\n<span class="reading-text-sep" aria-hidden="true">✦✦</span>\n\n')

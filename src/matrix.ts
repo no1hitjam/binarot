@@ -51,6 +51,7 @@ const nMaxTrail = 32
 const nHeadGoldChance = 0.2
 const nGlyphMutateChance = 0.08
 const nCardNameChance = 0.12
+const nFadeInMs = 4500
 /** Cell step per trail link: +x and +y = down-right diagonal. */
 const nDiagX = 1
 const nDiagY = 1
@@ -70,6 +71,13 @@ let nAnimFrame = 0
 let bRunning = false
 let nDpr = 1
 let nDropCount = 0
+let nFadeInStart = 0
+
+function nIntroAlpha(): number {
+  const nElapsed = performance.now() - nFadeInStart
+  const nT = Math.min(1, Math.max(0, nElapsed / nFadeInMs))
+  return 1 - (1 - nT) * (1 - nT)
+}
 
 function sPickGlyph(): string {
   if (Math.random() < nCardNameChance) {
@@ -147,8 +155,11 @@ function vDrawFrame(): void {
   const nCols = Math.max(1, Math.floor(nW / nFontSize))
   const nRows = Math.max(1, Math.floor(nH / nFontSize))
 
-  objCtx.fillStyle = 'rgba(5, 3, 8, 0.2)'
+  objCtx.fillStyle = 'rgba(5, 3, 8, 0.14)'
   objCtx.fillRect(0, 0, nW, nH)
+
+  const nIntro = nIntroAlpha()
+  objCtx.globalAlpha = nIntro
 
   objCtx.font = `${nFontSize}px "IBM Plex Mono", Consolas, Monaco, monospace`
   objCtx.textAlign = 'center'
@@ -183,16 +194,16 @@ function vDrawFrame(): void {
           objCtx.shadowColor = 'rgba(120, 95, 25, 0.15)'
           objCtx.shadowBlur = 3
         } else {
-          objCtx.fillStyle = `rgba(60, 30, 105, ${0.25 + 0.2 * nFade})`
-          objCtx.shadowColor = 'rgba(60, 30, 105, 0.15)'
+          objCtx.fillStyle = `rgba(45, 55, 130, ${0.25 + 0.2 * nFade})`
+          objCtx.shadowColor = 'rgba(45, 55, 130, 0.15)'
           objCtx.shadowBlur = 3
         }
       } else if (nStep < 4) {
         objCtx.shadowBlur = 0
-        objCtx.fillStyle = `rgba(45, 22, 80, ${0.12 + 0.15 * nFade})`
+        objCtx.fillStyle = `rgba(50, 60, 140, ${0.2 + 0.22 * nFade})`
       } else {
         objCtx.shadowBlur = 0
-        objCtx.fillStyle = `rgba(28, 14, 50, ${0.04 + 0.1 * nFade})`
+        objCtx.fillStyle = `rgba(40, 48, 110, ${0.12 + 0.2 * nFade})`
       }
 
       objCtx.fillText(sGlyph, nPx, nPy)
@@ -209,6 +220,7 @@ function vDrawFrame(): void {
     }
   }
 
+  objCtx.globalAlpha = 1
   nAnimFrame = window.requestAnimationFrame(vDrawFrame)
 }
 
@@ -218,6 +230,8 @@ function vStart(): void {
   }
 
   bRunning = true
+  nFadeInStart = performance.now()
+  arrDrops = []
   vResize()
   if (objCtx) {
     objCtx.fillStyle = '#050308'

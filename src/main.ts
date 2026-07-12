@@ -3,6 +3,7 @@ import { sCardIconMarkup } from './cardIcons'
 import { sCompatibilityText } from './compatibilityTexts'
 import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
 import { sReadingSigilMarkup } from './readingSigil'
+import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
 import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -349,6 +350,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
       <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
+      <button type="button" class="tab-button" data-tab="magic" aria-selected="false">Magic</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -435,6 +437,14 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         Binary rain in the binarot register—bits, masks, and operations falling through the void.
       </p>
       ${sMatrixMarkup()}
+    </section>
+
+    <section class="tab-panel" data-panel="magic">
+      <h2>Magic</h2>
+      <p class="reading-intro">
+        The full deck drifts through depth—faces turn, signs tumble, and every card eventually returns.
+      </p>
+      ${sFloatMarkup()}
     </section>
 
     ${
@@ -586,6 +596,7 @@ function vActivateTab(sTabId: string): void {
   })
 
   vSetMatrixActive(sTabId === 'matrix')
+  vSetFloatActive(sTabId === 'magic')
   vSetCookie(sCookieTab, sTabId)
 }
 
@@ -921,3 +932,4 @@ vUpdateBirthdaySign()
 vBindStarmapHover()
 vBindPlanetsOrbitHover()
 vBindMatrixRain()
+vBindFloat(arrCards)

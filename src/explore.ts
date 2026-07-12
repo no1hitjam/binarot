@@ -9,16 +9,19 @@ const nCliffWidth = 96
 const nCliffHeight = 130
 const nMaxClimb = 0.95
 const nMoveSpeed = 28
-const nLookSens = 0.0022
+const nTurnSpeed = 1.8
 const nEyeHeight = 2.2
 const nGravity = 28
-const nJumpSpeed = 10
 const nFogNear = 80
 const nFogFar = 1100
 const nPlayHalf = nTerrainSize * 0.5 - 1.5
 const nStatueMargin = nCliffWidth + 140
 const nStatueClearSpawn = 70
 const nStatueFindRadius = 16
+const nStuckTravelFrac = 0.2
+const nStuckFramesBeforeAvoid = 12
+const nAvoidAngle = 0.9
+const nAvoidHoldSec = 1.4
 
 type tExploreCard = {
   sName: string
@@ -34,45 +37,27 @@ type tStatue = {
   objGlow: THREE.PointLight
 }
 
-type tKeys = {
-  bForward: boolean
-  bBack: boolean
-  bLeft: boolean
-  bRight: boolean
-  bJump: boolean
-}
-
 let arrExploreCards: tExploreCard[] = []
 let arrStatues: tStatue[] = []
 let objCanvasHost: HTMLElement | null = null
-let objHint: HTMLElement | null = null
 let objRenderer: THREE.WebGLRenderer | null = null
 let objScene: THREE.Scene | null = null
 let objCamera: THREE.PerspectiveCamera | null = null
 let arrHeights: Float32Array | null = null
 let nAnimFrame = 0
 let bRunning = false
-let bPointerLocked = false
 let nLastTs = 0
 let nYaw = 0
-let nPitch = -0.12
+let nPitch = -0.08
 let nVelY = 0
-let bOnGround = true
-let bAutoWalk = false
-
-const objKeys: tKeys = {
-  bForward: false,
-  bBack: false,
-  bLeft: false,
-  bRight: false,
-  bJump: false,
-}
+let objTargetStatue: tStatue | null = null
+let nStuckFrames = 0
+let nAvoidYaw = 0
+let nAvoidUntil = 0
+let nAvoidSign = 1
 
 const objPlayerPos = new THREE.Vector3(0, 20, 0)
 const objLookDir = new THREE.Vector3()
-const objRight = new THREE.Vector3()
-const objForwardFlat = new THREE.Vector3()
-const objMove = new THREE.Vector3()
 
 const objMatStone = new THREE.MeshStandardMaterial({
   color: 0x1a0f28,
@@ -541,6 +526,10 @@ function vDiscoverStatue(objStatue: tStatue): void {
     objMat.emissiveIntensity = 1.15
     objMat.needsUpdate = true
   }
+
+  if (objTargetStatue === objStatue) {
+    vCommitTarget(null)
+  }
 }
 
 function vUpdateStatueProximity(): void {
@@ -556,6 +545,93 @@ function vUpdateStatueProximity(): void {
       vDiscoverStatue(objStatue)
     }
   }
+}
+
+function nStatueDist2(objStatue: tStatue): number {
+  const nDx = objStatue.nX - objPlayerPos.x
+  const nDz = objStatue.nZ - objPlayerPos.z
+  return nDx * nDx + nDz * nDz
+}
+
+function objNearestUnfoundStatue(): tStatue | null {
+  let objBest: tStatue | null = null
+  let nBest = Infinity
+  for (const objStatue of arrStatues) {
+    if (objStatue.bFound) {
+      continue
+    }
+    const nD2 = nStatueDist2(objStatue)
+    if (nD2 < nBest) {
+      nBest = nD2
+      objBest = objStatue
+    }
+  }
+  return objBest
+}
+
+function nAngleDiff(nFrom: number, nTo: number): number {
+  let nDiff = nTo - nFrom
+  while (nDiff > Math.PI) nDiff -= Math.PI * 2
+  while (nDiff < -Math.PI) nDiff += Math.PI * 2
+  return nDiff
+}
+
+function nTryStep(nYawDir: number, nStep: number): number {
+  const nBeforeX = objPlayerPos.x
+  const nBeforeZ = objPlayerPos.z
+  vTryMove(Math.sin(nYawDir) * nStep, Math.cos(nYawDir) * nStep)
+  return Math.hypot(objPlayerPos.x - nBeforeX, objPlayerPos.z - nBeforeZ)
+}
+
+function vCommitTarget(objStatue: tStatue | null): void {
+  if (objTargetStatue === objStatue) {
+    return
+  }
+
+  objTargetStatue = objStatue
+  nStuckFrames = 0
+  nAvoidUntil = 0
+}
+
+function vAutoNavigate(nDt: number): void {
+  if (!objTargetStatue || objTargetStatue.bFound) {
+    vCommitTarget(objNearestUnfoundStatue())
+  }
+  if (!objTargetStatue) {
+    return
+  }
+
+  const nNow = performance.now() / 1000
+  const nDesiredYaw = Math.atan2(
+    objTargetStatue.nX - objPlayerPos.x,
+    objTargetStatue.nZ - objPlayerPos.z,
+  )
+
+  let nSteerYaw = nDesiredYaw
+  if (nNow < nAvoidUntil) {
+    nSteerYaw = nAvoidYaw
+  }
+
+  nYaw += nAngleDiff(nYaw, nSteerYaw) * Math.min(1, nTurnSpeed * nDt)
+  nPitch = -0.08
+
+  const nStep = nMoveSpeed * nDt
+  const nTravel = nTryStep(nYaw, nStep)
+
+  if (nTravel >= nStep * nStuckTravelFrac) {
+    nStuckFrames = 0
+    return
+  }
+
+  nStuckFrames += 1
+  if (nStuckFrames < nStuckFramesBeforeAvoid || nNow < nAvoidUntil) {
+    return
+  }
+
+  nAvoidSign = -nAvoidSign
+  nAvoidYaw = nDesiredYaw + nAvoidSign * nAvoidAngle
+  nAvoidUntil = nNow + nAvoidHoldSec
+  nStuckFrames = 0
 }
 
 function vAddStatues(objParent: THREE.Object3D): void {
@@ -594,7 +670,6 @@ function vPlacePlayerOnTerrain(): void {
   const nGround = nSampleHeight(0, 0)
   objPlayerPos.set(0, nGround + nEyeHeight, 0)
   nVelY = 0
-  bOnGround = true
   nYaw = 0
   nPitch = -0.08
   vUpdateCameraOrientation()
@@ -659,129 +734,21 @@ function vTick(nTs: number): void {
   const nDt = Math.min(0.05, (nTs - nLastTs) / 1000 || 0.016)
   nLastTs = nTs
 
-  objMove.set(0, 0, 0)
-  objForwardFlat.set(Math.sin(nYaw), 0, Math.cos(nYaw))
-  objRight.set(-Math.cos(nYaw), 0, Math.sin(nYaw))
-
-  if (objKeys.bForward || bAutoWalk) objMove.add(objForwardFlat)
-  if (objKeys.bBack) objMove.sub(objForwardFlat)
-  if (objKeys.bLeft) objMove.sub(objRight)
-  if (objKeys.bRight) objMove.add(objRight)
-
-  if (objMove.lengthSq() > 0) {
-    objMove.normalize().multiplyScalar(nMoveSpeed * nDt)
-    vTryMove(objMove.x, objMove.z)
-  }
+  vAutoNavigate(nDt)
 
   const nGround = nSampleHeight(objPlayerPos.x, objPlayerPos.z) + nEyeHeight
-
-  if (objKeys.bJump && bOnGround) {
-    nVelY = nJumpSpeed
-    bOnGround = false
-    objKeys.bJump = false
-  }
-
   nVelY -= nGravity * nDt
   objPlayerPos.y += nVelY * nDt
 
   if (objPlayerPos.y <= nGround) {
     objPlayerPos.y = nGround
     nVelY = 0
-    bOnGround = true
   }
 
   vUpdateStatueProximity()
   vUpdateCameraOrientation()
   objRenderer.render(objScene, objCamera)
   nAnimFrame = window.requestAnimationFrame(vTick)
-}
-
-function vOnKeyDown(objEv: KeyboardEvent): void {
-  if (!bRunning || !bPointerLocked) {
-    return
-  }
-
-  switch (objEv.code) {
-    case 'KeyW':
-    case 'ArrowUp':
-      objKeys.bForward = true
-      break
-    case 'KeyS':
-    case 'ArrowDown':
-      objKeys.bBack = true
-      break
-    case 'KeyA':
-    case 'ArrowLeft':
-      objKeys.bLeft = true
-      break
-    case 'KeyD':
-    case 'ArrowRight':
-      objKeys.bRight = true
-      break
-    case 'Space':
-      objEv.preventDefault()
-      objKeys.bJump = true
-      break
-    case 'KeyQ':
-      bAutoWalk = !bAutoWalk
-      break
-    default:
-      break
-  }
-}
-
-function vOnKeyUp(objEv: KeyboardEvent): void {
-  switch (objEv.code) {
-    case 'KeyW':
-    case 'ArrowUp':
-      objKeys.bForward = false
-      break
-    case 'KeyS':
-    case 'ArrowDown':
-      objKeys.bBack = false
-      break
-    case 'KeyA':
-    case 'ArrowLeft':
-      objKeys.bLeft = false
-      break
-    case 'KeyD':
-    case 'ArrowRight':
-      objKeys.bRight = false
-      break
-    case 'Space':
-      objKeys.bJump = false
-      break
-    default:
-      break
-  }
-}
-
-function vOnMouseMove(objEv: MouseEvent): void {
-  if (!bPointerLocked) {
-    return
-  }
-
-  nYaw -= objEv.movementX * nLookSens
-  nPitch -= objEv.movementY * nLookSens
-  nPitch = Math.min(1.4, Math.max(-1.4, nPitch))
-}
-
-function vOnPointerLockChange(): void {
-  bPointerLocked = document.pointerLockElement === objCanvasHost
-  if (objHint) {
-    objHint.hidden = bPointerLocked
-  }
-  if (!bPointerLocked) {
-    objKeys.bForward = false
-    objKeys.bBack = false
-    objKeys.bLeft = false
-    objKeys.bRight = false
-    objKeys.bJump = false
-  }
-}
-
-function vRequestPointerLock(): void {
-  objCanvasHost?.requestPointerLock()
 }
 
 function vInitScene(): void {
@@ -823,6 +790,7 @@ function vInitScene(): void {
 
   objScene.add(objBuildTerrain())
   vAddStatues(objScene)
+  vCommitTarget(null)
 
   vPlacePlayerOnTerrain()
   vResize()
@@ -846,23 +814,18 @@ function vStart(): void {
 
 function vStop(): void {
   bRunning = false
-  bAutoWalk = false
+  vCommitTarget(null)
   if (nAnimFrame !== 0) {
     window.cancelAnimationFrame(nAnimFrame)
     nAnimFrame = 0
-  }
-  if (document.pointerLockElement === objCanvasHost) {
-    document.exitPointerLock()
   }
 }
 
 export function sExploreMarkup(): string {
   return `
     <div class="explore" id="explore">
-      <div class="explore-viewport" id="explore-viewport" tabindex="0" role="application" aria-label="Terrain explorer">
-        <p class="explore-hint" id="explore-hint">Click to look · WASD move · Q auto-walk · Space jump · Esc release</p>
-      </div>
-      <p class="explore-caption">wander · statues of the deck</p>
+      <div class="explore-viewport" id="explore-viewport" role="img" aria-label="Automatic terrain explorer"></div>
+      <p class="explore-caption">pilgrim · statues of the deck</p>
     </div>
   `
 }
@@ -870,23 +833,17 @@ export function sExploreMarkup(): string {
 export function vBindExplore(arrCards: tExploreCard[]): void {
   arrExploreCards = arrCards
   objCanvasHost = document.querySelector<HTMLElement>('#explore-viewport')
-  objHint = document.querySelector<HTMLElement>('#explore-hint')
   if (!objCanvasHost) {
     return
   }
 
-  objCanvasHost.addEventListener('click', vRequestPointerLock)
-  document.addEventListener('pointerlockchange', vOnPointerLockChange)
-  document.addEventListener('mousemove', vOnMouseMove)
-  window.addEventListener('keydown', vOnKeyDown)
-  window.addEventListener('keyup', vOnKeyUp)
   window.addEventListener('resize', () => {
     if (bRunning) {
       vResize()
     }
   })
 
-  const objPanel = document.querySelector<HTMLElement>('[data-panel="explore"]')
+  const objPanel = document.querySelector<HTMLElement>('[data-panel="pilgrim"]')
   if (objPanel?.classList.contains('is-active')) {
     vStart()
   }

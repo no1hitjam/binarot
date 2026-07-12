@@ -1987,7 +1987,7 @@ export function sStyledReadingText(sText: string): string {
       const objFirst = /^([^\s][^.!?]*)([.!?])/.exec(sResult)
       if (objFirst) {
         const sFirst = `${objFirst[1]}${objFirst[2]}`
-        sResult = `<strong class="reading-text-lead">${sFirst}</strong>${sResult.slice(sFirst.length)}`
+        sResult = `<strong class="reading-text-lead">${sFirst}</strong>${sResult.slice(sFirst.length).trimStart()}`
       }
     }
 

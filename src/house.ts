@@ -10,13 +10,20 @@ type tThing = {
   sName: string
   sDetail: string
   sDetailEmpty?: string
+  sDetailUnlock?: string
   sCardId?: string
+  sItemId?: string
+  sItemName?: string
+  sNeedItem?: string
   sSetFlag?: string
 }
 
 type tSecretExit = {
   sRoomId: string
   sFlag: string
+  bShowLocked?: boolean
+  sLockedLabel?: string
+  sLockedMessage?: string
 }
 
 type tRoom = {
@@ -33,6 +40,15 @@ type tHouseState = {
   setInventory: Set<string>
   setFound: Set<string>
   setFlags: Set<string>
+  mapItems: Map<string, string>
+}
+
+type tExitInfo = {
+  sDir: tExitDir
+  sRoomId: string
+  bLocked: boolean
+  sLabel: string
+  sLockedMessage: string
 }
 
 const nCardGoal = 16
@@ -50,7 +66,11 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'doormat',
         sName: 'Doormat',
         sDetail:
-          'A frayed doormat, letters half-worn away. Someone wiped their feet here for years. Nothing under it but colder floorboards.',
+          'A frayed doormat, letters half-worn away. You lift a corner. Underneath, cold against the boards, lies a small iron key tagged basement.',
+        sDetailEmpty:
+          'The doormat lies flat again. Nothing else is underneath but colder floorboards.',
+        sItemId: 'basement_key',
+        sItemName: 'basement key',
       },
       {
         sId: 'console',
@@ -129,10 +149,17 @@ const mapRooms: Record<string, tRoom> = {
     sId: 'parlor',
     sName: 'Parlor',
     sDescription:
-      'A quiet parlor. Curtains mute the light. A reading chair faces a cold hearth. The hallway is west.',
+      'A quiet parlor. Curtains mute the light. A reading chair faces a cold hearth. A study door sits east; the hallway is west.',
     mapExits: { west: 'hallway' },
     mapSecretExits: {
       north: { sRoomId: 'secret_room', sFlag: 'hearth_passage' },
+      east: {
+        sRoomId: 'study',
+        sFlag: 'study_open',
+        bShowLocked: true,
+        sLockedLabel: 'Study (locked)',
+        sLockedMessage: 'The study door is locked. You will need a key.',
+      },
     },
     arrThings: [
       {
@@ -156,14 +183,35 @@ const mapRooms: Record<string, tRoom> = {
         sDetail:
           'Heavy curtains drink the daylight. Drawing them aside shows a sealed window and a thin film of dust.',
       },
+      {
+        sId: 'study_door',
+        sName: 'Study door',
+        sDetail:
+          'A paneled door on the east wall. The lock is brass and stubborn. Without a key, it stays shut.',
+        sDetailUnlock:
+          'The study key slides home. The door opens on paper, ink, and quiet.',
+        sDetailEmpty:
+          'The study door stands open. Shelves and a desk wait beyond.',
+        sNeedItem: 'study_key',
+        sSetFlag: 'study_open',
+      },
     ],
   },
   kitchen: {
     sId: 'kitchen',
     sName: 'Kitchen',
     sDescription:
-      'An old kitchen. Cupboards stand half-open. A pantry door sits to the north; the hallway is east.',
+      'An old kitchen. Cupboards stand half-open. A pantry door sits to the north; a basement door is set low in the south wall. The hallway is east.',
     mapExits: { east: 'hallway', north: 'pantry' },
+    mapSecretExits: {
+      down: {
+        sRoomId: 'basement',
+        sFlag: 'basement_open',
+        bShowLocked: true,
+        sLockedLabel: 'Basement (locked)',
+        sLockedMessage: 'The basement door is locked. You will need a key.',
+      },
+    },
     arrThings: [
       {
         sId: 'cupboards',
@@ -185,6 +233,18 @@ const mapRooms: Record<string, tRoom> = {
         sName: 'Sink',
         sDetail:
           'A porcelain sink with a rusted faucet. A drip lands every few seconds, keeping time with nothing.',
+      },
+      {
+        sId: 'basement_door',
+        sName: 'Basement door',
+        sDetail:
+          'A heavy door set low in the south wall. The latch is locked. Without a key, it will not move.',
+        sDetailUnlock:
+          'The basement key fits. The latch turns with a dull click, and the heavy door swings inward on cold air and darkness.',
+        sDetailEmpty:
+          'The basement door stands open. Stairs descend into cooler dark.',
+        sNeedItem: 'basement_key',
+        sSetFlag: 'basement_open',
       },
     ],
   },
@@ -212,8 +272,17 @@ const mapRooms: Record<string, tRoom> = {
     sId: 'landing',
     sName: 'Upstairs Landing',
     sDescription:
-      'The upstairs landing. Two bedrooms flank the hall—east and west. Stairs lead back down.',
+      'The upstairs landing. Two bedrooms flank the hall—east and west. An attic hatch waits in the ceiling. Stairs lead back down.',
     mapExits: { down: 'hallway', east: 'bedroom_east', west: 'bedroom_west' },
+    mapSecretExits: {
+      up: {
+        sRoomId: 'attic',
+        sFlag: 'attic_open',
+        bShowLocked: true,
+        sLockedLabel: 'Attic (locked)',
+        sLockedMessage: 'The attic hatch is locked. You will need a key.',
+      },
+    },
     arrThings: [
       {
         sId: 'railing',
@@ -227,13 +296,34 @@ const mapRooms: Record<string, tRoom> = {
         sDetail:
           'A bare bulb in a frosted shade. It hums faintly even when you are sure it is off.',
       },
+      {
+        sId: 'attic_hatch',
+        sName: 'Attic hatch',
+        sDetail:
+          'A square hatch in the ceiling with a small iron lock. Without a key, it will not lift.',
+        sDetailUnlock:
+          'The attic key turns stiffly in the lock. The hatch drops a short ladder of cool air and dust.',
+        sDetailEmpty:
+          'The attic hatch hangs open. A short ladder leads up into the rafters.',
+        sNeedItem: 'attic_key',
+        sSetFlag: 'attic_open',
+      },
     ],
   },
   bedroom_east: {
     sId: 'bedroom_east',
     sName: 'East Bedroom',
-    sDescription: 'A spare bedroom. The mattress is stripped. The landing is west.',
+    sDescription: 'A spare bedroom. The mattress is stripped. A tall wardrobe stands against the north wall. The landing is west.',
     mapExits: { west: 'landing' },
+    mapSecretExits: {
+      north: {
+        sRoomId: 'safe_room',
+        sFlag: 'safe_open',
+        bShowLocked: true,
+        sLockedLabel: 'Safe room (locked)',
+        sLockedMessage: 'The wardrobe will not yield. Something behind it is locked.',
+      },
+    },
     arrThings: [
       {
         sId: 'mattress',
@@ -245,7 +335,13 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'wardrobe',
         sName: 'Wardrobe',
         sDetail:
-          'An empty wardrobe. The door sticks, then opens on cedar smell and a single wire hanger.',
+          'An empty wardrobe. The door sticks, then opens on cedar smell and a single wire hanger. The back panel is solid—and locked from this side.',
+        sDetailUnlock:
+          'The safe-room key fits a hidden latch in the wardrobe’s back. The panel swings inward on a narrow sealed room.',
+        sDetailEmpty:
+          'The wardrobe stands open. Beyond the false back, the safe room waits.',
+        sNeedItem: 'safe_key',
+        sSetFlag: 'safe_open',
       },
     ],
   },
@@ -259,7 +355,11 @@ const mapRooms: Record<string, tRoom> = {
         sId: 'desk',
         sName: 'Writing desk',
         sDetail:
-          'A writing desk with a shallow drawer. Inside: blotter paper, a dried pen, and a faint ink stain shaped like a bit.',
+          'A writing desk with a shallow drawer. Inside: blotter paper, a dried pen, and a brass key tagged study, resting on a faint ink stain shaped like a bit.',
+        sDetailEmpty:
+          'The drawer holds blotter paper and a dried pen. The ink stain remains; the study key is gone.',
+        sItemId: 'study_key',
+        sItemName: 'study key',
       },
       {
         sId: 'shutters',
@@ -299,6 +399,179 @@ const mapRooms: Record<string, tRoom> = {
       },
     ],
   },
+  basement: {
+    sId: 'basement',
+    sName: 'Basement',
+    sDescription:
+      'A cool basement of packed earth and stone. A low door is set further down into older dark. Stairs climb back to the kitchen.',
+    mapExits: { up: 'kitchen' },
+    mapSecretExits: {
+      down: {
+        sRoomId: 'root_cellar',
+        sFlag: 'root_cellar_open',
+        bShowLocked: true,
+        sLockedLabel: 'Root cellar (locked)',
+        sLockedMessage: 'The root cellar door is locked. You will need a key.',
+      },
+    },
+    arrThings: [
+      {
+        sId: 'furnace',
+        sName: 'Furnace',
+        sDetail:
+          'An old furnace, cold for years. The grate is shut. Ash and a smell of iron linger around it.',
+      },
+      {
+        sId: 'shelves',
+        sName: 'Storage shelves',
+        sDetail:
+          'Rough shelves hold paint cans, coiled rope, and a box of nails. Behind the paint cans, hooked on a nail, hangs a small brass key tagged attic.',
+        sDetailEmpty:
+          'Paint cans, rope, and nails remain. The nail where the attic key hung is empty.',
+        sItemId: 'attic_key',
+        sItemName: 'attic key',
+      },
+      {
+        sId: 'floor',
+        sName: 'Dirt floor',
+        sDetail:
+          'The packed earth shows old footprints crossing and re-crossing the same path to the stairs.',
+      },
+      {
+        sId: 'root_cellar_door',
+        sName: 'Root cellar door',
+        sDetail:
+          'A low, heavy door set deeper into the foundation. The lock is pitted with rust. Without a key, it holds.',
+        sDetailUnlock:
+          'The root cellar key fights the rust, then turns. Cold air and the smell of earth spill out.',
+        sDetailEmpty:
+          'The root cellar door stands open. Stone steps sink into colder dark.',
+        sNeedItem: 'root_cellar_key',
+        sSetFlag: 'root_cellar_open',
+      },
+    ],
+  },
+  attic: {
+    sId: 'attic',
+    sName: 'Attic',
+    sDescription:
+      'A low attic under the rafters. Heat gathers here. Trunks and sheeted shapes crowd the eaves. The hatch leads back down.',
+    mapExits: { down: 'landing' },
+    arrThings: [
+      {
+        sId: 'trunks',
+        sName: 'Trunks',
+        sDetail:
+          'Travel trunks stacked two high. The latches are stiff with age. Inside: moth-eaten wool and a broken picture frame.',
+      },
+      {
+        sId: 'rafters',
+        sName: 'Rafters',
+        sDetail:
+          'Rough beams run the length of the roof. Cobwebs span the gaps like abandoned wiring.',
+      },
+      {
+        sId: 'window',
+        sName: 'Attic window',
+        sDetail:
+          'A small round window looks over the yard. Dust turns the daylight grey.',
+      },
+    ],
+  },
+  study: {
+    sId: 'study',
+    sName: 'Study',
+    sDescription:
+      'A small study lined with shelves. A desk faces the window. The air smells of paper and old ink. The parlor is west.',
+    mapExits: { west: 'parlor' },
+    arrThings: [
+      {
+        sId: 'books',
+        sName: 'Bookshelf',
+        sDetail:
+          'Crowded shelves of philosophy and correspondence. One volume is hollow. Inside: a heavy key tagged root cellar, and a binarot card—The Forum, marked 1110.',
+        sDetailEmpty:
+          'The hollow book stands open on the shelf. Dust outlines where the key and card once rested.',
+        sItemId: 'root_cellar_key',
+        sItemName: 'root cellar key',
+        sCardId: '1110',
+      },
+      {
+        sId: 'study_desk',
+        sName: 'Desk',
+        sDetail:
+          'A broad desk with neat stacks of blank paper. The blotter is stained in arguments of ink.',
+      },
+      {
+        sId: 'study_window',
+        sName: 'Window',
+        sDetail:
+          'The window looks onto a neglected garden. Rain has marked the glass in long streaks.',
+      },
+    ],
+  },
+  root_cellar: {
+    sId: 'root_cellar',
+    sName: 'Root Cellar',
+    sDescription:
+      'A root cellar cut into stone and earth. Shelves hold empty crates. The cold is steady. Stairs lead back up to the basement.',
+    mapExits: { up: 'basement' },
+    arrThings: [
+      {
+        sId: 'crates',
+        sName: 'Crates',
+        sDetail:
+          'Empty crates stamped with faded orchard names. In the corner of one, wrapped in oilcloth, lies a binarot card—The Host, marked 100—and a small keyed tag marked safe.',
+        sDetailEmpty:
+          'The crates are empty. Oilcloth lies folded where something was kept dry.',
+        sItemId: 'safe_key',
+        sItemName: 'safe-room key',
+        sCardId: '100',
+      },
+      {
+        sId: 'stone_walls',
+        sName: 'Stone walls',
+        sDetail:
+          'The walls sweat faintly. Tool marks show where the cellar was enlarged by hand.',
+      },
+      {
+        sId: 'cellar_shelves',
+        sName: 'Cellar shelves',
+        sDetail:
+          'Bare shelves, once for roots and jars. A single bent nail holds nothing.',
+      },
+    ],
+  },
+  safe_room: {
+    sId: 'safe_room',
+    sName: 'Safe Room',
+    sDescription:
+      'A narrow safe room behind the wardrobe. No windows. The walls are reinforced. The only way out is back through the false panel.',
+    mapExits: { south: 'bedroom_east' },
+    arrThings: [
+      {
+        sId: 'strongbox',
+        sName: 'Strongbox',
+        sDetail:
+          'A metal strongbox bolted to the floor. The lid lifts without resistance. Inside lies a binarot card—The Link, marked 11.',
+        sDetailEmpty:
+          'The strongbox is empty. Its hinges still move as if expecting a return.',
+        sCardId: '11',
+      },
+      {
+        sId: 'cot',
+        sName: 'Cot',
+        sDetail:
+          'A folding cot with a thin blanket. Someone prepared to wait here, and then did not.',
+      },
+      {
+        sId: 'vent',
+        sName: 'Air vent',
+        sDetail:
+          'A small vent near the ceiling ticks when the house settles. Air moves, barely.',
+      },
+    ],
+  },
 }
 
 let arrDeck: tHouseCard[] = []
@@ -318,6 +591,7 @@ function objFreshState(): tHouseState {
     setInventory: new Set(),
     setFound: new Set(),
     setFlags: new Set(),
+    mapItems: new Map(),
   }
 }
 
@@ -325,24 +599,64 @@ function objRoom(sRoomId: string): tRoom {
   return mapRooms[sRoomId] ?? mapRooms.foyer!
 }
 
-function sExitRoomId(objHere: tRoom, sDir: tExitDir): string | undefined {
+function bHasItem(sItemId: string): boolean {
+  return objState.mapItems.has(sItemId)
+}
+
+function objExitInfo(objHere: tRoom, sDir: tExitDir): tExitInfo | null {
   const sOpenId = objHere.mapExits[sDir]
   if (sOpenId) {
-    return sOpenId
+    return {
+      sDir,
+      sRoomId: sOpenId,
+      bLocked: false,
+      sLabel: objRoom(sOpenId).sName,
+      sLockedMessage: '',
+    }
   }
+
   const objSecret = objHere.mapSecretExits?.[sDir]
-  if (objSecret && objState.setFlags.has(objSecret.sFlag)) {
-    return objSecret.sRoomId
+  if (!objSecret) {
+    return null
   }
-  return undefined
+
+  const bOpen = objState.setFlags.has(objSecret.sFlag)
+  if (bOpen) {
+    return {
+      sDir,
+      sRoomId: objSecret.sRoomId,
+      bLocked: false,
+      sLabel: objRoom(objSecret.sRoomId).sName,
+      sLockedMessage: '',
+    }
+  }
+
+  if (!objSecret.bShowLocked) {
+    return null
+  }
+
+  return {
+    sDir,
+    sRoomId: objSecret.sRoomId,
+    bLocked: true,
+    sLabel: objSecret.sLockedLabel ?? `${objRoom(objSecret.sRoomId).sName} (locked)`,
+    sLockedMessage: objSecret.sLockedMessage ?? 'That way is locked.',
+  }
 }
 
 function sThingDetail(objThing: tThing): string {
   const bCardTaken = Boolean(objThing.sCardId && objState.setFound.has(objThing.sCardId))
   const bFlagSet = Boolean(objThing.sSetFlag && objState.setFlags.has(objThing.sSetFlag))
-  if ((bCardTaken || bFlagSet) && objThing.sDetailEmpty) {
+  const bItemTaken = Boolean(objThing.sItemId && bHasItem(objThing.sItemId))
+
+  if ((bCardTaken || bFlagSet || bItemTaken) && objThing.sDetailEmpty) {
     return objThing.sDetailEmpty
   }
+
+  if (objThing.sNeedItem && bHasItem(objThing.sNeedItem) && objThing.sDetailUnlock && !bFlagSet) {
+    return objThing.sDetailUnlock
+  }
+
   return objThing.sDetail
 }
 
@@ -397,17 +711,19 @@ function vRefreshExits(): void {
   objExits.replaceChildren()
 
   for (const sDir of arrExitOrder) {
-    const sNextId = sExitRoomId(objHere, sDir)
-    if (!sNextId) {
+    const objExit = objExitInfo(objHere, sDir)
+    if (!objExit) {
       continue
     }
-    const objNext = objRoom(sNextId)
     const objButton = document.createElement('button')
     objButton.type = 'button'
-    objButton.className = 'house-exit'
+    objButton.className = objExit.bLocked ? 'house-exit is-locked' : 'house-exit'
     objButton.dataset.dir = sDir
-    objButton.textContent = objNext.sName
-    objButton.setAttribute('aria-label', `Go to ${objNext.sName}`)
+    objButton.textContent = objExit.sLabel
+    objButton.setAttribute(
+      'aria-label',
+      objExit.bLocked ? `${objExit.sLabel}` : `Go to ${objExit.sLabel}`,
+    )
     objExits.appendChild(objButton)
   }
 
@@ -456,7 +772,9 @@ function vRefreshStatus(): void {
   }
   const objHere = objRoom(objState.sRoomId)
   const nFound = objState.setFound.size
-  objStatus.textContent = `${objHere.sName} · ${nFound}/${nCardGoal} cards`
+  const arrItemNames = Array.from(objState.mapItems.values())
+  const sItems = arrItemNames.length > 0 ? ` · ${arrItemNames.join(', ')}` : ''
+  objStatus.textContent = `${objHere.sName} · ${nFound}/${nCardGoal} cards${sItems}`
 }
 
 function vRefreshUi(): void {
@@ -481,14 +799,18 @@ function vResetGame(): void {
 
 function vTryMove(sDir: tExitDir): void {
   const objHere = objRoom(objState.sRoomId)
-  const sNextId = sExitRoomId(objHere, sDir)
-  if (!sNextId) {
+  const objExit = objExitInfo(objHere, sDir)
+  if (!objExit) {
     vAppendLog('You cannot go that way.', 'system')
     return
   }
-  const objNext = objRoom(sNextId)
+  if (objExit.bLocked) {
+    vAppendLog(objExit.sLockedMessage, 'system')
+    return
+  }
+  const objNext = objRoom(objExit.sRoomId)
   vAppendLog(`You enter ${objNext.sName}.`, 'command')
-  objState.sRoomId = sNextId
+  objState.sRoomId = objExit.sRoomId
   vAppendLog(sLookText(), 'story')
   vRefreshUi()
 }
@@ -512,6 +834,14 @@ function vTryTakeCard(sCardId: string): void {
   }
 }
 
+function vTryTakeItem(objThing: tThing): void {
+  if (!objThing.sItemId || !objThing.sItemName || bHasItem(objThing.sItemId)) {
+    return
+  }
+  objState.mapItems.set(objThing.sItemId, objThing.sItemName)
+  vAppendLog(`You take the ${objThing.sItemName}.`, 'story')
+}
+
 function vExamineThing(sThingId: string): void {
   const objHere = objRoom(objState.sRoomId)
   const objThing = objHere.arrThings.find((objItem) => objItem.sId === sThingId)
@@ -525,7 +855,13 @@ function vExamineThing(sThingId: string): void {
 
   let bChanged = false
 
-  if (objThing.sSetFlag && !objState.setFlags.has(objThing.sSetFlag)) {
+  if (objThing.sItemId && !bHasItem(objThing.sItemId)) {
+    vTryTakeItem(objThing)
+    bChanged = true
+  }
+
+  const bCanUnlock = !objThing.sNeedItem || bHasItem(objThing.sNeedItem)
+  if (objThing.sSetFlag && bCanUnlock && !objState.setFlags.has(objThing.sSetFlag)) {
     objState.setFlags.add(objThing.sSetFlag)
     bChanged = true
   }

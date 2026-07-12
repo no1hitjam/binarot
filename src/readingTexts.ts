@@ -757,616 +757,1208 @@ Step fully into your own maturity, allowing yourself to occupy the full scale of
     },
     '1000': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+You are allowed to outgrow a version of yourself without apologizing to it. Your reading measured The Link (11) against The Agent (1000) through the narrowing logic of an AND operation, yielding a concentrated baseline governed by The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+Between the promises and bonds you maintain and your independent will and drive to act, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the quiet of a fresh start.
+
+Allow yourself to begin again without needing to justify what shape it will eventually take. This does not need to be solved today, only acknowledged and given some room. Trust the quiet of a fresh start, and let the rest come into focus in its own time.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The things we repeat without noticing are usually the things that shape us the most. Your reading gathered The Link (11) alongside The Agent (1000) under the inclusive function of an OR operation, leaving your final landscape governed by The Cache (1011). This result describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+An OR operation never asks you to choose between the promises and bonds you maintain and your independent will and drive to act; it simply widens the frame until both fit comfortably inside it. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the value of what you already know.
+
+Let yourself retrieve what you already know instead of searching outward for something entirely new. You do not need permission from anyone else to let this settle in at its own pace. Trust the value of what you already know more than you trust your urge to hurry past it.
 `,
     },
     '1001': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Flag (1) represents claims, power, and sovereignty.
+What you protect too tightly eventually starts to feel like a cage rather than a shelter. Your reading tested The Link (11) against The Table (1001) under the strict filtering of an AND operation, yielding a concentrated baseline governed by The Flag (1). This result describes a commanding, singular environment where a single, plainly stated position is enough, with no further defense required.
+
+An AND operation never asks you to reconcile all of the promises and bonds you maintain with all of the gatherings and quiet plots you take part in; it only keeps what they were already quietly saying together. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the clarity of your own claim.
+
+Choose, gently but deliberately, to plant your claim plainly and let it stand without constantly having to defend it. It is enough to move quietly in this direction, without announcing or defending it. Trust the clarity of your own claim, and let the rest come into focus in its own time.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+You are allowed to outgrow a version of yourself without apologizing to it. Your reading gathered The Link (11) alongside The Table (1001) under the welcoming embrace of an OR operation, resolving into the wider field of The Cache (1011). This result describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+Because this reading gathers rather than trims, the promises and bonds you maintain and the gatherings and quiet plots you take part in are allowed to sit side by side without cancelling each other out. You are not being asked to pick a lane here; the space is generous enough to hold both, with the value of what you already know simply given the most room to stretch out in.
+
+There is real wisdom in choosing to retrieve what you already know instead of searching outward for something entirely new. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the value of what you already know; it is quietly doing more work than it appears to.
 `,
     },
     '1010': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Call (10) represents summonings, duty, and serendipity.
+The quiet work of tending something rarely looks as dramatic as the work of building it. Your reading tested The Link (11) against The Clone (1010) through the exacting function of an AND operation, leaving you with The Call (10) as your final result. The reading describes a sudden, fated environment where a single obligation or invitation is asking to be answered before anything else.
+
+Filtering the promises and bonds you maintain through the patterns you repeat and the reflections you notice strips away everything decorative, leaving only what the two genuinely agree on. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the timing of what is calling you.
+
+Give yourself permission to answer only the summons that actually matches your own timing, and let the rest wait. It is enough to move quietly in this direction, without announcing or defending it. Trust the timing of what is calling you more than you trust your urge to hurry past it.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The plainest truth in the room is usually also the one everyone is avoiding. Your reading combined The Link (11) with The Clone (1010) under the inclusive function of an OR operation, synthesizing a landscape embodied by The Cache (1011). This result describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+Because this reading gathers rather than trims, the promises and bonds you maintain and the patterns you repeat and the reflections you notice are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the value of what you already know.
+
+There is real wisdom in choosing to retrieve what you already know instead of searching outward for something entirely new. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the value of what you already know, and let everything else settle around it naturally.
 `,
     },
     '1011': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Link (11) represents connections, promises, and security.
+What is true rarely needs to be defended as loudly as what is merely convenient. Your reading measured The Link (11) against The Cache (1011) under the precise, reductive lens of an AND operation, narrowing everything down to The Link (11). This outcome describes a steady, interlinked environment where a promise quietly holds two things together without either side needing to grip too hard.
+
+Between the promises and bonds you maintain and the knowledge and reserves you have quietly stored away, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the strength of the promises you keep.
+
+Let yourself tend the promise itself rather than the appearance of it. None of this requires a grand gesture; it only asks for your honest attention. Hold onto the strength of the promises you keep; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+There is a difference between waiting and simply not yet knowing what to do, and both deserve patience. Your reading gathered The Link (11) alongside The Cache (1011) through the generous logic of an OR operation, expanding outward until it settles on The Cache (1011). This result describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+Because this reading gathers rather than trims, the promises and bonds you maintain and the knowledge and reserves you have quietly stored away are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the value of what you already know.
+
+Choose, gently but deliberately, to retrieve what you already know instead of searching outward for something entirely new. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the value of what you already know; it is quietly doing more work than it appears to.
 `,
     },
     '1100': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Seed (0) represents beginnings, ideas, and origins.
+What is meant to grow will usually keep growing, even when you stop watching it closely. Your reading tested The Link (11) against The Frame (1100) through the narrowing logic of an AND operation, returning you directly to The Seed (0). This result describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+When the promises and bonds you maintain is tested strictly against the perspective through which you are currently viewing things, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the quiet of a fresh start.
+
+Choose, gently but deliberately, to begin again without needing to justify what shape it will eventually take. None of this requires a grand gesture; it only asks for your honest attention. Lean on the quiet of a fresh start, and let everything else settle around it naturally.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The State (1111) represents organization, authority, and politics.
+Some things only make sense once you stop trying to explain them to everyone else. Your reading merged The Link (11) with The Frame (1100) through the generous logic of an OR operation, synthesizing a landscape embodied by The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, the promises and bonds you maintain and the perspective through which you are currently viewing things stop negotiating and start quietly reinforcing one another. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1101': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Flag (1) represents claims, power, and sovereignty.
+A foundation is proven less by how tall it stands and more by what it can still hold. Your reading filtered The Link (11) against The Shell (1101) through the narrowing logic of an AND operation, returning you directly to The Flag (1). This outcome describes a commanding, singular environment where a single, plainly stated position is enough, with no further defense required.
+
+When the promises and bonds you maintain is tested strictly against the boundaries and defenses you maintain, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the clarity of your own claim.
+
+Give yourself permission to plant your claim plainly and let it stand without constantly having to defend it. This does not need to be solved today, only acknowledged and given some room. Hold onto the clarity of your own claim; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
+You do not need a crowd to validate a decision that was only ever yours to make. Your reading integrated The Link (11) alongside The Shell (1101) through the expansive threshold of an OR operation, expanding outward until it settles on The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the promises and bonds you maintain and the boundaries and defenses you maintain are allowed to sit side by side without cancelling each other out. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Give yourself permission to trust the structure you have built to hold the weight of the many. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
     '1110': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Call (10) represents summonings, duty, and serendipity.
+The clearest answers tend to show up after you stop demanding one. Your reading filtered The Link (11) against The Forum (1110) under the strict filtering of an AND operation, narrowing everything down to The Call (10). The reading describes a sudden, fated environment where a single obligation or invitation is asking to be answered before anything else.
+
+An AND operation never asks you to reconcile all of the promises and bonds you maintain with all of the debates and philosophies you engage with; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the timing of what is calling you.
+
+There is real wisdom in choosing to answer only the summons that actually matches your own timing, and let the rest wait. None of this requires a grand gesture; it only asks for your honest attention. Trust the timing of what is calling you more than you trust your urge to hurry past it.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+What is true rarely needs to be defended as loudly as what is merely convenient. Your reading gathered The Link (11) alongside The Forum (1110) through the expansive threshold of an OR operation, expanding outward until it settles on The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the promises and bonds you maintain and the debates and philosophies you engage with are allowed to sit side by side without cancelling each other out. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Give yourself permission to trust the structure you have built to hold the weight of the many. You do not need permission from anyone else to let this settle in at its own pace. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1111': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Link (11) represents connections, promises, and security.
+A single honest conversation can accomplish more than months of careful avoidance. Your reading filtered The Link (11) against The State (1111) through the narrowing logic of an AND operation, returning you directly to The Link (11). The reading describes a steady, interlinked environment where a promise quietly holds two things together without either side needing to grip too hard.
+
+An AND operation never asks you to reconcile all of the promises and bonds you maintain with all of the systems and structures you organize your life around; it only keeps what they were already quietly saying together. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the strength of the promises you keep.
+
+Choose, gently but deliberately, to tend the promise itself rather than the appearance of it. You do not need permission from anyone else to let this settle in at its own pace. Hold onto the strength of the promises you keep; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+What is true rarely needs to be defended as loudly as what is merely convenient. Your reading gathered The Link (11) alongside The State (1111) through the generous logic of an OR operation, expanding outward until it settles on The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the promises and bonds you maintain and the systems and structures you organize your life around as complementary rather than competing. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Allow yourself to trust the structure you have built to hold the weight of the many. It is enough to move quietly in this direction, without announcing or defending it. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
   },
   '100': {
     '101': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Host (100) represents shelter, ownership, and grace.
+Sometimes the most generous thing you can offer someone is simply your attention, undivided. Your reading combined The Host (100) with The Fork (101) through the narrowing logic of an AND operation, returning you directly to The Host (100). The reading describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+When the shelter and stewardship you provide is tested strictly against the diverging paths in front of you, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the shelter you have made room for.
+
+Let yourself offer the shelter you are able to, without keeping a private ledger of what it costs you. It is enough to move quietly in this direction, without announcing or defending it. Trust the shelter you have made room for more than you trust your urge to hurry past it.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+You do not need a map for every mile, only for the next honest step. Your reading gathered The Host (100) alongside The Fork (101) under the inclusive function of an OR operation, leaving your final landscape governed by The Fork (101). This result describes a dynamic, branching environment where the road splits and only your own resonance, not certainty, can choose the way.
+
+An OR operation never asks you to choose between the shelter and stewardship you provide and the diverging paths in front of you; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the resonance of the path you are drawn to simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to trust the path that resonates rather than the one that merely looks correct on paper. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the resonance of the path you are drawn to more than you trust your urge to hurry past it.
 `,
     },
     '110': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Host (100) represents shelter, ownership, and grace.
+The steadiest kind of progress rarely photographs well. Your reading filtered The Host (100) against The Port (110) through the exacting function of an AND operation, narrowing everything down to The Host (100). This result describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+Filtering the shelter and stewardship you provide through the gateways of trade and discovery around you strips away everything decorative, leaving only what the two genuinely agree on. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the shelter you have made room for.
+
+Choose, gently but deliberately, to offer the shelter you are able to, without keeping a private ledger of what it costs you. It is enough to move quietly in this direction, without announcing or defending it. Trust the shelter you have made room for, and let the rest come into focus in its own time.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Port (110) represents gateways, discovery, and trade.
+You do not owe an explanation for every choice that only affects your own path. Your reading merged The Host (100) with The Port (110) under the inclusive function of an OR operation, expanding outward until it settles on The Port (110). The reading describes a bustling, threshold environment where strangers, goods, and ideas cross over freely, and both sides are changed a little by the crossing.
+
+When the coin favors union, the shelter and stewardship you provide and the gateways of trade and discovery around you stop negotiating and start quietly reinforcing one another. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the flow of honest exchange.
+
+Give yourself permission to step back from the gate and trust that the exchange will enrich you rather than diminish you. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the flow of honest exchange, and let everything else settle around it naturally.
 `,
     },
     '111': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Host (100) represents shelter, ownership, and grace.
+The quietest kind of courage looks a great deal like simply showing up again tomorrow. Your reading measured The Host (100) against The Tree (111) through the exacting function of an AND operation, leaving you with The Host (100) as your final result. This result describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+Filtering the shelter and stewardship you provide through the full growth you have already cultivated strips away everything decorative, leaving only what the two genuinely agree on. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the shelter you have made room for to take the lead.
+
+Allow yourself to offer the shelter you are able to, without keeping a private ledger of what it costs you. None of this requires a grand gesture; it only asks for your honest attention. Trust the shelter you have made room for, and let the rest come into focus in its own time.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+There is a difference between guarding something and simply refusing to look at it honestly. Your reading gathered The Host (100) alongside The Tree (111) under the welcoming embrace of an OR operation, synthesizing a landscape embodied by The Tree (111). The reading describes a lush, far-reaching environment where roots run deep enough that the whole canopy can be trusted to hold its own weight.
+
+An OR operation never asks you to choose between the shelter and stewardship you provide and the full growth you have already cultivated; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the depth of what you have grown enough to let it lead.
+
+Allow yourself to trust that what you have grown can bear a little more weight than you currently think it can. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the depth of what you have grown more than you trust your urge to hurry past it.
 `,
     },
     '1000': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+What you choose to gather around you slowly becomes the shape of your days. Your reading tested The Host (100) against The Agent (1000) under the precise, reductive lens of an AND operation, yielding a concentrated baseline governed by The Seed (0). This result describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+Filtering the shelter and stewardship you provide through your independent will and drive to act strips away everything decorative, leaving only what the two genuinely agree on. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the quiet of a fresh start.
+
+Allow yourself to begin again without needing to justify what shape it will eventually take. Nothing about this calls for urgency, only for a willingness to notice what is already true. Lean on the quiet of a fresh start, and let everything else settle around it naturally.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Frame (1100) represents perspective, structure, and state of mind.
+A single well-placed boundary can do the work an entire argument never quite manages. Your reading merged The Host (100) with The Agent (1000) under the welcoming embrace of an OR operation, synthesizing a landscape embodied by The Frame (1100). This outcome describes a clear-eyed, structured environment where the same scene can be read as an entirely different story depending on where the edges are drawn.
+
+An OR operation never asks you to choose between the shelter and stewardship you provide and your independent will and drive to act; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the frame you choose to look through enough to let it lead.
+
+Give yourself permission to change the frame before you try to change the scene itself. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the frame you choose to look through, and let the rest come into focus in its own time.
 `,
     },
     '1001': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Seed (0) represents beginnings, ideas, and origins.
+A promise kept in private is worth more than one announced in public. Your reading combined The Host (100) with The Table (1001) through the narrowing logic of an AND operation, narrowing everything down to The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+When the shelter and stewardship you provide is tested strictly against the gatherings and quiet plots you take part in, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the quiet of a fresh start.
+
+Let yourself begin again without needing to justify what shape it will eventually take. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the quiet of a fresh start; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+A path chosen quietly is no less a path than one chosen loudly. Your reading merged The Host (100) with The Table (1001) under the inclusive function of an OR operation, synthesizing a landscape embodied by The Shell (1101). This result describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+When the coin favors union, the shelter and stewardship you provide and the gatherings and quiet plots you take part in stop negotiating and start quietly reinforcing one another. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the boundary that is quietly protecting you enough to let it lead.
+
+Let yourself trust the boundary to do its work quietly, without apologizing for the space it takes up. This does not need to be solved today, only acknowledged and given some room. Hold onto the boundary that is quietly protecting you; it is quietly doing more work than it appears to.
 `,
     },
     '1010': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
+The quietest decisions are often the ones that end up rearranging everything downstream of them. Your reading measured The Host (100) against The Clone (1010) under the strict filtering of an AND operation, narrowing everything down to The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+An AND operation never asks you to reconcile all of the shelter and stewardship you provide with all of the patterns you repeat and the reflections you notice; it only keeps what they were already quietly saying together. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the quiet of a fresh start to take the lead.
+
+Give yourself permission to begin again without needing to justify what shape it will eventually take. None of this requires a grand gesture; it only asks for your honest attention. Trust the quiet of a fresh start more than you trust your urge to hurry past it.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Forum (1110) represents nobility, philosophy, and debate.
+There is a kind of courage that looks, from the outside, exactly like patience. Your reading merged The Host (100) with The Clone (1010) under the inclusive function of an OR operation, synthesizing a landscape embodied by The Forum (1110). This result describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+When the coin favors union, the shelter and stewardship you provide and the patterns you repeat and the reflections you notice stop negotiating and start quietly reinforcing one another. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the argument that has earned its own standing.
+
+Give yourself permission to measure the argument on its own merits rather than on whoever happens to be making it. You do not need permission from anyone else to let this settle in at its own pace. Trust the argument that has earned its own standing more than you trust your urge to hurry past it.
 `,
     },
     '1011': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Seed (0) represents beginnings, ideas, and origins.
+A single true thing, held onto firmly, can outlast a dozen elaborate arguments. Your reading tested The Host (100) against The Cache (1011) under the precise, reductive lens of an AND operation, yielding a concentrated baseline governed by The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+When the shelter and stewardship you provide is tested strictly against the knowledge and reserves you have quietly stored away, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the quiet of a fresh start.
+
+Let yourself begin again without needing to justify what shape it will eventually take. This does not need to be solved today, only acknowledged and given some room. Trust the quiet of a fresh start, and let the rest come into focus in its own time.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
+What you choose not to chase says as much about you as what you do. Your reading integrated The Host (100) alongside The Cache (1011) through the generous logic of an OR operation, synthesizing a landscape embodied by The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the shelter and stewardship you provide and the knowledge and reserves you have quietly stored away are allowed to sit side by side without cancelling each other out. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Let yourself trust the structure you have built to hold the weight of the many. This does not need to be solved today, only acknowledged and given some room. Trust the structure that holds the many together, and let the rest come into focus in its own time.
 `,
     },
     '1100': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Host (100) represents shelter, ownership, and grace.
+You do not have to earn the right to rest before you are allowed to take it. Your reading tested The Host (100) against The Frame (1100) under the strict filtering of an AND operation, returning you directly to The Host (100). The reading describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+An AND operation never asks you to reconcile all of the shelter and stewardship you provide with all of the perspective through which you are currently viewing things; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the shelter you have made room for.
+
+Give yourself permission to offer the shelter you are able to, without keeping a private ledger of what it costs you. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the shelter you have made room for more than you trust your urge to hurry past it.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Frame (1100) represents perspective, structure, and state of mind.
+You do not owe the world a performance of certainty you do not actually feel. Your reading combined The Host (100) with The Frame (1100) under the welcoming embrace of an OR operation, leaving your final landscape governed by The Frame (1100). This result describes a clear-eyed, structured environment where the same scene can be read as an entirely different story depending on where the edges are drawn.
+
+An OR operation never asks you to choose between the shelter and stewardship you provide and the perspective through which you are currently viewing things; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the frame you choose to look through simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to change the frame before you try to change the scene itself. It is enough to move quietly in this direction, without announcing or defending it. Trust the frame you choose to look through more than you trust your urge to hurry past it.
 `,
     },
     '1101': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Host (100) represents shelter, ownership, and grace.
+You do not need a map for every mile, only for the next honest step. Your reading filtered The Host (100) against The Shell (1101) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Host (100). This result describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+An AND operation never asks you to reconcile all of the shelter and stewardship you provide with all of the boundaries and defenses you maintain; it only keeps what they were already quietly saying together. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the shelter you have made room for.
+
+Give yourself permission to offer the shelter you are able to, without keeping a private ledger of what it costs you. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the shelter you have made room for, and let the rest come into focus in its own time.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+A season of consolidation is not a season of retreat. Your reading merged The Host (100) with The Shell (1101) under the inclusive function of an OR operation, synthesizing a landscape embodied by The Shell (1101). This result describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+Because this reading gathers rather than trims, the shelter and stewardship you provide and the boundaries and defenses you maintain are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the boundary that is quietly protecting you.
+
+Give yourself permission to trust the boundary to do its work quietly, without apologizing for the space it takes up. You do not need permission from anyone else to let this settle in at its own pace. Lean on the boundary that is quietly protecting you, and let everything else settle around it naturally.
 `,
     },
     '1110': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Host (100) represents shelter, ownership, and grace.
+There is a version of ambition that moves quietly and still arrives exactly on time. Your reading tested The Host (100) against The Forum (1110) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Host (100). This outcome describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+When the shelter and stewardship you provide is tested strictly against the debates and philosophies you engage with, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the shelter you have made room for.
+
+Choose, gently but deliberately, to offer the shelter you are able to, without keeping a private ledger of what it costs you. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the shelter you have made room for more than you trust your urge to hurry past it.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
+A promise is only as strong as the quiet moments nobody was watching to enforce it. Your reading merged The Host (100) with The Forum (1110) under the welcoming embrace of an OR operation, resolving into the wider field of The Forum (1110). This result describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+When the coin favors union, the shelter and stewardship you provide and the debates and philosophies you engage with stop negotiating and start quietly reinforcing one another. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the argument that has earned its own standing enough to let it lead.
+
+Choose, gently but deliberately, to measure the argument on its own merits rather than on whoever happens to be making it. This does not need to be solved today, only acknowledged and given some room. Trust the argument that has earned its own standing more than you trust your urge to hurry past it.
 `,
     },
     '1111': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Host (100) represents shelter, ownership, and grace.
+Not every beginning announces itself with fanfare; some simply arrive disguised as an ordinary Tuesday. Your reading tested The Host (100) against The State (1111) under the strict filtering of an AND operation, returning you directly to The Host (100). The reading describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+Between the shelter and stewardship you provide and the systems and structures you organize your life around, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the shelter you have made room for to take the lead.
+
+Allow yourself to offer the shelter you are able to, without keeping a private ledger of what it costs you. There is no need to force this, rush it, or perform it for anyone else's benefit. Hold onto the shelter you have made room for; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+What feels like a detour is sometimes simply the road, seen from an angle you hadn't expected. Your reading combined The Host (100) with The State (1111) under the inclusive function of an OR operation, synthesizing a landscape embodied by The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the shelter and stewardship you provide and the systems and structures you organize your life around as complementary rather than competing. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Give yourself permission to trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Trust the structure that holds the many together, and let the rest come into focus in its own time.
 `,
     },
   },
   '101': {
     '110': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Host (100) represents shelter, ownership, and grace.
+There is a version of rest that looks nothing like stopping. Your reading filtered The Fork (101) against The Port (110) through the exacting function of an AND operation, leaving you with The Host (100) as your final result. The reading describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+Between the diverging paths in front of you and the gateways of trade and discovery around you, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the shelter you have made room for.
+
+Allow yourself to offer the shelter you are able to, without keeping a private ledger of what it costs you. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the shelter you have made room for more than you trust your urge to hurry past it.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Tree (111) represents fullness, growth, and reach.
+What you choose to gather around you slowly becomes the shape of your days. Your reading gathered The Fork (101) alongside The Port (110) through the expansive threshold of an OR operation, expanding outward until it settles on The Tree (111). This result describes a lush, far-reaching environment where roots run deep enough that the whole canopy can be trusted to hold its own weight.
+
+An OR operation never asks you to choose between the diverging paths in front of you and the gateways of trade and discovery around you; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the depth of what you have grown enough to let it lead.
+
+Give yourself permission to trust that what you have grown can bear a little more weight than you currently think it can. This does not need to be solved today, only acknowledged and given some room. Lean on the depth of what you have grown, and let everything else settle around it naturally.
 `,
     },
     '111': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+A pattern worth keeping usually reveals itself slowly, through repetition rather than declaration. Your reading filtered The Fork (101) against The Tree (111) under the strict filtering of an AND operation, returning you directly to The Fork (101). This outcome describes a dynamic, branching environment where the road splits and only your own resonance, not certainty, can choose the way.
+
+Filtering the diverging paths in front of you through the full growth you have already cultivated strips away everything decorative, leaving only what the two genuinely agree on. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the resonance of the path you are drawn to.
+
+Allow yourself to trust the path that resonates rather than the one that merely looks correct on paper. It is enough to move quietly in this direction, without announcing or defending it. Lean on the resonance of the path you are drawn to, and let everything else settle around it naturally.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+A single well-kept promise can rebuild more trust than an entire apology tour. Your reading integrated The Fork (101) alongside The Tree (111) through the generous logic of an OR operation, expanding outward until it settles on The Tree (111). The reading describes a lush, far-reaching environment where roots run deep enough that the whole canopy can be trusted to hold its own weight.
+
+When the coin favors union, the diverging paths in front of you and the full growth you have already cultivated stop negotiating and start quietly reinforcing one another. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the depth of what you have grown.
+
+Let yourself trust that what you have grown can bear a little more weight than you currently think it can. There is no need to force this, rush it, or perform it for anyone else's benefit. Hold onto the depth of what you have grown; it is quietly doing more work than it appears to.
 `,
     },
     '1000': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+A boundary is not a wall; it is a promise about where you end and something else begins. Your reading tested The Fork (101) against The Agent (1000) under the precise, reductive lens of an AND operation, narrowing everything down to The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+When the diverging paths in front of you is tested strictly against your independent will and drive to act, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the quiet of a fresh start.
+
+Let yourself begin again without needing to justify what shape it will eventually take. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the quiet of a fresh start; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+Sometimes the kindest thing you can do for a plan is let it stay small a little longer. Your reading combined The Fork (101) with The Agent (1000) through the generous logic of an OR operation, expanding outward until it settles on The Shell (1101). This outcome describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+When the coin favors union, the diverging paths in front of you and your independent will and drive to act stop negotiating and start quietly reinforcing one another. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the boundary that is quietly protecting you enough to let it lead.
+
+There is real wisdom in choosing to trust the boundary to do its work quietly, without apologizing for the space it takes up. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the boundary that is quietly protecting you, and let the rest come into focus in its own time.
 `,
     },
     '1001': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Flag (1) represents claims, power, and sovereignty.
+The steadiest kind of progress rarely photographs well. Your reading tested The Fork (101) against The Table (1001) through the narrowing logic of an AND operation, narrowing everything down to The Flag (1). This result describes a commanding, singular environment where a single, plainly stated position is enough, with no further defense required.
+
+An AND operation never asks you to reconcile all of the diverging paths in front of you with all of the gatherings and quiet plots you take part in; it only keeps what they were already quietly saying together. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the clarity of your own claim to take the lead.
+
+Let yourself plant your claim plainly and let it stand without constantly having to defend it. You do not need permission from anyone else to let this settle in at its own pace. Lean on the clarity of your own claim, and let everything else settle around it naturally.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+What feels like standing still is sometimes the only way to actually catch up with yourself. Your reading integrated The Fork (101) alongside The Table (1001) under the inclusive function of an OR operation, expanding outward until it settles on The Shell (1101). The reading describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+OR is the coin of abundance, and it treats the diverging paths in front of you and the gatherings and quiet plots you take part in as complementary rather than competing. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the boundary that is quietly protecting you.
+
+Give yourself permission to trust the boundary to do its work quietly, without apologizing for the space it takes up. You do not need permission from anyone else to let this settle in at its own pace. Trust the boundary that is quietly protecting you more than you trust your urge to hurry past it.
 `,
     },
     '1010': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
+A path chosen quietly is no less a path than one chosen loudly. Your reading combined The Fork (101) with The Clone (1010) through the exacting function of an AND operation, returning you directly to The Seed (0). This outcome describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+Filtering the diverging paths in front of you through the patterns you repeat and the reflections you notice strips away everything decorative, leaving only what the two genuinely agree on. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the quiet of a fresh start.
+
+Give yourself permission to begin again without needing to justify what shape it will eventually take. It is enough to move quietly in this direction, without announcing or defending it. Lean on the quiet of a fresh start, and let everything else settle around it naturally.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The State (1111) represents organization, authority, and politics.
+What repeats without your notice deserves, eventually, to be noticed. Your reading merged The Fork (101) with The Clone (1010) under the inclusive function of an OR operation, resolving into the wider field of The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the diverging paths in front of you and the patterns you repeat and the reflections you notice; it simply widens the frame until both fit comfortably inside it. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Give yourself permission to trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1011': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Flag (1) represents claims, power, and sovereignty.
+Every gate that opens outward also, quietly, changes what waits behind it. Your reading combined The Fork (101) with The Cache (1011) through the exacting function of an AND operation, returning you directly to The Flag (1). This outcome describes a commanding, singular environment where a single, plainly stated position is enough, with no further defense required.
+
+When the diverging paths in front of you is tested strictly against the knowledge and reserves you have quietly stored away, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the clarity of your own claim.
+
+There is real wisdom in choosing to plant your claim plainly and let it stand without constantly having to defend it. It is enough to move quietly in this direction, without announcing or defending it. Trust the clarity of your own claim, and let the rest come into focus in its own time.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
+You are allowed to outgrow a version of yourself without apologizing to it. Your reading merged The Fork (101) with The Cache (1011) under the inclusive function of an OR operation, resolving into the wider field of The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, the diverging paths in front of you and the knowledge and reserves you have quietly stored away stop negotiating and start quietly reinforcing one another. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Trust the structure that holds the many together, and let the rest come into focus in its own time.
 `,
     },
     '1100': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Host (100) represents shelter, ownership, and grace.
+What you protect too tightly eventually starts to feel like a cage rather than a shelter. Your reading tested The Fork (101) against The Frame (1100) through the exacting function of an AND operation, returning you directly to The Host (100). The reading describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+Between the diverging paths in front of you and the perspective through which you are currently viewing things, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the shelter you have made room for to take the lead.
+
+Allow yourself to offer the shelter you are able to, without keeping a private ledger of what it costs you. This does not need to be solved today, only acknowledged and given some room. Lean on the shelter you have made room for, and let everything else settle around it naturally.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+Sometimes the wisest plan is the one flexible enough to be wrong about half of it. Your reading combined The Fork (101) with The Frame (1100) under the welcoming embrace of an OR operation, synthesizing a landscape embodied by The Shell (1101). This result describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+Because this reading gathers rather than trims, the diverging paths in front of you and the perspective through which you are currently viewing things are allowed to sit side by side without cancelling each other out. You are not being asked to pick a lane here; the space is generous enough to hold both, with the boundary that is quietly protecting you simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to trust the boundary to do its work quietly, without apologizing for the space it takes up. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the boundary that is quietly protecting you; it is quietly doing more work than it appears to.
 `,
     },
     '1101': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+Sometimes the most useful map is simply admitting which direction you have already been drifting. Your reading measured The Fork (101) against The Shell (1101) under the strict filtering of an AND operation, narrowing everything down to The Fork (101). The reading describes a dynamic, branching environment where the road splits and only your own resonance, not certainty, can choose the way.
+
+Filtering the diverging paths in front of you through the boundaries and defenses you maintain strips away everything decorative, leaving only what the two genuinely agree on. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the resonance of the path you are drawn to.
+
+Let yourself trust the path that resonates rather than the one that merely looks correct on paper. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the resonance of the path you are drawn to more than you trust your urge to hurry past it.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+There is a kind of clarity that only shows up after you stop trying to force it. Your reading combined The Fork (101) with The Shell (1101) through the generous logic of an OR operation, resolving into the wider field of The Shell (1101). The reading describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+An OR operation never asks you to choose between the diverging paths in front of you and the boundaries and defenses you maintain; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the boundary that is quietly protecting you simply given the most room to stretch out in.
+
+There is real wisdom in choosing to trust the boundary to do its work quietly, without apologizing for the space it takes up. It is enough to move quietly in this direction, without announcing or defending it. Trust the boundary that is quietly protecting you more than you trust your urge to hurry past it.
 `,
     },
     '1110': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Host (100) represents shelter, ownership, and grace.
+A life built entirely on defense eventually forgets what it was defending. Your reading filtered The Fork (101) against The Forum (1110) under the precise, reductive lens of an AND operation, leaving you with The Host (100) as your final result. The reading describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+An AND operation never asks you to reconcile all of the diverging paths in front of you with all of the debates and philosophies you engage with; it only keeps what they were already quietly saying together. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the shelter you have made room for.
+
+Choose, gently but deliberately, to offer the shelter you are able to, without keeping a private ledger of what it costs you. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the shelter you have made room for more than you trust your urge to hurry past it.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+A path chosen for the right reasons rarely needs to be defended to anyone else. Your reading combined The Fork (101) with The Forum (1110) through the generous logic of an OR operation, expanding outward until it settles on The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the diverging paths in front of you and the debates and philosophies you engage with; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Let yourself trust the structure you have built to hold the weight of the many. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
     '1111': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+Not every beginning announces itself with fanfare; some simply arrive disguised as an ordinary Tuesday. Your reading measured The Fork (101) against The State (1111) under the precise, reductive lens of an AND operation, returning you directly to The Fork (101). The reading describes a dynamic, branching environment where the road splits and only your own resonance, not certainty, can choose the way.
+
+Between the diverging paths in front of you and the systems and structures you organize your life around, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the resonance of the path you are drawn to to take the lead.
+
+Give yourself permission to trust the path that resonates rather than the one that merely looks correct on paper. None of this requires a grand gesture; it only asks for your honest attention. Lean on the resonance of the path you are drawn to, and let everything else settle around it naturally.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+Not all growth looks like more; sometimes it looks like less, arranged more truthfully. Your reading combined The Fork (101) with The State (1111) through the generous logic of an OR operation, synthesizing a landscape embodied by The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, the diverging paths in front of you and the systems and structures you organize your life around stop negotiating and start quietly reinforcing one another. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. You do not need permission from anyone else to let this settle in at its own pace. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
   },
   '110': {
     '111': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Port (110) represents gateways, discovery, and trade.
+Some doors are worth knocking on twice before you decide they are truly closed. Your reading tested The Port (110) against The Tree (111) through the exacting function of an AND operation, narrowing everything down to The Port (110). This result describes a bustling, threshold environment where strangers, goods, and ideas cross over freely, and both sides are changed a little by the crossing.
+
+Between the gateways of trade and discovery around you and the full growth you have already cultivated, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the flow of honest exchange.
+
+Choose, gently but deliberately, to step back from the gate and trust that the exchange will enrich you rather than diminish you. There is no need to force this, rush it, or perform it for anyone else's benefit. Hold onto the flow of honest exchange; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+The shape of your life often follows the shape of your attention. Your reading gathered The Port (110) alongside The Tree (111) through the generous logic of an OR operation, leaving your final landscape governed by The Tree (111). This result describes a lush, far-reaching environment where roots run deep enough that the whole canopy can be trusted to hold its own weight.
+
+An OR operation never asks you to choose between the gateways of trade and discovery around you and the full growth you have already cultivated; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the depth of what you have grown enough to let it lead.
+
+Give yourself permission to trust that what you have grown can bear a little more weight than you currently think it can. None of this requires a grand gesture; it only asks for your honest attention. Hold onto the depth of what you have grown; it is quietly doing more work than it appears to.
 `,
     },
     '1000': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+There is more than one way to be ready, and stillness counts as one of them. Your reading measured The Port (110) against The Agent (1000) under the strict filtering of an AND operation, returning you directly to The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+When the gateways of trade and discovery around you is tested strictly against your independent will and drive to act, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the quiet of a fresh start.
+
+Give yourself permission to begin again without needing to justify what shape it will eventually take. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the quiet of a fresh start; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Forum (1110) represents nobility, philosophy, and debate.
+You are allowed to change your mind about a direction without it undoing the ground you already covered. Your reading combined The Port (110) with The Agent (1000) under the welcoming embrace of an OR operation, leaving your final landscape governed by The Forum (1110). The reading describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+An OR operation never asks you to choose between the gateways of trade and discovery around you and your independent will and drive to act; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the argument that has earned its own standing simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to measure the argument on its own merits rather than on whoever happens to be making it. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the argument that has earned its own standing; it is quietly doing more work than it appears to.
 `,
     },
     '1001': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Seed (0) represents beginnings, ideas, and origins.
+You can hold your ground without needing the ground to expand every single day. Your reading combined The Port (110) with The Table (1001) through the exacting function of an AND operation, narrowing everything down to The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+Filtering the gateways of trade and discovery around you through the gatherings and quiet plots you take part in strips away everything decorative, leaving only what the two genuinely agree on. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the quiet of a fresh start to take the lead.
+
+Choose, gently but deliberately, to begin again without needing to justify what shape it will eventually take. It is enough to move quietly in this direction, without announcing or defending it. Lean on the quiet of a fresh start, and let everything else settle around it naturally.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The State (1111) represents organization, authority, and politics.
+Not all growth looks like more; sometimes it looks like less, arranged more truthfully. Your reading gathered The Port (110) alongside The Table (1001) through the generous logic of an OR operation, leaving your final landscape governed by The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the gateways of trade and discovery around you and the gatherings and quiet plots you take part in; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Let yourself trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Trust the structure that holds the many together, and let the rest come into focus in its own time.
 `,
     },
     '1010': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Call (10) represents summonings, duty, and serendipity.
+The clearest signal is often the plainest one, arriving without any decoration at all. Your reading filtered The Port (110) against The Clone (1010) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Call (10). The reading describes a sudden, fated environment where a single obligation or invitation is asking to be answered before anything else.
+
+An AND operation never asks you to reconcile all of the gateways of trade and discovery around you with all of the patterns you repeat and the reflections you notice; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the timing of what is calling you.
+
+Allow yourself to answer only the summons that actually matches your own timing, and let the rest wait. None of this requires a grand gesture; it only asks for your honest attention. Hold onto the timing of what is calling you; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Forum (1110) represents nobility, philosophy, and debate.
+A quiet foundation, well kept, will outlast a loud structure built in a hurry. Your reading merged The Port (110) with The Clone (1010) under the inclusive function of an OR operation, synthesizing a landscape embodied by The Forum (1110). The reading describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+OR is the coin of abundance, and it treats the gateways of trade and discovery around you and the patterns you repeat and the reflections you notice as complementary rather than competing. You are not being asked to pick a lane here; the space is generous enough to hold both, with the argument that has earned its own standing simply given the most room to stretch out in.
+
+Let yourself measure the argument on its own merits rather than on whoever happens to be making it. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the argument that has earned its own standing; it is quietly doing more work than it appears to.
 `,
     },
     '1011': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Call (10) represents summonings, duty, and serendipity.
+Sometimes the most generous thing you can offer someone is simply your attention, undivided. Your reading filtered The Port (110) against The Cache (1011) under the strict filtering of an AND operation, yielding a concentrated baseline governed by The Call (10). This result describes a sudden, fated environment where a single obligation or invitation is asking to be answered before anything else.
+
+An AND operation never asks you to reconcile all of the gateways of trade and discovery around you with all of the knowledge and reserves you have quietly stored away; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the timing of what is calling you.
+
+Let yourself answer only the summons that actually matches your own timing, and let the rest wait. None of this requires a grand gesture; it only asks for your honest attention. Lean on the timing of what is calling you, and let everything else settle around it naturally.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
+The things that hold us together are usually smaller and plainer than we expect. Your reading merged The Port (110) with The Cache (1011) through the expansive threshold of an OR operation, resolving into the wider field of The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the gateways of trade and discovery around you and the knowledge and reserves you have quietly stored away as complementary rather than competing. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+There is real wisdom in choosing to trust the structure you have built to hold the weight of the many. Nothing about this calls for urgency, only for a willingness to notice what is already true. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
     '1100': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Host (100) represents shelter, ownership, and grace.
+Every gate that opens outward also, quietly, changes what waits behind it. Your reading filtered The Port (110) against The Frame (1100) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Host (100). This result describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+Between the gateways of trade and discovery around you and the perspective through which you are currently viewing things, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the shelter you have made room for.
+
+Allow yourself to offer the shelter you are able to, without keeping a private ledger of what it costs you. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the shelter you have made room for, and let everything else settle around it naturally.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Forum (1110) represents nobility, philosophy, and debate.
+The plainest truth in the room is usually also the one everyone is avoiding. Your reading combined The Port (110) with The Frame (1100) through the generous logic of an OR operation, expanding outward until it settles on The Forum (1110). This result describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+Because this reading gathers rather than trims, the gateways of trade and discovery around you and the perspective through which you are currently viewing things are allowed to sit side by side without cancelling each other out. You are not being asked to pick a lane here; the space is generous enough to hold both, with the argument that has earned its own standing simply given the most room to stretch out in.
+
+Give yourself permission to measure the argument on its own merits rather than on whoever happens to be making it. This does not need to be solved today, only acknowledged and given some room. Hold onto the argument that has earned its own standing; it is quietly doing more work than it appears to.
 `,
     },
     '1101': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Host (100) represents shelter, ownership, and grace.
+The steadiest people are rarely the loudest ones in the room. Your reading filtered The Port (110) against The Shell (1101) through the narrowing logic of an AND operation, yielding a concentrated baseline governed by The Host (100). This result describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+When the gateways of trade and discovery around you is tested strictly against the boundaries and defenses you maintain, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the shelter you have made room for.
+
+Choose, gently but deliberately, to offer the shelter you are able to, without keeping a private ledger of what it costs you. Nothing about this calls for urgency, only for a willingness to notice what is already true. Lean on the shelter you have made room for, and let everything else settle around it naturally.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
+What you protect too tightly eventually starts to feel like a cage rather than a shelter. Your reading merged The Port (110) with The Shell (1101) under the welcoming embrace of an OR operation, expanding outward until it settles on The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the gateways of trade and discovery around you and the boundaries and defenses you maintain; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. You do not need permission from anyone else to let this settle in at its own pace. Trust the structure that holds the many together, and let the rest come into focus in its own time.
 `,
     },
     '1110': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Port (110) represents gateways, discovery, and trade.
+You can build slowly and still end up somewhere that was worth the trip. Your reading combined The Port (110) with The Forum (1110) under the precise, reductive lens of an AND operation, returning you directly to The Port (110). This outcome describes a bustling, threshold environment where strangers, goods, and ideas cross over freely, and both sides are changed a little by the crossing.
+
+Between the gateways of trade and discovery around you and the debates and philosophies you engage with, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the flow of honest exchange to take the lead.
+
+There is real wisdom in choosing to step back from the gate and trust that the exchange will enrich you rather than diminish you. This does not need to be solved today, only acknowledged and given some room. Hold onto the flow of honest exchange; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
+A path chosen for the right reasons rarely needs to be defended to anyone else. Your reading gathered The Port (110) alongside The Forum (1110) under the welcoming embrace of an OR operation, resolving into the wider field of The Forum (1110). This result describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+OR is the coin of abundance, and it treats the gateways of trade and discovery around you and the debates and philosophies you engage with as complementary rather than competing. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the argument that has earned its own standing enough to let it lead.
+
+Choose, gently but deliberately, to measure the argument on its own merits rather than on whoever happens to be making it. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the argument that has earned its own standing more than you trust your urge to hurry past it.
 `,
     },
     '1111': {
       AND: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Port (110) represents gateways, discovery, and trade.
+You can only carry what you are willing to set something else down for. Your reading measured The Port (110) against The State (1111) under the precise, reductive lens of an AND operation, returning you directly to The Port (110). This result describes a bustling, threshold environment where strangers, goods, and ideas cross over freely, and both sides are changed a little by the crossing.
+
+An AND operation never asks you to reconcile all of the gateways of trade and discovery around you with all of the systems and structures you organize your life around; it only keeps what they were already quietly saying together. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the flow of honest exchange to take the lead.
+
+Choose, gently but deliberately, to step back from the gate and trust that the exchange will enrich you rather than diminish you. It is enough to move quietly in this direction, without announcing or defending it. Lean on the flow of honest exchange, and let everything else settle around it naturally.
 `,
       OR: `
-The Port (110) represents gateways, discovery, and trade. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+The quiet work of tending something rarely looks as dramatic as the work of building it. Your reading combined The Port (110) with The State (1111) through the generous logic of an OR operation, leaving your final landscape governed by The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the gateways of trade and discovery around you and the systems and structures you organize your life around as complementary rather than competing. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. This does not need to be solved today, only acknowledged and given some room. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
   },
   '111': {
     '1000': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+The quietest kind of trust is the kind that never needed to be tested to be real. Your reading filtered The Tree (111) against The Agent (1000) through the exacting function of an AND operation, returning you directly to The Seed (0). The reading describes a quiet, unclaimed environment where potential is allowed to rest before it takes on any particular shape.
+
+When the full growth you have already cultivated is tested strictly against your independent will and drive to act, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the quiet of a fresh start to take the lead.
+
+There is real wisdom in choosing to begin again without needing to justify what shape it will eventually take. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the quiet of a fresh start, and let everything else settle around it naturally.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The State (1111) represents organization, authority, and politics.
+Not all growth looks like more; sometimes it looks like less, arranged more truthfully. Your reading integrated The Tree (111) alongside The Agent (1000) through the generous logic of an OR operation, expanding outward until it settles on The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, the full growth you have already cultivated and your independent will and drive to act stop negotiating and start quietly reinforcing one another. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Allow yourself to trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1001': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Flag (1) represents claims, power, and sovereignty.
+What arrives uninvited is not always unwelcome; it is simply unscheduled. Your reading filtered The Tree (111) against The Table (1001) under the strict filtering of an AND operation, leaving you with The Flag (1) as your final result. The reading describes a commanding, singular environment where a single, plainly stated position is enough, with no further defense required.
+
+When the full growth you have already cultivated is tested strictly against the gatherings and quiet plots you take part in, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the clarity of your own claim.
+
+Give yourself permission to plant your claim plainly and let it stand without constantly having to defend it. This does not need to be solved today, only acknowledged and given some room. Hold onto the clarity of your own claim; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The State (1111) represents organization, authority, and politics.
+What feels like standing still is sometimes the only way to actually catch up with yourself. Your reading integrated The Tree (111) alongside The Table (1001) under the welcoming embrace of an OR operation, resolving into the wider field of The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the full growth you have already cultivated and the gatherings and quiet plots you take part in are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Let yourself trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
     '1010': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Call (10) represents summonings, duty, and serendipity.
+What feels like a detour is sometimes simply the road, seen from an angle you hadn't expected. Your reading filtered The Tree (111) against The Clone (1010) through the narrowing logic of an AND operation, leaving you with The Call (10) as your final result. This outcome describes a sudden, fated environment where a single obligation or invitation is asking to be answered before anything else.
+
+Between the full growth you have already cultivated and the patterns you repeat and the reflections you notice, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the timing of what is calling you.
+
+Allow yourself to answer only the summons that actually matches your own timing, and let the rest wait. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the timing of what is calling you, and let the rest come into focus in its own time.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The State (1111) represents organization, authority, and politics.
+A boundary drawn out of love looks nothing like a wall drawn out of fear. Your reading gathered The Tree (111) alongside The Clone (1010) through the expansive threshold of an OR operation, resolving into the wider field of The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the full growth you have already cultivated and the patterns you repeat and the reflections you notice are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+There is real wisdom in choosing to trust the structure you have built to hold the weight of the many. You do not need permission from anyone else to let this settle in at its own pace. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1011': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Link (11) represents connections, promises, and security.
+Every gate that opens outward also, quietly, changes what waits behind it. Your reading measured The Tree (111) against The Cache (1011) through the narrowing logic of an AND operation, returning you directly to The Link (11). The reading describes a steady, interlinked environment where a promise quietly holds two things together without either side needing to grip too hard.
+
+An AND operation never asks you to reconcile all of the full growth you have already cultivated with all of the knowledge and reserves you have quietly stored away; it only keeps what they were already quietly saying together. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the strength of the promises you keep.
+
+Choose, gently but deliberately, to tend the promise itself rather than the appearance of it. It is enough to move quietly in this direction, without announcing or defending it. Trust the strength of the promises you keep more than you trust your urge to hurry past it.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
+You do not need a map for every mile, only for the next honest step. Your reading integrated The Tree (111) alongside The Cache (1011) through the expansive threshold of an OR operation, resolving into the wider field of The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, the full growth you have already cultivated and the knowledge and reserves you have quietly stored away stop negotiating and start quietly reinforcing one another. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Let yourself trust the structure you have built to hold the weight of the many. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1100': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Host (100) represents shelter, ownership, and grace.
+A gathering is only as honest as the quietest person willing to speak up in it. Your reading measured The Tree (111) against The Frame (1100) through the exacting function of an AND operation, leaving you with The Host (100) as your final result. The reading describes a grounded, sheltering environment where room has been made so something else can safely live there, without needing to be thanked for it.
+
+An AND operation never asks you to reconcile all of the full growth you have already cultivated with all of the perspective through which you are currently viewing things; it only keeps what they were already quietly saying together. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the shelter you have made room for to take the lead.
+
+There is real wisdom in choosing to offer the shelter you are able to, without keeping a private ledger of what it costs you. There is no need to force this, rush it, or perform it for anyone else's benefit. Hold onto the shelter you have made room for; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The State (1111) represents organization, authority, and politics.
+The quietest decisions are often the ones that end up rearranging everything downstream of them. Your reading gathered The Tree (111) alongside The Frame (1100) through the generous logic of an OR operation, synthesizing a landscape embodied by The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the full growth you have already cultivated and the perspective through which you are currently viewing things; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Give yourself permission to trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Trust the structure that holds the many together more than you trust your urge to hurry past it.
 `,
     },
     '1101': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+What is built to last rarely needs to be finished all at once. Your reading tested The Tree (111) against The Shell (1101) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Fork (101). This result describes a dynamic, branching environment where the road splits and only your own resonance, not certainty, can choose the way.
+
+Between the full growth you have already cultivated and the boundaries and defenses you maintain, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the resonance of the path you are drawn to.
+
+Give yourself permission to trust the path that resonates rather than the one that merely looks correct on paper. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the resonance of the path you are drawn to, and let the rest come into focus in its own time.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
+You do not need to dismantle the whole structure to fix the one part that's creaking. Your reading gathered The Tree (111) alongside The Shell (1101) under the welcoming embrace of an OR operation, expanding outward until it settles on The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, the full growth you have already cultivated and the boundaries and defenses you maintain stop negotiating and start quietly reinforcing one another. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. It is enough to move quietly in this direction, without announcing or defending it. Trust the structure that holds the many together more than you trust your urge to hurry past it.
 `,
     },
     '1110': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Port (110) represents gateways, discovery, and trade.
+The shape of your life often follows the shape of your attention. Your reading filtered The Tree (111) against The Forum (1110) through the narrowing logic of an AND operation, yielding a concentrated baseline governed by The Port (110). This outcome describes a bustling, threshold environment where strangers, goods, and ideas cross over freely, and both sides are changed a little by the crossing.
+
+Filtering the full growth you have already cultivated through the debates and philosophies you engage with strips away everything decorative, leaving only what the two genuinely agree on. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the flow of honest exchange to take the lead.
+
+Choose, gently but deliberately, to step back from the gate and trust that the exchange will enrich you rather than diminish you. None of this requires a grand gesture; it only asks for your honest attention. Hold onto the flow of honest exchange; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+Some things are only safe to build once you have stopped needing them to impress anyone. Your reading gathered The Tree (111) alongside The Forum (1110) under the inclusive function of an OR operation, expanding outward until it settles on The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the full growth you have already cultivated and the debates and philosophies you engage with are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Allow yourself to trust the structure you have built to hold the weight of the many. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the structure that holds the many together more than you trust your urge to hurry past it.
 `,
     },
     '1111': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Tree (111) represents fullness, growth, and reach.
+A boundary drawn out of love looks nothing like a wall drawn out of fear. Your reading filtered The Tree (111) against The State (1111) under the strict filtering of an AND operation, leaving you with The Tree (111) as your final result. This result describes a lush, far-reaching environment where roots run deep enough that the whole canopy can be trusted to hold its own weight.
+
+Between the full growth you have already cultivated and the systems and structures you organize your life around, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the depth of what you have grown to take the lead.
+
+Allow yourself to trust that what you have grown can bear a little more weight than you currently think it can. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the depth of what you have grown; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+A season of consolidation is not a season of retreat. Your reading merged The Tree (111) with The State (1111) through the generous logic of an OR operation, resolving into the wider field of The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the full growth you have already cultivated and the systems and structures you organize your life around; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
   },
   '1000': {
     '1001': {
       AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Agent (1000) represents independence, will, and action.
+A pattern worth keeping usually reveals itself slowly, through repetition rather than declaration. Your reading filtered The Agent (1000) against The Table (1001) through the exacting function of an AND operation, returning you directly to The Agent (1000). This result describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Filtering your independent will and drive to act through the gatherings and quiet plots you take part in strips away everything decorative, leaving only what the two genuinely agree on. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the momentum of your own will.
+
+Allow yourself to move on your own timing, without waiting for a permission that was never actually required. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the momentum of your own will; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Table (1001) represents gathering, consumption, and plots.
+You do not have to finish a thought to be changed by it. Your reading merged The Agent (1000) with The Table (1001) through the expansive threshold of an OR operation, expanding outward until it settles on The Table (1001). This result describes a vibrant, collective environment where a private plan becomes a shared and spoken thing the moment it reaches the table.
+
+An OR operation never asks you to choose between your independent will and drive to act and the gatherings and quiet plots you take part in; it simply widens the frame until both fit comfortably inside it. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the voice you bring to the table.
+
+Give yourself permission to say the quiet thing out loud and let the room rearrange itself around it. It is enough to move quietly in this direction, without announcing or defending it. Trust the voice you bring to the table more than you trust your urge to hurry past it.
 `,
     },
     '1010': {
       AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Agent (1000) represents independence, will, and action.
+Real clarity usually shows up after the noise has had a chance to settle. Your reading measured The Agent (1000) against The Clone (1010) under the precise, reductive lens of an AND operation, returning you directly to The Agent (1000). The reading describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+When your independent will and drive to act is tested strictly against the patterns you repeat and the reflections you notice, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the momentum of your own will to take the lead.
+
+Allow yourself to move on your own timing, without waiting for a permission that was never actually required. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the momentum of your own will; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+The steadiest kind of progress rarely photographs well. Your reading merged The Agent (1000) with The Clone (1010) under the inclusive function of an OR operation, leaving your final landscape governed by The Clone (1010). This outcome describes a mirrored, symmetrical environment where a pattern repeats itself until it becomes the whole landscape, for better or worse.
+
+OR is the coin of abundance, and it treats your independent will and drive to act and the patterns you repeat and the reflections you notice as complementary rather than competing. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the patterns still worth repeating enough to let it lead.
+
+Give yourself permission to keep only the patterns that still deserve to be repeated, and let the rest go quiet. This does not need to be solved today, only acknowledged and given some room. Lean on the patterns still worth repeating, and let everything else settle around it naturally.
 `,
     },
     '1011': {
       AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Agent (1000) represents independence, will, and action.
+You can build slowly and still end up somewhere that was worth the trip. Your reading measured The Agent (1000) against The Cache (1011) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Agent (1000). This outcome describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+An AND operation never asks you to reconcile all of your independent will and drive to act with all of the knowledge and reserves you have quietly stored away; it only keeps what they were already quietly saying together. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the momentum of your own will.
+
+There is real wisdom in choosing to move on your own timing, without waiting for a permission that was never actually required. This does not need to be solved today, only acknowledged and given some room. Trust the momentum of your own will, and let the rest come into focus in its own time.
 `,
       OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+You can respect the past you built without needing to keep living inside it. Your reading merged The Agent (1000) with The Cache (1011) through the generous logic of an OR operation, resolving into the wider field of The Cache (1011). This outcome describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+When the coin favors union, your independent will and drive to act and the knowledge and reserves you have quietly stored away stop negotiating and start quietly reinforcing one another. You are not being asked to pick a lane here; the space is generous enough to hold both, with the value of what you already know simply given the most room to stretch out in.
+
+Allow yourself to retrieve what you already know instead of searching outward for something entirely new. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the value of what you already know, and let the rest come into focus in its own time.
 `,
     },
     '1100': {
       AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Agent (1000) represents independence, will, and action.
+You do not need to dismantle the whole structure to fix the one part that's creaking. Your reading filtered The Agent (1000) against The Frame (1100) through the narrowing logic of an AND operation, narrowing everything down to The Agent (1000). This outcome describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+An AND operation never asks you to reconcile all of your independent will and drive to act with all of the perspective through which you are currently viewing things; it only keeps what they were already quietly saying together. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the momentum of your own will to take the lead.
+
+Allow yourself to move on your own timing, without waiting for a permission that was never actually required. It is enough to move quietly in this direction, without announcing or defending it. Lean on the momentum of your own will, and let everything else settle around it naturally.
 `,
       OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Frame (1100) represents perspective, structure, and state of mind.
+A single true thing, held onto firmly, can outlast a dozen elaborate arguments. Your reading gathered The Agent (1000) alongside The Frame (1100) through the generous logic of an OR operation, expanding outward until it settles on The Frame (1100). This result describes a clear-eyed, structured environment where the same scene can be read as an entirely different story depending on where the edges are drawn.
+
+Because this reading gathers rather than trims, your independent will and drive to act and the perspective through which you are currently viewing things are allowed to sit side by side without cancelling each other out. You are not being asked to pick a lane here; the space is generous enough to hold both, with the frame you choose to look through simply given the most room to stretch out in.
+
+There is real wisdom in choosing to change the frame before you try to change the scene itself. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the frame you choose to look through more than you trust your urge to hurry past it.
 `,
     },
     '1101': {
       AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Agent (1000) represents independence, will, and action.
+What you choose to protect will, over time, become what protects you back. Your reading combined The Agent (1000) with The Shell (1101) under the precise, reductive lens of an AND operation, yielding a concentrated baseline governed by The Agent (1000). This result describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Filtering your independent will and drive to act through the boundaries and defenses you maintain strips away everything decorative, leaving only what the two genuinely agree on. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the momentum of your own will.
+
+There is real wisdom in choosing to move on your own timing, without waiting for a permission that was never actually required. You do not need permission from anyone else to let this settle in at its own pace. Trust the momentum of your own will more than you trust your urge to hurry past it.
 `,
       OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+Some paths only become visible once you stop insisting on seeing the whole of them at once. Your reading gathered The Agent (1000) alongside The Shell (1101) under the welcoming embrace of an OR operation, leaving your final landscape governed by The Shell (1101). This outcome describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+OR is the coin of abundance, and it treats your independent will and drive to act and the boundaries and defenses you maintain as complementary rather than competing. You are not being asked to pick a lane here; the space is generous enough to hold both, with the boundary that is quietly protecting you simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to trust the boundary to do its work quietly, without apologizing for the space it takes up. It is enough to move quietly in this direction, without announcing or defending it. Lean on the boundary that is quietly protecting you, and let everything else settle around it naturally.
 `,
     },
     '1110': {
       AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Agent (1000) represents independence, will, and action.
+A season of consolidation is not a season of retreat. Your reading tested The Agent (1000) against The Forum (1110) under the precise, reductive lens of an AND operation, narrowing everything down to The Agent (1000). This outcome describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+When your independent will and drive to act is tested strictly against the debates and philosophies you engage with, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the momentum of your own will.
+
+Choose, gently but deliberately, to move on your own timing, without waiting for a permission that was never actually required. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the momentum of your own will more than you trust your urge to hurry past it.
 `,
       OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
+The clearest signal is often the plainest one, arriving without any decoration at all. Your reading combined The Agent (1000) with The Forum (1110) under the welcoming embrace of an OR operation, resolving into the wider field of The Forum (1110). This outcome describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+Because this reading gathers rather than trims, your independent will and drive to act and the debates and philosophies you engage with are allowed to sit side by side without cancelling each other out. You are not being asked to pick a lane here; the space is generous enough to hold both, with the argument that has earned its own standing simply given the most room to stretch out in.
+
+Choose, gently but deliberately, to measure the argument on its own merits rather than on whoever happens to be making it. None of this requires a grand gesture; it only asks for your honest attention. Lean on the argument that has earned its own standing, and let everything else settle around it naturally.
 `,
     },
     '1111': {
       AND: `
-The Agent (1000) represents independence, will, and action. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Agent (1000) represents independence, will, and action.
+The right direction rarely needs to be forced; it only needs to be noticed. Your reading tested The Agent (1000) against The State (1111) under the precise, reductive lens of an AND operation, narrowing everything down to The Agent (1000). This result describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Filtering your independent will and drive to act through the systems and structures you organize your life around strips away everything decorative, leaving only what the two genuinely agree on. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the momentum of your own will.
+
+Choose, gently but deliberately, to move on your own timing, without waiting for a permission that was never actually required. This does not need to be solved today, only acknowledged and given some room. Trust the momentum of your own will, and let the rest come into focus in its own time.
 `,
       OR: `
-The Agent (1000) represents independence, will, and action. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+A door does not need to be grand to lead somewhere worth going. Your reading integrated The Agent (1000) alongside The State (1111) through the expansive threshold of an OR operation, resolving into the wider field of The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, your independent will and drive to act and the systems and structures you organize your life around stop negotiating and start quietly reinforcing one another. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the structure that holds the many together more than you trust your urge to hurry past it.
 `,
     },
   },
   '1001': {
     '1010': {
       AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Agent (1000) represents independence, will, and action.
+The most durable agreements are the ones nobody had to raise their voice to make. Your reading combined The Table (1001) with The Clone (1010) under the precise, reductive lens of an AND operation, returning you directly to The Agent (1000). The reading describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Filtering the gatherings and quiet plots you take part in through the patterns you repeat and the reflections you notice strips away everything decorative, leaving only what the two genuinely agree on. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the momentum of your own will to take the lead.
+
+Let yourself move on your own timing, without waiting for a permission that was never actually required. This does not need to be solved today, only acknowledged and given some room. Trust the momentum of your own will more than you trust your urge to hurry past it.
 `,
       OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+There is a difference between guarding something and simply refusing to look at it honestly. Your reading merged The Table (1001) with The Clone (1010) through the generous logic of an OR operation, leaving your final landscape governed by The Cache (1011). The reading describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+Because this reading gathers rather than trims, the gatherings and quiet plots you take part in and the patterns you repeat and the reflections you notice are allowed to sit side by side without cancelling each other out. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the value of what you already know enough to let it lead.
+
+Allow yourself to retrieve what you already know instead of searching outward for something entirely new. This does not need to be solved today, only acknowledged and given some room. Trust the value of what you already know, and let the rest come into focus in its own time.
 `,
     },
     '1011': {
       AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Table (1001) represents gathering, consumption, and plots.
+A pattern worth keeping usually reveals itself slowly, through repetition rather than declaration. Your reading measured The Table (1001) against The Cache (1011) under the strict filtering of an AND operation, returning you directly to The Table (1001). The reading describes a vibrant, collective environment where a private plan becomes a shared and spoken thing the moment it reaches the table.
+
+Between the gatherings and quiet plots you take part in and the knowledge and reserves you have quietly stored away, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the voice you bring to the table.
+
+Allow yourself to say the quiet thing out loud and let the room rearrange itself around it. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the voice you bring to the table, and let everything else settle around it naturally.
 `,
       OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The most reliable systems are the ones built to bend a little before they break. Your reading combined The Table (1001) with The Cache (1011) under the inclusive function of an OR operation, resolving into the wider field of The Cache (1011). The reading describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+An OR operation never asks you to choose between the gatherings and quiet plots you take part in and the knowledge and reserves you have quietly stored away; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the value of what you already know enough to let it lead.
+
+Give yourself permission to retrieve what you already know instead of searching outward for something entirely new. You do not need permission from anyone else to let this settle in at its own pace. Lean on the value of what you already know, and let everything else settle around it naturally.
 `,
     },
     '1100': {
       AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Agent (1000) represents independence, will, and action.
+A single well-placed boundary can do the work an entire argument never quite manages. Your reading filtered The Table (1001) against The Frame (1100) through the narrowing logic of an AND operation, returning you directly to The Agent (1000). The reading describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Between the gatherings and quiet plots you take part in and the perspective through which you are currently viewing things, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the momentum of your own will to take the lead.
+
+Let yourself move on your own timing, without waiting for a permission that was never actually required. This does not need to be solved today, only acknowledged and given some room. Trust the momentum of your own will more than you trust your urge to hurry past it.
 `,
       OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+What you protect too tightly eventually starts to feel like a cage rather than a shelter. Your reading integrated The Table (1001) alongside The Frame (1100) under the inclusive function of an OR operation, resolving into the wider field of The Shell (1101). This result describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+An OR operation never asks you to choose between the gatherings and quiet plots you take part in and the perspective through which you are currently viewing things; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the boundary that is quietly protecting you enough to let it lead.
+
+Let yourself trust the boundary to do its work quietly, without apologizing for the space it takes up. None of this requires a grand gesture; it only asks for your honest attention. Lean on the boundary that is quietly protecting you, and let everything else settle around it naturally.
 `,
     },
     '1101': {
       AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Table (1001) represents gathering, consumption, and plots.
+The quietest kind of courage looks a great deal like simply showing up again tomorrow. Your reading measured The Table (1001) against The Shell (1101) through the narrowing logic of an AND operation, leaving you with The Table (1001) as your final result. This result describes a vibrant, collective environment where a private plan becomes a shared and spoken thing the moment it reaches the table.
+
+When the gatherings and quiet plots you take part in is tested strictly against the boundaries and defenses you maintain, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the voice you bring to the table.
+
+Allow yourself to say the quiet thing out loud and let the room rearrange itself around it. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the voice you bring to the table, and let everything else settle around it naturally.
 `,
       OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+What feels like hesitation is sometimes simply your instincts asking for one more moment. Your reading merged The Table (1001) with The Shell (1101) through the expansive threshold of an OR operation, leaving your final landscape governed by The Shell (1101). This result describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+An OR operation never asks you to choose between the gatherings and quiet plots you take part in and the boundaries and defenses you maintain; it simply widens the frame until both fit comfortably inside it. You are not being asked to pick a lane here; the space is generous enough to hold both, with the boundary that is quietly protecting you simply given the most room to stretch out in.
+
+Let yourself trust the boundary to do its work quietly, without apologizing for the space it takes up. You do not need permission from anyone else to let this settle in at its own pace. Lean on the boundary that is quietly protecting you, and let everything else settle around it naturally.
 `,
     },
     '1110': {
       AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Agent (1000) represents independence, will, and action.
+The right structure holds you loosely enough that you can still tell it's yours. Your reading measured The Table (1001) against The Forum (1110) under the precise, reductive lens of an AND operation, returning you directly to The Agent (1000). This result describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Between the gatherings and quiet plots you take part in and the debates and philosophies you engage with, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the momentum of your own will.
+
+Let yourself move on your own timing, without waiting for a permission that was never actually required. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the momentum of your own will more than you trust your urge to hurry past it.
 `,
       OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+Real clarity usually shows up after the noise has had a chance to settle. Your reading gathered The Table (1001) alongside The Forum (1110) through the expansive threshold of an OR operation, resolving into the wider field of The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the gatherings and quiet plots you take part in and the debates and philosophies you engage with as complementary rather than competing. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+Give yourself permission to trust the structure you have built to hold the weight of the many. You do not need permission from anyone else to let this settle in at its own pace. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1111': {
       AND: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Table (1001) represents gathering, consumption, and plots.
+The things worth keeping rarely announce their value the moment you find them. Your reading measured The Table (1001) against The State (1111) under the precise, reductive lens of an AND operation, leaving you with The Table (1001) as your final result. This result describes a vibrant, collective environment where a private plan becomes a shared and spoken thing the moment it reaches the table.
+
+An AND operation never asks you to reconcile all of the gatherings and quiet plots you take part in with all of the systems and structures you organize your life around; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the voice you bring to the table.
+
+Choose, gently but deliberately, to say the quiet thing out loud and let the room rearrange itself around it. This does not need to be solved today, only acknowledged and given some room. Lean on the voice you bring to the table, and let everything else settle around it naturally.
 `,
       OR: `
-The Table (1001) represents gathering, consumption, and plots. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+The shape of your life often follows the shape of your attention. Your reading gathered The Table (1001) alongside The State (1111) through the expansive threshold of an OR operation, synthesizing a landscape embodied by The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the gatherings and quiet plots you take part in and the systems and structures you organize your life around; it simply widens the frame until both fit comfortably inside it. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Let yourself trust the structure you have built to hold the weight of the many. There is no need to force this, rush it, or perform it for anyone else's benefit. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
   },
   '1010': {
     '1011': {
       AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+There is a particular relief in finally naming the thing you already knew. Your reading measured The Clone (1010) against The Cache (1011) under the precise, reductive lens of an AND operation, returning you directly to The Clone (1010). The reading describes a mirrored, symmetrical environment where a pattern repeats itself until it becomes the whole landscape, for better or worse.
+
+An AND operation never asks you to reconcile all of the patterns you repeat and the reflections you notice with all of the knowledge and reserves you have quietly stored away; it only keeps what they were already quietly saying together. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the patterns still worth repeating to take the lead.
+
+Choose, gently but deliberately, to keep only the patterns that still deserve to be repeated, and let the rest go quiet. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the patterns still worth repeating, and let everything else settle around it naturally.
 `,
       OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+The shape of your life often follows the shape of your attention. Your reading merged The Clone (1010) with The Cache (1011) through the expansive threshold of an OR operation, leaving your final landscape governed by The Cache (1011). This outcome describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+When the coin favors union, the patterns you repeat and the reflections you notice and the knowledge and reserves you have quietly stored away stop negotiating and start quietly reinforcing one another. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the value of what you already know enough to let it lead.
+
+Let yourself retrieve what you already know instead of searching outward for something entirely new. None of this requires a grand gesture; it only asks for your honest attention. Trust the value of what you already know, and let the rest come into focus in its own time.
 `,
     },
     '1100': {
       AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Agent (1000) represents independence, will, and action.
+What you protect too tightly eventually starts to feel like a cage rather than a shelter. Your reading filtered The Clone (1010) against The Frame (1100) through the narrowing logic of an AND operation, yielding a concentrated baseline governed by The Agent (1000). The reading describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Between the patterns you repeat and the reflections you notice and the perspective through which you are currently viewing things, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the momentum of your own will.
+
+Allow yourself to move on your own timing, without waiting for a permission that was never actually required. You do not need permission from anyone else to let this settle in at its own pace. Lean on the momentum of your own will, and let everything else settle around it naturally.
 `,
       OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Forum (1110) represents nobility, philosophy, and debate.
+The plainest truth in the room is usually also the one everyone is avoiding. Your reading combined The Clone (1010) with The Frame (1100) through the expansive threshold of an OR operation, resolving into the wider field of The Forum (1110). The reading describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+OR is the coin of abundance, and it treats the patterns you repeat and the reflections you notice and the perspective through which you are currently viewing things as complementary rather than competing. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the argument that has earned its own standing.
+
+Let yourself measure the argument on its own merits rather than on whoever happens to be making it. You do not need permission from anyone else to let this settle in at its own pace. Trust the argument that has earned its own standing more than you trust your urge to hurry past it.
 `,
     },
     '1101': {
       AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Agent (1000) represents independence, will, and action.
+You do not need a map for every mile, only for the next honest step. Your reading filtered The Clone (1010) against The Shell (1101) through the narrowing logic of an AND operation, returning you directly to The Agent (1000). This outcome describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Between the patterns you repeat and the reflections you notice and the boundaries and defenses you maintain, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the momentum of your own will.
+
+Choose, gently but deliberately, to move on your own timing, without waiting for a permission that was never actually required. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the momentum of your own will; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
+A path chosen for the right reasons rarely needs to be defended to anyone else. Your reading integrated The Clone (1010) alongside The Shell (1101) through the generous logic of an OR operation, synthesizing a landscape embodied by The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the patterns you repeat and the reflections you notice and the boundaries and defenses you maintain are allowed to sit side by side without cancelling each other out. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. Nothing about this calls for urgency, only for a willingness to notice what is already true. Trust the structure that holds the many together, and let the rest come into focus in its own time.
 `,
     },
     '1110': {
       AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+You do not need permission to notice what is actually working in your life. Your reading measured The Clone (1010) against The Forum (1110) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Clone (1010). This outcome describes a mirrored, symmetrical environment where a pattern repeats itself until it becomes the whole landscape, for better or worse.
+
+Filtering the patterns you repeat and the reflections you notice through the debates and philosophies you engage with strips away everything decorative, leaving only what the two genuinely agree on. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the patterns still worth repeating.
+
+Give yourself permission to keep only the patterns that still deserve to be repeated, and let the rest go quiet. You do not need permission from anyone else to let this settle in at its own pace. Trust the patterns still worth repeating more than you trust your urge to hurry past it.
 `,
       OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
+There is a particular relief in finally naming the thing you already knew. Your reading merged The Clone (1010) with The Forum (1110) through the generous logic of an OR operation, expanding outward until it settles on The Forum (1110). This outcome describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+Because this reading gathers rather than trims, the patterns you repeat and the reflections you notice and the debates and philosophies you engage with are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the argument that has earned its own standing.
+
+Give yourself permission to measure the argument on its own merits rather than on whoever happens to be making it. This does not need to be solved today, only acknowledged and given some room. Trust the argument that has earned its own standing, and let the rest come into focus in its own time.
 `,
     },
     '1111': {
       AND: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+What looks like a pause is sometimes the most productive part of the whole process. Your reading combined The Clone (1010) with The State (1111) through the narrowing logic of an AND operation, yielding a concentrated baseline governed by The Clone (1010). This result describes a mirrored, symmetrical environment where a pattern repeats itself until it becomes the whole landscape, for better or worse.
+
+Filtering the patterns you repeat and the reflections you notice through the systems and structures you organize your life around strips away everything decorative, leaving only what the two genuinely agree on. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the patterns still worth repeating to take the lead.
+
+Give yourself permission to keep only the patterns that still deserve to be repeated, and let the rest go quiet. You do not need permission from anyone else to let this settle in at its own pace. Trust the patterns still worth repeating, and let the rest come into focus in its own time.
 `,
       OR: `
-The Clone (1010) represents mirrors, reproduction, and equality. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+Sometimes the most useful map is simply admitting which direction you have already been drifting. Your reading gathered The Clone (1010) alongside The State (1111) under the inclusive function of an OR operation, expanding outward until it settles on The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the patterns you repeat and the reflections you notice and the systems and structures you organize your life around as complementary rather than competing. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Allow yourself to trust the structure you have built to hold the weight of the many. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
   },
   '1011': {
     '1100': {
       AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Agent (1000) represents independence, will, and action.
+The right direction rarely needs to be forced; it only needs to be noticed. Your reading measured The Cache (1011) against The Frame (1100) through the narrowing logic of an AND operation, returning you directly to The Agent (1000). This result describes a self-directed, unbound environment where movement begins the moment permission is no longer being requested from anyone else.
+
+Filtering the knowledge and reserves you have quietly stored away through the perspective through which you are currently viewing things strips away everything decorative, leaving only what the two genuinely agree on. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the momentum of your own will.
+
+Give yourself permission to move on your own timing, without waiting for a permission that was never actually required. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the momentum of your own will, and let everything else settle around it naturally.
 `,
       OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The State (1111) represents organization, authority, and politics.
+You do not need a crowd to validate a decision that was only ever yours to make. Your reading gathered The Cache (1011) alongside The Frame (1100) through the generous logic of an OR operation, synthesizing a landscape embodied by The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the knowledge and reserves you have quietly stored away and the perspective through which you are currently viewing things as complementary rather than competing. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Give yourself permission to trust the structure you have built to hold the weight of the many. You do not need permission from anyone else to let this settle in at its own pace. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
     '1101': {
       AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Table (1001) represents gathering, consumption, and plots.
+You do not owe an explanation for every choice that only affects your own path. Your reading measured The Cache (1011) against The Shell (1101) through the exacting function of an AND operation, yielding a concentrated baseline governed by The Table (1001). This result describes a vibrant, collective environment where a private plan becomes a shared and spoken thing the moment it reaches the table.
+
+Filtering the knowledge and reserves you have quietly stored away through the boundaries and defenses you maintain strips away everything decorative, leaving only what the two genuinely agree on. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the voice you bring to the table to take the lead.
+
+Let yourself say the quiet thing out loud and let the room rearrange itself around it. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the voice you bring to the table, and let the rest come into focus in its own time.
 `,
       OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.
+A single well-placed boundary can do the work an entire argument never quite manages. Your reading combined The Cache (1011) with The Shell (1101) through the generous logic of an OR operation, leaving your final landscape governed by The State (1111). This result describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the knowledge and reserves you have quietly stored away and the boundaries and defenses you maintain are allowed to sit side by side without cancelling each other out. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Choose, gently but deliberately, to trust the structure you have built to hold the weight of the many. None of this requires a grand gesture; it only asks for your honest attention. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
     '1110': {
       AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Clone (1010) represents mirrors, reproduction, and equality.
+You can respect a structure without letting it decide everything for you. Your reading measured The Cache (1011) against The Forum (1110) under the precise, reductive lens of an AND operation, narrowing everything down to The Clone (1010). The reading describes a mirrored, symmetrical environment where a pattern repeats itself until it becomes the whole landscape, for better or worse.
+
+When the knowledge and reserves you have quietly stored away is tested strictly against the debates and philosophies you engage with, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the patterns still worth repeating.
+
+Give yourself permission to keep only the patterns that still deserve to be repeated, and let the rest go quiet. This does not need to be solved today, only acknowledged and given some room. Trust the patterns still worth repeating, and let the rest come into focus in its own time.
 `,
       OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+The quiet ones in a room are often the ones actually deciding what happens next. Your reading gathered The Cache (1011) alongside The Forum (1110) under the welcoming embrace of an OR operation, resolving into the wider field of The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the knowledge and reserves you have quietly stored away and the debates and philosophies you engage with; it simply widens the frame until both fit comfortably inside it. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Let yourself trust the structure you have built to hold the weight of the many. It is enough to move quietly in this direction, without announcing or defending it. Trust the structure that holds the many together, and let the rest come into focus in its own time.
 `,
     },
     '1111': {
       AND: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Cache (1011) represents secrets, knowledge, and wealth.
+You can only carry what you are willing to set something else down for. Your reading measured The Cache (1011) against The State (1111) under the precise, reductive lens of an AND operation, leaving you with The Cache (1011) as your final result. This result describes a deep, well-stocked environment where what was hard-won waits patiently for the right hand to reach in and retrieve it.
+
+Between the knowledge and reserves you have quietly stored away and the systems and structures you organize your life around, the only certainty left standing after this filtering is plain, small, and entirely load-bearing. Nothing you set aside here was truly yours to carry in this particular season, and what is left is exactly enough to lean on: the value of what you already know.
+
+Give yourself permission to retrieve what you already know instead of searching outward for something entirely new. You do not need permission from anyone else to let this settle in at its own pace. Hold onto the value of what you already know; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Cache (1011) represents secrets, knowledge, and wealth. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+A single clear priority can quiet a hundred smaller worries at once. Your reading combined The Cache (1011) with The State (1111) under the inclusive function of an OR operation, leaving your final landscape governed by The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the knowledge and reserves you have quietly stored away and the systems and structures you organize your life around are allowed to sit side by side without cancelling each other out. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Allow yourself to trust the structure you have built to hold the weight of the many. This does not need to be solved today, only acknowledged and given some room. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
   },
   '1100': {
     '1101': {
       AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Frame (1100) represents perspective, structure, and state of mind.
+A path chosen quietly is no less a path than one chosen loudly. Your reading combined The Frame (1100) with The Shell (1101) through the narrowing logic of an AND operation, yielding a concentrated baseline governed by The Frame (1100). This outcome describes a clear-eyed, structured environment where the same scene can be read as an entirely different story depending on where the edges are drawn.
+
+An AND operation never asks you to reconcile all of the perspective through which you are currently viewing things with all of the boundaries and defenses you maintain; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the frame you choose to look through.
+
+Let yourself change the frame before you try to change the scene itself. You do not need permission from anyone else to let this settle in at its own pace. Trust the frame you choose to look through more than you trust your urge to hurry past it.
 `,
       OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+What you choose to protect will, over time, become what protects you back. Your reading merged The Frame (1100) with The Shell (1101) through the expansive threshold of an OR operation, expanding outward until it settles on The Shell (1101). The reading describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+OR is the coin of abundance, and it treats the perspective through which you are currently viewing things and the boundaries and defenses you maintain as complementary rather than competing. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the boundary that is quietly protecting you.
+
+Choose, gently but deliberately, to trust the boundary to do its work quietly, without apologizing for the space it takes up. It is enough to move quietly in this direction, without announcing or defending it. Trust the boundary that is quietly protecting you more than you trust your urge to hurry past it.
 `,
     },
     '1110': {
       AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Frame (1100) represents perspective, structure, and state of mind.
+A promise kept in private is worth more than one announced in public. Your reading tested The Frame (1100) against The Forum (1110) through the narrowing logic of an AND operation, narrowing everything down to The Frame (1100). This result describes a clear-eyed, structured environment where the same scene can be read as an entirely different story depending on where the edges are drawn.
+
+An AND operation never asks you to reconcile all of the perspective through which you are currently viewing things with all of the debates and philosophies you engage with; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the frame you choose to look through.
+
+Give yourself permission to change the frame before you try to change the scene itself. It is enough to move quietly in this direction, without announcing or defending it. Hold onto the frame you choose to look through; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
+There is a kind of clarity that only shows up after you stop trying to force it. Your reading combined The Frame (1100) with The Forum (1110) through the expansive threshold of an OR operation, resolving into the wider field of The Forum (1110). The reading describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+OR is the coin of abundance, and it treats the perspective through which you are currently viewing things and the debates and philosophies you engage with as complementary rather than competing. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the argument that has earned its own standing enough to let it lead.
+
+Choose, gently but deliberately, to measure the argument on its own merits rather than on whoever happens to be making it. There is no need to force this, rush it, or perform it for anyone else's benefit. Trust the argument that has earned its own standing more than you trust your urge to hurry past it.
 `,
     },
     '1111': {
       AND: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Frame (1100) represents perspective, structure, and state of mind.
+The quietest decisions are often the ones that end up rearranging everything downstream of them. Your reading tested The Frame (1100) against The State (1111) through the narrowing logic of an AND operation, yielding a concentrated baseline governed by The Frame (1100). This outcome describes a clear-eyed, structured environment where the same scene can be read as an entirely different story depending on where the edges are drawn.
+
+An AND operation never asks you to reconcile all of the perspective through which you are currently viewing things with all of the systems and structures you organize your life around; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the frame you choose to look through.
+
+Choose, gently but deliberately, to change the frame before you try to change the scene itself. This does not need to be solved today, only acknowledged and given some room. Trust the frame you choose to look through more than you trust your urge to hurry past it.
 `,
       OR: `
-The Frame (1100) represents perspective, structure, and state of mind. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+You do not need a map for every mile, only for the next honest step. Your reading combined The Frame (1100) with The State (1111) under the inclusive function of an OR operation, expanding outward until it settles on The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+When the coin favors union, the perspective through which you are currently viewing things and the systems and structures you organize your life around stop negotiating and start quietly reinforcing one another. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+Allow yourself to trust the structure you have built to hold the weight of the many. You do not need permission from anyone else to let this settle in at its own pace. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
   },
   '1101': {
     '1110': {
       AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Frame (1100) represents perspective, structure, and state of mind.
+You are allowed to change your mind about a direction without it undoing the ground you already covered. Your reading measured The Shell (1101) against The Forum (1110) under the precise, reductive lens of an AND operation, leaving you with The Frame (1100) as your final result. This outcome describes a clear-eyed, structured environment where the same scene can be read as an entirely different story depending on where the edges are drawn.
+
+An AND operation never asks you to reconcile all of the boundaries and defenses you maintain with all of the debates and philosophies you engage with; it only keeps what they were already quietly saying together. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the frame you choose to look through.
+
+Let yourself change the frame before you try to change the scene itself. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the frame you choose to look through; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+You can only carry what you are willing to set something else down for. Your reading merged The Shell (1101) with The Forum (1110) through the expansive threshold of an OR operation, synthesizing a landscape embodied by The State (1111). This outcome describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+OR is the coin of abundance, and it treats the boundaries and defenses you maintain and the debates and philosophies you engage with as complementary rather than competing. You are not being asked to pick a lane here; the space is generous enough to hold both, with the structure that holds the many together simply given the most room to stretch out in.
+
+There is real wisdom in choosing to trust the structure you have built to hold the weight of the many. There is no need to force this, rush it, or perform it for anyone else's benefit. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
     '1111': {
       AND: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+A path chosen quietly is no less a path than one chosen loudly. Your reading measured The Shell (1101) against The State (1111) under the precise, reductive lens of an AND operation, yielding a concentrated baseline governed by The Shell (1101). This outcome describes a fortified, contained environment where a hard edge is doing the quiet work of keeping something soft and essential alive inside it.
+
+An AND operation never asks you to reconcile all of the boundaries and defenses you maintain with all of the systems and structures you organize your life around; it only keeps what they were already quietly saying together. You are no longer required to hold onto every open thread from either card; the parts that never overlapped have simply stepped aside, leaving room for the boundary that is quietly protecting you to take the lead.
+
+Choose, gently but deliberately, to trust the boundary to do its work quietly, without apologizing for the space it takes up. It is enough to move quietly in this direction, without announcing or defending it. Trust the boundary that is quietly protecting you more than you trust your urge to hurry past it.
 `,
       OR: `
-The Shell (1101) represents protection, boundaries, and rigidity. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+A gate left open out of trust is different from one left open out of carelessness. Your reading gathered The Shell (1101) alongside The State (1111) under the welcoming embrace of an OR operation, synthesizing a landscape embodied by The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+Because this reading gathers rather than trims, the boundaries and defenses you maintain and the systems and structures you organize your life around are allowed to sit side by side without cancelling each other out. Nothing about this outcome is asking you to narrow your focus—if anything, it is asking you to trust the structure that holds the many together enough to let it lead.
+
+Let yourself trust the structure you have built to hold the weight of the many. Nothing about this calls for urgency, only for a willingness to notice what is already true. Lean on the structure that holds the many together, and let everything else settle around it naturally.
 `,
     },
   },
   '1110': {
     '1111': {
       AND: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Forum (1110) represents nobility, philosophy, and debate.
+What arrives uninvited is not always unwelcome; it is simply unscheduled. Your reading measured The Forum (1110) against The State (1111) under the precise, reductive lens of an AND operation, leaving you with The Forum (1110) as your final result. This result describes a spirited, argumentative environment where an idea has to earn its standing by surviving the argument, not by outranking it.
+
+When the debates and philosophies you engage with is tested strictly against the systems and structures you organize your life around, only the ground held by both survives, and what remains is smaller but far more certain than the sum of what you started with. This is not a smaller life so much as a clearer one, and right now it is asking for your attention rather than your effort, centered entirely on the argument that has earned its own standing.
+
+Allow yourself to measure the argument on its own merits rather than on whoever happens to be making it. Nothing about this calls for urgency, only for a willingness to notice what is already true. Hold onto the argument that has earned its own standing; it is quietly doing more work than it appears to.
 `,
       OR: `
-The Forum (1110) represents nobility, philosophy, and debate. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+There is a kind of clarity that only shows up after you stop trying to force it. Your reading merged The Forum (1110) with The State (1111) through the expansive threshold of an OR operation, leaving your final landscape governed by The State (1111). The reading describes a vast, ordered environment where many small parts are being held together by a single, larger order that asks little of any one piece.
+
+An OR operation never asks you to choose between the debates and philosophies you engage with and the systems and structures you organize your life around; it simply widens the frame until both fit comfortably inside it. What looks like more to carry is, in practice, more room to stand in, and the extra space is best spent on the structure that holds the many together.
+
+There is real wisdom in choosing to trust the structure you have built to hold the weight of the many. This does not need to be solved today, only acknowledged and given some room. Hold onto the structure that holds the many together; it is quietly doing more work than it appears to.
 `,
     },
   },

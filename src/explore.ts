@@ -22,6 +22,21 @@ const nStuckTravelFrac = 0.2
 const nStuckFramesBeforeAvoid = 12
 const nAvoidAngle = 0.9
 const nAvoidHoldSec = 1.4
+const nLookSens = 0.0045
+const nPitchMin = -1.25
+const nPitchMax = 1.35
+const nLookReturnSpeed = 1.6
+const nDefaultPitch = -0.08
+const nFloraTreeCount = 1400
+const nFloraBushCount = 2200
+const nFloraCrystalCount = 900
+const nFloraReedCount = 1200
+const nFloraMargin = nCliffWidth + 48
+const nFloraClearSpawn = 52
+const nFloraClearStatue = 24
+const nFloraMaxCliff = 0.18
+const nSkyLift = 2560
+const nSkyTilt = 0.42
 
 type tExploreCard = {
   sName: string
@@ -37,6 +52,11 @@ type tStatue = {
   objGlow: THREE.PointLight
 }
 
+type tSkyOrbit = {
+  objPivot: THREE.Object3D
+  nSpeed: number
+}
+
 let arrExploreCards: tExploreCard[] = []
 let arrStatues: tStatue[] = []
 let objCanvasHost: HTMLElement | null = null
@@ -49,12 +69,19 @@ let bRunning = false
 let nLastTs = 0
 let nYaw = 0
 let nPitch = -0.08
+let nMoveYaw = 0
 let nVelY = 0
 let objTargetStatue: tStatue | null = null
 let nStuckFrames = 0
 let nAvoidYaw = 0
 let nAvoidUntil = 0
 let nAvoidSign = 1
+let bLookDragging = false
+let nLookPtrId = -1
+let nLookLastX = 0
+let nLookLastY = 0
+let objSkyRoot: THREE.Group | null = null
+let arrSkyOrbits: tSkyOrbit[] = []
 
 const objPlayerPos = new THREE.Vector3(0, 20, 0)
 const objLookDir = new THREE.Vector3()
@@ -77,6 +104,39 @@ const objMatPurple = new THREE.MeshStandardMaterial({
   metalness: 0.25,
   emissive: 0x2a1050,
   emissiveIntensity: 0.2,
+})
+const objMatTrunk = new THREE.MeshStandardMaterial({
+  color: 0x1c1028,
+  roughness: 0.94,
+  metalness: 0.06,
+})
+const objMatCanopy = new THREE.MeshStandardMaterial({
+  color: 0x3a2468,
+  roughness: 0.82,
+  metalness: 0.1,
+  emissive: 0x1a0c38,
+  emissiveIntensity: 0.18,
+})
+const objMatShrub = new THREE.MeshStandardMaterial({
+  color: 0x2a1a42,
+  roughness: 0.9,
+  metalness: 0.05,
+  emissive: 0x140a28,
+  emissiveIntensity: 0.12,
+})
+const objMatCrystal = new THREE.MeshStandardMaterial({
+  color: 0x8b4dff,
+  roughness: 0.28,
+  metalness: 0.55,
+  emissive: 0x4a2088,
+  emissiveIntensity: 0.55,
+})
+const objMatReed = new THREE.MeshStandardMaterial({
+  color: 0x4a3068,
+  roughness: 0.78,
+  metalness: 0.08,
+  emissive: 0x2a1840,
+  emissiveIntensity: 0.15,
 })
 
 const nRayHeight = 480
@@ -612,11 +672,16 @@ function vAutoNavigate(nDt: number): void {
     nSteerYaw = nAvoidYaw
   }
 
-  nYaw += nAngleDiff(nYaw, nSteerYaw) * Math.min(1, nTurnSpeed * nDt)
-  nPitch = -0.08
+  nMoveYaw += nAngleDiff(nMoveYaw, nSteerYaw) * Math.min(1, nTurnSpeed * nDt)
+
+  if (!bLookDragging) {
+    const nReturn = Math.min(1, nLookReturnSpeed * nDt)
+    nYaw += nAngleDiff(nYaw, nMoveYaw) * nReturn
+    nPitch += (nDefaultPitch - nPitch) * nReturn
+  }
 
   const nStep = nMoveSpeed * nDt
-  const nTravel = nTryStep(nYaw, nStep)
+  const nTravel = nTryStep(nMoveYaw, nStep)
 
   if (nTravel >= nStep * nStuckTravelFrac) {
     nStuckFrames = 0
@@ -648,6 +713,187 @@ function vAddStatues(objParent: THREE.Object3D): void {
   }
 }
 
+function bFloraSiteOk(nX: number, nZ: number): boolean {
+  if (Math.hypot(nX, nZ) < nFloraClearSpawn) {
+    return false
+  }
+  if (nCliffBlend(nX, nZ) > nFloraMaxCliff) {
+    return false
+  }
+
+  const nClear2 = nFloraClearStatue * nFloraClearStatue
+  for (const objStatue of arrStatues) {
+    const nDx = nX - objStatue.nX
+    const nDz = nZ - objStatue.nZ
+    if (nDx * nDx + nDz * nDz < nClear2) {
+      return false
+    }
+  }
+  return true
+}
+
+function arrFloraSites(nCount: number, nSalt: number): { nX: number; nZ: number; nSeed: number }[] {
+  const nHalf = nTerrainSize * 0.5 - nFloraMargin
+  const nGrid = Math.ceil(Math.sqrt(nCount * 4.5))
+  const nCell = (nHalf * 2) / nGrid
+  const arrOut: { nX: number; nZ: number; nSeed: number }[] = []
+
+  for (let nGz = 0; nGz < nGrid && arrOut.length < nCount; nGz++) {
+    for (let nGx = 0; nGx < nGrid && arrOut.length < nCount; nGx++) {
+      const nSeed = nHash2(nGx + nSalt * 17, nGz + nSalt * 29)
+      if (nSeed > 0.78) {
+        continue
+      }
+
+      const nJx = nHash2(nGx + nSalt + 3, nGz + 71)
+      const nJz = nHash2(nGx + 41, nGz + nSalt + 9)
+      const nX = -nHalf + (nGx + nJx) * nCell
+      const nZ = -nHalf + (nGz + nJz) * nCell
+      if (!bFloraSiteOk(nX, nZ)) {
+        continue
+      }
+
+      arrOut.push({ nX, nZ, nSeed })
+    }
+  }
+
+  return arrOut
+}
+
+function objBuildTreeGeos(): { objTrunk: THREE.BufferGeometry; objCanopy: THREE.BufferGeometry } {
+  const objTrunk = new THREE.CylinderGeometry(0.22, 0.38, 3.4, 5)
+  objTrunk.translate(0, 1.7, 0)
+  const objCanopy = new THREE.ConeGeometry(1.55, 3.6, 6)
+  objCanopy.translate(0, 4.4, 0)
+  return { objTrunk, objCanopy }
+}
+
+function objBuildBushGeo(): THREE.BufferGeometry {
+  const objGeo = new THREE.IcosahedronGeometry(1.05, 0)
+  objGeo.scale(1.15, 0.72, 1.05)
+  objGeo.translate(0, 0.75, 0)
+  return objGeo
+}
+
+function objBuildCrystalGeo(): THREE.BufferGeometry {
+  const objGeo = new THREE.OctahedronGeometry(0.55, 0)
+  objGeo.scale(0.55, 1.85, 0.55)
+  objGeo.translate(0, 1.15, 0)
+  return objGeo
+}
+
+function objBuildReedGeo(): THREE.BufferGeometry {
+  const objGeo = new THREE.CylinderGeometry(0.06, 0.1, 2.4, 4)
+  objGeo.translate(0, 1.2, 0)
+  return objGeo
+}
+
+function vAddFlora(objParent: THREE.Object3D): void {
+  const objDummyPos = new THREE.Vector3()
+  const objDummyQuat = new THREE.Quaternion()
+  const objDummyScale = new THREE.Vector3()
+  const objUp = new THREE.Vector3(0, 1, 0)
+  const objMatrix = new THREE.Matrix4()
+
+  const vPlace = (
+    objMesh: THREE.InstancedMesh,
+    arrSites: { nX: number; nZ: number; nSeed: number }[],
+    nScaleMin: number,
+    nScaleSpan: number,
+  ): void => {
+    for (let nI = 0; nI < arrSites.length; nI++) {
+      const objSite = arrSites[nI]!
+      const nYaw = objSite.nSeed * Math.PI * 2
+      const nScale = nScaleMin + nHash2(nI + 11, Math.floor(objSite.nSeed * 9999)) * nScaleSpan
+      objDummyPos.set(objSite.nX, nSampleHeight(objSite.nX, objSite.nZ), objSite.nZ)
+      objDummyQuat.setFromAxisAngle(objUp, nYaw)
+      objDummyScale.set(nScale, nScale, nScale)
+      objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
+      objMesh.setMatrixAt(nI, objMatrix)
+    }
+    objMesh.instanceMatrix.needsUpdate = true
+    objMesh.frustumCulled = true
+    objParent.add(objMesh)
+  }
+
+  const objTreeGeos = objBuildTreeGeos()
+  const arrTreeSites = arrFloraSites(nFloraTreeCount, 1)
+  const objTreeTrunks = new THREE.InstancedMesh(objTreeGeos.objTrunk, objMatTrunk, arrTreeSites.length)
+  const objTreeCanopies = new THREE.InstancedMesh(objTreeGeos.objCanopy, objMatCanopy, arrTreeSites.length)
+  vPlace(objTreeTrunks, arrTreeSites, 0.75, 1.35)
+  vPlace(objTreeCanopies, arrTreeSites, 0.75, 1.35)
+
+  const arrBushSites = arrFloraSites(nFloraBushCount, 2)
+  const objBushes = new THREE.InstancedMesh(objBuildBushGeo(), objMatShrub, arrBushSites.length)
+  vPlace(objBushes, arrBushSites, 0.55, 1.1)
+
+  const arrCrystalSites = arrFloraSites(nFloraCrystalCount, 3)
+  const objCrystals = new THREE.InstancedMesh(objBuildCrystalGeo(), objMatCrystal, arrCrystalSites.length)
+  vPlace(objCrystals, arrCrystalSites, 0.7, 1.6)
+
+  const arrReedSites = arrFloraSites(nFloraReedCount, 4)
+  const objReeds = new THREE.InstancedMesh(objBuildReedGeo(), objMatReed, arrReedSites.length)
+  vPlace(objReeds, arrReedSites, 0.85, 1.4)
+}
+
+function objSkyMat(nColor: number): THREE.MeshBasicMaterial {
+  return new THREE.MeshBasicMaterial({
+    color: nColor,
+    fog: false,
+  })
+}
+
+function vAddSkyOrbits(objParent: THREE.Object3D): void {
+  objSkyRoot = new THREE.Group()
+  arrSkyOrbits = []
+  objSkyRoot.rotation.x = nSkyTilt
+  objSkyRoot.rotation.z = 0.18
+
+  const objBodyGeo = new THREE.SphereGeometry(1, 24, 16)
+  const objSun = new THREE.Mesh(objBodyGeo, objSkyMat(0xa07828))
+  objSun.scale.setScalar(220)
+  objSkyRoot.add(objSun)
+
+  const arrPalette = [0x6a3058, 0x6a4a18, 0x3a1868, 0x5a2848, 0x4a2868, 0x6a5818, 0x482068, 0x2a1048, 0x5a3048, 0x705018, 0x582848, 0x2a1438, 0x482058, 0x583848]
+
+  const nPlanetCount = 5
+  for (let nI = 0; nI < nPlanetCount; nI++) {
+    const nT = (nI + 0.5) / nPlanetCount
+    const nOrbitR = 880 + nT * 5760
+    const nSeed = nHash2(nI + 3, nI * 7 + 11)
+    const nSeedB = nHash2(nI * 5 + 2, nI + 41)
+    const nSeedC = nHash2(nI + 19, nI * 3 + 8)
+    const nSize = (3.5 + nSeed * 14 + (nI % 9 === 4 ? 6 : 0)) * 10
+    const nColor = arrPalette[Math.floor(nSeedB * arrPalette.length)]!
+    const nSpeed = 0.24 * Math.pow(880 / nOrbitR, 1.35) * (0.75 + nSeedC * 0.5)
+
+    const objPivot = new THREE.Group()
+    objPivot.rotation.y = nSeed * Math.PI * 2
+    objPivot.rotation.x = (nSeedB - 0.5) * 0.28
+
+    const objPlanet = new THREE.Mesh(objBodyGeo, objSkyMat(nColor))
+    objPlanet.scale.setScalar(nSize)
+    objPlanet.position.x = nOrbitR
+    objPivot.add(objPlanet)
+
+    objSkyRoot.add(objPivot)
+    arrSkyOrbits.push({ objPivot, nSpeed })
+  }
+
+  objParent.add(objSkyRoot)
+}
+
+function vUpdateSkyOrbits(nDt: number): void {
+  if (!objSkyRoot) {
+    return
+  }
+
+  objSkyRoot.position.set(objPlayerPos.x, objPlayerPos.y + nSkyLift, objPlayerPos.z)
+  for (const objOrbit of arrSkyOrbits) {
+    objOrbit.objPivot.rotation.y += objOrbit.nSpeed * nDt
+  }
+}
+
 function vUpdateCameraOrientation(): void {
   if (!objCamera) {
     return
@@ -671,7 +917,8 @@ function vPlacePlayerOnTerrain(): void {
   objPlayerPos.set(0, nGround + nEyeHeight, 0)
   nVelY = 0
   nYaw = 0
-  nPitch = -0.08
+  nMoveYaw = 0
+  nPitch = nDefaultPitch
   vUpdateCameraOrientation()
 }
 
@@ -746,6 +993,7 @@ function vTick(nTs: number): void {
   }
 
   vUpdateStatueProximity()
+  vUpdateSkyOrbits(nDt)
   vUpdateCameraOrientation()
   objRenderer.render(objScene, objCamera)
   nAnimFrame = window.requestAnimationFrame(vTick)
@@ -760,7 +1008,7 @@ function vInitScene(): void {
   objScene.background = new THREE.Color(0x050308)
   objScene.fog = new THREE.Fog(0x0a0614, nFogNear, nFogFar)
 
-  objCamera = new THREE.PerspectiveCamera(70, 1, 0.1, 6000)
+  objCamera = new THREE.PerspectiveCamera(70, 1, 0.1, 16000)
 
   objRenderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' })
   objRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -779,7 +1027,7 @@ function vInitScene(): void {
   objScene.add(objFill)
 
   const objSky = new THREE.Mesh(
-    new THREE.SphereGeometry(4200, 24, 16),
+    new THREE.SphereGeometry(12000, 24, 16),
     new THREE.MeshBasicMaterial({
       color: 0x120a1c,
       side: THREE.BackSide,
@@ -788,8 +1036,10 @@ function vInitScene(): void {
   )
   objScene.add(objSky)
 
+  vAddSkyOrbits(objScene)
   objScene.add(objBuildTerrain())
   vAddStatues(objScene)
+  vAddFlora(objScene)
   vCommitTarget(null)
 
   vPlacePlayerOnTerrain()
@@ -814,6 +1064,9 @@ function vStart(): void {
 
 function vStop(): void {
   bRunning = false
+  bLookDragging = false
+  nLookPtrId = -1
+  objCanvasHost?.classList.remove('is-dragging')
   vCommitTarget(null)
   if (nAnimFrame !== 0) {
     window.cancelAnimationFrame(nAnimFrame)
@@ -821,11 +1074,67 @@ function vStop(): void {
   }
 }
 
+function vEndLookDrag(nPtrId: number): void {
+  if (!bLookDragging || nLookPtrId !== nPtrId) {
+    return
+  }
+
+  bLookDragging = false
+  nLookPtrId = -1
+  if (objCanvasHost) {
+    objCanvasHost.classList.remove('is-dragging')
+    try {
+      objCanvasHost.releasePointerCapture(nPtrId)
+    } catch {
+      /* already released */
+    }
+  }
+}
+
+function vBindLookDrag(objHost: HTMLElement): void {
+  objHost.addEventListener('pointerdown', (objEv) => {
+    if (objEv.button !== 0 || !bRunning) {
+      return
+    }
+
+    bLookDragging = true
+    nLookPtrId = objEv.pointerId
+    nLookLastX = objEv.clientX
+    nLookLastY = objEv.clientY
+    objHost.classList.add('is-dragging')
+    objHost.setPointerCapture(objEv.pointerId)
+    objEv.preventDefault()
+  })
+
+  objHost.addEventListener('pointermove', (objEv) => {
+    if (!bLookDragging || objEv.pointerId !== nLookPtrId) {
+      return
+    }
+
+    const nDx = objEv.clientX - nLookLastX
+    const nDy = objEv.clientY - nLookLastY
+    nLookLastX = objEv.clientX
+    nLookLastY = objEv.clientY
+    nYaw += nDx * nLookSens
+    nPitch = Math.min(nPitchMax, Math.max(nPitchMin, nPitch + nDy * nLookSens))
+  })
+
+  objHost.addEventListener('pointerup', (objEv) => {
+    vEndLookDrag(objEv.pointerId)
+  })
+  objHost.addEventListener('pointercancel', (objEv) => {
+    vEndLookDrag(objEv.pointerId)
+  })
+  objHost.addEventListener('lostpointercapture', (objEv) => {
+    vEndLookDrag(objEv.pointerId)
+  })
+}
+
 export function sExploreMarkup(): string {
   return `
     <div class="explore" id="explore">
-      <div class="explore-viewport" id="explore-viewport" role="img" aria-label="Automatic terrain explorer"></div>
-      <p class="explore-caption">pilgrim · statues of the deck</p>
+      <div class="explore-viewport" id="explore-viewport" role="img" aria-label="Terrain explorer — drag to look around"></div>
+      <p class="explore-caption">pilgrim · flora, sky orbits & statues</p>
     </div>
   `
 }
@@ -836,6 +1145,8 @@ export function vBindExplore(arrCards: tExploreCard[]): void {
   if (!objCanvasHost) {
     return
   }
+
+  vBindLookDrag(objCanvasHost)
 
   window.addEventListener('resize', () => {
     if (bRunning) {

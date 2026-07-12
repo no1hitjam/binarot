@@ -452,8 +452,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="pilgrim">
       <h2>Pilgrim</h2>
       <p class="reading-intro">
-        Wandering a generated landscape with ridges, valleys, and gold-lit peaks in the void.
-        The pilgrim walks toward the nearest unvisited statue of the deck.
+        Wandering a generated landscape of ridges, valleys, gold-lit peaks, and scattered flora in the void.
+        Planets drift across the sky while the pilgrim walks toward the nearest unvisited statue.
       </p>
       ${sExploreMarkup()}
     </section>

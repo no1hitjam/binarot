@@ -1087,8 +1087,14 @@ code {
   width: 100%;
   height: min(62vh, 520px);
   outline: none;
-  cursor: default;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
   background-color: var(--void);
+}
+
+.explore-viewport.is-dragging {
+  cursor: grabbing;
 }
 
 .explore-viewport canvas {

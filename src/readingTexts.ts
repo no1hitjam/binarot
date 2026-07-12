@@ -207,26 +207,50 @@ Moving forward, remember that the way you choose to define your boundaries will 
     },
     '1101': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Seed (0) represents beginnings, ideas, and origins.
+The sturdiest armor must ultimately yield to the fragile truth it was built to protect. In this delicate alignment, The Seed (0) intersected with The Shell (1101) through the exacting filter of an AND operation. The final result returns you to The Seed (0), describing an open, tender environment where rigid defenses and heavy boundaries soften away, leaving only the raw, unadorned vulnerability of your original intent.
+
+When defensive boundaries meet the absolute point of origin, the logic of the cards suggests that true safety is found not in hiding, but in the purity of your beginnings. This outcome indicates a space of beautiful simplification, where the armor you have worn to keep the world out falls away because it is no longer needed. The environment around you right now is not asking you to build walls or brace for impact, but rather to exist quietly within the gentle space of what is just starting to form.
+
+Moving forward, consider that you do not always need a hard exterior to safeguard your growth or guarantee your security. Sometimes, the most profound resilience comes from letting your guards down and trusting the natural integrity of your initial ideas. Allow your protective layers to rest for a while, breathe into the open air of your current clearing, and let your foundation settle without the weight of unnecessary defense.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+To keep a fragile truth safe from the storm, one must sometimes build a sanctuary strong enough to withstand the wind. In this encompassing alignment, The Seed (0) gently folded into The Shell (1101) through the protective landscape of an OR operation. The final result manifests as The Shell (1101), describing a secure, highly structured environment where clear boundaries, intentional containment, and solid armor define the space around you.
+
+By allowing the tender spark of an idea to welcome a firm layer of defense, you have entered a landscape that prioritizes safety and stability above all else. This outcome highlights an environment that gives you the necessary distance to filter out external noise and preserve your inner peace. It is a space where rules, routines, and firm limits are not acting as restrictions, but rather as a necessary framework to keep you well-guarded and grounded.
+
+Moving forward, remember that maintaining a strong defense is a valuable tool for preservation, provided you choose when to step outside the gate. You do not need to apologize for setting strict limits or keeping your distance while you gather your internal strength. Trust the quiet fortification you have built around your life, allow yourself to rest securely within these boundaries, and open the door only when you feel entirely ready.
 `,
     },
     '1110': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Seed (0) represents beginnings, ideas, and origins.
+The highest ideals and grandest arguments are empty without the simple truth that sparked the conversation. In this quiet alignment, The Seed (0) intersected with The Forum (1110) through the precise filter of an AND operation. The final result returns you to The Seed (0), describing a quiet, singular environment where the noise of intellectual debate and high-minded rhetoric fades away, leaving only the unadorned purity of your original thought.
+
+When noble philosophies meet the absolute point of origin, the logic of the cards reminds you that complex theories are only as strong as the basic intent behind them. This outcome suggests a space of deep distillation, where you are being invited to step away from the pressure of proving your point or navigating intricate social philosophies. The environment around you right now is not asking you to defend your ideas to an audience, but simply to sit with the raw, quiet truth of what you know to be true.
+
+Moving forward, consider that you do not need to overthink your path or construct an elaborate philosophical defense for your choices. Sometimes, the wisest approach is to let the debates rest and trust the integrity of your earliest instincts. Give yourself permission to step outside the grand arena, quiet the analytical mind, and allow your journey to proceed from a place of simple, uncomplicated beginnings.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
+The grandest dialogue always leaves a seat at the table for the quiet whisper that first called the assembly. In this elevated convergence, The Seed (0) gracefully integrated with The Forum (1110) through the inclusive threshold of an OR operation. The final result manifests as The Forum (1110), describing a refined, intellectually charged environment where noble concepts, high philosophy, and meaningful debate shape the space around you.
+
+By allowing the raw spark of an idea to welcome a broader, more structured world of thought, you have entered a landscape that values wisdom, presentation, and the testing of concepts. This outcome points to a space where your perspective can be sharpened through interaction, and where articulate, principled communication takes precedence. You are standing in an arena that encourages you to elevate your thinking, organize your convictions, and engage openly with the deeper systems of the world.
+
+Moving forward, remember that engaging in the grander discourse of your life is a practice of refinement, not just defense. You do not need to have every answer fully polished before you allow your voice to be heard in a wider room. Trust the nobility of your intent, welcome the challenge of new perspectives, and let your principles guide your expressions with quiet, steady confidence.
 `,
     },
     '1111': {
       AND: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Seed (0) represents beginnings, ideas, and origins.
+The vastest architectures of power must ultimately bow to the quiet truth of the single brick that laid the foundation. In this profound alignment, The Seed (0) intersected with The State (1111) through the exacting filter of an AND operation. The final result returns you to The Seed (0), describing a pristine, unbound environment where heavy institutional demands, rigid protocols, and external authority fall away, leaving only the raw, uncompromised essence of your original intent.
+
+When absolute organization meets the ultimate point of origin, the logic of the cards reminds you that every great structure is only as permanent as the spark that initially gave it form. This outcome points to a space of refreshing liberation, where the complex politics, expectations, or bureaucratic structures of your life are dissolved to grant you total clarity. The environment around you right now is not asking you to manage an empire or conform to a rigid hierarchy, but rather to enjoy the open freedom of a blank page.
+
+Moving forward, consider that you do not need to construct a massive system or seek external validation from established authorities to find your true direction. Sometimes, the most powerful thing you can do is step outside the grand machinery of your obligations and trust the quiet integrity of your earliest impulses. Allow the systemic noise around you to grow still, and give yourself permission to simply exist at the beautiful, quiet threshold of a brand-new beginning.
 `,
       OR: `
-The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+An empire of the mind achieves its true majesty only when it honors the quiet inkling that first mapped its borders. In this expansive alignment, The Seed (0) gracefully integrated with The State (1111) through the welcoming threshold of an OR operation. The final result manifests as The State (1111), describing a highly structured, authoritative environment where organization, governance, and the strategic navigation of your surroundings define the landscape.
+
+By allowing the raw spark of an idea to welcome a grand architecture of order, you have stepped into a space where your concepts can be codified into lasting systems. This outcome points to an environment that rewards discipline, long-term planning, and the steady implementation of rules and routines. You are standing in a position of distinct leadership and responsibility, where the chaotic potential of beginnings has been successfully channeled into a powerful, coordinated reality.
+
+Moving forward, remember that wielding authority over your own life requires a delicate balance between structure and adaptability. You do not need to rule your daily path with an iron fist, nor should you let the weight of organization stifle your internal creativity. Trust the systems you have put in place to protect your time, step confidently into your role as the architect of your destiny, and let your established order support you with quiet efficiency.
 `,
     },
   },

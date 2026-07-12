@@ -5,6 +5,7 @@ import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts
 import { sReadingSigilMarkup } from './readingSigil'
 import { sExploreMarkup, vBindExplore, vSetExploreActive } from './explore'
 import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
+import { sHouseMarkup, vBindHouse, vSetHouseActive } from './house'
 import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -353,6 +354,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
       <button type="button" class="tab-button" data-tab="magic" aria-selected="false">Magic</button>
       <button type="button" class="tab-button" data-tab="pilgrim" aria-selected="false">Pilgrim</button>
+      <button type="button" class="tab-button" data-tab="house" aria-selected="false">House</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -456,6 +458,14 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         Planets drift across the sky while the pilgrim walks toward the nearest unvisited statue.
       </p>
       ${sExploreMarkup()}
+    </section>
+
+    <section class="tab-panel" data-panel="house">
+      <h2>House</h2>
+      <p class="reading-intro">
+        A text adventure through a quiet house. Explore room by room and find all sixteen binarot cards.
+      </p>
+      ${sHouseMarkup()}
     </section>
 
     ${
@@ -609,6 +619,7 @@ function vActivateTab(sTabId: string): void {
   vSetMatrixActive(sTabId === 'matrix')
   vSetFloatActive(sTabId === 'magic')
   vSetExploreActive(sTabId === 'pilgrim')
+  vSetHouseActive(sTabId === 'house')
   vSetCookie(sCookieTab, sTabId)
 }
 
@@ -946,3 +957,4 @@ vBindPlanetsOrbitHover()
 vBindMatrixRain()
 vBindFloat(arrCards)
 vBindExplore(arrCards)
+vBindHouse(arrCards)

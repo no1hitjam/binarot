@@ -256,15 +256,20 @@ const sDevAiInstructions =
   <br><br>
  `
 
+function arrOrderedPair(objLeft: tCard, objRight: tCard): [tCard, tCard] {
+  return nCardValue(objLeft) <= nCardValue(objRight) ? [objLeft, objRight] : [objRight, objLeft]
+}
+
 function sReadingResultMarkup(
   objLeft: tCard,
   objRight: tCard,
   sOp: tOperator,
   bIncludeAiInstructions: boolean = false,
 ): string {
-  const objResult = objResolveReading(objLeft, objRight, sOp)
+  const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
+  const objResult = objResolveReading(objLow, objHigh, sOp)
   const sSymbol = sOp === 'AND' ? '&' : '|'
-  const sText = sReadingText(objLeft.sBinaryValue, objRight.sBinaryValue, sOp)
+  const sText = sReadingText(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)
   const sTextMarkup = sText ? `<p class="reading-text">${sStyledReadingText(sText)}</p>` : ''
   const sAiMarkup = bIncludeAiInstructions
     ? `<p class="dev-ai-instructions">${sDevAiInstructions}</p>`
@@ -272,17 +277,17 @@ function sReadingResultMarkup(
 
   return `
     <div class="reading-spread">
-      ${sCardItemMarkup(objLeft)}
+      ${sCardItemMarkup(objLow)}
       <div class="reading-coin" aria-label="Coin landed on ${sOp}">
         <span class="reading-coin-face">${sOp}</span>
         <span class="reading-coin-symbol binary-value">${sSymbol}</span>
       </div>
-      ${sCardItemMarkup(objRight)}
+      ${sCardItemMarkup(objHigh)}
     </div>
     <p class="reading-equation">
-      <span class="binary-value">${objLeft.sBinaryValue}</span>
+      <span class="binary-value">${objLow.sBinaryValue}</span>
       ${sSymbol}
-      <span class="binary-value">${objRight.sBinaryValue}</span>
+      <span class="binary-value">${objHigh.sBinaryValue}</span>
       =
       <span class="binary-value">${objResult.sBinaryValue}</span>
     </p>

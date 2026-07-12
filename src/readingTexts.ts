@@ -693,34 +693,66 @@ Step fully into your executive capacity, relying on clear organization, robust d
   '11': {
     '100': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
+The ultimate architecture of a life is revealed only when every temporary scaffolding is completely stripped away. Your reading combined the binding assurances of The Link (11) with the protective sanctuary of The Host (100) under the reductive function of an AND operation, leaving your path entirely cleared down to the foundational potential of The Seed (0). This outcome describes an empty, unburdened environment where external commitments and structural safeties have completely canceled each other out, leaving you at absolute zero with a completely blank slate.
+
+When the promises you keep and the shelters you own share no common logic, the entire system drops its variables and returns to standard origin. This zero-state means you are no longer bound by the exhausting weight of maintaining complex relationships, nor are you chained to the immediate upkeep of what you have built or claimed. You are standing in that rare, pristine clearing that exists just before the very first line of code is written or the first brick is laid—a space of pure, unblemished freedom.
+
+Allow yourself to simply exist in this space of non-definition without rushing to fill the vacuum with old routines or forced obligations. Do not mistake a total lack of immediate momentum or structural feedback for a failure of direction; instead, treat this temporary stillness as the clean, essential soil required for a completely authentic perspective to take root. Trust the clarity of the clean slate, and let your next initiative grow entirely from scratch.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Tree (111) represents fullness, growth, and reach.
+True abundance is not a sudden windfall, but the quiet locking together of everything you have built and everyone you have trusted. Your reading integrated the binding assurances of The Link (11) alongside the protective sanctuary of The Host (100) under the inclusive function of an OR operation, synthesizing a dense and mature landscape beautifully embodied by The Tree (111). This result describes an environment of complete structural integrity, maximum capacity, and deep integration, where your personal relationships and your secure foundations merge to feed a singular, thriving ecosystem.
+
+By combining the strength of your promises with the grace of your private shelters, the system has transformed individual points of security into a massive network of continuous opportunity. You no longer have to separate your private domain from the external commitments that sustain you; instead, the OR operation ensures that every alliance, asset, and routine you possess feeds into the same overarching canopy. You are operating in a space where your roots are deeply established in rich soil, and your branches are expanding outward to comfortably support a complex tapestry of overlapping responsibilities.
+
+Allow yourself to occupy the full scale of the space you have built, refusing to prune away your potential or shrink back into isolated compartments out of habit. Do not let the complexity of managing a full plate trick you into thinking you are overextended; instead, trust that the central trunk of your core values and established systems can easily bear this weight. Lean into your accumulated stability, and let your next choices reflect the quiet confidence of someone whose growth is structurally assured.
 `,
     },
     '101': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Flag (1) represents claims, power, and sovereignty.
+True sovereignty is not seized by force, but recognized in the quiet intersection where your commitments meet your chosen direction. Your reading combined the binding assurances of The Link (11) with the splitting trajectories of The Fork (101) under the strict filtering of an AND operation, yielding a concentrated baseline governed entirely by the authority of The Flag (1). This outcome describes a highly focused, declarative environment where a singular, undeniable priority emerges from a crossroad of choices, giving you clear ownership over your immediate territory.
+
+When a network of promises is tested by diverging paths under an absolute condition, the system strips away all secondary options to isolate your true allegiance. You are no longer required to balance multiple competing trajectories or maintain superficial connections that dilute your focus; instead, the logic of the reading forces a definitive choice, asking you to plant your marker down firmly. You are standing in a clean, high-leverage space where ambiguity falls away, leaving only the essential core of what you choose to claim as your own.
+
+Plant your feet firmly and take full ownership of the specific path that has clarified itself before you, refusing to look back at the options you have left behind. Do not let the fear of narrowing your choices prevent you from establishing a definitive baseline for your next move; instead, treat this moment as an essential act of personal leadership. Trust the economy of a single, well-defined boundary, and let your actions reflect the quiet confidence of someone who has finally chosen their ground.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Tree (111) represents fullness, growth, and reach.
+The grandest design is never a straight line, but a complex canopy that finds a way to feed every divergent branch. Your reading gathered the binding assurances of The Link (11) alongside the splitting trajectories of The Fork (101) under the inclusive function of an OR operation, synthesizing a sprawling and mature landscape beautifully embodied by The Tree (111). This result describes an environment of absolute maximum capacity, deep structural integration, and multi-directional progress, where your existing alliances and your choice of new directions are pulled together into a singular, thriving network.
+
+By combining an established foundation of security with a crossroad of options, the system has determined that you do not need to sacrifice one path to satisfy another. You are no longer forced to choose between maintaining your current promises and exploring a brand-new trajectory; instead, the OR operation ensures that every interest, relationship, and resource you possess feeds into the same overarching ecosystem. You are operating in a robust space where your roots are firmly established, and your personal reach is expanding in multiple directions simultaneously, creating a rich tapestry of overlapping potential.
+
+Embrace the complexity of your current situation instead of trying to prune away parts of your life to make things simpler or easier to track. Do not let the fear of being pulled in different directions prevent you from reaching toward new opportunities; instead, trust that the central trunk of your core values can support all of this various, sprawling growth. Give yourself permission to occupy your full space in the world, and let the sheer volume of what you are building find its own natural equilibrium.
 `,
     },
     '110': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Call (10) represents summonings, duty, and serendipity.
+True alignment is found when your chosen commitments intersect perfectly with the vast opportunities of the world, narrowing your focus down to a single, unavoidable path. Your reading combined the binding assurances of The Link (11) with the open horizon of The Port (110) under the strict filtering of an AND operation, leaving you with the unmistakable resonance of The Call (10) as your final result. This outcome describes a highly concentrated and clarified environment where all casual networking, speculative exploration, and open-ended choices are stripped away, leaving only a primary, non-negotiable duty.
+
+When an established network of connections is passed through a gateway of discovery under an absolute condition, the system determines that your open options have officially consolidated into a specific, fated timeline. You are no longer required to stand at the docks weighing every potential harbor or maintaining every superficial relationship; instead, the logic of the reading filters out the noise to isolate your immediate responsibility. You are standing in a space of intense clarity, where the next step requires no further speculation—only immediate compliance and execution.
+
+Direct your full attention to the singular obligation or calling that has made itself known to you, treating it as the direct answer to your preparation. Do not look at this sudden narrowing of scope as a restriction of your freedom; instead, recognize it as a profound economy of focus that protects your energy from being scattered across too many open horizons. Trust the efficiency of the single path, and throw your full weight into answering the baseline requirements of the present moment.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Tree (111) represents fullness, growth, and reach.
+The strongest anchors do not hold you back; they provide the exact stability required to reach across the entire horizon. Your reading integrated the binding assurances of The Link (11) alongside the open, outward-facing energy of The Port (110) under the inclusive function of an OR operation, synthesizing a dense and mature landscape beautifully embodied by The Tree (111). This result describes an environment of absolute maximum capacity, structural integration, and multi-directional progress, where your core security and your external ventures merge into a single, thriving network.
+
+By combining an established network of promises with a gateway of trade and discovery, the system has determined that your inner foundations and your outer ambitions are meant to feed the same overarching canopy. You are no longer required to choose between staying securely grounded and exploring new, open-ended opportunities; instead, the OR operation ensures that every connection you maintain and every boundary you cross serves to expand your personal equity. You are operating from a position of deep stability, where your roots are firmly established, and your branches are wide enough to handle a complex tapestry of overlapping responsibilities.
+
+Allow yourself to occupy the full scale of your current potential, refusing to compartmentalize your personal stability away from your grandest technical or creative goals. Do not let the complexity of managing a full plate trick you into thinking your focus is too scattered; instead, trust that the central trunk of your discipline and experience can easily bear this weight. Lean into your accumulated stability, open yourself up to the broader horizons before you, and let your next choices reflect the quiet confidence of someone whose growth is structurally assured.
 `,
     },
     '111': {
       AND: `
-The Link (11) represents connections, promises, and security. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Link (11) represents connections, promises, and security.
+The deepest strength of a grand structure is not its height, but the unseen threads that keep it securely tethered to its foundation. Your reading combined the binding assurances of The Link (11) with the sprawling canopy of The Tree (111) under the strict filtering of an AND operation, returning you directly to the focused stability of The Link (11) as your final result. This outcome describes a highly concentrated and clarified environment where all extensive growth, multi-directional expansion, and complex projects are filtered down to protect your core agreements and primary security.
+
+When a massive ecosystem of personal growth is passed through an absolute condition, it signifies that your current priority is not to branch out further, but to fortify the exact promises that support the weight of your life. The system has sifted through the complex canopy of your ambitions, determining that your true alignment depends entirely on the health of your foundational connections and systems. You are operating in a landscape where structural noise falls away, leaving only the essential agreements that keep your world secure.
+
+Direct your full attention to reinforcing your core commitments, validating your most trusted systems, and honoring the explicit promises right in front of you. Do not view this temporary narrowing of focus as a restriction on your long-term growth; instead, treat it as a vital maintenance phase that ensures your roots can comfortably bear your future reach. Trust the efficiency of a single, well-defined baseline, and let the quiet strength of your absolute integrity protect your progress from the ground up.
 `,
       OR: `
-The Link (11) represents connections, promises, and security. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+The grandest canopy does not compete with its roots; it simply provides a massive architecture that can comfortably house every promise that feeds it. Your reading gathered the binding assurances of The Link (11) alongside the sprawling network of The Tree (111) under the inclusive function of an OR operation, leaving your final landscape completely governed by the absolute maturity of The Tree (111). This result describes an environment of total integration, maximum capacity, and deep stability, where individual points of connection and security are seamlessly absorbed into a much larger, self-sustaining ecosystem of personal and professional progress.
+
+By allowing your core alliances to merge into an all-encompassing system, the logic of the deck has determined that your current path is robust enough to handle its own scale. You are no longer navigating an isolated, fragile path that could be broken by a single misstep; instead, the OR operation ensures that every connection you maintain and every security baseline you have established serves to strengthen your overarching growth. You are operating from a position of absolute leverage, where your foundations are deep enough to support extensive multi-directional expansion without losing your footing.
+
+Step fully into your own maturity, allowing yourself to occupy the full scale of the space you have built without shrinking back into old, defensive habits out of a false sense of caution. Do not let the complexity of managing a highly sophisticated and multi-layered life trick you into thinking your focus is fractured; instead, trust that the central trunk of your discipline, experience, and logic can easily bear this weight. Lean into your accumulated stability, trust the architecture of the routines you have perfected, and let the quiet power of steady, uniform execution carry you forward.
 `,
     },
     '1000': {
@@ -1341,7 +1373,11 @@ The Forum (1110) represents nobility, philosophy, and debate. The coin lands on 
 }
 
 export function sReadingText(sLeftBinary: string, sRightBinary: string, sOp: tOperator): string {
-  return objReadingTexts[sLeftBinary]?.[sRightBinary]?.[sOp]?.trim() ?? ''
+  const nLeft = parseInt(sLeftBinary, 2)
+  const nRight = parseInt(sRightBinary, 2)
+  const sLow = nLeft < nRight ? sLeftBinary : sRightBinary
+  const sHigh = nLeft < nRight ? sRightBinary : sLeftBinary
+  return objReadingTexts[sLow]?.[sHigh]?.[sOp]?.trim() ?? ''
 }
 
 /** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence). */

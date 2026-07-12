@@ -1,4 +1,8 @@
-"""Populate src/readingTexts.ts with generated four-sentence readings."""
+"""Populate src/readingTexts.ts with generated four-sentence readings.
+
+Only unordered card pairs are written (lower binary value first), so Seed is
+paired with every other card, Flag with every card after Flag, and so on.
+"""
 
 from __future__ import annotations
 
@@ -43,7 +47,6 @@ OPERATOR_SENTENCES = {
     "OR": "The coin lands on OR, gathering everything either card offers.",
 }
 
-CARDS_BY_BINARY = {obj_card["binary"]: obj_card for obj_card in CARDS}
 CARDS_BY_VALUE = {int(obj_card["binary"], 2): obj_card for obj_card in CARDS}
 
 
@@ -75,7 +78,7 @@ def s_ts_template_literal(s_value: str) -> str:
     return f"`\n{s_escaped}\n`"
 
 
-def s_build_typescript() -> str:
+def s_build_typescript() -> tuple[str, int]:
     arr_lines = [
         "export type tOperator = 'AND' | 'OR'",
         "",
@@ -93,12 +96,15 @@ def s_build_typescript() -> str:
         "export const objReadingTexts: tReadingTexts = {",
     ]
 
-    for obj_left in CARDS:
-        arr_lines.append(f"  '{obj_left['binary']}': {{")
-        for obj_right in CARDS:
-            if obj_left["binary"] == obj_right["binary"]:
-                continue
+    n_pair_count = 0
+    for n_left_index, obj_left in enumerate(CARDS):
+        arr_right_cards = CARDS[n_left_index + 1 :]
+        if not arr_right_cards:
+            continue
 
+        arr_lines.append(f"  '{obj_left['binary']}': {{")
+        for obj_right in arr_right_cards:
+            n_pair_count += 1
             s_and = s_ts_template_literal(s_reading_text(obj_left, obj_right, "AND"))
             s_or = s_ts_template_literal(s_reading_text(obj_left, obj_right, "OR"))
             arr_lines.append(f"    '{obj_right['binary']}': {{")
@@ -112,17 +118,60 @@ def s_build_typescript() -> str:
             "}",
             "",
             "export function sReadingText(sLeftBinary: string, sRightBinary: string, sOp: tOperator): string {",
-            "  return objReadingTexts[sLeftBinary]?.[sRightBinary]?.[sOp]?.trim() ?? ''",
+            "  const nLeft = parseInt(sLeftBinary, 2)",
+            "  const nRight = parseInt(sRightBinary, 2)",
+            "  const sLow = nLeft < nRight ? sLeftBinary : sRightBinary",
+            "  const sHigh = nLeft < nRight ? sRightBinary : sLeftBinary",
+            "  return objReadingTexts[sLow]?.[sHigh]?.[sOp]?.trim() ?? ''",
+            "}",
+            "",
+            "/** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence). */",
+            "export function sStyledReadingText(sText: string): string {",
+            "  if (!sText) {",
+            "    return ''",
+            "  }",
+            "",
+            "  const arrParagraphs = sText.split(/\\n\\n+/)",
+            "",
+            "  const arrStyled = arrParagraphs.map((sParagraph: string, nIndex: number) => {",
+            "    let sResult = sParagraph",
+            "",
+            "    if (nIndex === 0) {",
+            "      const objFirst = /^([^\\s][^.!?]*)([.!?])/.exec(sResult)",
+            "      if (objFirst) {",
+            "        const sFirst = `${objFirst[1]}${objFirst[2]}`",
+            "        sResult = `<strong class=\"reading-text-lead\">${sFirst}</strong>${sResult.slice(sFirst.length)}`",
+            "      }",
+            "    }",
+            "",
+            "    if (nIndex === arrParagraphs.length - 1) {",
+            "      const objLast = /([^\\s][^.!?]*)([.!?])\\s*$/.exec(sResult)",
+            "      if (objLast && objLast.index !== undefined) {",
+            "        const sLast = `${objLast[1]}${objLast[2]}`",
+            "        sResult =",
+            "          `${sResult.slice(0, objLast.index)}<strong>${sLast}</strong>${sResult.slice(objLast.index + sLast.length)}`",
+            "      }",
+            "    }",
+            "",
+            "    if (nIndex === 1) {",
+            "      sResult = `<span class=\"reading-text-accent\">${sResult}</span>`",
+            "    }",
+            "",
+            "    return sResult",
+            "  })",
+            "",
+            "  return arrStyled.join('\\n\\n<span class=\"reading-text-sep\" aria-hidden=\"true\">✦✦</span>\\n\\n')",
             "}",
             "",
         ]
     )
-    return "\n".join(arr_lines)
+    return "\n".join(arr_lines), n_pair_count
 
 
 def main() -> None:
-    OUTPUT_PATH.write_text(s_build_typescript(), encoding="utf-8")
-    print(f"Wrote {OUTPUT_PATH.relative_to(ROOT)}")
+    s_typescript, n_pair_count = s_build_typescript()
+    OUTPUT_PATH.write_text(s_typescript, encoding="utf-8")
+    print(f"Wrote {OUTPUT_PATH.relative_to(ROOT)} ({n_pair_count} unordered pairs)")
 
 
 if __name__ == "__main__":

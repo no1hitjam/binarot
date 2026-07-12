@@ -255,36 +255,52 @@ Moving forward, remember that wielding authority over your own life requires a d
     },
   },
   '1': {
-    '0': {
-      AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Seed (0) represents beginnings, ideas, and origins. Result: The Seed (0) represents beginnings, ideas, and origins.
-`,
-      OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Seed (0) represents beginnings, ideas, and origins. Result: The Flag (1) represents claims, power, and sovereignty.
-`,
-    },
     '10': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
+True clarity is found not in what we possess, but in what remains when everything non-essential is stripped away. In this reading, your ambition and sovereignty, embodied by The Flag (1), have been fused through an absolute AND operation with the fated destiny of The Call (10). This rare intersection distills your path down to The Seed (0), projecting a quiet, fertile environment where the noise of the world fades, leaving only raw potential and a blank canvas waiting for your first move.
+
+The convergence of power and duty means you no longer need to force your authority or wait for an external invitation. By seeking only the common ground between what you control and what you are summoned to do, you have arrived at a point of pure origin. It is a moment of profound stillness, stripped of past clutter and future anxiety, demanding nothing of you right now other than to recognize that the groundwork is already laid.
+
+Do not rush to bloom or force a premature harvest; simply allow yourself to inhabit this space of new beginnings. Real power right now lies in the quiet cultivation of your deepest intentions rather than immediate outward action. Trust the silent momentum of the choices that brought you here, and let the next step reveal itself naturally.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Call (10) represents summonings, duty, and serendipity. Result: The Link (11) represents connections, promises, and security.
+The widest net catches not just the fish, but the currents that move them. In this reading, your personal sovereignty and claims, represented by The Flag (1), have been entirely integrated via an expansive OR operation with the cosmic alignments and duty of The Call (10). This total gathering of forces yields The Link (11), establishing a dense, heavily fortified environment where every disparate element of your life is webbed together by mutual promises and secure foundations.
+
+When you refuse to compromise between your independent power and your obligations to the collective, you create a network that cannot easily be broken. This result does not demand that you choose between self-interest and duty, but rather shows that your personal boundaries and your external callings are currently reinforcing one another. It is a landscape rich with structural integrity, where every contract, handshake, and internal vow holds immense weight and offers total stability.
+
+Lean into the strength of the scaffolding you have built without feeling trapped by the complexity of its design. True security comes from honoring the invisible threads that tie your ambitions to your responsibilities, allowing them to support you rather than constrain you. Steady your footing in these open commitments, and let the sheer interconnectedness of your world provide the safety you need to stand firm.
 `,
     },
     '11': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Flag (1) represents claims, power, and sovereignty.
+Sovereignty is never granted by the world outside; it is found when your inner commitments match the boundaries you set for yourself. In this reading, your personal power and claims, represented by The Flag (1), have been filtered through an exacting AND operation with the binding ties of The Link (11). This precise intersection returns you directly to The Flag (1), creating an environment of crystalline focus and self-reliance, where external entanglements fall away to reveal your own absolute authority.
+
+By testing your personal ambition against the weight of your promises, you have discovered that your core independence remains entirely unchanged. This result indicates that the agreements you keep and the connections you maintain do not dilute your personal power, but rather validate it by showing exactly where you stand. It is a stark, clean landscape of self-possession, where the terms of your engagement with the world are dictated entirely by your own standard.
+
+Guard your autonomy fiercely, but remember that a true stronghold requires no constant defense. True command comes from knowing exactly what is yours to hold and letting go of the need to control anything beyond those borders. Stand firmly in your own territory, and let the quiet certainty of your position speak for itself.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Link (11) represents connections, promises, and security. Result: The Link (11) represents connections, promises, and security.
+The strongest fortresses are not built from stone, but from the unyielding threads of the promises we choose to keep. In this reading, your personal claims and sovereignty, represented by The Flag (1), have been broadly integrated through an inclusive OR operation with the binding ties of The Link (11). This expansive gathering resolves entirely into The Link (11), creating a protective, deeply interconnected environment where individual ambition is naturally absorbed into a greater framework of safety and mutual obligation.
+
+When you allow your personal drive to merge with the commitments you have made to others, your boundaries cease to be a lonely outpost and instead become a bridge. This result suggests that any desire for independent control is currently secondary to the immense security found in your relationships, contracts, and internal vows. It is a landscape of profound stability and collective strength, where you are held aloft by the very network you have chosen to cultivate.
+
+Allow yourself to be supported by the structures you have set in motion without fearing that they will diminish your personal power. True strength often looks less like isolated command and more like the quiet reassurance of knowing exactly where you belong and who stands with you. Rest in the safety of these established ties, and let the network carry the weight for a while.
 `,
     },
     '100': {
       AND: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
+True mastery is not measured by what we rule, but by our willingness to return to the root of things when the old structures have served their purpose. In this reading, your personal sovereignty and ambition, represented by The Flag (1), have been filtered through an uncompromising AND operation with the protective shelter of The Host (100). This absolute distillation yields The Seed (0), establishing a quiet, uncluttered environment of pure potential, stripped of all heavy ownership and reduced to a singular, brilliant spark of origin.
+
+By stripping away the need to actively conquer or heavily defend your domain, you have cleared the ground for something entirely fresh. This result reveals that the intersection of your power and your security is not a fortress, but a clean slate, where past claims and current responsibilities dissolve into the background. It is a space of profound, silent latency—a fertile void where you are unburdened by what was, leaving you entirely free to decide what will be.
+
+Give yourself permission to exist in this unformed space without rushing to build the next empire or claim the next territory. The most enduring structures always begin in complete stillness, carrying everything they need within a single, quiet intention. Trust the empty space before you, and let the first step happen in its own time.
 `,
       OR: `
-The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, gathering everything either card offers. The Host (100) represents shelter, ownership, and grace. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+Abundance is not a static destination, but a crossroads where every avenue of your life opens into a choice. In this reading, your drive for personal sovereignty, represented by The Flag (1), has been fully combined via an all-inclusive OR operation with the protective sanctuary of The Host (100). This total gathering of forces expands directly into The Fork (101), projecting a dynamic, resonant environment filled with multiplying choices, active consumption, and diverging paths that stretch out before you.
+
+By refusing to limit yourself to either isolated power or comfortable shelter, you have invited the full weight of both worlds into your present reality. This result suggests that your current circumstances are overflowing with options, where every asset you possess and every boundary you set creates a new trajectory to consider. It is an energetic landscape of sudden expansion, where nothing is stagnant, and the sheer resonance of your past actions has brought you to a definitive split in the road.
+
+Do not let the multiplicity of paths paralyze your intent or make you feel rushed to walk them all at once. True direction comes from accepting that choosing one path means letting go of another, and that every turn carries its own unique grace. Step forward with a steady heart, and allow the path you choose to reveal itself through the natural alignment of your needs.
 `,
     },
     '101': {

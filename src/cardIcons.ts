@@ -103,8 +103,12 @@ const mapCardIconPaths: Record<string, string> = {
   `,
 }
 
+export function sCardIconPaths(sSlug: string): string {
+  return mapCardIconPaths[sSlug] ?? ''
+}
+
 export function sCardIconMarkup(sSlug: string, sExtraClass: string = ''): string {
-  const sPaths = mapCardIconPaths[sSlug]
+  const sPaths = sCardIconPaths(sSlug)
   if (!sPaths) {
     return ''
   }

@@ -704,6 +704,92 @@ code {
   user-select: none;
 }
 
+.reading-sigil {
+  display: block;
+  width: min(100%, 320px);
+  height: auto;
+  margin: 1.25rem auto 0;
+  overflow: visible;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.reading-sigil-frame {
+  fill: color-mix(in srgb, var(--void) 88%, transparent);
+  stroke: color-mix(in srgb, var(--gold) 28%, transparent);
+  stroke-width: 1;
+}
+
+.reading-sigil-source {
+  fill: none;
+  stroke: color-mix(in srgb, var(--purple) 55%, var(--text-muted));
+  stroke-width: 2;
+  opacity: 0.55;
+}
+
+.reading-sigil-op {
+  fill: none;
+  stroke: var(--purple);
+  stroke-width: 2;
+  opacity: 0.85;
+}
+
+.reading-sigil-op-and {
+  stroke: var(--gold-dim);
+}
+
+.reading-sigil-op-or {
+  stroke: var(--purple);
+}
+
+.reading-sigil-result {
+  fill: none;
+  stroke: var(--gold-bright);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px rgba(224, 184, 58, 0.28));
+}
+
+.reading-sigil-bit-rail {
+  fill: none;
+  stroke: color-mix(in srgb, var(--gold) 22%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.reading-sigil-bit {
+  stroke-width: 1.5;
+}
+
+.reading-sigil-bit-off {
+  fill: transparent;
+  stroke: color-mix(in srgb, var(--text-muted) 45%, transparent);
+}
+
+.reading-sigil-bit-source {
+  fill: color-mix(in srgb, var(--purple) 18%, transparent);
+  stroke: var(--purple-dim);
+}
+
+.reading-sigil-bit-union {
+  fill: color-mix(in srgb, var(--purple) 35%, transparent);
+  stroke: var(--purple);
+}
+
+.reading-sigil-bit-shared {
+  fill: color-mix(in srgb, var(--gold) 35%, transparent);
+  stroke: var(--gold);
+}
+
+.reading-sigil-bit-result {
+  fill: color-mix(in srgb, var(--gold) 22%, transparent);
+  stroke: var(--gold-bright);
+}
+
+.reading-console-output .reading-sigil {
+  margin-top: 1.1rem;
+  width: min(100%, 300px);
+}
+
 .dev-ai-instructions {
   margin: 0.85rem 0 0;
   padding: 0.75rem 0.85rem;

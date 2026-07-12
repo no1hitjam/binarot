@@ -1,6 +1,7 @@
 import './style.css'
 import { sCardIconMarkup } from './cardIcons'
 import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
+import { sReadingSigilMarkup } from './readingSigil'
 
 type tCard = {
   sName: string
@@ -298,6 +299,7 @@ function sReadingResultMarkup(
       ${sCardItemMarkup(objResult)}
       ${sAiMarkup}
       ${sTextMarkup}
+      ${sReadingSigilMarkup(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)}
     </div>
   `
 }

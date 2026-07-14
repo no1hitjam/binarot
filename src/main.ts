@@ -548,7 +548,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="platform">
       <h2>Platform</h2>
       <p class="reading-intro">
-        Side-scroll endlessly through the void. Click the stage first so it can take keyboard focus.
+        Side-scroll endlessly through the void. On desktop, click the stage first so it can take keyboard focus.
       </p>
       ${sPlatformMarkup()}
     </section>

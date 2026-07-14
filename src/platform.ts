@@ -1,3 +1,5 @@
+import { sCardIconPaths } from './cardIcons'
+
 const nGravity = 2200
 const nMoveAccel = 3200
 const nMoveMax = 260
@@ -8,8 +10,8 @@ const nBounceSpeed = 820
 const nConveyorSpeed = 140
 const nCoyoteMs = 90
 const nJumpBufferMs = 100
-const nPlayerW = 22
-const nPlayerH = 30
+const nPlayerW = 26
+const nPlayerH = 38
 const nTile = 28
 const nCameraLerp = 8
 const nDeathFallY = 900
@@ -21,6 +23,7 @@ const nPlatYMin = 160
 const nPlatYMax = 440
 const nDiffScaleX = 9000
 const nHazardScaleX = 5500
+const nDeckSize = 16
 const arrGlyphs = ['0', '1', '10', '11', '&', '|', '^']
 
 type tRect = {
@@ -49,7 +52,6 @@ type tPlayer = {
   nCoyoteLeft: number
   nJumpBuffer: number
   bDoubleJumpReady: boolean
-  bFacingRight: boolean
 }
 
 let objRoot: HTMLElement | null = null
@@ -85,7 +87,6 @@ function objNewPlayer(): tPlayer {
     nCoyoteLeft: 0,
     nJumpBuffer: 0,
     bDoubleJumpReady: true,
-    bFacingRight: true,
   }
 }
 
@@ -607,7 +608,6 @@ function vUpdatePhysics(nDt: number): void {
   const nDir = nMoveInput()
   if (nDir !== 0) {
     objPlayer.nVx += nDir * nMoveAccel * nDt
-    objPlayer.bFacingRight = nDir > 0
   } else {
     const nSign = Math.sign(objPlayer.nVx)
     const nAbs = Math.abs(objPlayer.nVx)
@@ -848,6 +848,55 @@ function vDrawCoins(nTs: number): void {
   }
 }
 
+function sHeroSlug(): string {
+  return (nCoinsTaken % nDeckSize).toString(2)
+}
+
+function vDrawCardIcon(
+  objCtxLocal: CanvasRenderingContext2D,
+  sSlug: string,
+  nOx: number,
+  nOy: number,
+  nSize: number,
+): void {
+  const sPaths = sCardIconPaths(sSlug)
+  if (!sPaths) {
+    return
+  }
+
+  const nScale = nSize / 64
+  objCtxLocal.save()
+  objCtxLocal.translate(nOx, nOy)
+  objCtxLocal.scale(nScale, nScale)
+  objCtxLocal.strokeStyle = '#ffe08a'
+  objCtxLocal.lineWidth = 2.4
+  objCtxLocal.lineCap = 'round'
+  objCtxLocal.lineJoin = 'round'
+
+  for (const objMatch of sPaths.matchAll(/<path d="([^"]+)"/g)) {
+    objCtxLocal.stroke(new Path2D(objMatch[1]!))
+  }
+
+  for (const objMatch of sPaths.matchAll(/<circle cx="([^"]+)" cy="([^"]+)" r="([^"]+)"/g)) {
+    objCtxLocal.beginPath()
+    objCtxLocal.arc(Number(objMatch[1]), Number(objMatch[2]), Number(objMatch[3]), 0, Math.PI * 2)
+    objCtxLocal.stroke()
+  }
+
+  for (const objMatch of sPaths.matchAll(
+    /<rect x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"/g,
+  )) {
+    objCtxLocal.strokeRect(
+      Number(objMatch[1]),
+      Number(objMatch[2]),
+      Number(objMatch[3]),
+      Number(objMatch[4]),
+    )
+  }
+
+  objCtxLocal.restore()
+}
+
 function vDrawPlayer(): void {
   if (!objCtx) {
     return
@@ -855,16 +904,29 @@ function vDrawPlayer(): void {
 
   const nX = objPlayer.nX - nCamX
   const nY = objPlayer.nY
+  const sSlug = sHeroSlug()
 
-  objCtx.fillStyle = '#1a0f28'
+  objCtx.fillStyle = '#120a1c'
   objCtx.fillRect(nX, nY, nPlayerW, nPlayerH)
+  objCtx.fillStyle = 'rgba(139, 77, 255, 0.14)'
+  objCtx.fillRect(nX + 1, nY + 1, nPlayerW - 2, nPlayerH - 2)
+  objCtx.strokeStyle = 'rgba(224, 184, 58, 0.75)'
+  objCtx.lineWidth = 1.5
+  objCtx.strokeRect(nX + 0.5, nY + 0.5, nPlayerW - 1, nPlayerH - 1)
+  objCtx.strokeStyle = 'rgba(139, 77, 255, 0.4)'
+  objCtx.lineWidth = 1
+  objCtx.strokeRect(nX + 3.5, nY + 3.5, nPlayerW - 7, nPlayerH - 7)
+
+  const nIconSize = Math.min(nPlayerW - 8, nPlayerH - 14)
+  const nIconX = nX + (nPlayerW - nIconSize) * 0.5
+  const nIconY = nY + 5
+  vDrawCardIcon(objCtx, sSlug, nIconX, nIconY, nIconSize)
+
   objCtx.fillStyle = '#e0b83a'
-  objCtx.fillRect(nX + 2, nY + 2, nPlayerW - 4, nPlayerH - 4)
-  objCtx.fillStyle = '#050308'
-  const nEyeX = objPlayer.bFacingRight ? nX + 13 : nX + 5
-  objCtx.fillRect(nEyeX, nY + 9, 4, 4)
-  objCtx.fillStyle = '#8b4dff'
-  objCtx.fillRect(nX + 4, nY + nPlayerH - 8, nPlayerW - 8, 3)
+  objCtx.font = '8px "IBM Plex Mono", Consolas, Monaco, monospace'
+  objCtx.textAlign = 'center'
+  objCtx.textBaseline = 'middle'
+  objCtx.fillText(sSlug, nX + nPlayerW * 0.5, nY + nPlayerH - 7)
 }
 
 function vDrawFrame(nTs: number): void {

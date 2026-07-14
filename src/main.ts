@@ -548,9 +548,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="platform">
       <h2>Platform</h2>
       <p class="reading-intro">
-        An endless side-scroller through the void. Collect binary bits, clear the gaps, and hit each
-        <code>1111</code> gate to open the next procedural stage. Gaps get meaner as you go. Click the
-        stage first so it can take keyboard focus.
+        An endless side-scroller through the void. Collect binary bits, clear the gaps, and keep
+        going—the course generates ahead and drops what you’ve left behind. Gaps get meaner the
+        farther you run. Click the stage first so it can take keyboard focus.
       </p>
       ${sPlatformMarkup()}
     </section>

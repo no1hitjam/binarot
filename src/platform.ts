@@ -5,6 +5,7 @@ const nFriction = 1800
 const nJumpSpeed = 620
 const nDoubleJumpSpeed = 560
 const nBounceSpeed = 820
+const nConveyorSpeed = 140
 const nCoyoteMs = 90
 const nJumpBufferMs = 100
 const nPlayerW = 22
@@ -14,14 +15,12 @@ const nCameraLerp = 8
 const nDeathFallY = 900
 const nSpawnX = 48
 const nSpawnY = 360
-const nStageLen = 1700
 const nGenAhead = 900
 const nCullBehind = 500
 const nPlatYMin = 160
 const nPlatYMax = 440
-const nGoalW = 48
-const nGoalH = 80
-const nStageFlashMs = 1200
+const nDiffScaleX = 9000
+const nHazardScaleX = 5500
 const arrGlyphs = ['0', '1', '10', '11', '&', '|', '^']
 
 type tRect = {
@@ -33,6 +32,7 @@ type tRect = {
 
 type tSolid = tRect & {
   bBounce: boolean
+  bConveyor: boolean
 }
 
 type tCoin = tRect & {
@@ -62,19 +62,15 @@ let nDpr = 1
 let nLastTs = 0
 let nCamX = 0
 let nCoinsTaken = 0
-let nStage = 1
-let nBestStage = 1
-let nStageFlash = 0
+let nBestCoins = 0
 let bJumpDown = false
-let nSeed = 1
 let nGenCursor = 0
 let nLastPlatRight = 0
 let nLastPlatY = 420
-let nNextGateX = nStageLen
 let nCoinGlyph = 0
 let arrSolid: tSolid[] = []
+let arrHazard: tRect[] = []
 let arrCoins: tCoin[] = []
-let objGoal: tRect = { nX: 0, nY: 0, nW: nGoalW, nH: nGoalH }
 let objPlayer: tPlayer = objNewPlayer()
 
 const setKeys = new Set<string>()
@@ -94,10 +90,7 @@ function objNewPlayer(): tPlayer {
 }
 
 function nRand(): number {
-  nSeed = (nSeed + 0x6d2b79f5) | 0
-  let nT = Math.imul(nSeed ^ (nSeed >>> 15), 1 | nSeed)
-  nT = (nT + Math.imul(nT ^ (nT >>> 7), 61 | nT)) ^ nT
-  return ((nT ^ (nT >>> 14)) >>> 0) / 4294967296
+  return Math.random()
 }
 
 function nRandRange(nMin: number, nMax: number): number {
@@ -109,12 +102,11 @@ function nClamp(nV: number, nMin: number, nMax: number): number {
 }
 
 function nDifficulty(): number {
-  return Math.min(1, (nStage - 1) * 0.08)
+  return Math.min(1, nGenCursor / nDiffScaleX)
 }
 
-function vPlaceGoal(nPlatX: number, nPlatY: number, nPlatW: number): void {
-  objGoal.nX = nPlatX + Math.max(8, nPlatW - nGoalW - 12)
-  objGoal.nY = nPlatY - nGoalH
+function nHazardPressure(): number {
+  return Math.min(2.2, nGenCursor / nHazardScaleX)
 }
 
 function vPushCoin(nX: number, nY: number): void {
@@ -129,47 +121,267 @@ function vPushCoin(nX: number, nY: number): void {
   nCoinGlyph += 1
 }
 
-function vPushPlatform(nX: number, nY: number, nW: number, bWithCoin: boolean, bBounce: boolean): void {
-  const bWillGate = nX + nW >= nNextGateX && objGoal.nY < -900
-  arrSolid.push({ nX, nY, nW, nH: nTile, bBounce: bBounce && !bWillGate })
-  nLastPlatRight = nX + nW
-  nLastPlatY = nY
-  nGenCursor = Math.max(nGenCursor, nLastPlatRight)
+function vPushHazard(nX: number, nY: number, nW: number, nH: number): void {
+  arrHazard.push({ nX, nY, nW, nH })
+}
 
+function vPushSolid(
+  nX: number,
+  nY: number,
+  nW: number,
+  bBounce: boolean,
+  bConveyor: boolean,
+  bAdvance: boolean,
+): void {
+  arrSolid.push({
+    nX,
+    nY,
+    nW,
+    nH: nTile,
+    bBounce,
+    bConveyor: bConveyor && !bBounce,
+  })
+  if (bAdvance) {
+    nLastPlatRight = nX + nW
+    nLastPlatY = nY
+    nGenCursor = Math.max(nGenCursor, nLastPlatRight)
+  }
+}
+
+function vPushPlatform(
+  nX: number,
+  nY: number,
+  nW: number,
+  bWithCoin: boolean,
+  bBounce: boolean,
+  bConveyor: boolean,
+): void {
+  vPushSolid(nX, nY, nW, bBounce, bConveyor, true)
   if (bWithCoin) {
     vPushCoin(nX + nW * 0.5 - 8, nY - 36)
   }
+}
 
-  if (bWillGate) {
-    vPlaceGoal(nX, nY, nW)
+function vMaybeHazardOn(nX: number, nY: number, nW: number): void {
+  if (nW < 54) {
+    return
+  }
+
+  const nP = nHazardPressure()
+  const nChance = Math.min(0.92, 0.04 + nP * 0.28 + nP * nP * 0.12)
+  if (nRand() >= nChance) {
+    return
+  }
+
+  let nCount = 1
+  if (nP > 0.55 && nW > 100 && nRand() < 0.2 + nP * 0.35) {
+    nCount = 2
+  }
+  if (nP > 1.15 && nW > 140 && nRand() < 0.15 + nP * 0.25) {
+    nCount = 3
+  }
+
+  const nMargin = 8
+  const nSlot = Math.max(28, (nW - nMargin * 2) / nCount)
+  for (let nI = 0; nI < nCount; nI++) {
+    const nHw = nRandRange(20, Math.min(36, nSlot - 4))
+    const nSlotX = nX + nMargin + nI * nSlot
+    const nHx = nSlotX + nRandRange(0, Math.max(1, nSlot - nHw))
+    vPushHazard(nHx, nY - nTile, nHw, nTile)
+  }
+}
+
+function vMaybeAirHazard(nLeft: number, nRight: number, nY: number): void {
+  const nP = nHazardPressure()
+  const nSpan = nRight - nLeft
+  if (nSpan < 50) {
+    return
+  }
+
+  const nChance = Math.min(0.85, 0.03 + nP * 0.3 + nP * nP * 0.1)
+  if (nRand() >= nChance) {
+    return
+  }
+
+  const nHw = nRandRange(22, 34)
+  vPushHazard(nLeft + nRandRange(0, Math.max(1, nSpan - nHw)), nY - nRandRange(8, 75), nHw, nHw)
+
+  if (nP > 0.9 && nSpan > 90 && nRand() < 0.15 + nP * 0.28) {
+    const nHw2 = nRandRange(20, 30)
+    vPushHazard(
+      nLeft + nRandRange(0, Math.max(1, nSpan - nHw2)),
+      nY - nRandRange(40, 110),
+      nHw2,
+      nHw2,
+    )
+  }
+}
+
+function vMaybeSidePad(nX: number, nY: number, nW: number): void {
+  if (nRand() > 0.55) {
+    return
+  }
+  const nSideY = nClamp(nY - nRandRange(60, 120), nPlatYMin, nPlatYMax - 40)
+  const nSideW = nRandRange(44, 80)
+  const nSideX = nX + nRandRange(-20, Math.max(0, nW - nSideW + 20))
+  const nSideKind = nRand()
+  const bSideBounce = nSideKind > 0.8
+  const bSideConveyor = !bSideBounce && nSideKind > 0.58
+  vPushSolid(nSideX, nSideY, nSideW, bSideBounce, bSideConveyor, false)
+  if (!bSideBounce && !bSideConveyor && nRand() > 0.3) {
+    vPushCoin(nSideX + nSideW * 0.5 - 8, nSideY - 36)
   }
 }
 
 function vGenChunk(): void {
   const nDiff = nDifficulty()
-  const nGapMin = 70 + nDiff * 50
-  const nGapMax = 110 + nDiff * 70
-  const nWMin = Math.max(56, 120 - nDiff * 40)
-  const nWMax = Math.max(nWMin + 20, 180 - nDiff * 30)
-  const nDyMax = 36 + nDiff * 55
+  const nGapMin = 60 + nDiff * 45
+  const nGapMax = 105 + nDiff * 75
+  const nWMin = Math.max(48, 110 - nDiff * 40)
+  const nWMax = Math.max(nWMin + 24, 200 - nDiff * 25)
+  const nDyMax = 40 + nDiff * 55
+  const nPattern = nRand()
+
+  if (nPattern < 0.16) {
+    const nSteps = 2 + Math.floor(nRand() * 2)
+    const nStepDir = nRand() > 0.5 ? 1 : -1
+    let nY = nLastPlatY
+    const nStartRight = nLastPlatRight
+    for (let nI = 0; nI < nSteps; nI++) {
+      const nGap = nRandRange(nGapMin * 0.55, nGapMax * 0.7)
+      const nW = nRandRange(52, 90)
+      nY = nClamp(nY + nStepDir * nRandRange(28, 52), nPlatYMin, nPlatYMax)
+      const nX = nLastPlatRight + nGap
+      vPushPlatform(nX, nY, nW, nRand() > 0.4, false, false)
+      vMaybeHazardOn(nX, nY, nW)
+    }
+    vMaybeAirHazard(nStartRight, nLastPlatRight, nLastPlatY)
+    vMaybeSidePad(nLastPlatRight - 60, nLastPlatY, 80)
+    return
+  }
+
+  if (nPattern < 0.3) {
+    const nGap = nRandRange(nGapMin, nGapMax)
+    const nY = nClamp(nLastPlatY + nRandRange(-nDyMax, nDyMax), nPlatYMin, nPlatYMax)
+    const nW1 = nRandRange(48, 72)
+    const nW2 = nRandRange(48, 72)
+    const nMid = nRandRange(55, 95 + nDiff * 30)
+    const nX1 = nLastPlatRight + nGap
+    vPushPlatform(nX1, nY, nW1, nRand() > 0.45, nRand() > 0.85, false)
+    vMaybeHazardOn(nX1, nY, nW1)
+    const nY2 = nClamp(nY + nRandRange(-36, 36), nPlatYMin, nPlatYMax)
+    const nX2 = nX1 + nW1 + nMid
+    vPushPlatform(nX2, nY2, nW2, nRand() > 0.4, false, nRand() > 0.8)
+    vMaybeHazardOn(nX2, nY2, nW2)
+    vMaybeAirHazard(nX1 + nW1, nX2, Math.min(nY, nY2))
+    return
+  }
+
+  if (nPattern < 0.42) {
+    const nGap = nRandRange(nGapMin * 0.8, nGapMax)
+    const nY = nClamp(nLastPlatY + nRandRange(-nDyMax * 0.6, nDyMax * 0.6), nPlatYMin, nPlatYMax)
+    const nW = nRandRange(160, 240)
+    const nX = nLastPlatRight + nGap
+    const bConveyor = nRand() > 0.65
+    vPushPlatform(nX, nY, nW, !bConveyor && nRand() > 0.35, false, bConveyor)
+    if (!bConveyor) {
+      vMaybeHazardOn(nX, nY, nW)
+    }
+    if (nRand() > 0.45) {
+      const nHighY = nClamp(nY - nRandRange(75, 115), nPlatYMin, nPlatYMax - 40)
+      const nHighW = nRandRange(50, 85)
+      const nHighX = nX + nRandRange(20, nW - nHighW - 20)
+      vPushSolid(nHighX, nHighY, nHighW, nRand() > 0.7, false, false)
+      vPushCoin(nX + nW * 0.5 - 8, nHighY - 36)
+      vMaybeHazardOn(nHighX, nHighY, nHighW)
+    }
+    return
+  }
+
+  if (nPattern < 0.54) {
+    const nHops = 3 + Math.floor(nRand() * 2)
+    let nY = nLastPlatY
+    const nStartRight = nLastPlatRight
+    for (let nI = 0; nI < nHops; nI++) {
+      const nGap = nRandRange(50 + nDiff * 20, 85 + nDiff * 45)
+      const nW = nRandRange(40, 58)
+      nY = nClamp(nY + nRandRange(-nDyMax, nDyMax), nPlatYMin, nPlatYMax)
+      const nX = nLastPlatRight + nGap
+      const bBounce = nI === nHops - 1 && nRand() > 0.55
+      vPushPlatform(nX, nY, nW, !bBounce && nRand() > 0.5, bBounce, false)
+      if (!bBounce) {
+        vMaybeHazardOn(nX, nY, nW)
+      }
+    }
+    vMaybeAirHazard(nStartRight, nLastPlatRight, nLastPlatY)
+    return
+  }
+
+  if (nPattern < 0.66) {
+    const nGap = nRandRange(nGapMin, nGapMax)
+    const nHighY = nClamp(nLastPlatY - nRandRange(50, 100), nPlatYMin, nPlatYMax)
+    const nLowY = nClamp(nHighY + nRandRange(70, 120), nPlatYMin, nPlatYMax)
+    const nWHigh = nRandRange(70, 110)
+    const nX = nLastPlatRight + nGap
+    vPushPlatform(nX, nHighY, nWHigh, nRand() > 0.4, nRand() > 0.75, false)
+    vMaybeHazardOn(nX, nHighY, nWHigh)
+    const nDropGap = nRandRange(40, 80)
+    const nLowW = nRandRange(90, 150)
+    const nLowX = nX + nWHigh + nDropGap
+    vPushPlatform(nLowX, nLowY, nLowW, nRand() > 0.35, false, nRand() > 0.7)
+    vMaybeHazardOn(nLowX, nLowY, nLowW)
+    vMaybeAirHazard(nX + nWHigh, nLowX, nHighY)
+    if (nRand() > 0.5) {
+      vPushCoin(nX + nWHigh + nDropGap * 0.5 - 8, nHighY - 20)
+    }
+    return
+  }
+
+  if (nPattern < 0.78) {
+    const nGap = nRandRange(nGapMin, nGapMax)
+    const nY = nClamp(nLastPlatY + nRandRange(-nDyMax, nDyMax), nPlatYMin, nPlatYMax)
+    const nW = nRandRange(nWMin, nWMax)
+    const nX = nLastPlatRight + nGap
+    vPushPlatform(nX, nY, nW, nRand() > 0.35, false, false)
+    const nPads = 2 + Math.floor(nRand() * 2)
+    for (let nI = 0; nI < nPads; nI++) {
+      const nPadW = nRandRange(40, 68)
+      const nPadX = nX + nRandRange(-30, nW)
+      const nPadY = nClamp(nY - nRandRange(55, 130) - nI * 18, nPlatYMin, nPlatYMax - 30)
+      const bBounce = nRand() > 0.72
+      vPushSolid(nPadX, nPadY, nPadW, bBounce, false, false)
+      if (!bBounce && nRand() > 0.25) {
+        vPushCoin(nPadX + nPadW * 0.5 - 8, nPadY - 36)
+      }
+      if (!bBounce) {
+        vMaybeHazardOn(nPadX, nPadY, nPadW)
+      }
+    }
+    vMaybeHazardOn(nX, nY, nW)
+    return
+  }
 
   const nGap = nRandRange(nGapMin, nGapMax)
   const nW = nRandRange(nWMin, nWMax)
   const nDy = nRandRange(-nDyMax, nDyMax)
   const nY = nClamp(nLastPlatY + nDy, nPlatYMin, nPlatYMax)
   const nX = nLastPlatRight + nGap
-  const bBounce = nRand() > 0.82
-  vPushPlatform(nX, nY, nW, !bBounce && nRand() > 0.28, bBounce)
+  const nKind = nRand()
+  const bBounce = nKind > 0.82
+  const bConveyor = !bBounce && nKind > 0.64
+  vPushPlatform(nX, nY, nW, !bBounce && !bConveyor && nRand() > 0.28, bBounce, bConveyor)
+  if (!bBounce && !bConveyor) {
+    vMaybeHazardOn(nX, nY, nW)
+  }
+  vMaybeAirHazard(nX - nGap, nX, nY)
+  vMaybeSidePad(nX, nY, nW)
 
-  if (nRand() > 0.62) {
-    const nSideY = nClamp(nY - nRandRange(70, 110), nPlatYMin, nPlatYMax - 40)
-    const nSideW = nRandRange(48, 78)
-    const nSideX = nX + nRandRange(0, Math.max(0, nW - nSideW))
-    const bSideBounce = nRand() > 0.7
-    arrSolid.push({ nX: nSideX, nY: nSideY, nW: nSideW, nH: nTile, bBounce: bSideBounce })
-    if (!bSideBounce && nRand() > 0.35) {
-      vPushCoin(nSideX + nSideW * 0.5 - 8, nSideY - 36)
-    }
+  if (nRand() > 0.7) {
+    const nExtraW = nRandRange(44, 70)
+    const nExtraY = nClamp(nY + nRandRange(55, 95), nPlatYMin, nPlatYMax)
+    const nExtraX = nX + nRandRange(0, Math.max(0, nW - nExtraW))
+    vPushSolid(nExtraX, nExtraY, nExtraW, false, false, false)
+    vMaybeHazardOn(nExtraX, nExtraY, nExtraW)
   }
 }
 
@@ -181,26 +393,51 @@ function vEnsureWorld(nNeedX: number): void {
 
 function vCullBehind(nCutX: number): void {
   arrSolid = arrSolid.filter((objSolid) => objSolid.nX + objSolid.nW > nCutX)
+  arrHazard = arrHazard.filter((objHazard) => objHazard.nX + objHazard.nW > nCutX)
   arrCoins = arrCoins.filter((objCoin) => !objCoin.bTaken && objCoin.nX + objCoin.nW > nCutX)
 }
 
 function vBootstrapWorld(): void {
   arrSolid = []
+  arrHazard = []
   arrCoins = []
-  nSeed = (Date.now() ^ (Math.random() * 0x7fffffff)) | 1
   nCoinGlyph = 0
   nGenCursor = 0
   nLastPlatRight = 0
   nLastPlatY = 420
-  nNextGateX = nStageLen
-  objGoal = { nX: 0, nY: -9999, nW: nGoalW, nH: nGoalH }
-  vPushPlatform(0, 420, 280, false, false)
-  arrSolid.push({ nX: 160, nY: 300, nW: 70, nH: nTile, bBounce: false })
-  arrSolid.push({ nX: 40, nY: 220, nW: 90, nH: nTile, bBounce: false })
+  vPushPlatform(0, 420, 280, false, false, false)
+  arrSolid.push({ nX: 160, nY: 300, nW: 70, nH: nTile, bBounce: false, bConveyor: false })
+  arrSolid.push({ nX: 40, nY: 220, nW: 90, nH: nTile, bBounce: false, bConveyor: false })
   vPushCoin(185, 264)
   vPushCoin(73, 184)
-  vPushPlatform(360, 380, 72, false, true)
-  vEnsureWorld(nStageLen + nGenAhead)
+  if (nRand() > 0.35) {
+    vPushPlatform(
+      nLastPlatRight + nRandRange(40, 100),
+      nRandRange(340, 400),
+      nRandRange(64, 88),
+      false,
+      true,
+      false,
+    )
+  }
+  if (nRand() > 0.35) {
+    vPushPlatform(
+      nLastPlatRight + nRandRange(40, 100),
+      nRandRange(360, 420),
+      nRandRange(110, 160),
+      false,
+      false,
+      true,
+    )
+  }
+  {
+    const nSafeX = nLastPlatRight + nRandRange(50, 90)
+    const nSafeY = nClamp(nLastPlatY + nRandRange(-30, 30), nPlatYMin, nPlatYMax)
+    const nSafeW = nRandRange(120, 170)
+    vPushPlatform(nSafeX, nSafeY, nSafeW, false, false, false)
+    vPushHazard(nSafeX + nSafeW * 0.5 - 14, nSafeY - nTile, 28, nTile)
+  }
+  vEnsureWorld(nGenAhead + 600)
 }
 
 function bOverlap(objA: tRect, objB: tRect): boolean {
@@ -236,10 +473,11 @@ function bJumpPressed(): boolean {
 }
 
 function vResetLevel(): void {
+  if (nCoinsTaken > nBestCoins) {
+    nBestCoins = nCoinsTaken
+  }
   objPlayer = objNewPlayer()
   nCoinsTaken = 0
-  nStage = 1
-  nStageFlash = 0
   nCamX = 0
   bJumpDown = false
   vBootstrapWorld()
@@ -251,20 +489,7 @@ function vSyncHud(): void {
     return
   }
 
-  objHud.textContent = `stage ${nStage} · ${nCoinsTaken} bits · best ${nBestStage} · space jump×2`
-}
-
-function vClearStage(): void {
-  nStage += 1
-  if (nStage > nBestStage) {
-    nBestStage = nStage
-  }
-  nStageFlash = nStageFlashMs
-  objGoal.nY = -9999
-  nNextGateX =
-    Math.max(nGenCursor, objPlayer.nX + 400) + nStageLen + Math.floor(nRandRange(0, 200))
-  vEnsureWorld(nNextGateX + nGenAhead)
-  vSyncHud()
+  objHud.textContent = `${nCoinsTaken} bits · best ${nBestCoins} · space jump×2`
 }
 
 function vTryJump(): void {
@@ -285,8 +510,9 @@ function vTryJump(): void {
   objPlayer.nJumpBuffer = 0
 }
 
-function vResolveSolid(nPrevY: number): void {
+function vResolveSolid(nPrevY: number, nDt: number): void {
   objPlayer.bOnGround = false
+  let bOnConveyor = false
   const objBody = objPlayerRect()
 
   for (const objSolid of arrSolid) {
@@ -315,6 +541,9 @@ function vResolveSolid(nPrevY: number): void {
           objPlayer.bOnGround = true
           objPlayer.nCoyoteLeft = nCoyoteMs
           objPlayer.bDoubleJumpReady = true
+          if (objSolid.bConveyor) {
+            bOnConveyor = true
+          }
         }
       } else if (nOverlapB <= nOverlapT && nPrevY >= objSolid.nY + objSolid.nH - 1) {
         objPlayer.nY = objSolid.nY + objSolid.nH
@@ -334,13 +563,13 @@ function vResolveSolid(nPrevY: number): void {
     objBody.nX = objPlayer.nX
     objBody.nY = objPlayer.nY
   }
+
+  if (bOnConveyor && objPlayer.bOnGround) {
+    objPlayer.nX += nConveyorSpeed * nDt
+  }
 }
 
 function vUpdatePhysics(nDt: number): void {
-  if (nStageFlash > 0) {
-    nStageFlash = Math.max(0, nStageFlash - nDt * 1000)
-  }
-
   const nDir = nMoveInput()
   if (nDir !== 0) {
     objPlayer.nVx += nDir * nMoveAccel * nDt
@@ -381,7 +610,7 @@ function vUpdatePhysics(nDt: number): void {
   const nPrevY = objPlayer.nY
   objPlayer.nX += objPlayer.nVx * nDt
   objPlayer.nY += objPlayer.nVy * nDt
-  vResolveSolid(nPrevY)
+  vResolveSolid(nPrevY, nDt)
 
   if (objPlayer.nX < 0) {
     objPlayer.nX = 0
@@ -402,8 +631,12 @@ function vUpdatePhysics(nDt: number): void {
     }
   }
 
-  if (objGoal.nY > -900 && bOverlap(objPlayerRect(), objGoal)) {
-    vClearStage()
+  const objBody = objPlayerRect()
+  for (const objHazard of arrHazard) {
+    if (bOverlap(objBody, objHazard)) {
+      vResetLevel()
+      return
+    }
   }
 
   if (objPlayer.nY > nDeathFallY) {
@@ -476,6 +709,29 @@ function vDrawPlatforms(nTs: number): void {
       continue
     }
 
+    if (objSolid.bConveyor) {
+      const nScroll = ((nTs * 0.08) % 16)
+      objCtx.fillStyle = '#0a1a2e'
+      objCtx.fillRect(nX, nY, objSolid.nW, objSolid.nH)
+      objCtx.fillStyle = 'rgba(70, 160, 255, 0.55)'
+      objCtx.fillRect(nX + 1, nY + 1, objSolid.nW - 2, objSolid.nH - 2)
+      objCtx.fillStyle = '#6ec0ff'
+      objCtx.fillRect(nX, nY, objSolid.nW, 4)
+      objCtx.strokeStyle = 'rgba(150, 210, 255, 0.85)'
+      objCtx.lineWidth = 1.5
+      objCtx.strokeRect(nX + 0.5, nY + 0.5, objSolid.nW - 1, objSolid.nH - 1)
+      objCtx.fillStyle = 'rgba(20, 50, 90, 0.45)'
+      for (let nPx = -16 + nScroll; nPx < objSolid.nW; nPx += 16) {
+        objCtx.beginPath()
+        objCtx.moveTo(nX + nPx, nY + 18)
+        objCtx.lineTo(nX + nPx + 6, nY + 11)
+        objCtx.lineTo(nX + nPx + 12, nY + 18)
+        objCtx.closePath()
+        objCtx.fill()
+      }
+      continue
+    }
+
     objCtx.fillStyle = '#120a1c'
     objCtx.fillRect(nX, nY, objSolid.nW, objSolid.nH)
     objCtx.fillStyle = 'rgba(139, 77, 255, 0.22)'
@@ -488,6 +744,39 @@ function vDrawPlatforms(nTs: number): void {
     for (let nPx = 8; nPx < objSolid.nW - 4; nPx += 18) {
       objCtx.fillRect(nX + nPx, nY + 10, 2, 2)
     }
+  }
+}
+
+function vDrawHazards(nTs: number): void {
+  if (!objCtx) {
+    return
+  }
+
+  for (const objHazard of arrHazard) {
+    const nX = objHazard.nX - nCamX
+    if (nX + objHazard.nW < -40 || nX > 2000) {
+      continue
+    }
+    const nY = objHazard.nY
+    const nPulse = 0.55 + 0.45 * Math.sin(nTs * 0.01 + objHazard.nX * 0.04)
+
+    objCtx.fillStyle = '#3a0a0c'
+    objCtx.fillRect(nX, nY, objHazard.nW, objHazard.nH)
+    objCtx.fillStyle = `rgba(255, 64, 72, ${0.55 + 0.35 * nPulse})`
+    objCtx.fillRect(nX + 1, nY + 1, objHazard.nW - 2, objHazard.nH - 2)
+    objCtx.fillStyle = '#ff6b73'
+    objCtx.fillRect(nX, nY, objHazard.nW, 3)
+    objCtx.strokeStyle = `rgba(255, 160, 160, ${0.55 + 0.4 * nPulse})`
+    objCtx.lineWidth = 1.5
+    objCtx.strokeRect(nX + 0.5, nY + 0.5, objHazard.nW - 1, objHazard.nH - 1)
+    objCtx.strokeStyle = 'rgba(60, 8, 12, 0.55)'
+    objCtx.lineWidth = 2
+    objCtx.beginPath()
+    objCtx.moveTo(nX + 6, nY + 6)
+    objCtx.lineTo(nX + objHazard.nW - 6, nY + objHazard.nH - 6)
+    objCtx.moveTo(nX + objHazard.nW - 6, nY + 6)
+    objCtx.lineTo(nX + 6, nY + objHazard.nH - 6)
+    objCtx.stroke()
   }
 }
 
@@ -525,31 +814,6 @@ function vDrawCoins(nTs: number): void {
   }
 }
 
-function vDrawGoal(nTs: number): void {
-  if (!objCtx || objGoal.nY < -900) {
-    return
-  }
-
-  const nX = objGoal.nX - nCamX
-  if (nX + objGoal.nW < -40 || nX > 2000) {
-    return
-  }
-  const nY = objGoal.nY
-  const nPulse = 0.55 + 0.45 * Math.sin(nTs * 0.005)
-
-  objCtx.fillStyle = `rgba(139, 77, 255, ${0.15 + 0.2 * nPulse})`
-  objCtx.fillRect(nX, nY, objGoal.nW, objGoal.nH)
-  objCtx.strokeStyle = `rgba(224, 184, 58, ${0.55 + 0.35 * nPulse})`
-  objCtx.lineWidth = 2
-  objCtx.strokeRect(nX + 1, nY + 1, objGoal.nW - 2, objGoal.nH - 2)
-
-  objCtx.font = '10px "IBM Plex Mono", Consolas, Monaco, monospace'
-  objCtx.fillStyle = '#e0b83a'
-  objCtx.textAlign = 'center'
-  objCtx.textBaseline = 'middle'
-  objCtx.fillText('1111', nX + objGoal.nW * 0.5, nY + objGoal.nH * 0.5)
-}
-
 function vDrawPlayer(): void {
   if (!objCtx) {
     return
@@ -569,24 +833,6 @@ function vDrawPlayer(): void {
   objCtx.fillRect(nX + 4, nY + nPlayerH - 8, nPlayerW - 8, 3)
 }
 
-function vDrawStageFlash(nW: number, nH: number): void {
-  if (!objCtx || nStageFlash <= 0) {
-    return
-  }
-
-  const nAlpha = Math.min(0.55, (nStageFlash / nStageFlashMs) * 0.7)
-  objCtx.fillStyle = `rgba(5, 3, 8, ${nAlpha})`
-  objCtx.fillRect(0, 0, nW, nH)
-  objCtx.font = '700 22px "IBM Plex Mono", Consolas, Monaco, monospace'
-  objCtx.fillStyle = '#ffe08a'
-  objCtx.textAlign = 'center'
-  objCtx.textBaseline = 'middle'
-  objCtx.fillText(`STAGE ${nStage}`, nW * 0.5, nH * 0.42)
-  objCtx.font = '13px "IBM Plex Mono", Consolas, Monaco, monospace'
-  objCtx.fillStyle = '#9a8fb0'
-  objCtx.fillText('keep running', nW * 0.5, nH * 0.52)
-}
-
 function vDrawFrame(nTs: number): void {
   if (!objCanvas || !objCtx || !bRunning) {
     return
@@ -603,10 +849,9 @@ function vDrawFrame(nTs: number): void {
 
   vDrawBg(nW, nH)
   vDrawPlatforms(nTs)
+  vDrawHazards(nTs)
   vDrawCoins(nTs)
-  vDrawGoal(nTs)
   vDrawPlayer()
-  vDrawStageFlash(nW, nH)
 
   nAnimFrame = window.requestAnimationFrame(vDrawFrame)
 }
@@ -684,10 +929,10 @@ function vStop(): void {
 
 export function sPlatformMarkup(): string {
   return `
-    <div class="platform" id="platform" tabindex="0" aria-label="Endless platform game. Arrow keys or WASD to move, space to jump, jump again in air for a double jump. Reach 1111 gates to clear stages.">
+    <div class="platform" id="platform" tabindex="0" aria-label="Endless platform game. Arrow keys or WASD to move, space to jump, jump again in air for a double jump. Collect bits.">
       <canvas class="platform-canvas" id="platform-canvas" aria-hidden="true"></canvas>
-      <p class="platform-hud" id="platform-hud">stage 1 · 0 bits</p>
-      <p class="platform-caption">endless stages · collect the bits</p>
+      <p class="platform-hud" id="platform-hud">0 bits</p>
+      <p class="platform-caption">endless run · collect the bits</p>
     </div>
   `
 }

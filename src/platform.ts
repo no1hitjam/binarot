@@ -3,6 +3,7 @@ const nMoveAccel = 3200
 const nMoveMax = 260
 const nFriction = 1800
 const nJumpSpeed = 620
+const nDoubleJumpSpeed = 560
 const nCoyoteMs = 90
 const nJumpBufferMs = 100
 const nPlayerW = 22
@@ -31,6 +32,7 @@ type tPlayer = {
   bOnGround: boolean
   nCoyoteLeft: number
   nJumpBuffer: number
+  bDoubleJumpReady: boolean
   bFacingRight: boolean
 }
 
@@ -86,6 +88,7 @@ function objNewPlayer(): tPlayer {
     bOnGround: false,
     nCoyoteLeft: 0,
     nJumpBuffer: 0,
+    bDoubleJumpReady: true,
     bFacingRight: true,
   }
 }
@@ -174,15 +177,22 @@ function vSyncHud(): void {
     return
   }
 
-  objHud.textContent = `${nCoinsTaken}/${nCoinsTotal} bits · arrows/wasd · space jump`
+  objHud.textContent = `${nCoinsTaken}/${nCoinsTotal} bits · arrows/wasd · space jump×2`
 }
 
 function vTryJump(): void {
-  if (objPlayer.nCoyoteLeft <= 0 && !objPlayer.bOnGround) {
+  const bGroundJump = objPlayer.bOnGround || objPlayer.nCoyoteLeft > 0
+  if (!bGroundJump && !objPlayer.bDoubleJumpReady) {
     return
   }
 
-  objPlayer.nVy = -nJumpSpeed
+  if (bGroundJump) {
+    objPlayer.nVy = -nJumpSpeed
+  } else {
+    objPlayer.nVy = -nDoubleJumpSpeed
+    objPlayer.bDoubleJumpReady = false
+  }
+
   objPlayer.bOnGround = false
   objPlayer.nCoyoteLeft = 0
   objPlayer.nJumpBuffer = 0
@@ -210,6 +220,7 @@ function vResolveSolid(nPrevY: number): void {
         objPlayer.nVy = 0
         objPlayer.bOnGround = true
         objPlayer.nCoyoteLeft = nCoyoteMs
+        objPlayer.bDoubleJumpReady = true
       } else if (nOverlapB <= nOverlapT && nPrevY >= objSolid.nY + objSolid.nH - 1) {
         objPlayer.nY = objSolid.nY + objSolid.nH
         if (objPlayer.nVy < 0) {
@@ -548,7 +559,7 @@ function vStop(): void {
 
 export function sPlatformMarkup(): string {
   return `
-    <div class="platform" id="platform" tabindex="0" aria-label="Platform game. Arrow keys or WASD to move, space to jump.">
+    <div class="platform" id="platform" tabindex="0" aria-label="Platform game. Arrow keys or WASD to move, space to jump, jump again in air for a double jump.">
       <canvas class="platform-canvas" id="platform-canvas" aria-hidden="true"></canvas>
       <p class="platform-hud" id="platform-hud">0/0 bits</p>
       <p class="platform-caption">side scroller · collect the bits</p>

@@ -1643,6 +1643,124 @@ code {
   line-height: 1.55;
 }
 
+.gems {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.gem-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.gem-item {
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.gem-item:hover,
+.gem-item:focus-within {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 18px -8px var(--purple-glow);
+}
+
+.gem-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.gem-swatch {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    color-mix(in srgb, #fff 55%, var(--gem-hue)) 0%,
+    var(--gem-hue) 48%,
+    color-mix(in srgb, #000 35%, var(--gem-hue)) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, #fff 25%, transparent),
+    0 0 10px -4px var(--gem-hue);
+}
+
+.gem-name {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.gem-sign {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px dashed color-mix(in srgb, var(--gold) 40%, transparent);
+  background-color: var(--void);
+  color: inherit;
+  text-decoration: none;
+}
+
+.gem-sign:hover,
+.gem-sign:focus-visible {
+  border-color: var(--border-strong);
+  background-color: rgba(139, 77, 255, 0.06);
+}
+
+.gem-sign:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.gem-sign-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.gem-sign-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.gem-sign-name {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--gold-bright);
+}
+
+.gem-sign-meaning {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.gem-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
 .dev-field {
   display: flex;
   flex-direction: column;

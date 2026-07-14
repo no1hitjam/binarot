@@ -68,26 +68,26 @@ const arrPlanetBodies: tPlanetBody[] = [
   {
     sName: 'Mercury',
     sKind: 'planet',
-    sBinaryValue: '10',
+    sBinaryValue: '1',
     sShort: 'Mer',
     sNote:
-      'The messenger on a tight loop. Summons, signals, and interrupt timing belong to The Call.',
+      'Closest claim to the fire—will as sovereignty on a tight loop. The Flag is the stake planted nearest the sun.',
   },
   {
     sName: 'Venus',
     sKind: 'planet',
-    sBinaryValue: '11',
+    sBinaryValue: '10',
     sShort: 'Ven',
     sNote:
-      'Bonds, attraction, and the handshake that holds. The Link is the protocol of closeness.',
+      'The bright summons in the dawn and dusk sky. Signals, timing, and interrupt belong to The Call.',
   },
   {
     sName: 'Earth',
     sKind: 'planet',
-    sBinaryValue: '100',
+    sBinaryValue: '11',
     sShort: 'Ear',
     sNote:
-      'Shelter and stewardship—the only world we host ourselves on. The Host is home as infrastructure.',
+      'Bonds, networks, and the handshake that holds a living world. The Link is home as connection.',
   },
   {
     sName: 'Moon',
@@ -102,10 +102,10 @@ const arrPlanetBodies: tPlanetBody[] = [
   {
     sName: 'Mars',
     sKind: 'planet',
-    sBinaryValue: '1',
+    sBinaryValue: '100',
     sShort: 'Mar',
     sNote:
-      'A claim planted in open ground—will as sovereignty. The Flag is the stake war drives into the dust.',
+      'Shelter and stewardship on dust—the world we mean to host next. The Host is home as infrastructure.',
   },
   {
     sName: 'Jupiter',

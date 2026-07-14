@@ -8,6 +8,7 @@ import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
 import { sHouseMarkup, vBindHouse, vSetHouseActive } from './house'
 import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
 import { sPlatformMarkup, vBindPlatform, vSetPlatformActive } from './platform'
+import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
 
@@ -416,8 +417,9 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="birthday" aria-selected="false">Birthday</button>
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
+      <button type="button" class="tab-button" data-tab="gems" aria-selected="false">Gems</button>
       <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
-      <button type="button" class="tab-button" data-tab="magic" aria-selected="false">Magic</button>
+      <button type="button" class="tab-button" data-tab="void" aria-selected="false">Void</button>
       <button type="button" class="tab-button" data-tab="pilgrim" aria-selected="false">Pilgrim</button>
       <button type="button" class="tab-button" data-tab="house" aria-selected="false">House</button>
       <button type="button" class="tab-button" data-tab="platform" aria-selected="false">Platform</button>
@@ -501,6 +503,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sPlanetsMarkup(arrCards)}
     </section>
 
+    <section class="tab-panel" data-panel="gems">
+      <h2>Gems</h2>
+      <p class="reading-intro">
+        Each binarot sign has a gemstone paired for fit—from The Seed’s pearl through The State’s
+        diamond. Stones are chosen for meaning, not mineralogy textbooks.
+      </p>
+      ${sGemsMarkup(arrCards)}
+    </section>
+
     <section class="tab-panel" data-panel="matrix">
       <h2>Matrix</h2>
       <p class="reading-intro">
@@ -509,8 +520,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sMatrixMarkup()}
     </section>
 
-    <section class="tab-panel" data-panel="magic">
-      <h2>Magic</h2>
+    <section class="tab-panel" data-panel="void">
+      <h2>Void</h2>
       <p class="reading-intro">
         The full deck drifts through depth—faces turn, signs tumble, and every card eventually returns.
       </p>
@@ -601,8 +612,9 @@ const arrUnlockOrder = [
   'birthday',
   'starmap',
   'planets',
+  'gems',
   'matrix',
-  'magic',
+  'void',
   'pilgrim',
   'house',
   'platform',
@@ -637,8 +649,12 @@ type tRoute =
   | { sKind: 'tab'; sTabId: string }
   | { sKind: 'card'; sSlug: string }
 
+function sAliasTabId(sTabId: string): string {
+  return sTabId === 'magic' ? 'void' : sTabId
+}
+
 function nUnlockIndex(sTabId: string): number {
-  return arrUnlockOrder.indexOf(sTabId as (typeof arrUnlockOrder)[number])
+  return arrUnlockOrder.indexOf(sAliasTabId(sTabId) as (typeof arrUnlockOrder)[number])
 }
 
 function bUnlockTabId(sTabId: string): boolean {
@@ -647,7 +663,7 @@ function bUnlockTabId(sTabId: string): boolean {
 
 function sNormalizeUnlock(sTabId: string | null): string {
   if (sTabId !== null && bUnlockTabId(sTabId)) {
-    return sTabId
+    return sAliasTabId(sTabId)
   }
   return sDefaultUnlock
 }
@@ -656,12 +672,13 @@ let sFurthestUnlocked = sNormalizeUnlock(sCookieValue(sCookieUnlock))
 
 {
   const sSavedTab = sCookieValue(sCookieTab)
+  const sSavedMapped = sSavedTab !== null ? sAliasTabId(sSavedTab) : null
   if (
-    sSavedTab !== null &&
-    bUnlockTabId(sSavedTab) &&
-    nUnlockIndex(sSavedTab) > nUnlockIndex(sFurthestUnlocked)
+    sSavedMapped !== null &&
+    bUnlockTabId(sSavedMapped) &&
+    nUnlockIndex(sSavedMapped) > nUnlockIndex(sFurthestUnlocked)
   ) {
-    sFurthestUnlocked = sSavedTab
+    sFurthestUnlocked = sSavedMapped
     vSetCookie(sCookieUnlock, sFurthestUnlocked)
   }
 }
@@ -803,7 +820,7 @@ function vActivateTab(sTabId: string): void {
   })
 
   vSetMatrixActive(sTabId === 'matrix')
-  vSetFloatActive(sTabId === 'magic')
+  vSetFloatActive(sTabId === 'void')
   vSetExploreActive(sTabId === 'pilgrim')
   vSetHouseActive(sTabId === 'house')
   vSetPlatformActive(sTabId === 'platform')
@@ -870,8 +887,11 @@ if (objInitialRoute !== null) {
   vSyncRoute()
 } else {
   const sSavedTab = sCookieValue(sCookieTab)
+  const sSavedMapped = sSavedTab !== null ? sAliasTabId(sSavedTab) : null
   const sInitialTab =
-    sSavedTab !== null && bTabExists(sSavedTab) && bTabUnlocked(sSavedTab) ? sSavedTab : 'cards'
+    sSavedMapped !== null && bTabExists(sSavedMapped) && bTabUnlocked(sSavedMapped)
+      ? sSavedMapped
+      : 'cards'
   vNavigate(sInitialTab, true)
 }
 

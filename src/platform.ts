@@ -523,7 +523,7 @@ function vSyncHud(): void {
     return
   }
 
-  objHud.textContent = `${nCoinsTaken} bits · best ${nBestCoins} · space jump×2`
+  objHud.textContent = `${nCoinsTaken} bits · best ${nBestCoins} · Arrow keys move · space jump×2`
 }
 
 function vTryJump(): void {

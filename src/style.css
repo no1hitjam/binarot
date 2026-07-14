@@ -11,7 +11,7 @@
   --gold: #e0b83a;
   --gold-bright: #ffe08a;
   --gold-dim: #9a7a22;
-  --text: #e8e0f0;
+  --text: #c9bfd8;
   --text-muted: #9a8fb0;
   --border: color-mix(in srgb, var(--gold) 32%, #1a1020);
   --border-strong: color-mix(in srgb, var(--gold) 55%, transparent);

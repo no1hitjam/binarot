@@ -548,9 +548,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="platform">
       <h2>Platform</h2>
       <p class="reading-intro">
-        An endless side-scroller through the void. Collect binary bits, clear the gaps, and keep
-        going—the course generates ahead and drops what you’ve left behind. Gaps get meaner the
-        farther you run. Click the stage first so it can take keyboard focus.
+        Side-scroll endlessly through the void. Click the stage first so it can take keyboard focus. Use WASD or the arrow keys to move, space to jump, and again to double jump.
       </p>
       ${sPlatformMarkup()}
     </section>

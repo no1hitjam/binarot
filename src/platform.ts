@@ -24,7 +24,71 @@ const nPlatYMax = 440
 const nDiffScaleX = 9000
 const nHazardScaleX = 5500
 const nDeckSize = 16
-const arrGlyphs = ['0', '1', '10', '11', '&', '|', '^']
+const nHazardSizeMin = 14
+const nHazardSizeMax = 18
+const nHazardDriftAmp = 36
+const nHazardDriftSpeed = 0.0011
+const sBitGlyph = '1'
+
+type tCardTint = {
+  sBorder: string
+  sAccent: string
+  sBright: string
+  sWash: string
+  sInner: string
+}
+
+const arrCardTints: tCardTint[] = [
+  {
+    sBorder: 'rgba(224, 184, 58, 0.75)',
+    sAccent: '#e0b83a',
+    sBright: '#ffe08a',
+    sWash: 'rgba(139, 77, 255, 0.14)',
+    sInner: 'rgba(139, 77, 255, 0.4)',
+  },
+  {
+    sBorder: 'rgba(90, 200, 120, 0.8)',
+    sAccent: '#5ec878',
+    sBright: '#a8f0b8',
+    sWash: 'rgba(90, 200, 120, 0.16)',
+    sInner: 'rgba(90, 200, 120, 0.42)',
+  },
+  {
+    sBorder: 'rgba(176, 120, 64, 0.8)',
+    sAccent: '#b07840',
+    sBright: '#e0b078',
+    sWash: 'rgba(176, 120, 64, 0.16)',
+    sInner: 'rgba(176, 120, 64, 0.42)',
+  },
+  {
+    sBorder: 'rgba(80, 160, 230, 0.8)',
+    sAccent: '#50a0e6',
+    sBright: '#a0d4ff',
+    sWash: 'rgba(80, 160, 230, 0.16)',
+    sInner: 'rgba(80, 160, 230, 0.42)',
+  },
+  {
+    sBorder: 'rgba(220, 90, 90, 0.8)',
+    sAccent: '#dc5a5a',
+    sBright: '#ffb0b0',
+    sWash: 'rgba(220, 90, 90, 0.16)',
+    sInner: 'rgba(220, 90, 90, 0.42)',
+  },
+  {
+    sBorder: 'rgba(70, 190, 190, 0.8)',
+    sAccent: '#46bebe',
+    sBright: '#9aeeee',
+    sWash: 'rgba(70, 190, 190, 0.16)',
+    sInner: 'rgba(70, 190, 190, 0.42)',
+  },
+  {
+    sBorder: 'rgba(200, 200, 210, 0.8)',
+    sAccent: '#c8c8d2',
+    sBright: '#f0f0f6',
+    sWash: 'rgba(200, 200, 210, 0.16)',
+    sInner: 'rgba(200, 200, 210, 0.42)',
+  },
+]
 
 type tRect = {
   nX: number
@@ -69,7 +133,6 @@ let bJumpDown = false
 let nGenCursor = 0
 let nLastPlatRight = 0
 let nLastPlatY = 420
-let nCoinGlyph = 0
 let arrSolid: tSolid[] = []
 let arrHazard: tRect[] = []
 let arrCoins: tCoin[] = []
@@ -116,14 +179,30 @@ function vPushCoin(nX: number, nY: number): void {
     nY,
     nW: 16,
     nH: 16,
-    sGlyph: arrGlyphs[nCoinGlyph % arrGlyphs.length]!,
+    sGlyph: sBitGlyph,
     bTaken: false,
   })
-  nCoinGlyph += 1
 }
 
-function vPushHazard(nX: number, nY: number, nW: number, nH: number): void {
-  arrHazard.push({ nX, nY, nW, nH })
+function nHazardSize(): number {
+  return nRandRange(nHazardSizeMin, nHazardSizeMax)
+}
+
+function vPushHazard(nX: number, nY: number, nSize: number): void {
+  arrHazard.push({ nX, nY, nW: nSize, nH: nSize })
+}
+
+function nHazardDrawY(objHazard: tRect, nTs: number): number {
+  return objHazard.nY + Math.sin(nTs * nHazardDriftSpeed + objHazard.nX * 0.035) * nHazardDriftAmp
+}
+
+function objHazardAt(objHazard: tRect, nTs: number): tRect {
+  return {
+    nX: objHazard.nX,
+    nY: nHazardDrawY(objHazard, nTs),
+    nW: objHazard.nW,
+    nH: objHazard.nH,
+  }
 }
 
 function vPushSolid(
@@ -183,12 +262,12 @@ function vMaybeHazardOn(nX: number, nY: number, nW: number): void {
   }
 
   const nMargin = 8
-  const nSlot = Math.max(28, (nW - nMargin * 2) / nCount)
+  const nSlot = Math.max(nHazardSizeMax + 4, (nW - nMargin * 2) / nCount)
   for (let nI = 0; nI < nCount; nI++) {
-    const nHw = nRandRange(20, Math.min(36, nSlot - 4))
+    const nSize = nHazardSize()
     const nSlotX = nX + nMargin + nI * nSlot
-    const nHx = nSlotX + nRandRange(0, Math.max(1, nSlot - nHw))
-    vPushHazard(nHx, nY - nTile, nHw, nTile)
+    const nHx = nSlotX + nRandRange(0, Math.max(1, nSlot - nSize))
+    vPushHazard(nHx, nY - nSize - nHazardDriftAmp, nSize)
   }
 }
 
@@ -204,16 +283,15 @@ function vMaybeAirHazard(nLeft: number, nRight: number, nY: number): void {
     return
   }
 
-  const nHw = nRandRange(22, 34)
-  vPushHazard(nLeft + nRandRange(0, Math.max(1, nSpan - nHw)), nY - nRandRange(8, 75), nHw, nHw)
+  const nSize = nHazardSize()
+  vPushHazard(nLeft + nRandRange(0, Math.max(1, nSpan - nSize)), nY - nRandRange(8, 75), nSize)
 
   if (nP > 0.9 && nSpan > 90 && nRand() < 0.15 + nP * 0.28) {
-    const nHw2 = nRandRange(20, 30)
+    const nSize2 = nHazardSize()
     vPushHazard(
-      nLeft + nRandRange(0, Math.max(1, nSpan - nHw2)),
+      nLeft + nRandRange(0, Math.max(1, nSpan - nSize2)),
       nY - nRandRange(40, 110),
-      nHw2,
-      nHw2,
+      nSize2,
     )
   }
 }
@@ -402,7 +480,6 @@ function vBootstrapWorld(): void {
   arrSolid = []
   arrHazard = []
   arrCoins = []
-  nCoinGlyph = 0
   nGenCursor = 0
   nLastPlatRight = 0
   nLastPlatY = 420
@@ -436,7 +513,8 @@ function vBootstrapWorld(): void {
     const nSafeY = nClamp(nLastPlatY + nRandRange(-30, 30), nPlatYMin, nPlatYMax)
     const nSafeW = nRandRange(120, 170)
     vPushPlatform(nSafeX, nSafeY, nSafeW, false, false, false)
-    vPushHazard(nSafeX + nSafeW * 0.5 - 14, nSafeY - nTile, 28, nTile)
+    const nSize = 16
+    vPushHazard(nSafeX + nSafeW * 0.5 - nSize * 0.5, nSafeY - nSize - nHazardDriftAmp, nSize)
   }
   vEnsureWorld(nGenAhead + 600)
 }
@@ -604,7 +682,7 @@ function vResolveSolid(nPrevY: number, nDt: number): void {
   }
 }
 
-function vUpdatePhysics(nDt: number): void {
+function vUpdatePhysics(nDt: number, nTs: number): void {
   const nDir = nMoveInput()
   if (nDir !== 0) {
     objPlayer.nVx += nDir * nMoveAccel * nDt
@@ -667,7 +745,7 @@ function vUpdatePhysics(nDt: number): void {
 
   const objBody = objPlayerRect()
   for (const objHazard of arrHazard) {
-    if (bOverlap(objBody, objHazard)) {
+    if (bOverlap(objBody, objHazardAt(objHazard, nTs))) {
       vResetLevel()
       return
     }
@@ -791,8 +869,9 @@ function vDrawHazards(nTs: number): void {
     if (nX + objHazard.nW < -40 || nX > 2000) {
       continue
     }
-    const nY = objHazard.nY
+    const nY = nHazardDrawY(objHazard, nTs)
     const nPulse = 0.55 + 0.45 * Math.sin(nTs * 0.01 + objHazard.nX * 0.04)
+    const nInset = Math.max(3, objHazard.nW * 0.28)
 
     objCtx.fillStyle = '#3a0a0c'
     objCtx.fillRect(nX, nY, objHazard.nW, objHazard.nH)
@@ -806,10 +885,10 @@ function vDrawHazards(nTs: number): void {
     objCtx.strokeStyle = 'rgba(60, 8, 12, 0.55)'
     objCtx.lineWidth = 2
     objCtx.beginPath()
-    objCtx.moveTo(nX + 6, nY + 6)
-    objCtx.lineTo(nX + objHazard.nW - 6, nY + objHazard.nH - 6)
-    objCtx.moveTo(nX + objHazard.nW - 6, nY + 6)
-    objCtx.lineTo(nX + 6, nY + objHazard.nH - 6)
+    objCtx.moveTo(nX + nInset, nY + nInset)
+    objCtx.lineTo(nX + objHazard.nW - nInset, nY + objHazard.nH - nInset)
+    objCtx.moveTo(nX + objHazard.nW - nInset, nY + nInset)
+    objCtx.lineTo(nX + nInset, nY + objHazard.nH - nInset)
     objCtx.stroke()
   }
 }
@@ -852,12 +931,18 @@ function sHeroSlug(): string {
   return (nCoinsTaken % nDeckSize).toString(2)
 }
 
+function objHeroTint(): tCardTint {
+  const nCycle = Math.floor(nCoinsTaken / nDeckSize)
+  return arrCardTints[nCycle % arrCardTints.length]!
+}
+
 function vDrawCardIcon(
   objCtxLocal: CanvasRenderingContext2D,
   sSlug: string,
   nOx: number,
   nOy: number,
   nSize: number,
+  sStroke: string,
 ): void {
   const sPaths = sCardIconPaths(sSlug)
   if (!sPaths) {
@@ -868,7 +953,7 @@ function vDrawCardIcon(
   objCtxLocal.save()
   objCtxLocal.translate(nOx, nOy)
   objCtxLocal.scale(nScale, nScale)
-  objCtxLocal.strokeStyle = '#ffe08a'
+  objCtxLocal.strokeStyle = sStroke
   objCtxLocal.lineWidth = 2.4
   objCtxLocal.lineCap = 'round'
   objCtxLocal.lineJoin = 'round'
@@ -905,24 +990,25 @@ function vDrawPlayer(): void {
   const nX = objPlayer.nX - nCamX
   const nY = objPlayer.nY
   const sSlug = sHeroSlug()
+  const objTint = objHeroTint()
 
   objCtx.fillStyle = '#120a1c'
   objCtx.fillRect(nX, nY, nPlayerW, nPlayerH)
-  objCtx.fillStyle = 'rgba(139, 77, 255, 0.14)'
+  objCtx.fillStyle = objTint.sWash
   objCtx.fillRect(nX + 1, nY + 1, nPlayerW - 2, nPlayerH - 2)
-  objCtx.strokeStyle = 'rgba(224, 184, 58, 0.75)'
+  objCtx.strokeStyle = objTint.sBorder
   objCtx.lineWidth = 1.5
   objCtx.strokeRect(nX + 0.5, nY + 0.5, nPlayerW - 1, nPlayerH - 1)
-  objCtx.strokeStyle = 'rgba(139, 77, 255, 0.4)'
+  objCtx.strokeStyle = objTint.sInner
   objCtx.lineWidth = 1
   objCtx.strokeRect(nX + 3.5, nY + 3.5, nPlayerW - 7, nPlayerH - 7)
 
   const nIconSize = Math.min(nPlayerW - 8, nPlayerH - 14)
   const nIconX = nX + (nPlayerW - nIconSize) * 0.5
   const nIconY = nY + 5
-  vDrawCardIcon(objCtx, sSlug, nIconX, nIconY, nIconSize)
+  vDrawCardIcon(objCtx, sSlug, nIconX, nIconY, nIconSize, objTint.sBright)
 
-  objCtx.fillStyle = '#e0b83a'
+  objCtx.fillStyle = objTint.sAccent
   objCtx.font = '8px "IBM Plex Mono", Consolas, Monaco, monospace'
   objCtx.textAlign = 'center'
   objCtx.textBaseline = 'middle'
@@ -940,7 +1026,7 @@ function vDrawFrame(nTs: number): void {
   const nW = objCanvas.clientWidth
   const nH = objCanvas.clientHeight
 
-  vUpdatePhysics(nDt)
+  vUpdatePhysics(nDt, nTs)
   vUpdateCamera(nDt, nW)
 
   vDrawBg(nW, nH)

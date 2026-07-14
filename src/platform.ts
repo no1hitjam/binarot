@@ -472,6 +472,40 @@ function bJumpPressed(): boolean {
   return bKeyDown(' ') || bKeyDown('ArrowUp') || bKeyDown('w') || bKeyDown('W')
 }
 
+function vBindPadButton(objBtn: HTMLElement, sKey: string): void {
+  const vPress = (objEvent: PointerEvent): void => {
+    if (!bRunning) {
+      return
+    }
+
+    objEvent.preventDefault()
+    objEvent.stopPropagation()
+    objBtn.setPointerCapture(objEvent.pointerId)
+    setKeys.add(sKey)
+    objBtn.classList.add('is-pressed')
+  }
+
+  const vRelease = (objEvent: PointerEvent): void => {
+    objEvent.preventDefault()
+    setKeys.delete(sKey)
+    objBtn.classList.remove('is-pressed')
+    if (objBtn.hasPointerCapture(objEvent.pointerId)) {
+      objBtn.releasePointerCapture(objEvent.pointerId)
+    }
+  }
+
+  objBtn.addEventListener('pointerdown', vPress)
+  objBtn.addEventListener('pointerup', vRelease)
+  objBtn.addEventListener('pointercancel', vRelease)
+  objBtn.addEventListener('lostpointercapture', () => {
+    setKeys.delete(sKey)
+    objBtn.classList.remove('is-pressed')
+  })
+  objBtn.addEventListener('contextmenu', (objEvent) => {
+    objEvent.preventDefault()
+  })
+}
+
 function vResetLevel(): void {
   if (nCoinsTaken > nBestCoins) {
     nBestCoins = nCoinsTaken
@@ -920,6 +954,9 @@ function vStop(): void {
   bRunning = false
   setKeys.clear()
   bJumpDown = false
+  objRoot?.querySelectorAll('.platform-pad-btn.is-pressed').forEach((objEl) => {
+    objEl.classList.remove('is-pressed')
+  })
   if (nAnimFrame !== 0) {
     window.cancelAnimationFrame(nAnimFrame)
     nAnimFrame = 0
@@ -929,10 +966,17 @@ function vStop(): void {
 
 export function sPlatformMarkup(): string {
   return `
-    <div class="platform" id="platform" tabindex="0" aria-label="Endless platform game. Arrow keys or WASD to move, space to jump, jump again in air for a double jump. Collect bits.">
+    <div class="platform" id="platform" tabindex="0" aria-label="Endless platform game. Arrow keys or WASD to move, space to jump, jump again in air for a double jump. On touch devices use the on-screen controls. Collect bits.">
       <canvas class="platform-canvas" id="platform-canvas" aria-hidden="true"></canvas>
       <p class="platform-hud" id="platform-hud">0 bits</p>
       <p class="platform-caption">endless run · collect the bits</p>
+      <div class="platform-pad" aria-hidden="false">
+        <div class="platform-pad-move">
+          <button type="button" class="platform-pad-btn" data-pad="left" aria-label="Move left">◀</button>
+          <button type="button" class="platform-pad-btn" data-pad="right" aria-label="Move right">▶</button>
+        </div>
+        <button type="button" class="platform-pad-btn platform-pad-jump" data-pad="jump" aria-label="Jump">JUMP</button>
+      </div>
     </div>
   `
 }
@@ -958,6 +1002,19 @@ export function vBindPlatform(): void {
 
   window.addEventListener('keydown', vOnKeyDown)
   window.addEventListener('keyup', vOnKeyUp)
+
+  const objPadLeft = objRoot.querySelector<HTMLElement>('[data-pad="left"]')
+  const objPadRight = objRoot.querySelector<HTMLElement>('[data-pad="right"]')
+  const objPadJump = objRoot.querySelector<HTMLElement>('[data-pad="jump"]')
+  if (objPadLeft) {
+    vBindPadButton(objPadLeft, 'ArrowLeft')
+  }
+  if (objPadRight) {
+    vBindPadButton(objPadRight, 'ArrowRight')
+  }
+  if (objPadJump) {
+    vBindPadButton(objPadJump, ' ')
+  }
 
   objRoot.addEventListener('pointerdown', () => {
     objRoot?.focus({ preventScroll: true })

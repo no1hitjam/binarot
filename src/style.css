@@ -1217,6 +1217,75 @@ code {
   text-shadow: 0 0 12px rgba(5, 3, 8, 0.9);
 }
 
+.platform-pad {
+  display: none;
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 0.65rem 0.75rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem;
+  background: linear-gradient(to top, rgba(5, 3, 8, 0.72), transparent);
+  z-index: 2;
+}
+
+.platform-pad-move {
+  display: flex;
+  gap: 0.55rem;
+  pointer-events: auto;
+}
+
+.platform-pad-btn {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--gold) 55%, transparent);
+  border-radius: 0;
+  background-color: color-mix(in srgb, var(--void) 78%, transparent);
+  color: var(--gold-bright);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  min-width: 3.4rem;
+  min-height: 3.4rem;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  box-shadow: 0 0 18px -8px rgba(224, 184, 58, 0.4);
+  pointer-events: auto;
+}
+
+.platform-pad-jump {
+  min-width: 4.6rem;
+  letter-spacing: 0.16em;
+}
+
+.platform-pad-btn.is-pressed,
+.platform-pad-btn:active {
+  color: var(--void);
+  background-color: var(--gold);
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 22px -6px rgba(224, 184, 58, 0.7);
+}
+
+.platform-pad-btn:focus-visible {
+  outline: 1px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 640px) {
+  .platform-pad {
+    display: flex;
+  }
+
+  .platform-caption {
+    display: none;
+  }
+}
+
 .float {
   position: relative;
   margin-top: 0.5rem;

@@ -548,7 +548,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="platform">
       <h2>Platform</h2>
       <p class="reading-intro">
-        Side-scroll endlessly through the void. Click the stage first so it can take keyboard focus. Use WASD or the arrow keys to move, space to jump, and again to double jump.
+        Side-scroll endlessly through the void. Click the stage first so it can take keyboard focus. Use WASD or the arrow keys to move, space to jump, and again to double jump. On phones and tablets, use the on-screen left, right, and jump controls.
       </p>
       ${sPlatformMarkup()}
     </section>

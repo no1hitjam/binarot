@@ -1423,7 +1423,7 @@ export type tCardLink = {
     let sResult = sParagraph
 
     if (nIndex === 0) {
-      const objFirst = /^([^\s][^.!?]*)([.!?])/.exec(sResult)
+      const objFirst = /^([^\s][^.!?]*)([.!?]["'\u201d\u2019]?)/.exec(sResult)
       if (objFirst) {
         const sFirst = `${objFirst[1]}${objFirst[2]}`
         sResult = `<strong class="reading-text-lead">${sFirst}</strong>${sResult.slice(sFirst.length).trimStart()}`
@@ -1431,7 +1431,7 @@ export type tCardLink = {
     }
 
     if (nIndex === arrParagraphs.length - 1) {
-      const objLast = /([^\s][^.!?]*)([.!?])\s*$/.exec(sResult)
+      const objLast = /([^\s][^.!?]*)([.!?]["'\u201d\u2019]?)\s*$/.exec(sResult)
       if (objLast && objLast.index !== undefined) {
         const sLast = `${objLast[1]}${objLast[2]}`
         sResult =

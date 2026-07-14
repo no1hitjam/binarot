@@ -729,6 +729,32 @@ function objRouteFromHash(): tRoute | null {
   return null
 }
 
+/** Pull the first sentence of the second paragraph onto its own styled line. */
+function sStyledCardDescription(sDescription: string): string {
+  const sTrimmed = sDescription.trim()
+  if (!sTrimmed) {
+    return ''
+  }
+
+  const arrParagraphs = sTrimmed.split(/<br\s*\/?>\s*<br\s*\/?>/i)
+  if (arrParagraphs.length < 2) {
+    return sTrimmed
+  }
+
+  const sSecond = arrParagraphs[1]!.trim()
+  const objFirst = /^([^\s][^.!?]*)([.!?]["'\u201d\u2019]?)/.exec(sSecond)
+  if (!objFirst) {
+    return sTrimmed
+  }
+
+  const sFirst = `${objFirst[1]}${objFirst[2]}`
+  const sRest = sSecond.slice(sFirst.length).trimStart()
+  arrParagraphs[1] =
+    `<strong class="card-detail-lead">${sFirst}</strong>${sRest}`
+
+  return arrParagraphs.map((sParagraph: string) => sParagraph.trim()).join('<br><br>')
+}
+
 function sCardDetailMarkup(objPage: tCardPage): string {
   return `
     <button type="button" class="card-detail-back" id="card-detail-back">&larr; All cards</button>
@@ -739,7 +765,7 @@ function sCardDetailMarkup(objPage: tCardPage): string {
         <p class="card-detail-meaning">Represents ${objPage.sMeaning}.</p>
       </div>
     </div>
-    <p class="card-detail-description">${objPage.sDescription}</p>
+    <p class="card-detail-description">${sStyledCardDescription(objPage.sDescription)}</p>
   `
 }
 

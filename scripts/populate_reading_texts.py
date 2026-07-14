@@ -20,7 +20,7 @@ CARDS: list[dict[str, str]] = [
     {
         "name": "The Fork",
         "binary": "101",
-        "meaning": "consumption, resonance, and diverging paths",
+        "meaning": "hunger, resonance, and diverging paths",
     },
     {"name": "The Port", "binary": "110", "meaning": "gateways, discovery, and trade"},
     {"name": "The Tree", "binary": "111", "meaning": "fullness, growth, and reach"},
@@ -44,7 +44,7 @@ CARDS: list[dict[str, str]] = [
 
 OPERATOR_SENTENCES = {
     "AND": "The coin lands on AND, keeping only what both cards share.",
-    "OR": "The coin lands on OR, gathering everything either card offers.",
+    "OR": "The coin lands on OR, keeping all both cards offer.",
 }
 
 CARDS_BY_VALUE = {int(obj_card["binary"], 2): obj_card for obj_card in CARDS}
@@ -60,7 +60,7 @@ def s_reading_text(obj_left: dict[str, str], obj_right: dict[str, str], s_op: st
     n_result = n_left & n_right if s_op == "AND" else n_left | n_right
     obj_result = CARDS_BY_VALUE[n_result]
 
-    return " ".join(
+    s_reading = " ".join(
         [
             s_card_summary(obj_left),
             OPERATOR_SENTENCES[s_op],
@@ -69,6 +69,7 @@ def s_reading_text(obj_left: dict[str, str], obj_right: dict[str, str], s_op: st
             s_card_summary(obj_result),
         ]
     )
+    return f"{s_reading}\nReflection: "
 
 
 def s_ts_template_literal(s_value: str) -> str:
@@ -113,59 +114,98 @@ def s_build_typescript() -> tuple[str, int]:
             arr_lines.append("    },")
         arr_lines.append("  },")
 
-    arr_lines.extend(
-        [
-            "}",
-            "",
-            "export function sReadingText(sLeftBinary: string, sRightBinary: string, sOp: tOperator): string {",
-            "  const nLeft = parseInt(sLeftBinary, 2)",
-            "  const nRight = parseInt(sRightBinary, 2)",
-            "  const sLow = nLeft < nRight ? sLeftBinary : sRightBinary",
-            "  const sHigh = nLeft < nRight ? sRightBinary : sLeftBinary",
-            "  return objReadingTexts[sLow]?.[sHigh]?.[sOp]?.trim() ?? ''",
-            "}",
-            "",
-            "/** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence). */",
-            "export function sStyledReadingText(sText: string): string {",
-            "  if (!sText) {",
-            "    return ''",
-            "  }",
-            "",
-            "  const arrParagraphs = sText.split(/\\n\\n+/)",
-            "",
-            "  const arrStyled = arrParagraphs.map((sParagraph: string, nIndex: number) => {",
-            "    let sResult = sParagraph",
-            "",
-            "    if (nIndex === 0) {",
-            "      const objFirst = /^([^\\s][^.!?]*)([.!?])/.exec(sResult)",
-            "      if (objFirst) {",
-            "        const sFirst = `${objFirst[1]}${objFirst[2]}`",
-            "        sResult = `<strong class=\"reading-text-lead\">${sFirst}</strong>${sResult.slice(sFirst.length)}`",
-            "      }",
-            "    }",
-            "",
-            "    if (nIndex === arrParagraphs.length - 1) {",
-            "      const objLast = /([^\\s][^.!?]*)([.!?])\\s*$/.exec(sResult)",
-            "      if (objLast && objLast.index !== undefined) {",
-            "        const sLast = `${objLast[1]}${objLast[2]}`",
-            "        sResult =",
-            "          `${sResult.slice(0, objLast.index)}<strong>${sLast}</strong>${sResult.slice(objLast.index + sLast.length)}`",
-            "      }",
-            "    }",
-            "",
-            "    if (nIndex === 1) {",
-            "      sResult = `<span class=\"reading-text-accent\">${sResult}</span>`",
-            "    }",
-            "",
-            "    return sResult",
-            "  })",
-            "",
-            "  return arrStyled.join('\\n\\n<span class=\"reading-text-sep\" aria-hidden=\"true\">✦✦</span>\\n\\n')",
-            "}",
-            "",
-        ]
-    )
+    arr_lines.append("}")
+    arr_lines.append("")
+    arr_lines.append(HELPERS_TYPESCRIPT.rstrip("\n"))
+    arr_lines.append("")
     return "\n".join(arr_lines), n_pair_count
+
+
+HELPERS_TYPESCRIPT = r"""
+export function sReadingText(sLeftBinary: string, sRightBinary: string, sOp: tOperator): string {
+  const nLeft = parseInt(sLeftBinary, 2)
+  const nRight = parseInt(sRightBinary, 2)
+  const sLow = nLeft < nRight ? sLeftBinary : sRightBinary
+  const sHigh = nLeft < nRight ? sRightBinary : sLeftBinary
+  return objReadingTexts[sLow]?.[sHigh]?.[sOp]?.trim() ?? ''
+}
+
+export type tCardLink = {
+  sName: string
+  sSlug: string
+}
+
+function sEscapeRegExp(sValue: string): string {
+  return sValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function sLinkCardNames(sText: string, arrCardLinks: readonly tCardLink[]): string {
+  if (arrCardLinks.length === 0) {
+    return sText
+  }
+
+  const arrSorted = [...arrCardLinks].sort(
+    (objA: tCardLink, objB: tCardLink) => objB.sName.length - objA.sName.length,
+  )
+
+  let sResult = sText
+  for (const objCard of arrSorted) {
+    const sName = sEscapeRegExp(objCard.sName)
+    const objPattern = new RegExp(`\\b${sName}(?:\\s*\\([^)]*\\))?`, 'g')
+    sResult = sResult.replace(
+      objPattern,
+      (sMatch: string) =>
+        `<a class="reading-text-card" href="#card/${objCard.sSlug}">${sMatch}</a>`,
+    )
+  }
+  return sResult
+}
+
+/** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence, card links). */
+export function sStyledReadingText(
+  sText: string,
+  arrCardLinks: readonly tCardLink[] = [],
+  bSeparators = true,
+): string {
+  if (!sText) {
+    return ''
+  }
+
+  const arrParagraphs = sText.split(/\n\n+/)
+
+  const arrStyled = arrParagraphs.map((sParagraph: string, nIndex: number) => {
+    let sResult = sParagraph
+
+    if (nIndex === 0) {
+      const objFirst = /^([^\s][^.!?]*)([.!?]["'\u201d\u2019]?)/.exec(sResult)
+      if (objFirst) {
+        const sFirst = `${objFirst[1]}${objFirst[2]}`
+        sResult = `<strong class="reading-text-lead">${sFirst}</strong>${sResult.slice(sFirst.length).trimStart()}`
+      }
+    }
+
+    if (nIndex === arrParagraphs.length - 1) {
+      const objLast = /([^\s][^.!?]*)([.!?]["'\u201d\u2019]?)\s*$/.exec(sResult)
+      if (objLast && objLast.index !== undefined) {
+        const sLast = `${objLast[1]}${objLast[2]}`
+        sResult =
+          `${sResult.slice(0, objLast.index)}<strong>${sLast}</strong>${sResult.slice(objLast.index + sLast.length)}`
+      }
+    }
+
+    if (nIndex === 1) {
+      sResult = `<span class="reading-text-accent">${sResult}</span>`
+    }
+
+    return sLinkCardNames(sResult, arrCardLinks)
+  })
+
+  const sJoin = bSeparators
+    ? '\n\n<span class="reading-text-sep" aria-hidden="true">✦✦</span>\n\n'
+    : '\n\n'
+  return arrStyled.join(sJoin)
+}
+"""
 
 
 def main() -> None:

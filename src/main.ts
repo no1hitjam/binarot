@@ -318,16 +318,12 @@ const sDevAiInstructions =
   `
   AI Prompt for readings:
   <br><br>
-  Binarot is a tarot-like deck where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply. This results in a final card. Given the following reading, generate three concise paragraphs describing the meaning of the result. Give a sort of vague piece of life-advice without being too prescriptive, and use a soothing but direct tone.
+  Binarot is a tarot-like deck where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply. This results in a final card. Given the following reading, generate a single phrase of reflection that the sequence gives rise to.
   
   <br><br>
 
-  The first sentence of the first paragraph should be a kind of enigmatic introduction that is something quotable to take to heart.
-  The second sentence should duly summarize the two cards and operation that created the result. The third sentence is a description of the result and what kind of environment this describes.
-
-  <br><br>
-
-  When writing the name of a card, capitalize the first letter and follow with its number in parentheses like so: "...The Seed (0)".
+  For example, The Seed (0) AND The Flag (1) = 0. Reflection: Exploring origins before lines were drawn
+  Another example, The Fork (101) OR The Tree (111) = 111. Reflection: Growth leading to more growth
 
   <br><br>
  `
@@ -402,7 +398,7 @@ const sCardsMarkup: string = arrCardPages
   )
   .join('')
 
-const bShowDevPanel = false
+const bShowDevPanel = true
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main class="site">
@@ -480,6 +476,14 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
           </label>
         </form>
         <div class="compat-result" id="compat-result"></div>
+      </div>
+
+      <div class="birthday-special">
+        <h3>Special dates</h3>
+        <p class="reading-intro">
+          Day 0 of each sign—when the year steps into a new binary weather.
+        </p>
+        <ul class="special-dates-list" id="special-dates-list"></ul>
       </div>
     </section>
 
@@ -1078,12 +1082,44 @@ function nFirstDayOfSign(nSignIndex: number): number {
   return Math.ceil((nSignIndex * nDaysInYear) / arrCards.length)
 }
 
+function objMonthDayFromDayOfYear(nDayOfYear: number): { nMonth: number; nDay: number } {
+  let nRemaining = nDayOfYear
+
+  for (let nMonthIndex = 0; nMonthIndex < arrDaysInMonthLeap.length; nMonthIndex += 1) {
+    const nDaysInMonth = arrDaysInMonthLeap[nMonthIndex]!
+    if (nRemaining < nDaysInMonth) {
+      return { nMonth: nMonthIndex + 1, nDay: nRemaining + 1 }
+    }
+    nRemaining -= nDaysInMonth
+  }
+
+  return { nMonth: 12, nDay: 31 }
+}
+
+function sSpecialDatesMarkup(): string {
+  return arrCards
+    .map((objCard: tCard, nSignIndex: number) => {
+      const { nMonth, nDay } = objMonthDayFromDayOfYear(nFirstDayOfSign(nSignIndex))
+      const sDate = `${arrMonthNames[nMonth - 1]} ${nDay}`
+      return `
+        <li class="special-dates-item">
+          <a class="special-dates-link" href="#card/${objCard.sBinaryValue}">
+            <span class="special-dates-date">${sDate}</span>
+            <span class="special-dates-sign">Day 0 of ${objCard.sName} <span class="binary-value">(${objCard.sBinaryValue})</span></span>
+          </a>
+        </li>
+      `
+    })
+    .join('')
+}
+
 const objBirthdayMonth = document.querySelector<HTMLSelectElement>('#birthday-month')!
 const objBirthdayDay = document.querySelector<HTMLSelectElement>('#birthday-day')!
 const objBirthdayResult = document.querySelector<HTMLDivElement>('#birthday-result')!
 const objCompatMonth = document.querySelector<HTMLSelectElement>('#compat-month')!
 const objCompatDay = document.querySelector<HTMLSelectElement>('#compat-day')!
 const objCompatResult = document.querySelector<HTMLDivElement>('#compat-result')!
+const objSpecialDatesList = document.querySelector<HTMLUListElement>('#special-dates-list')!
 
 function vFillMonthSelect(objSelect: HTMLSelectElement): void {
   objSelect.innerHTML = arrMonthNames
@@ -1106,7 +1142,7 @@ function objSignFromMonthDay(nMonth: number, nDay: number): { objCard: tCard; nD
   const nDayOfYear = nDayOfYearFromMonthDay(nMonth, nDay)
   const nSignIndex = nSignIndexFromDayOfYear(nDayOfYear)
   const objCard = arrCards[nSignIndex]!
-  const nDayOfSign = nDayOfYear - nFirstDayOfSign(nSignIndex) + 1
+  const nDayOfSign = nDayOfYear - nFirstDayOfSign(nSignIndex)
   return { objCard, nDayOfSign }
 }
 
@@ -1135,7 +1171,7 @@ function vUpdateCompatibility(): void {
   )
   const sText = sCompatibilityText(objYours.sBinaryValue, objTheirs.sBinaryValue)
   const sTextMarkup = sText
-    ? `<p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>`
+    ? `<p class="reading-text">${sStyledReadingText(sText, arrCardPages, false)}</p>`
     : ''
 
   objCompatResult.innerHTML = `
@@ -1153,6 +1189,7 @@ function vUpdateCompatibility(): void {
 
 vFillMonthSelect(objBirthdayMonth)
 vFillMonthSelect(objCompatMonth)
+objSpecialDatesList.innerHTML = sSpecialDatesMarkup()
 
 const objToday = new Date()
 objBirthdayMonth.value = String(objToday.getMonth() + 1)

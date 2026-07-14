@@ -850,13 +850,15 @@ code {
   line-height: 1.6;
 }
 
-.birthday-compat {
+.birthday-compat,
+.birthday-special {
   margin-top: 2.25rem;
   padding-top: 1.75rem;
   border-top: 1px solid var(--border);
 }
 
-.birthday-compat h3 {
+.birthday-compat h3,
+.birthday-special h3 {
   margin: 0 0 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.9rem;
@@ -864,6 +866,56 @@ code {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gold-bright);
+}
+
+.special-dates-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-width: 36rem;
+}
+
+.special-dates-link {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.4rem 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.special-dates-link:hover,
+.special-dates-link:focus-visible {
+  color: var(--gold-bright);
+  background-color: rgba(139, 77, 255, 0.1);
+}
+
+.special-dates-link:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.special-dates-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+}
+
+.special-dates-link:hover .special-dates-date,
+.special-dates-link:focus-visible .special-dates-date {
+  color: var(--gold-bright);
+}
+
+.special-dates-sign {
+  font-size: 0.9rem;
 }
 
 .birthday-controls-compat {
@@ -1871,6 +1923,11 @@ code {
   .compat-join {
     width: 5rem;
     justify-self: center;
+  }
+
+  .special-dates-link {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
   }
 
   .starmap-charts,

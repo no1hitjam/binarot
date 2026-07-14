@@ -823,10 +823,10 @@ The Link (11) represents connections, promises, and security. The coin lands on 
   '100': {
     '101': {
       AND: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Host (100) represents shelter, ownership, and grace.
+The Host (100) represents shelter, ownership, and grace. The coin lands on AND, keeping only what both cards share. The Fork (101) Represents hunger, resonance, and diverging paths. Result: The Host (100) represents shelter, ownership, and grace.
 `,
       OR: `
-The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Fork (101) represents consumption, resonance, and diverging paths. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+The Host (100) represents shelter, ownership, and grace. The coin lands on OR, gathering everything either card offers. The Fork (101) Represents hunger, resonance, and diverging paths. Result: The Fork (101) Represents hunger, resonance, and diverging paths.
 `,
     },
     '110': {
@@ -913,82 +913,82 @@ The Host (100) represents shelter, ownership, and grace. The coin lands on OR, g
   '101': {
     '110': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Host (100) represents shelter, ownership, and grace.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Host (100) represents shelter, ownership, and grace.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Tree (111) represents fullness, growth, and reach.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Port (110) represents gateways, discovery, and trade. Result: The Tree (111) represents fullness, growth, and reach.
 `,
     },
     '111': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Fork (101) Represents hunger, resonance, and diverging paths.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
 `,
     },
     '1000': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Agent (1000) represents independence, will, and action. Result: The Shell (1101) represents protection, boundaries, and rigidity.
 `,
     },
     '1001': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Flag (1) represents claims, power, and sovereignty.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Flag (1) represents claims, power, and sovereignty.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Table (1001) represents gathering, consumption, and plots. Result: The Shell (1101) represents protection, boundaries, and rigidity.
 `,
     },
     '1010': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The State (1111) represents organization, authority, and politics.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Clone (1010) represents mirrors, reproduction, and equality. Result: The State (1111) represents organization, authority, and politics.
 `,
     },
     '1011': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Flag (1) represents claims, power, and sovereignty.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Flag (1) represents claims, power, and sovereignty.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Cache (1011) represents secrets, knowledge, and wealth. Result: The State (1111) represents organization, authority, and politics.
 `,
     },
     '1100': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Host (100) represents shelter, ownership, and grace.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Host (100) represents shelter, ownership, and grace.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Frame (1100) represents perspective, structure, and state of mind. Result: The Shell (1101) represents protection, boundaries, and rigidity.
 `,
     },
     '1101': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Fork (101) Represents hunger, resonance, and diverging paths.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
 `,
     },
     '1110': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Host (100) represents shelter, ownership, and grace.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Host (100) represents shelter, ownership, and grace.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The Forum (1110) represents nobility, philosophy, and debate. Result: The State (1111) represents organization, authority, and politics.
 `,
     },
     '1111': {
       AND: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Fork (101) Represents hunger, resonance, and diverging paths.
 `,
       OR: `
-The Fork (101) represents consumption, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
+The Fork (101) Represents hunger, resonance, and diverging paths. The coin lands on OR, gathering everything either card offers. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
 `,
     },
   },
@@ -1109,7 +1109,7 @@ The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gat
     },
     '1101': {
       AND: `
-The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Fork (101) represents consumption, resonance, and diverging paths.
+The Tree (111) represents fullness, growth, and reach. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Fork (101) Represents hunger, resonance, and diverging paths.
 `,
       OR: `
 The Tree (111) represents fullness, growth, and reach. The coin lands on OR, gathering everything either card offers. The Shell (1101) represents protection, boundaries, and rigidity. Result: The State (1111) represents organization, authority, and politics.

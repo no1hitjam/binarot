@@ -33,7 +33,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '0',
     sMeaning: 'beginnings, ideas, and origins',
     sDescription:
-      'The Seed is the zero point—the quiet before form. It holds beginnings, unshaped ideas, and the first private spark of intent. In computing terms it is the null origin, the empty register waiting for a write. Drawn alone, it asks you to return to what has not yet been claimed, built, or named.',
+      `
+      The Seed (0) represents pure, unmanifested potential—the quiet space of 0000 before the first switch is flipped. It is the absolute origin where form has not yet restricted function, holding every possible variable and path in perfect suspension. Like a blank canvas or a clean codebase before the first line is written, it is the receptive vacuum from which all complexity eventually flows.
+      <br><br>
+      Those who embody this archetype are the ultimate initiators and conceptualists, highly comfortable with ambiguity and the raw "what if." They excel at sparking the initial vision and generating a flood of ideas at the start of a cycle. Because their strength lies in the realm of pure potential, their primary growth area is maintaining awareness of the transition from concept to execution, ensuring they don't lose interest before their ideas have a chance to take root.
+      `,
     sSign:
       'You are someone who lives near beginnings. Ideas gather around you before they harden into plans, and you often sense the shape of a thing before anyone else names it. Quiet potential is your native weather—you would rather start true than finish loud.',
   },
@@ -42,7 +46,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1',
     sMeaning: 'claims, power, and sovereignty',
     sDescription:
-      'The Flag is the first bit set—a claim planted in open ground. It speaks of power, sovereignty, and the act of declaring that something is yours to stand for. Like a boolean true or a raised signal flag in code, it marks a stance that others must now reckon with.',
+      `
+      The Flag (1)—conceptually grounded in the singular, active state of 0001—represents the moment of assertion, claiming territory, and the establishment of boundaries. It is the first bit flipped, breaking the quiet vacuum of the zero-state to declare: "I am here, and this is defined." This archetype is about taking up space, establishing a clear identity, and laying down the rules of engagement. Like a flag planted in new soil or an declared variable in a program, it brings order, structure, and sovereignty to what was previously unmapped and open.
+      <br><br>
+      Those who embody this archetype are natural leaders, pioneers, and protectors who excel at setting boundaries and defining direction. They are highly principled individuals who carry a strong sense of personal sovereignty and are not afraid to take a stand or declare their intentions to the world. Because their strength lies in assertion and protection, their primary growth area is staying aware of the line between healthy boundary-setting and rigid defensiveness, ensuring that in claiming their space, they remain open to collaboration.
+      `,
     sSign:
       'You are a person who plants a stake and means it. Once you claim a cause, a boundary, or a truth, others feel the air change. Sovereignty sits naturally on you—not as bluster, but as the calm insistence that your position is real and must be answered.',
   },
@@ -51,7 +59,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '10',
     sMeaning: 'summonings, duty, and serendipity',
     sDescription:
-      'The Call arrives from outside the quiet self: a summons, a duty, a chance encounter that redirects the path. It is the function invoked from afar, the interrupt that breaks the idle loop. When it appears, timing matters as much as will—something is asking to be answered.',
+      `
+      The Call (2)—conceptually grounded in the distinct state of 0010—represents the moment of interruption, alignment, and the unexpected knock at the door. It is the sudden signal that disrupts the status quo, demanding attention and shifting one's trajectory. This archetype is about resonance, timing, and the bridge between personal destiny and external necessity. Like a hardware interrupt in a system or a sudden, meaningful coincidence, it forces a pause to receive a message, reminding us that we operate within a larger, interconnected web of purpose.
+      <br><br>
+      Those who embody this archetype are highly responsive, intuitive, and duty-bound individuals who excel at recognizing and answering pivotal moments. They are the ones who notice the quiet signs of change, step up when a crisis calls for a leader, or gracefully pivot their lives when serendipity points them in a new direction. Because their strength lies in their deep sensitivity to external signals and obligations, their primary growth area is maintaining a strong sense of self, ensuring they don't get so caught up in answering every external demand that they neglect their own internal compass.
+      `,
     sSign:
       'You are tuned to interruption and invitation. Duty finds you, chance redirects you, and you answer more often than you refuse. Your life tends to turn on messages from outside yourself—you are less a closed circuit than a line waiting to ring.',
   },
@@ -60,7 +72,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '11',
     sMeaning: 'connections, promises, and security',
     sDescription:
-      'The Link binds two things into one reliable whole. It covers promises, partnerships, and the security that comes from a shared protocol. Think handshake, hyperlink, or trusted connection—the strength of the bond is the point, not either endpoint alone.',
+      `
+      The Link (11)—conceptually grounded in the paired, active state of 0011—represents binding, bridging, and the creation of intellectual and social networks. It is the active synthesis of two distinct points, transforming individual elements or concepts into a shared system. This archetype is about the spark of contact, the exchange of information, and the security that comes from being deeply integrated into a network. Like a high-bandwidth communication channel or a master key, it thrives on making disparate parts talk to one another, finding the common thread that unites them.
+      <br><br>
+      Those who embody this archetype are the ultimate connectors, social catalysts, and curious synthesizers. They are outgoing, highly communicative, and excel at weaving together people, ideas, and systems that might otherwise never meet. They possess a natural talent for rapidly understanding new concepts and translating them for others, serving as the social glue in any group. Because their strength lies in constant movement, curiosity, and building bridges, their primary growth area is cultivating depth alongside breadth, ensuring they don't spread their energy so thin across so many connections that they lose their own grounding.
+      `,
     sSign:
       'You are defined by what you bind together. Promises matter to you, and so does the quiet security of a trusted bond. People come to you to be connected—to each other, to a plan, to a sense that the handshake will hold.',
   },
@@ -69,16 +85,24 @@ const arrCards: tCard[] = [
     sBinaryValue: '100',
     sMeaning: 'shelter, ownership, and grace',
     sDescription:
-      'The Host is shelter and stewardship: the machine that serves, the home that holds, the owner who makes room. It is grace expressed as infrastructure—space offered so others (or your own projects) can live. Ownership here is less conquest than caretaking.',
+      `
+      The Host (100)—conceptually grounded in the foundational state of 0100—represents stewardship, structure, and the creation of space for others. It is the archetype of the vessel, the architecture, and the guardian of the hearth who sets the stage for life to unfold. This archetype is about the responsibilities of ownership and the quiet grace of providing security, warmth, and sanctuary. Like a robust server hosting an application, a physical home, or an open door, it establishes a stable, welcoming environment where others can gather, co-exist, and thrive.
+      <br><br>
+      Those who embody this archetype are natural protectors, facilitators, and system-builders who find deep fulfillment in supporting others. They excel at managing resources, creating order, and offering generous, non-judgmental support that makes people feel safe and valued. Because their strength lies in stewardship and holding space, their primary growth area is maintaining healthy personal boundaries, ensuring they do not overextend their resources or lose their own identity in the process of accommodating everyone else.
+      `,
     sSign:
       'You are a steward by instinct. You make room—physical, emotional, logistical—so that others and their work can land safely. Ownership, for you, looks like caretaking: the grace of keeping the lights on and the door unlocked for the right people.',
   },
   {
     sName: 'The Fork',
     sBinaryValue: '101',
-    sMeaning: 'consumption, resonance, and diverging paths',
+    sMeaning: 'hunger, resonance, and diverging paths',
     sDescription:
-      'The Fork is the branch point—where one line of code, one appetite, or one life splits into many. It speaks of consumption and resonance: taking something in and feeling which path vibrates true. Divergence is not failure here; it is the shape of choice.',
+      `
+      The Fork (101)—conceptually grounded in the active, oscillating state of 0101—represents divergence, deep desire, and the tension of the crossroads. It is the archetype of the split path and the hunger—whether for knowledge, experience, or change—that drives us to choose one direction over another. Rather than static stability, it embodies the energy of resonance, where two possibilities vibrate in opposition, demanding a choice. Like a conditional branch in a program, a fork in the road, or a tuning fork humming with potential, it is the moment where passive existence must transform into an active, definitive direction.
+      <br><br>
+      Those who embody this archetype are highly driven, passionate, and deeply receptive individuals who are constantly attuned to the possibilities around them. They possess a profound hunger for growth and excel at navigating complex transitions, never content to stay stagnant when a new horizon beckons. Because their strength lies in this intense drive and their comfort at the crossroads, their primary growth area is staying aware of the restlessness or decision paralysis that can arise from seeing too many paths, learning to commit to a chosen direction without constantly wondering about the road not taken.
+      `,
     sSign:
       'You are someone who feels the split in the road before it arrives. Appetite and intuition guide you; you taste a path and know whether it resonates. Choice does not frighten you—divergence is how your life stays honest.',
   },
@@ -87,7 +111,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '110',
     sMeaning: 'gateways, discovery, and trade',
     sDescription:
-      'The Port is a threshold between waters and land, between systems and strangers. It governs gateways, discovery, and exchange—the open socket where traffic arrives. trade in this deck means trade of ideas and goods alike: what crosses the threshold changes both sides.',
+      `
+      The Port (110)—conceptually grounded in the active, transitionary state of 0110—represents the interface, the gateway, and the marketplace of exchange. It is the designated point where the internal meets the external, serving as a protective yet open threshold where the foreign becomes familiar. This archetype is about discovery, the flow of new ideas, and the mutual enrichment of trade. Like an input/output port in a system, a bustling harbor, or a welcoming customs house, it regulates the boundary where different worlds meet, deciding what to let in and what to send out into the world.
+      <br><br>  
+      Those who embody this archetype are natural facilitators, adventurers, and cultural translators who thrive at the intersection of different worlds. They are highly curious, open-minded, and excel at negotiating exchanges, introducing new ideas, and turning unfamiliar situations into valuable opportunities. Because their strength lies in managing these busy, open thresholds, their primary growth area is maintaining a clear sense of their own core identity, ensuring they don't lose their grounding or let their personal boundaries become compromised in the constant flux of incoming and outgoing energy.
+      `,
     sSign:
       'You live at thresholds. Strangers, ideas, and goods pass through your life and leave both sides altered. Discovery suits you; so does exchange. You are less a sealed room than an open harbor where traffic is welcome and meaning is traded.',
   },
@@ -96,7 +124,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '111',
     sMeaning: 'fullness, growth, and reach',
     sDescription:
-      'The Tree is fullness realized—roots deep, canopy wide, every bit set in its low nibble. It means growth that has become structure, reach that casts shade. Hierarchy and organic sprawl live together here: a living directory of what has been allowed to flourish.',
+      `
+      The Tree (111)—conceptually grounded in the fully active, triple-one state of 0111—represents vitality, abundance, and expansive maturation. It is the archetype of organic development, where roots run deep into established foundations while branches reach outward and upward to claim the sky. This archetype is about taking up space in a healthy, generative way, transforming resources into sustainable growth, and providing shelter and fruit to the surrounding ecosystem. Like a fully compiled, running application, a mature oak, or a thriving community, it embodies the realization of potential through steady, structured expansion.
+      <br><br>
+      Those who embody this archetype are grounded, resilient, and deeply generative individuals who naturally foster growth in themselves and those around them. They possess a remarkable capacity for endurance and excel at taking long-term visions and nurturing them into robust, sprawling realities. Because their strength lies in their massive capacity for growth and reach, their primary growth area is staying aware of the physical and energetic limits of their expansion, ensuring they do not overextend their branches to the point of breaking or neglect the quiet root-work that keeps them anchored.
+      `,
     sSign:
       'You are someone whose growth has become structure. Roots and reach both matter to you; you want depth and canopy at once. People find shade in what you have built—and you take quiet pride in how much has been allowed to flourish under your care.',
   },
@@ -105,7 +137,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1000',
     sMeaning: 'independence, will, and action',
     sDescription:
-      'The Agent acts on its own recognizance. Independence, will, and decisive motion define it—the process that runs without waiting for permission. It is autonomy made visible: a worker thread with intent, a person who moves because they chose to.',
+      `
+      The Agent (1000)—conceptually grounded in the stark, pioneering state of 1000—represents raw agency, self-determination, and the force of individual will. It is the archetype of the self-starting actor, breaking away from collective systems or passive waiting to take direct, decisive action. This archetype is about autonomy, personal responsibility, and the courage to operate independently of external validation or permission. Like an autonomous program execution thread, a lone explorer, or a self-directed force, it is the active spark that translates intent into immediate, tangible reality.
+      <br><br>
+      Those who embody this archetype are highly independent, self-motivated, and action-oriented individuals who excel when given the freedom to pave their own way. They are natural self-starters who don't wait for instructions, possessing a strong inner drive and the determination to overcome obstacles through sheer willpower. Because their strength lies in their fierce self-reliance and bias for action, their primary growth area is staying aware of the value of collaboration, ensuring they don't isolate themselves or run ahead so fast that they leave behind the very networks and communities that could support them.
+      `,
     sSign:
       'You move because you chose to. Independence is not a pose for you—it is how decisions get made. Waiting for permission rarely suits you; will and action arrive together, and the world learns your shape by watching what you do next.',
   },
@@ -114,7 +150,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1001',
     sMeaning: 'gathering, consumption, and plots',
     sDescription:
-      'The Table is where parties assemble—consumption, councils, quiet plots over shared surface. In data it is the schema that holds many rows; in life it is the room where plans become collective. What is spoken here can reorder the kingdom.',
+      `
+      The Table (1001)—conceptually grounded in the structured, containing state of 1001—represents the locus of convergence, shared resources, and strategic alignment. It is the archetype of the platform where disparate parties pull up a chair to feast, negotiate, or conspire. This archetype is about the intersection of social gathering, the energy of consumption (taking in ideas, power, or sustenance), and the formulation of structured plans or hidden agendas. Like a dining table, a corporate boardroom, or a database index, it is the surface upon which raw elements are brought together to be digested, analyzed, and synthesized into collective action.
+      <br><br>
+      Those who embody this archetype are master coordinators, strategists, and gatherers who thrive on bringing people together for a purpose. They excel at orchestrating behind-the-scenes dynamics, facilitating important discussions, and aligning diverse interests over shared experiences or resources. They are highly perceptive planners who understand how to digest complex situations and map out the next moves. Because their strength lies in strategic gathering and consumption, their primary growth area is staying aware of the line between constructive planning and exclusive plotting, ensuring their tables remain spaces of genuine collaboration rather than transactional politics.
+      `,
     sSign:
       'You are at your sharpest when people gather. Meals, councils, and quiet plots over a shared surface are your element. Plans become real when spoken in your company—and what is said at your table has a way of rearranging the room.',
   },
@@ -123,7 +163,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1010',
     sMeaning: 'mirrors, reproduction, and equality',
     sDescription:
-      'The Clone multiplies a pattern until reflection becomes environment. Mirrors, copies, and equality live here—the duplicate that asks whether sameness is comfort or erasure. In code it is the deep copy; in spirit it is the question of what deserves to be repeated.',
+      `
+      The Clone (1010)—conceptually grounded in the alternating, repeating pattern of 1010—represents symmetry, replication, and the pursuit of fundamental balance. It is the archetype of the mirror, reflecting reality back to itself, and the process of reproduction that ensures continuity and scale. This archetype is about finding resonance through similarity, establishing equal footing, and recognizing oneself in the external world. Like a clean class instantiator, a genetic duplicate, or a perfectly balanced scale, it seeks to eliminate disparity and highlight the universal patterns that connect us all as equals.
+      <br><br>
+      Those who embody this archetype are highly empathetic, observant, and fair-minded individuals who excel at mediation, replication, and scaling ideas. They have a rare gift for truly seeing others, acting as a clear mirror that helps people understand themselves, and they are passionate advocates for equity and shared human experience. Because their strength lies in reflection, harmony, and replication, their primary growth area is cultivating their own distinct, singular identity, ensuring they don't get so caught up in mirroring others or reproducing existing models that they lose touch with their own unique voice.
+      `,
     sSign:
       'You see patterns everywhere and know what deserves to be repeated. Mirrors and likenesses fascinate you; equality is both comfort and question. You multiply what works—and you notice when sameness starts to erase the original spark.',
   },
@@ -132,7 +176,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1011',
     sMeaning: 'secrets, knowledge, and wealth',
     sDescription:
-      'The Cache stores what was costly to obtain: secrets, hard-won knowledge, quiet wealth. It is the hidden buffer close to the throne of attention—fast to retrieve for those who know the key, invisible to those who do not. Hoard wisely; stale treasure misleads.',
+      `
+      The Cache (1011)—conceptually grounded in the dense, high-value state of 1011—represents preservation, deep reserves, and the storage of power. It is the archetype of the vault, the archive, and the hidden wellspring of wealth—whether that wealth is measured in gold, data, or esoteric truths. This archetype is about keeping things safe, recognizing the power of delayed gratification, and understanding that information or resources held in reserve can change the course of events when deployed at the exact right moment. Like a high-speed memory cache, a hidden vault, or a locked library, it is a secure space where value is concentrated and protected from the wear and tear of the outside world.
+      <br><br>  
+      Those who embody this archetype are highly analytical, observant, and self-reliant individuals who serve as natural guardians of valuable resources and hidden truths. They possess a deep thirst for knowledge and excel at collecting, organizing, and retaining complex information or assets that others might overlook. They are quiet strategists who understand the leverage of keeping their cards close to their chest. Because their strength lies in preservation and deep reserve, their primary growth area is staying aware of when to open the vault, ensuring they do not let their desire for security turn into hoarding, or their love of secrets isolate them from meaningful exchange.
+      `,
     sSign:
       'You keep what was costly to learn. Secrets, craft, and quiet reserves live close to your attention—available to those who earn the key, invisible to those who do not. You hoard wisely, and you know that stale treasure can mislead as easily as it can save.',
   },
@@ -141,7 +189,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1100',
     sMeaning: 'perspective, structure, and state of mind',
     sDescription:
-      'The Frame is the viewport through which reality is rendered. Perspective, mental structure, and state of mind are its domain—the window object, the aspect ratio of belief. Change the frame and the same scene becomes another story.',
+      `
+      The Frame (1100)—conceptually grounded in the structured, boundary-setting state of 1100—represents the filters of perception, structural architecture, and the mental models that shape our reality. It is the archetype of context, determining not just what we see, but how we see and interpret it. This archetype is about defining boundaries, establishing systemic rules, and understanding that the way a problem is structured dictates its solutions. Like a viewport in a graphics engine, a architectural frame, or a cognitive paradigm, it provides the vital perimeter and structural support that gives raw content its meaning and stability.
+      <br><br>
+      Those who embody this archetype are highly analytical, self-aware, and structural thinkers who excel at analyzing situations from multiple angles. They possess a keen understanding of psychology and systems, allowing them to step back and consciously adjust their perspective when faced with a challenge. They are excellent at organizing chaos, defining scopes, and helping others see the bigger picture by reframing their experiences. Because their strength lies in defining structures and managing states of mind, their primary growth area is staying aware of when a frame has become too rigid, ensuring their mental models adapt to new data rather than trying to force reality to fit their predetermined boundaries.
+      `,
     sSign:
       'You understand that the story changes with the window. Perspective is your craft; state of mind is something you notice and adjust. Where others see a fixed scene, you see a frame that can be shifted—and with it, a different truth.',
   },
@@ -150,7 +202,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1101',
     sMeaning: 'protection, boundaries, and rigidity',
     sDescription:
-      'The Shell is armor and interface: protection, boundaries, and the rigidity that keeps chaos out. It is the command shell around a vulnerable kernel, the exoskeleton that can either preserve life or lock it in. Hard edges have a cost and a purpose.',
+      `
+      The Shell (1101)—conceptually grounded in the dense, protective state of 1101—represents armor, hard boundaries, and structural defense. It is the archetype of the perimeter, designed to shield a vulnerable interior from the chaotic and potentially damaging forces of the external environment. This archetype is about self-preservation, the establishment of absolute limits, and the creation of a safe harbor where internal processes can run without interference. Like a command-line interface guarding an operating system's kernel, a physical exoskeleton, or an emotional firewall, it provides the uncompromising barrier necessary to survive hostile conditions.
+      <br><br>
+      Those who embody this archetype are incredibly resilient, reliable, and protective individuals who excel at managing risk and maintaining stability under pressure. They are the bedrock of their communities or projects, serving as a dependable shield for those who are more vulnerable and standing firm when things get chaotic. Because their strength lies in defense and holding the line, their primary growth area is staying aware of when their protective armor has hardened into counterproductive rigidity, ensuring they don't lock themselves away so tightly that they prevent growth, connection, or necessary change from reaching them.
+      `,
     sSign:
       'You know the worth of a hard edge. Boundaries protect what is soft in you, and rigidity is a tool you use on purpose. Others may call you closed; you call it interface—armor that lets the kernel keep running without every storm getting in.',
   },
@@ -159,7 +215,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1110',
     sMeaning: 'nobility, philosophy, and debate',
     sDescription:
-      'The Forum is the public square of thought—nobility of mind, philosophy, and open debate. Ideas contend here under rules of speech rather than force. It is the message board of the realm: status is earned in argument, not only in title.',
+      `
+      The Forum (1110)—conceptually grounded in the high-level, structured, and expansive state of 1110—represents the elevation of raw conflict into intellectual exchange, civic duty, and the pursuit of truth. It is the archetype of the public square, the high court, and the academic assembly. This archetype is about the pursuit of noble ideals, the testing of concepts through rigorous dialectic, and the belief that through respectful debate, a community can discover the best path forward. Like an open-source consensus protocol, a philosophical symposium, or a legislative chamber, it provides the structured platform where ideas are weighed, challenged, and refined.
+      <br><br>
+      Those who embody this archetype are principled, articulate, and civic-minded individuals who thrive on intellectual challenge and the exchange of perspectives. They possess a deep love of wisdom, a strong sense of justice, and a natural ability to elevate conversations above petty grievances to focus on core principles and systemic truths. Because their strength lies in their high ideals and love of debate, their primary growth area is staying aware of when intellectualizing becomes a barrier to practical action, ensuring they do not get so lost in the elegance of theory and discourse that they lose touch with the immediate, human realities on the ground.
+      `,
     sSign:
       'You thrive where ideas contend under fair rules. Philosophy and debate are not sport alone for you—they are how dignity is earned. You prefer the public square of thought to silent hierarchy, and status means more when it survives an argument.',
   },
@@ -168,7 +228,11 @@ const arrCards: tCard[] = [
     sBinaryValue: '1111',
     sMeaning: 'organization, authority, and politics',
     sDescription:
-      'The State is the full register—organization, authority, and politics machine that coordinates the many. Every bit lit, it is governance as system: laws, institutions, and the weight of collective order. Power here is structural, not merely personal.',
+      `
+      The State (1111)—conceptually grounded in the fully active, maximum capacity state of 1111—represents systemic organization, centralized authority, and the intricate machinery of governance. It is the archetype of the fully realized, complex system where all switches are flipped to "on," representing the peak of structure, law, and collective resource management. This archetype is about maintaining order on a grand scale, balancing competing interests through political compromise, and creating the sweeping frameworks that allow societies or massive infrastructures to function predictably. Like a complete, running operating system kernel, a central government, or an established corporate structure, it brings absolute definition and systemic control to the collective.
+      <br><br>
+      Those who embody this archetype are master organizers, administrators, and political strategists who possess a rare talent for managing large-scale complexity. They are highly systematic, pragmatic, and excel at building, maintaining, and navigating institutional structures to achieve collective goals. They understand how to delegate power, balance budgets, and enforce rules to keep chaos at bay. Because their strength lies in systemic control and institutional maintenance, their primary growth area is staying aware of the creeping weight of bureaucracy and inertia, ensuring they don't value the preservation of the system's power over the actual well-being of the individuals it was built to serve.
+      `,
     sSign:
       'You see the system under the personalities. Organization and collective order come naturally; you think in institutions, rules, and the weight that holds many people together. Power, for you, is structural—less about the spotlight than about how the whole machine runs.',
   },

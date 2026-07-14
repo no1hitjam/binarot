@@ -72,7 +72,6 @@ body {
 
 .site-header {
   padding: 1.75rem 1.5rem 1.5rem;
-  border-bottom: 1px solid var(--border);
   text-align: center;
   background:
     linear-gradient(180deg, rgba(139, 77, 255, 0.08) 0%, transparent 100%),
@@ -103,35 +102,16 @@ body {
 
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 0;
   padding: 0;
   border-bottom: 1px solid var(--border);
   background-color: var(--void);
-  overflow-x: auto;
-  scrollbar-width: auto;
-  scrollbar-color: var(--gold-dim) var(--void);
-}
-
-.tabs::-webkit-scrollbar {
-  height: 12px;
-}
-
-.tabs::-webkit-scrollbar-track {
-  background: var(--void);
-  border-top: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
-}
-
-.tabs::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--gold-dim) 85%, var(--purple-dim));
-  border-radius: 0;
-}
-
-.tabs::-webkit-scrollbar-thumb:hover {
-  background: var(--gold);
 }
 
 .tab-button {
   border: none;
+  border-top: 1px solid var(--border);
   border-right: 1px solid var(--border);
   border-radius: 0;
   background-color: transparent;

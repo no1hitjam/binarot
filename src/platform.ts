@@ -4,6 +4,7 @@ const nMoveMax = 260
 const nFriction = 1800
 const nJumpSpeed = 620
 const nDoubleJumpSpeed = 560
+const nBounceSpeed = 820
 const nCoyoteMs = 90
 const nJumpBufferMs = 100
 const nPlayerW = 22
@@ -11,12 +12,27 @@ const nPlayerH = 30
 const nTile = 28
 const nCameraLerp = 8
 const nDeathFallY = 900
+const nSpawnX = 48
+const nSpawnY = 360
+const nStageLen = 1700
+const nGenAhead = 900
+const nCullBehind = 500
+const nPlatYMin = 160
+const nPlatYMax = 440
+const nGoalW = 48
+const nGoalH = 80
+const nStageFlashMs = 1200
+const arrGlyphs = ['0', '1', '10', '11', '&', '|', '^']
 
 type tRect = {
   nX: number
   nY: number
   nW: number
   nH: number
+}
+
+type tSolid = tRect & {
+  bBounce: boolean
 }
 
 type tCoin = tRect & {
@@ -36,30 +52,6 @@ type tPlayer = {
   bFacingRight: boolean
 }
 
-const arrSolid: tRect[] = [
-  { nX: 0, nY: 420, nW: 280, nH: nTile },
-  { nX: 320, nY: 380, nW: 120, nH: nTile },
-  { nX: 480, nY: 340, nW: 100, nH: nTile },
-  { nX: 620, nY: 300, nW: 140, nH: nTile },
-  { nX: 800, nY: 360, nW: 90, nH: nTile },
-  { nX: 920, nY: 300, nW: 110, nH: nTile },
-  { nX: 1080, nY: 250, nW: 160, nH: nTile },
-  { nX: 1280, nY: 320, nW: 100, nH: nTile },
-  { nX: 1420, nY: 280, nW: 200, nH: nTile },
-  { nX: 1680, nY: 340, nW: 120, nH: nTile },
-  { nX: 1840, nY: 280, nW: 260, nH: nTile },
-  { nX: 160, nY: 300, nW: 70, nH: nTile },
-  { nX: 40, nY: 220, nW: 90, nH: nTile },
-  { nX: 700, nY: 200, nW: 80, nH: nTile },
-  { nX: 1500, nY: 180, nW: 90, nH: nTile },
-]
-
-const objGoal: tRect = { nX: 1980, nY: 200, nW: 48, nH: 80 }
-
-const nSpawnX = 48
-const nSpawnY = 360
-const nWorldW = 2200
-
 let objRoot: HTMLElement | null = null
 let objCanvas: HTMLCanvasElement | null = null
 let objCtx: CanvasRenderingContext2D | null = null
@@ -70,11 +62,19 @@ let nDpr = 1
 let nLastTs = 0
 let nCamX = 0
 let nCoinsTaken = 0
-let nCoinsTotal = 0
-let bWon = false
-let nWinFlash = 0
+let nStage = 1
+let nBestStage = 1
+let nStageFlash = 0
 let bJumpDown = false
+let nSeed = 1
+let nGenCursor = 0
+let nLastPlatRight = 0
+let nLastPlatY = 420
+let nNextGateX = nStageLen
+let nCoinGlyph = 0
+let arrSolid: tSolid[] = []
 let arrCoins: tCoin[] = []
+let objGoal: tRect = { nX: 0, nY: 0, nW: nGoalW, nH: nGoalH }
 let objPlayer: tPlayer = objNewPlayer()
 
 const setKeys = new Set<string>()
@@ -93,34 +93,114 @@ function objNewPlayer(): tPlayer {
   }
 }
 
-function arrBuildCoins(): tCoin[] {
-  const arrGlyphs = ['0', '1', '10', '11', '&', '|', '^']
-  const arrSpot: Array<{ nX: number; nY: number }> = [
-    { nX: 180, nY: 380 },
-    { nX: 190, nY: 260 },
-    { nX: 70, nY: 180 },
-    { nX: 360, nY: 340 },
-    { nX: 510, nY: 300 },
-    { nX: 660, nY: 260 },
-    { nX: 720, nY: 160 },
-    { nX: 830, nY: 320 },
-    { nX: 960, nY: 260 },
-    { nX: 1140, nY: 210 },
-    { nX: 1320, nY: 280 },
-    { nX: 1520, nY: 140 },
-    { nX: 1550, nY: 240 },
-    { nX: 1720, nY: 300 },
-    { nX: 1900, nY: 240 },
-  ]
+function nRand(): number {
+  nSeed = (nSeed + 0x6d2b79f5) | 0
+  let nT = Math.imul(nSeed ^ (nSeed >>> 15), 1 | nSeed)
+  nT = (nT + Math.imul(nT ^ (nT >>> 7), 61 | nT)) ^ nT
+  return ((nT ^ (nT >>> 14)) >>> 0) / 4294967296
+}
 
-  return arrSpot.map((objSpot, nI) => ({
-    nX: objSpot.nX,
-    nY: objSpot.nY,
+function nRandRange(nMin: number, nMax: number): number {
+  return nMin + (nMax - nMin) * nRand()
+}
+
+function nClamp(nV: number, nMin: number, nMax: number): number {
+  return Math.max(nMin, Math.min(nMax, nV))
+}
+
+function nDifficulty(): number {
+  return Math.min(1, (nStage - 1) * 0.08)
+}
+
+function vPlaceGoal(nPlatX: number, nPlatY: number, nPlatW: number): void {
+  objGoal.nX = nPlatX + Math.max(8, nPlatW - nGoalW - 12)
+  objGoal.nY = nPlatY - nGoalH
+}
+
+function vPushCoin(nX: number, nY: number): void {
+  arrCoins.push({
+    nX,
+    nY,
     nW: 16,
     nH: 16,
-    sGlyph: arrGlyphs[nI % arrGlyphs.length]!,
+    sGlyph: arrGlyphs[nCoinGlyph % arrGlyphs.length]!,
     bTaken: false,
-  }))
+  })
+  nCoinGlyph += 1
+}
+
+function vPushPlatform(nX: number, nY: number, nW: number, bWithCoin: boolean, bBounce: boolean): void {
+  const bWillGate = nX + nW >= nNextGateX && objGoal.nY < -900
+  arrSolid.push({ nX, nY, nW, nH: nTile, bBounce: bBounce && !bWillGate })
+  nLastPlatRight = nX + nW
+  nLastPlatY = nY
+  nGenCursor = Math.max(nGenCursor, nLastPlatRight)
+
+  if (bWithCoin) {
+    vPushCoin(nX + nW * 0.5 - 8, nY - 36)
+  }
+
+  if (bWillGate) {
+    vPlaceGoal(nX, nY, nW)
+  }
+}
+
+function vGenChunk(): void {
+  const nDiff = nDifficulty()
+  const nGapMin = 70 + nDiff * 50
+  const nGapMax = 110 + nDiff * 70
+  const nWMin = Math.max(56, 120 - nDiff * 40)
+  const nWMax = Math.max(nWMin + 20, 180 - nDiff * 30)
+  const nDyMax = 36 + nDiff * 55
+
+  const nGap = nRandRange(nGapMin, nGapMax)
+  const nW = nRandRange(nWMin, nWMax)
+  const nDy = nRandRange(-nDyMax, nDyMax)
+  const nY = nClamp(nLastPlatY + nDy, nPlatYMin, nPlatYMax)
+  const nX = nLastPlatRight + nGap
+  const bBounce = nRand() > 0.82
+  vPushPlatform(nX, nY, nW, !bBounce && nRand() > 0.28, bBounce)
+
+  if (nRand() > 0.62) {
+    const nSideY = nClamp(nY - nRandRange(70, 110), nPlatYMin, nPlatYMax - 40)
+    const nSideW = nRandRange(48, 78)
+    const nSideX = nX + nRandRange(0, Math.max(0, nW - nSideW))
+    const bSideBounce = nRand() > 0.7
+    arrSolid.push({ nX: nSideX, nY: nSideY, nW: nSideW, nH: nTile, bBounce: bSideBounce })
+    if (!bSideBounce && nRand() > 0.35) {
+      vPushCoin(nSideX + nSideW * 0.5 - 8, nSideY - 36)
+    }
+  }
+}
+
+function vEnsureWorld(nNeedX: number): void {
+  while (nGenCursor < nNeedX) {
+    vGenChunk()
+  }
+}
+
+function vCullBehind(nCutX: number): void {
+  arrSolid = arrSolid.filter((objSolid) => objSolid.nX + objSolid.nW > nCutX)
+  arrCoins = arrCoins.filter((objCoin) => !objCoin.bTaken && objCoin.nX + objCoin.nW > nCutX)
+}
+
+function vBootstrapWorld(): void {
+  arrSolid = []
+  arrCoins = []
+  nSeed = (Date.now() ^ (Math.random() * 0x7fffffff)) | 1
+  nCoinGlyph = 0
+  nGenCursor = 0
+  nLastPlatRight = 0
+  nLastPlatY = 420
+  nNextGateX = nStageLen
+  objGoal = { nX: 0, nY: -9999, nW: nGoalW, nH: nGoalH }
+  vPushPlatform(0, 420, 280, false, false)
+  arrSolid.push({ nX: 160, nY: 300, nW: 70, nH: nTile, bBounce: false })
+  arrSolid.push({ nX: 40, nY: 220, nW: 90, nH: nTile, bBounce: false })
+  vPushCoin(185, 264)
+  vPushCoin(73, 184)
+  vPushPlatform(360, 380, 72, false, true)
+  vEnsureWorld(nStageLen + nGenAhead)
 }
 
 function bOverlap(objA: tRect, objB: tRect): boolean {
@@ -157,13 +237,12 @@ function bJumpPressed(): boolean {
 
 function vResetLevel(): void {
   objPlayer = objNewPlayer()
-  arrCoins = arrBuildCoins()
-  nCoinsTotal = arrCoins.length
   nCoinsTaken = 0
-  bWon = false
-  nWinFlash = 0
+  nStage = 1
+  nStageFlash = 0
   nCamX = 0
   bJumpDown = false
+  vBootstrapWorld()
   vSyncHud()
 }
 
@@ -172,12 +251,20 @@ function vSyncHud(): void {
     return
   }
 
-  if (bWon) {
-    objHud.textContent = `cleared · ${nCoinsTaken}/${nCoinsTotal} bits · r to retry`
-    return
-  }
+  objHud.textContent = `stage ${nStage} · ${nCoinsTaken} bits · best ${nBestStage} · space jump×2`
+}
 
-  objHud.textContent = `${nCoinsTaken}/${nCoinsTotal} bits · arrows/wasd · space jump×2`
+function vClearStage(): void {
+  nStage += 1
+  if (nStage > nBestStage) {
+    nBestStage = nStage
+  }
+  nStageFlash = nStageFlashMs
+  objGoal.nY = -9999
+  nNextGateX =
+    Math.max(nGenCursor, objPlayer.nX + 400) + nStageLen + Math.floor(nRandRange(0, 200))
+  vEnsureWorld(nNextGateX + nGenAhead)
+  vSyncHud()
 }
 
 function vTryJump(): void {
@@ -217,10 +304,18 @@ function vResolveSolid(nPrevY: number): void {
     if (nMinY < nMinX) {
       if (nOverlapT < nOverlapB && nPrevY + nPlayerH <= objSolid.nY + 1) {
         objPlayer.nY = objSolid.nY - nPlayerH
-        objPlayer.nVy = 0
-        objPlayer.bOnGround = true
-        objPlayer.nCoyoteLeft = nCoyoteMs
-        objPlayer.bDoubleJumpReady = true
+        if (objSolid.bBounce) {
+          objPlayer.nVy = -nBounceSpeed
+          objPlayer.bOnGround = false
+          objPlayer.nCoyoteLeft = 0
+          objPlayer.nJumpBuffer = 0
+          objPlayer.bDoubleJumpReady = true
+        } else {
+          objPlayer.nVy = 0
+          objPlayer.bOnGround = true
+          objPlayer.nCoyoteLeft = nCoyoteMs
+          objPlayer.bDoubleJumpReady = true
+        }
       } else if (nOverlapB <= nOverlapT && nPrevY >= objSolid.nY + objSolid.nH - 1) {
         objPlayer.nY = objSolid.nY + objSolid.nH
         if (objPlayer.nVy < 0) {
@@ -242,9 +337,8 @@ function vResolveSolid(nPrevY: number): void {
 }
 
 function vUpdatePhysics(nDt: number): void {
-  if (bWon) {
-    nWinFlash += nDt
-    return
+  if (nStageFlash > 0) {
+    nStageFlash = Math.max(0, nStageFlash - nDt * 1000)
   }
 
   const nDir = nMoveInput()
@@ -294,6 +388,9 @@ function vUpdatePhysics(nDt: number): void {
     objPlayer.nVx = 0
   }
 
+  vEnsureWorld(objPlayer.nX + nGenAhead)
+  vCullBehind(nCamX - nCullBehind)
+
   for (const objCoin of arrCoins) {
     if (objCoin.bTaken) {
       continue
@@ -305,9 +402,8 @@ function vUpdatePhysics(nDt: number): void {
     }
   }
 
-  if (bOverlap(objPlayerRect(), objGoal)) {
-    bWon = true
-    vSyncHud()
+  if (objGoal.nY > -900 && bOverlap(objPlayerRect(), objGoal)) {
+    vClearStage()
   }
 
   if (objPlayer.nY > nDeathFallY) {
@@ -317,8 +413,7 @@ function vUpdatePhysics(nDt: number): void {
 
 function vUpdateCamera(nDt: number, nViewW: number): void {
   const nTarget = objPlayer.nX + nPlayerW * 0.5 - nViewW * 0.38
-  const nMax = Math.max(0, nWorldW - nViewW)
-  const nClamped = Math.max(0, Math.min(nMax, nTarget))
+  const nClamped = Math.max(0, nTarget)
   const nT = 1 - Math.exp(-nCameraLerp * nDt)
   nCamX += (nClamped - nCamX) * nT
 }
@@ -337,8 +432,10 @@ function vDrawBg(nW: number, nH: number): void {
 
   objCtx.save()
   objCtx.translate(-nCamX * 0.25, 0)
-  for (let nI = 0; nI < 18; nI++) {
-    const nSx = (nI * 137) % (nWorldW + 200)
+  const nParallaxSpan = nW * 4 + 400
+  const nBase = Math.floor((nCamX * 0.25) / nParallaxSpan) * nParallaxSpan
+  for (let nI = 0; nI < 24; nI++) {
+    const nSx = nBase + ((nI * 137) % nParallaxSpan)
     const nSy = 40 + ((nI * 53) % 120)
     const nR = 1 + (nI % 3)
     objCtx.fillStyle = nI % 4 === 0 ? 'rgba(224, 184, 58, 0.35)' : 'rgba(139, 77, 255, 0.28)'
@@ -349,14 +446,36 @@ function vDrawBg(nW: number, nH: number): void {
   objCtx.restore()
 }
 
-function vDrawPlatforms(): void {
+function vDrawPlatforms(nTs: number): void {
   if (!objCtx) {
     return
   }
 
   for (const objSolid of arrSolid) {
     const nX = objSolid.nX - nCamX
+    if (nX + objSolid.nW < -40 || nX > 2000) {
+      continue
+    }
     const nY = objSolid.nY
+
+    if (objSolid.bBounce) {
+      const nPulse = 0.55 + 0.45 * Math.sin(nTs * 0.008 + objSolid.nX * 0.03)
+      objCtx.fillStyle = '#5a4010'
+      objCtx.fillRect(nX, nY, objSolid.nW, objSolid.nH)
+      objCtx.fillStyle = `rgba(255, 214, 90, ${0.55 + 0.35 * nPulse})`
+      objCtx.fillRect(nX + 1, nY + 1, objSolid.nW - 2, objSolid.nH - 2)
+      objCtx.fillStyle = '#ffe08a'
+      objCtx.fillRect(nX, nY, objSolid.nW, 4)
+      objCtx.strokeStyle = `rgba(255, 232, 150, ${0.65 + 0.35 * nPulse})`
+      objCtx.lineWidth = 1.5
+      objCtx.strokeRect(nX + 0.5, nY + 0.5, objSolid.nW - 1, objSolid.nH - 1)
+      objCtx.fillStyle = 'rgba(90, 64, 16, 0.35)'
+      for (let nPx = 10; nPx < objSolid.nW - 6; nPx += 14) {
+        objCtx.fillRect(nX + nPx, nY + 12, 3, 3)
+      }
+      continue
+    }
+
     objCtx.fillStyle = '#120a1c'
     objCtx.fillRect(nX, nY, objSolid.nW, objSolid.nH)
     objCtx.fillStyle = 'rgba(139, 77, 255, 0.22)'
@@ -388,6 +507,9 @@ function vDrawCoins(nTs: number): void {
 
     const nBob = Math.sin(nTs * 0.004 + objCoin.nX * 0.02) * 3
     const nX = objCoin.nX - nCamX + objCoin.nW * 0.5
+    if (nX < -40 || nX > 2000) {
+      continue
+    }
     const nY = objCoin.nY + objCoin.nH * 0.5 + nBob
 
     objCtx.fillStyle = 'rgba(224, 184, 58, 0.18)'
@@ -404,11 +526,14 @@ function vDrawCoins(nTs: number): void {
 }
 
 function vDrawGoal(nTs: number): void {
-  if (!objCtx) {
+  if (!objCtx || objGoal.nY < -900) {
     return
   }
 
   const nX = objGoal.nX - nCamX
+  if (nX + objGoal.nW < -40 || nX > 2000) {
+    return
+  }
   const nY = objGoal.nY
   const nPulse = 0.55 + 0.45 * Math.sin(nTs * 0.005)
 
@@ -444,22 +569,22 @@ function vDrawPlayer(): void {
   objCtx.fillRect(nX + 4, nY + nPlayerH - 8, nPlayerW - 8, 3)
 }
 
-function vDrawWin(nW: number, nH: number): void {
-  if (!objCtx || !bWon) {
+function vDrawStageFlash(nW: number, nH: number): void {
+  if (!objCtx || nStageFlash <= 0) {
     return
   }
 
-  const nAlpha = Math.min(0.72, nWinFlash * 1.2)
+  const nAlpha = Math.min(0.55, (nStageFlash / nStageFlashMs) * 0.7)
   objCtx.fillStyle = `rgba(5, 3, 8, ${nAlpha})`
   objCtx.fillRect(0, 0, nW, nH)
   objCtx.font = '700 22px "IBM Plex Mono", Consolas, Monaco, monospace'
   objCtx.fillStyle = '#ffe08a'
   objCtx.textAlign = 'center'
   objCtx.textBaseline = 'middle'
-  objCtx.fillText('REGISTER FULL', nW * 0.5, nH * 0.42)
+  objCtx.fillText(`STAGE ${nStage}`, nW * 0.5, nH * 0.42)
   objCtx.font = '13px "IBM Plex Mono", Consolas, Monaco, monospace'
   objCtx.fillStyle = '#9a8fb0'
-  objCtx.fillText(`${nCoinsTaken}/${nCoinsTotal} bits · press R`, nW * 0.5, nH * 0.52)
+  objCtx.fillText('keep running', nW * 0.5, nH * 0.52)
 }
 
 function vDrawFrame(nTs: number): void {
@@ -477,11 +602,11 @@ function vDrawFrame(nTs: number): void {
   vUpdateCamera(nDt, nW)
 
   vDrawBg(nW, nH)
-  vDrawPlatforms()
+  vDrawPlatforms(nTs)
   vDrawCoins(nTs)
   vDrawGoal(nTs)
   vDrawPlayer()
-  vDrawWin(nW, nH)
+  vDrawStageFlash(nW, nH)
 
   nAnimFrame = window.requestAnimationFrame(vDrawFrame)
 }
@@ -559,10 +684,10 @@ function vStop(): void {
 
 export function sPlatformMarkup(): string {
   return `
-    <div class="platform" id="platform" tabindex="0" aria-label="Platform game. Arrow keys or WASD to move, space to jump, jump again in air for a double jump.">
+    <div class="platform" id="platform" tabindex="0" aria-label="Endless platform game. Arrow keys or WASD to move, space to jump, jump again in air for a double jump. Reach 1111 gates to clear stages.">
       <canvas class="platform-canvas" id="platform-canvas" aria-hidden="true"></canvas>
-      <p class="platform-hud" id="platform-hud">0/0 bits</p>
-      <p class="platform-caption">side scroller · collect the bits</p>
+      <p class="platform-hud" id="platform-hud">stage 1 · 0 bits</p>
+      <p class="platform-caption">endless stages · collect the bits</p>
     </div>
   `
 }

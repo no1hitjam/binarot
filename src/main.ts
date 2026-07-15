@@ -415,7 +415,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
       <button type="button" class="tab-button" data-tab="gems" aria-selected="false">Gems</button>
       <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
-      <button type="button" class="tab-button" data-tab="void" aria-selected="false">Void</button>
+      <button type="button" class="tab-button" data-tab="sparkles" aria-selected="false">Sparkles</button>
       <button type="button" class="tab-button" data-tab="pilgrim" aria-selected="false">Pilgrim</button>
       <button type="button" class="tab-button" data-tab="house" aria-selected="false">House</button>
       <button type="button" class="tab-button" data-tab="platform" aria-selected="false">Platform</button>
@@ -533,8 +533,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sMatrixMarkup()}
     </section>
 
-    <section class="tab-panel" data-panel="void">
-      <h2>Void</h2>
+    <section class="tab-panel" data-panel="sparkles">
+      <h2>Sparkles</h2>
       <p class="reading-intro">
         The full deck drifts through depth—faces turn, signs tumble, and every card eventually returns.
       </p>
@@ -626,7 +626,7 @@ const arrUnlockOrder = [
   'planets',
   'gems',
   'matrix',
-  'void',
+  'sparkles',
   'pilgrim',
   'house',
   'platform',
@@ -662,8 +662,8 @@ type tRoute =
   | { sKind: 'card'; sSlug: string }
 
 function sAliasTabId(sTabId: string): string {
-  if (sTabId === 'magic') {
-    return 'void'
+  if (sTabId === 'magic' || sTabId === 'void') {
+    return 'sparkles'
   }
   if (sTabId === 'birthday') {
     return 'quiz'
@@ -932,7 +932,7 @@ function vActivateTab(sTabId: string): void {
   })
 
   vSetMatrixActive(sTabId === 'matrix')
-  vSetFloatActive(sTabId === 'void')
+  vSetFloatActive(sTabId === 'sparkles')
   vSetExploreActive(sTabId === 'pilgrim')
   vSetHouseActive(sTabId === 'house')
   vSetPlatformActive(sTabId === 'platform')

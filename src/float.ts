@@ -499,7 +499,7 @@ export function vBindFloat(arrCards: tFloatCard[]): void {
     }
   })
 
-  const objPanel = document.querySelector<HTMLElement>('[data-panel="void"]')
+  const objPanel = document.querySelector<HTMLElement>('[data-panel="sparkles"]')
   if (objPanel?.classList.contains('is-active')) {
     vStart(arrBoundCards)
   }

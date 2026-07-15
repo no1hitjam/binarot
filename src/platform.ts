@@ -28,6 +28,7 @@ const nHazardSizeMin = 14
 const nHazardSizeMax = 18
 const nHazardDriftAmp = 36
 const nHazardDriftSpeed = 0.0011
+const nBitPickupPad = 14
 const sBitGlyph = '1'
 
 type tCardTint = {
@@ -532,6 +533,15 @@ function objPlayerRect(): tRect {
   return { nX: objPlayer.nX, nY: objPlayer.nY, nW: nPlayerW, nH: nPlayerH }
 }
 
+function objPlayerPickupRect(): tRect {
+  return {
+    nX: objPlayer.nX - nBitPickupPad,
+    nY: objPlayer.nY - nBitPickupPad,
+    nW: nPlayerW + nBitPickupPad * 2,
+    nH: nPlayerH + nBitPickupPad * 2,
+  }
+}
+
 function bKeyDown(sKey: string): boolean {
   return setKeys.has(sKey)
 }
@@ -732,11 +742,12 @@ function vUpdatePhysics(nDt: number, nTs: number): void {
   vEnsureWorld(objPlayer.nX + nGenAhead)
   vCullBehind(nCamX - nCullBehind)
 
+  const objPickup = objPlayerPickupRect()
   for (const objCoin of arrCoins) {
     if (objCoin.bTaken) {
       continue
     }
-    if (bOverlap(objPlayerRect(), objCoin)) {
+    if (bOverlap(objPickup, objCoin)) {
       objCoin.bTaken = true
       nCoinsTaken += 1
       vSyncHud()

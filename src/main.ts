@@ -410,7 +410,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <nav class="tabs" aria-label="Binarot sections">
       <button type="button" class="tab-button is-active" data-tab="cards" aria-selected="true">Cards</button>
       <button type="button" class="tab-button" data-tab="reading" aria-selected="false">Reading</button>
-      <button type="button" class="tab-button" data-tab="birthday" aria-selected="false">Birthday</button>
+      <button type="button" class="tab-button" data-tab="quiz" aria-selected="false">Quiz</button>
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
       <button type="button" class="tab-button" data-tab="gems" aria-selected="false">Gems</button>
@@ -485,6 +485,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         </p>
         <ul class="special-dates-list" id="special-dates-list"></ul>
       </div>
+    </section>
+
+    <section class="tab-panel" data-panel="quiz">
+      <h2>Sign Quiz</h2>
+      <p class="reading-intro">
+        Answer four questions to find which binarot sign you represent.
+        Each question has four choices; your pattern of answers reveals your sign.
+      </p>
+      <div class="quiz-stage" id="quiz-stage"></div>
     </section>
 
     <section class="tab-panel" data-panel="starmap">
@@ -612,7 +621,7 @@ const nCookieMaxAge = 60 * 60 * 24 * 365
 const arrUnlockOrder = [
   'cards',
   'reading',
-  'birthday',
+  'quiz',
   'starmap',
   'planets',
   'gems',
@@ -653,7 +662,13 @@ type tRoute =
   | { sKind: 'card'; sSlug: string }
 
 function sAliasTabId(sTabId: string): string {
-  return sTabId === 'magic' ? 'void' : sTabId
+  if (sTabId === 'magic') {
+    return 'void'
+  }
+  if (sTabId === 'birthday') {
+    return 'quiz'
+  }
+  return sTabId
 }
 
 function nUnlockIndex(sTabId: string): number {
@@ -789,13 +804,106 @@ function sCardDetailMarkup(objPage: tCardPage): string {
   `
 }
 
+const objVoidCardPage: tCardPage = {
+  sSlug: '-1',
+  sName: 'The Void',
+  sLabel: '-1',
+  sMeaning: 'absence, unbeing, and what lies outside the register',
+  sDescription: `
+      The Void (−1) is not a sign in the deck. It is the underflow beneath <code>0</code>, the value the register was never meant to hold. Sixteen faces claim the bits from Seed to State; this one claims the error—the place where naming fails and the chart tears.
+      <br><br>
+      Those who land here did not choose a family or a role. They chose the fifth answer every time: the refusal, the unmarked path, the option that is not on the list. The Void does not describe a temperament so much as a glitch in temperament—an identity that will not compile into binary weather.
+      `,
+}
+
+const sVoidSignText =
+  'You are not on the map. Where others resolve into a sign, you remain the gap between bits—the refusal, the hush, the place the system does not name. The Void is not empty so much as uncounted.'
+
+let nVoidGlitchTimer = 0
+const arrVoidGlitchNoise = ['░', '▒', '▓', '█', '¤', 'Ø', '¿', '�', '0', '1']
+
+function vStopVoidGlitch(): void {
+  if (nVoidGlitchTimer !== 0) {
+    window.clearInterval(nVoidGlitchTimer)
+    nVoidGlitchTimer = 0
+  }
+}
+
+function sVoidCardDetailMarkup(): string {
+  return `
+    <button type="button" class="card-detail-back" id="card-detail-back">&larr; Retreat</button>
+    <div class="card-detail-void" id="void-card-detail">
+      <div class="void-glitch-scan" aria-hidden="true"></div>
+      <div class="card-detail-header void-glitch-header">
+        <div class="void-glitch-icon">
+          ${sCardIconMarkup(objVoidCardPage.sSlug, 'card-icon-detail void-glitch-icon-svg')}
+        </div>
+        <div class="card-detail-heading">
+          <h2>
+            <span class="void-glitch-title" data-text="${objVoidCardPage.sName}">
+              <span class="void-glitch-title-text">${objVoidCardPage.sName}</span>
+            </span>
+            <span class="binary-value void-glitch-label">(${objVoidCardPage.sLabel})</span>
+          </h2>
+          <p class="card-detail-meaning void-glitch-meaning">Represents ${objVoidCardPage.sMeaning}.</p>
+        </div>
+      </div>
+      <p class="card-detail-description void-glitch-body">${sStyledCardDescription(objVoidCardPage.sDescription)}</p>
+      <p class="void-glitch-status" id="void-glitch-status" aria-hidden="true">ERR // SIGN_INDEX=-1 // UNMAPPED</p>
+    </div>
+  `
+}
+
+function vStartVoidGlitch(): void {
+  vStopVoidGlitch()
+  const objRoot = document.querySelector<HTMLElement>('#void-card-detail')
+  const objLabel = document.querySelector<HTMLElement>('.void-glitch-label')
+  const objStatus = document.querySelector<HTMLElement>('#void-glitch-status')
+  if (!objRoot || !objLabel || !objStatus) {
+    return
+  }
+
+  const sLabelClean = `(${objVoidCardPage.sLabel})`
+  nVoidGlitchTimer = window.setInterval(() => {
+    const bHard = Math.random() < 0.28
+    objRoot.classList.toggle('is-glitching', bHard)
+    objRoot.style.setProperty('--void-glitch-x', `${(Math.random() * 10 - 5).toFixed(1)}px`)
+    objRoot.style.setProperty('--void-glitch-y', `${(Math.random() * 6 - 3).toFixed(1)}px`)
+    objRoot.style.setProperty('--void-glitch-skew', `${(Math.random() * 4 - 2).toFixed(2)}deg`)
+
+    if (bHard) {
+      const sNoise = Array.from({ length: 3 }, () => {
+        return arrVoidGlitchNoise[Math.floor(Math.random() * arrVoidGlitchNoise.length)]
+      }).join('')
+      objLabel.textContent = `(${sNoise})`
+      objStatus.textContent = `ERR // ${sNoise}${sNoise} // FRAME_${Math.floor(Math.random() * 999)}`
+    } else {
+      objLabel.textContent = sLabelClean
+      objStatus.textContent = 'ERR // SIGN_INDEX=-1 // UNMAPPED'
+    }
+  }, 140)
+}
+
 function vShowCardsIndex(): void {
+  vStopVoidGlitch()
   objCardsIndex.hidden = false
   objCardsDetail.hidden = true
   objCardsDetail.innerHTML = ''
 }
 
 function vShowCardPage(sSlug: string): void {
+  if (sSlug === objVoidCardPage.sSlug) {
+    vStopVoidGlitch()
+    objCardsIndex.hidden = true
+    objCardsDetail.hidden = false
+    objCardsDetail.innerHTML = sVoidCardDetailMarkup()
+    document.querySelector<HTMLButtonElement>('#card-detail-back')?.addEventListener('click', () => {
+      vNavigate('quiz')
+    })
+    vStartVoidGlitch()
+    return
+  }
+
   const objPage = objFindCardPage(sSlug)
 
   if (!objPage) {
@@ -803,6 +911,7 @@ function vShowCardPage(sSlug: string): void {
     return
   }
 
+  vStopVoidGlitch()
   objCardsIndex.hidden = true
   objCardsDetail.hidden = false
   objCardsDetail.innerHTML = sCardDetailMarkup(objPage)
@@ -1210,6 +1319,194 @@ objCompatMonth.addEventListener('change', () => {
 objCompatDay.addEventListener('change', vUpdateCompatibility)
 
 vUpdateBirthdaySign()
+
+type tQuizAxis = 'family' | 'role'
+
+type tQuizQuestion = {
+  sPrompt: string
+  sAxis: tQuizAxis
+  arrAnswers: [string, string, string, string, string]
+}
+
+const nQuizVoidChoice = 4
+
+const arrQuizQuestions: tQuizQuestion[] = [
+  {
+    sPrompt: 'Where does your energy most naturally live?',
+    sAxis: 'family',
+    arrAnswers: [
+      'Near beginnings—ideas, claims, summons, and the first bonds between people.',
+      'In places and paths—shelter, crossroads, thresholds, and things that grow.',
+      'In motion and reserve—independent action, gatherings, mirrors, and what you keep.',
+      'In frameworks—perspective, armor, debate, and the systems that hold people.',
+      'Nowhere I can point to—outside the chart, before a place is chosen.',
+    ],
+  },
+  {
+    sPrompt: 'When you leave a mark, what does it most often look like?',
+    sAxis: 'role',
+    arrAnswers: [
+      'An opening—room for something unformed to take shape.',
+      'A hard edge—a claim, a cut, a line others have to answer.',
+      'A bridge—a signal answered, a gap crossed, a likeness found.',
+      'A lasting structure—something that binds, grows, stores, or governs.',
+      'No mark at all—the absence where a mark would have been.',
+    ],
+  },
+  {
+    sPrompt: 'In a tense room, what are you most likely to do?',
+    sAxis: 'family',
+    arrAnswers: [
+      'Sense what wants to start, name it, or draw people into the first connection.',
+      'Make the space safer, name the fork in the road, or open a door to elsewhere.',
+      'Act on your own, gather the right people, reflect what you see, or hold a quiet reserve.',
+      'Reframe the problem, hold a firm boundary, elevate the debate, or organize the whole.',
+      'Step out of the frame—let the room resolve without counting you in it.',
+    ],
+  },
+  {
+    sPrompt: 'What do others most reliably come to you for?',
+    sAxis: 'role',
+    arrAnswers: [
+      'A blank page—permission to begin before the shape is clear.',
+      'A stake in the ground—clarity about what is claimed and what is not.',
+      'A crossing—someone who can carry a message, a deal, or a likeness across a gap.',
+      'A finished form—a bond, a canopy, a vault, or a working order that holds.',
+      'Nothing they can name—you are the option that does not appear on their list.',
+    ],
+  },
+]
+
+const objQuizStage = document.querySelector<HTMLDivElement>('#quiz-stage')!
+const arrQuizAnswers: number[] = []
+const arrQuizChoiceLabels = ['A', 'B', 'C', 'D', 'E'] as const
+
+function bQuizAllVoid(): boolean {
+  return (
+    arrQuizAnswers.length === arrQuizQuestions.length &&
+    arrQuizAnswers.every((nChoice: number) => nChoice === nQuizVoidChoice)
+  )
+}
+
+function nQuizSignIndex(): number {
+  const arrScores = Array.from({ length: arrCards.length }, () => 0)
+  let nLastFamily = 0
+  let nLastRole = 0
+  let bHasFamily = false
+  let bHasRole = false
+
+  for (let nIndex = 0; nIndex < arrQuizAnswers.length; nIndex += 1) {
+    const objQuestion = arrQuizQuestions[nIndex]!
+    const nChoice = arrQuizAnswers[nIndex]!
+    if (nChoice === nQuizVoidChoice) {
+      continue
+    }
+
+    if (objQuestion.sAxis === 'family') {
+      nLastFamily = nChoice
+      bHasFamily = true
+      for (let nSign = 0; nSign < arrCards.length; nSign += 1) {
+        if ((nSign >> 2) === nChoice) {
+          arrScores[nSign]! += 1
+        }
+      }
+    } else {
+      nLastRole = nChoice
+      bHasRole = true
+      for (let nSign = 0; nSign < arrCards.length; nSign += 1) {
+        if ((nSign & 3) === nChoice) {
+          arrScores[nSign]! += 1
+        }
+      }
+    }
+  }
+
+  if (!bHasFamily && !bHasRole) {
+    return -1
+  }
+
+  const nFallback = (nLastFamily << 2) | nLastRole
+  let nBest = nFallback
+  let nBestScore = -1
+
+  for (let nSign = 0; nSign < arrScores.length; nSign += 1) {
+    const nScore = arrScores[nSign]!
+    if (nScore > nBestScore || (nScore === nBestScore && nSign === nFallback)) {
+      nBestScore = nScore
+      nBest = nSign
+    }
+  }
+
+  return nBest
+}
+
+function sQuizVoidCardMarkup(): string {
+  return `
+    <a class="card-item card-item-link" href="#card/${objVoidCardPage.sSlug}">
+      ${sCardIconMarkup(objVoidCardPage.sSlug)}
+      <h3>${objVoidCardPage.sName} <span class="binary-value">(${objVoidCardPage.sLabel})</span></h3>
+      <p>Represents ${objVoidCardPage.sMeaning}.</p>
+    </a>
+  `
+}
+
+function vRenderQuiz(): void {
+  if (arrQuizAnswers.length >= arrQuizQuestions.length) {
+    let sResultMarkup: string
+    if (bQuizAllVoid()) {
+      sResultMarkup = `
+        <p class="birthday-meta">Your quiz sign</p>
+        ${sQuizVoidCardMarkup()}
+          <p class="birthday-sign">${sVoidSignText}</p>
+      `
+    } else {
+      const objCard = arrCards[nQuizSignIndex()]!
+      sResultMarkup = `
+        <p class="birthday-meta">Your quiz sign</p>
+        ${sCardItemMarkup(objCard)}
+        <p class="birthday-sign">${objCard.sSign}</p>
+      `
+    }
+
+    objQuizStage.innerHTML = `
+      ${sResultMarkup}
+      <button type="button" class="reading-draw quiz-retake" id="quiz-retake">Retake quiz</button>
+    `
+    document.querySelector<HTMLButtonElement>('#quiz-retake')!.addEventListener('click', () => {
+      arrQuizAnswers.length = 0
+      vRenderQuiz()
+    })
+    return
+  }
+
+  const nQuestion = arrQuizAnswers.length
+  const objQuestion = arrQuizQuestions[nQuestion]!
+  const sChoices = objQuestion.arrAnswers
+    .map(
+      (sAnswer: string, nChoice: number) => `
+        <button type="button" class="quiz-choice" data-choice="${nChoice}">
+          <span class="quiz-choice-label">${arrQuizChoiceLabels[nChoice]}</span>
+          <span class="quiz-choice-text">${sAnswer}</span>
+        </button>
+      `,
+    )
+    .join('')
+
+  objQuizStage.innerHTML = `
+    <p class="quiz-progress">Question ${nQuestion + 1} of ${arrQuizQuestions.length}</p>
+    <p class="quiz-prompt">${objQuestion.sPrompt}</p>
+    <div class="quiz-choices">${sChoices}</div>
+  `
+
+  objQuizStage.querySelectorAll<HTMLButtonElement>('.quiz-choice').forEach((objButton) => {
+    objButton.addEventListener('click', () => {
+      arrQuizAnswers.push(Number(objButton.dataset.choice))
+      vRenderQuiz()
+    })
+  })
+}
+
+vRenderQuiz()
 vBindStarmapHover()
 vBindPlanetsOrbitHover()
 vBindMatrixRain()

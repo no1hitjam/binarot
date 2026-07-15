@@ -66,17 +66,17 @@ Reflection: Opening up a blank canvas to the beginning of a thousand possible pa
     '110': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Returning home
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Port (110) represents gateways, discovery, and trade. Result: The Port (110) represents gateways, discovery, and trade.
-Reflection: 
+Reflection: Setting sail with only an idea
 `,
     },
     '111': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Finding the original spark that lead to greatness
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
@@ -86,81 +86,81 @@ Reflection:
     '1000': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Giving an idea the space to branch into fullness.
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Agent (1000) represents independence, will, and action. Result: The Agent (1000) represents independence, will, and action.
-Reflection: 
+Reflection: Meditating on the origins of one's will.
 `,
     },
     '1001': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: A group brainstorming to find an idea.
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Table (1001) represents gathering, consumption, and plots. Result: The Table (1001) represents gathering, consumption, and plots.
-Reflection: 
+Reflection: An idea for a group date.
 `,
     },
     '1010': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Stripping away the copies to find the original.
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Clone (1010) represents mirrors, reproduction, and equality.
-Reflection: 
+Reflection: The act of reproducing
 `,
     },
     '1011': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: The hope of finding what's hidden.
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-Reflection: 
+Reflection: Knowing where something is hidden.
 `,
     },
     '1100': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Seeing the world from a child's perspective
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Frame (1100) represents perspective, structure, and state of mind. Result: The Frame (1100) represents perspective, structure, and state of mind.
-Reflection: 
+Reflection: Growing into seeing the world from a new perspective
 `,
     },
     '1101': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Rejecting boundaries for one's ideas
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Shell (1101) represents protection, boundaries, and rigidity. Result: The Shell (1101) represents protection, boundaries, and rigidity.
-Reflection: 
+Reflection: Keeping your ideas safe
 `,
     },
     '1110': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The Forum (1110) represents nobility, philosophy, and debate. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Being the original person going against the grain.
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The Forum (1110) represents nobility, philosophy, and debate. Result: The Forum (1110) represents nobility, philosophy, and debate.
-Reflection: 
+Reflection: Sharing one's ideas with the public
 `,
     },
     '1111': {
       AND: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on AND, keeping only what both cards share. The State (1111) represents organization, authority, and politics. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Finding the original intents that went into our society.
 `,
       OR: `
 The Seed (0) represents beginnings, ideas, and origins. The coin lands on OR, keeping all both cards offer. The State (1111) represents organization, authority, and politics. Result: The State (1111) represents organization, authority, and politics.
-Reflection: 
+Reflection: How a child becomes a part of the adult world
 `,
     },
   },
@@ -168,107 +168,107 @@ Reflection:
     '10': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Call (10) represents summonings, duty, and serendipity. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Revoking someone's claim to something
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Call (10) represents summonings, duty, and serendipity. Result: The Link (11) represents connections, promises, and security.
-Reflection: 
+Reflection: Two lands joined under a single promise
 `,
     },
     '11': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Link (11) represents connections, promises, and security. Result: The Flag (1) represents claims, power, and sovereignty.
-Reflection: 
+Reflection: The treaties between two powers
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Link (11) represents connections, promises, and security. Result: The Link (11) represents connections, promises, and security.
-Reflection: 
+Reflection: Truths strengthen our connections
 `,
     },
     '100': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Host (100) represents shelter, ownership, and grace. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: After a fall from power, being taken into shelter
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Host (100) represents shelter, ownership, and grace. Result: The Fork (101) represents hunger, resonance, and diverging paths.
-Reflection: 
+Reflection: Buying a house only to want to roam instead
 `,
     },
     '101': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Fork (101) represents hunger, resonance, and diverging paths. Result: The Flag (1) represents claims, power, and sovereignty.
-Reflection: 
+Reflection: Power leads to more power 
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Fork (101) represents hunger, resonance, and diverging paths. Result: The Fork (101) represents hunger, resonance, and diverging paths.
-Reflection: 
+Reflection: Power leads to the responsbility of making important choices
 `,
     },
     '110': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Port (110) represents gateways, discovery, and trade. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: A gateway to a new world with someone else in charge
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Port (110) represents gateways, discovery, and trade. Result: The Tree (111) represents fullness, growth, and reach.
-Reflection: 
+Reflection: Growing your business and power
 `,
     },
     '111': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Tree (111) represents fullness, growth, and reach. Result: The Flag (1) represents claims, power, and sovereignty.
-Reflection: 
+Reflection: The role of power in the successful growth of something
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Tree (111) represents fullness, growth, and reach. Result: The Tree (111) represents fullness, growth, and reach.
-Reflection: 
+Reflection: The power of growth
 `,
     },
     '1000': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Agent (1000) represents independence, will, and action. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Undermining someone's power
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Agent (1000) represents independence, will, and action. Result: The Table (1001) represents gathering, consumption, and plots.
-Reflection: 
+Reflection: Being pressured to negotiate
 `,
     },
     '1001': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Table (1001) represents gathering, consumption, and plots. Result: The Flag (1) represents claims, power, and sovereignty.
-Reflection: 
+Reflection: The power in a gathering of people
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Table (1001) represents gathering, consumption, and plots. Result: The Table (1001) represents gathering, consumption, and plots.
-Reflection: 
+Reflection: Diffusing power to everyone at the table
 `,
     },
     '1010': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Eliminating pretenders to power
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Clone (1010) represents mirrors, reproduction, and equality. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-Reflection: 
+Reflection: Faking it before you make it successfully
 `,
     },
     '1011': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Flag (1) represents claims, power, and sovereignty.
-Reflection: 
+Reflection: The power of secrets
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Cache (1011) represents secrets, knowledge, and wealth. Result: The Cache (1011) represents secrets, knowledge, and wealth.
-Reflection: 
+Reflection: Keeping one's power hidden
 `,
     },
     '1100': {
       AND: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on AND, keeping only what both cards share. The Frame (1100) represents perspective, structure, and state of mind. Result: The Seed (0) represents beginnings, ideas, and origins.
-Reflection: 
+Reflection: Something losing its power when seen from a different perspective
 `,
       OR: `
 The Flag (1) represents claims, power, and sovereignty. The coin lands on OR, keeping all both cards offer. The Frame (1100) represents perspective, structure, and state of mind. Result: The Shell (1101) represents protection, boundaries, and rigidity.

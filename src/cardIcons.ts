@@ -101,6 +101,10 @@ const mapCardIconPaths: Record<string, string> = {
     <path d="M20 28 V48 M32 28 V48 M44 28 V48"/>
     <path d="M24 16 L32 10 L40 16 L36 22 H28 Z"/>
   `,
+  '-1': `
+    <circle cx="32" cy="32" r="18" stroke-dasharray="3 4"/>
+    <circle cx="32" cy="32" r="4"/>
+  `,
 }
 
 export function sCardIconPaths(sSlug: string): string {

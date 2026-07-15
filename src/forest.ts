@@ -12,6 +12,7 @@ const nFogNear = 6
 const nFogFar = 48
 const nPlayHalf = nTerrainSize * 0.5 - 1.5
 const nLookSens = 0.0022
+const nTouchLookSens = 0.0035
 const nPitchMin = -1.35
 const nPitchMax = 1.35
 const nFloraTreeCount = 420
@@ -153,6 +154,11 @@ let nStartTimer = 0
 let bRunning = false
 let bAwaitingReveal = false
 let bPointerLocked = false
+let bTouchPlaying = false
+let bLookDragging = false
+let nLookPtrId = -1
+let nLookLastX = 0
+let nLookLastY = 0
 let bGameOver = false
 let bWon = false
 let nLastTs = 0
@@ -175,6 +181,21 @@ const objKeys: tKeys = {
   bBack: false,
   bLeft: false,
   bRight: false,
+}
+
+function bControlsActive(): boolean {
+  return bPointerLocked || bTouchPlaying
+}
+
+function bCoarsePointer(): boolean {
+  return window.matchMedia('(hover: none), (pointer: coarse)').matches
+}
+
+function vClearMoveKeys(): void {
+  objKeys.bForward = false
+  objKeys.bBack = false
+  objKeys.bLeft = false
+  objKeys.bRight = false
 }
 
 const objMatTrunk = new THREE.MeshStandardMaterial({
@@ -767,10 +788,14 @@ function vUpdateHud(): void {
 
   if (objPrompt) {
     if (bGameOver || bWon) {
-      objPrompt.textContent = bWon ? 'escape · click to restart' : 'click to restart'
+      objPrompt.textContent = bWon
+        ? 'escape · tap or click to restart'
+        : 'tap or click to restart'
       objPrompt.hidden = false
-    } else if (!bPointerLocked) {
-      objPrompt.textContent = 'click to enter the forest · WASD move · follow the fireflies'
+    } else if (!bControlsActive()) {
+      objPrompt.textContent = bCoarsePointer()
+        ? 'tap to enter · drag to look · pad to walk · follow the fireflies'
+        : 'click to enter the forest · WASD move · follow the fireflies'
       objPrompt.hidden = false
     } else {
       objPrompt.hidden = true
@@ -792,6 +817,7 @@ function vCollectCard(objCard: tHungCard): void {
   if (nFound >= nCardGoal) {
     bWon = true
     bGameOver = true
+    vEndLookDrag(nLookPtrId)
     document.exitPointerLock()
   } else if (nFound >= nSlenderStartCards && !bSlenderActive) {
     vSpawnSlender()
@@ -1218,6 +1244,7 @@ function vUpdateSlender(nDt: number): void {
   const nDist = Math.hypot(nDx, nDz)
   if (nDist < nSlenderCatchR) {
     bGameOver = true
+    vEndLookDrag(nLookPtrId)
     document.exitPointerLock()
     vUpdateHud()
     return
@@ -1295,7 +1322,7 @@ function vTryMove(nDx: number, nDz: number): void {
 }
 
 function vPlayerMove(nDt: number): void {
-  if (!bPointerLocked || bGameOver) {
+  if (!bControlsActive() || bGameOver) {
     return
   }
 
@@ -1563,6 +1590,12 @@ function vStop(): void {
   vCancelPendingStart()
   bRunning = false
   bAwaitingReveal = false
+  bTouchPlaying = false
+  vEndLookDrag(nLookPtrId)
+  vClearMoveKeys()
+  document.querySelectorAll('.forest-pad-btn.is-pressed').forEach((objEl) => {
+    objEl.classList.remove('is-pressed')
+  })
   if (bPointerLocked) {
     document.exitPointerLock()
   }
@@ -1634,11 +1667,52 @@ function vOnMouseMove(objEv: MouseEvent): void {
 function vOnPointerLockChange(): void {
   bPointerLocked = document.pointerLockElement === objCanvasHost
   objCanvasHost?.classList.toggle('is-locked', bPointerLocked)
+  if (bPointerLocked) {
+    bTouchPlaying = false
+    vEndLookDrag(nLookPtrId)
+  }
   vUpdateHud()
 }
 
-function vOnHostClick(): void {
-  if (!bRunning || !objCanvasHost) {
+function vEndLookDrag(nPtrId: number): void {
+  if (!bLookDragging || (nPtrId >= 0 && nLookPtrId !== nPtrId)) {
+    return
+  }
+
+  bLookDragging = false
+  const nReleaseId = nLookPtrId
+  nLookPtrId = -1
+  if (objCanvasHost && nReleaseId >= 0) {
+    try {
+      objCanvasHost.releasePointerCapture(nReleaseId)
+    } catch {
+      /* already released */
+    }
+  }
+}
+
+function vStartLookDrag(objEv: PointerEvent): void {
+  bLookDragging = true
+  nLookPtrId = objEv.pointerId
+  nLookLastX = objEv.clientX
+  nLookLastY = objEv.clientY
+  objCanvasHost?.setPointerCapture(objEv.pointerId)
+}
+
+function vEnterPlay(objEv: PointerEvent): void {
+  const bTouch = objEv.pointerType === 'touch' || objEv.pointerType === 'pen' || bCoarsePointer()
+  if (bTouch) {
+    bTouchPlaying = true
+    vUpdateHud()
+    vStartLookDrag(objEv)
+    return
+  }
+
+  objCanvasHost?.requestPointerLock()
+}
+
+function vOnHostPointerDown(objEv: PointerEvent): void {
+  if (!bRunning || !objCanvasHost || objEv.button !== 0) {
     return
   }
 
@@ -1646,19 +1720,87 @@ function vOnHostClick(): void {
     vResetRun()
   }
 
-  if (!bPointerLocked) {
-    objCanvasHost.requestPointerLock()
+  if (!bControlsActive()) {
+    vEnterPlay(objEv)
+    objEv.preventDefault()
+    return
   }
+
+  if (bTouchPlaying && !bPointerLocked && !bGameOver) {
+    vStartLookDrag(objEv)
+    objEv.preventDefault()
+  }
+}
+
+function vOnHostPointerMove(objEv: PointerEvent): void {
+  if (!bLookDragging || objEv.pointerId !== nLookPtrId || bGameOver) {
+    return
+  }
+
+  const nDx = objEv.clientX - nLookLastX
+  const nDy = objEv.clientY - nLookLastY
+  nLookLastX = objEv.clientX
+  nLookLastY = objEv.clientY
+  nYaw -= nDx * nTouchLookSens
+  nPitch = Math.min(nPitchMax, Math.max(nPitchMin, nPitch - nDy * nTouchLookSens))
+}
+
+function vBindPadButton(objBtn: HTMLElement, sDir: keyof tKeys): void {
+  const vPress = (objEvent: PointerEvent): void => {
+    if (!bRunning) {
+      return
+    }
+
+    objEvent.preventDefault()
+    objEvent.stopPropagation()
+    objBtn.setPointerCapture(objEvent.pointerId)
+    objKeys[sDir] = true
+    objBtn.classList.add('is-pressed')
+
+    if (!bControlsActive()) {
+      bTouchPlaying = true
+      vUpdateHud()
+    }
+  }
+
+  const vRelease = (objEvent: PointerEvent): void => {
+    objEvent.preventDefault()
+    objEvent.stopPropagation()
+    objKeys[sDir] = false
+    objBtn.classList.remove('is-pressed')
+    if (objBtn.hasPointerCapture(objEvent.pointerId)) {
+      objBtn.releasePointerCapture(objEvent.pointerId)
+    }
+  }
+
+  objBtn.addEventListener('pointerdown', vPress)
+  objBtn.addEventListener('pointerup', vRelease)
+  objBtn.addEventListener('pointercancel', vRelease)
+  objBtn.addEventListener('lostpointercapture', () => {
+    objKeys[sDir] = false
+    objBtn.classList.remove('is-pressed')
+  })
+  objBtn.addEventListener('contextmenu', (objEvent) => {
+    objEvent.preventDefault()
+  })
 }
 
 export function sForestMarkup(): string {
   return `
     <div class="forest" id="forest">
       <div class="forest-stage">
-        <div class="forest-viewport" id="forest-viewport" role="img" aria-label="Forest card hunt — click to look and move with WASD"></div>
+        <div class="forest-viewport" id="forest-viewport" role="img" aria-label="Forest card hunt — click or tap to enter, WASD or on-screen pad to move, drag to look on touch"></div>
         <div class="forest-hud" id="forest-hud">
           <p class="forest-status" id="forest-status" aria-live="polite">Cards 0/${nCardGoal}</p>
           <p class="forest-prompt" id="forest-prompt">click to enter the forest · WASD move · follow the fireflies</p>
+        </div>
+        <div class="forest-pad" aria-hidden="true">
+          <div class="forest-pad-move">
+            <button type="button" class="forest-pad-btn" data-pad="forward" aria-label="Walk forward">▲</button>
+            <button type="button" class="forest-pad-btn" data-pad="left" aria-label="Strafe left">◀</button>
+            <button type="button" class="forest-pad-btn" data-pad="back" aria-label="Walk back">▼</button>
+            <button type="button" class="forest-pad-btn" data-pad="right" aria-label="Strafe right">▶</button>
+          </div>
         </div>
       </div>
       <div class="forest-side">
@@ -1681,7 +1823,17 @@ export function vBindForest(arrCards: tForestCard[]): void {
     return
   }
 
-  objCanvasHost.addEventListener('click', vOnHostClick)
+  objCanvasHost.addEventListener('pointerdown', vOnHostPointerDown)
+  objCanvasHost.addEventListener('pointermove', vOnHostPointerMove)
+  objCanvasHost.addEventListener('pointerup', (objEv) => {
+    vEndLookDrag(objEv.pointerId)
+  })
+  objCanvasHost.addEventListener('pointercancel', (objEv) => {
+    vEndLookDrag(objEv.pointerId)
+  })
+  objCanvasHost.addEventListener('lostpointercapture', (objEv) => {
+    vEndLookDrag(objEv.pointerId)
+  })
   document.addEventListener('pointerlockchange', vOnPointerLockChange)
   document.addEventListener('mousemove', vOnMouseMove)
   window.addEventListener('keydown', vOnKeyDown)
@@ -1691,6 +1843,16 @@ export function vBindForest(arrCards: tForestCard[]): void {
       vResize()
     }
   })
+
+  const objPad = document.querySelector<HTMLElement>('.forest-pad')
+  const objPadFwd = objPad?.querySelector<HTMLElement>('[data-pad="forward"]')
+  const objPadBack = objPad?.querySelector<HTMLElement>('[data-pad="back"]')
+  const objPadLeft = objPad?.querySelector<HTMLElement>('[data-pad="left"]')
+  const objPadRight = objPad?.querySelector<HTMLElement>('[data-pad="right"]')
+  if (objPadFwd) vBindPadButton(objPadFwd, 'bForward')
+  if (objPadBack) vBindPadButton(objPadBack, 'bBack')
+  if (objPadLeft) vBindPadButton(objPadLeft, 'bLeft')
+  if (objPadRight) vBindPadButton(objPadRight, 'bRight')
 
   vUpdateHud()
 

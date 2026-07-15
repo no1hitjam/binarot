@@ -8,6 +8,7 @@ import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
 import { sHouseMarkup, vBindHouse, vSetHouseActive } from './house'
 import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
 import { sPlatformMarkup, vBindPlatform, vSetPlatformActive } from './platform'
+import { sForestMarkup, vBindForest, vSetForestActive } from './forest'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -419,6 +420,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="pilgrim" aria-selected="false">Pilgrim</button>
       <button type="button" class="tab-button" data-tab="house" aria-selected="false">House</button>
       <button type="button" class="tab-button" data-tab="platform" aria-selected="false">Platform</button>
+      <button type="button" class="tab-button" data-tab="forest" aria-selected="false">Forest</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -566,6 +568,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sPlatformMarkup()}
     </section>
 
+    <section class="tab-panel" data-panel="forest">
+      <h2>Forest</h2>
+      <p class="reading-intro">
+        Fog swallows the trees. Sixteen binarot cards hang among the trunks—collect them all.
+        Something tall walks when you look away.
+      </p>
+      ${sForestMarkup()}
+    </section>
+
     ${
       bShowDevPanel
         ? `
@@ -630,6 +641,7 @@ const arrUnlockOrder = [
   'pilgrim',
   'house',
   'platform',
+  'forest',
   'about',
 ] as const
 const sDefaultUnlock = 'reading'
@@ -936,6 +948,7 @@ function vActivateTab(sTabId: string): void {
   vSetExploreActive(sTabId === 'pilgrim')
   vSetHouseActive(sTabId === 'house')
   vSetPlatformActive(sTabId === 'platform')
+  vSetForestActive(sTabId === 'forest')
   vSetCookie(sCookieTab, sTabId)
   vUnlockNextFrom(sTabId)
 }
@@ -1514,3 +1527,4 @@ vBindFloat(arrCards)
 vBindExplore(arrCards)
 vBindHouse(arrCards)
 vBindPlatform()
+vBindForest(arrCards)

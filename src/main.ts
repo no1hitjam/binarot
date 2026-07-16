@@ -615,7 +615,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="diamond">
       <h2>Diamond</h2>
       <p class="reading-intro">
-        Five crystal scenes cycle through the void—geometry, particles, and color shift
+        Crystal scenes cycle through the void—geometry, particles, and color shift
         while binarot signs drift the perimeter. Move to drift the gaze.
       </p>
       ${sDiamondMarkup()}

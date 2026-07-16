@@ -4,6 +4,7 @@ import {
   nStandardTint,
   objCardTint,
   sTintAmbianceMarkup,
+  sTintCardNameMarkup,
   sTintCssVars,
 } from './cardTints'
 import { nCollectionPacksOpened, vRecordPackOpen, type tPackPull } from './collection'
@@ -14,16 +15,18 @@ type tCollectCard = {
   sMeaning: string
 }
 
-const nPackSize = 3
-const nRevealStaggerMs = 280
-const nFlipMs = 520
-const nPackExitMs = 380
+const nPackSize = 5
+const nRevealStaggerMs = 140
+const nFlipMs = 320
+const nPackExitMs = 200
 
 type tCollectPhase = 'idle' | 'opening' | 'revealed'
 
 let arrBoundCards: tCollectCard[] = []
 let sPhase: tCollectPhase = 'idle'
 let nRevealTimer = 0
+let bCollectActive = false
+let bOpenButtonLastClicked = false
 
 let objPack: HTMLElement | null = null
 let objSlots: HTMLElement | null = null
@@ -68,7 +71,7 @@ function sCollectCardMarkup(objPull: tPackPull, nSlot: number): string {
       data-slot="${nSlot}"
       data-tint="${objPull.nTint}"
       data-tint-id="${objTint.sId}"
-      style="${sTintCssVars(objTint)}"
+      style="${sTintCssVars(objTint, objPull.sBinaryValue)}"
       aria-label="${objPull.sName} (${objPull.sBinaryValue})${sAriaTint}"
     >
       <div class="collect-card-inner">
@@ -81,7 +84,7 @@ function sCollectCardMarkup(objPull: tPackPull, nSlot: number): string {
         <div class="collect-card-face collect-card-front">
           ${sTintAmbianceMarkup(objTint)}
           ${sCardIconMarkup(objPull.sBinaryValue, 'collect-card-icon')}
-          <h3 class="collect-card-name">${objPull.sName}</h3>
+          ${sTintCardNameMarkup(objPull.sName, objTint)}
           <span class="collect-card-binary">${objPull.sBinaryValue}</span>
           <p class="collect-card-meaning">${objPull.sMeaning}</p>
         </div>
@@ -163,7 +166,7 @@ function vOpenPack(): void {
   vClearRevealTimer()
   sPhase = 'opening'
   vSetButton('Opening…', true)
-  vSetStatus('Drawing three…')
+  vSetStatus('Drawing five…')
   vResetSlots()
 
   const arrPack = arrDrawPack(arrBoundCards)
@@ -177,7 +180,7 @@ function vOpenPack(): void {
         vShowPack(false)
         vRevealCards(arrPack)
       }, nPackExitMs)
-    }, 180)
+    }, 80)
     return
   }
 
@@ -212,7 +215,7 @@ export function sCollectMarkup(): string {
       </div>
       <div class="collect-controls">
         <button type="button" class="reading-draw" id="collect-open">Open pack</button>
-        <p class="collect-status" id="collect-status">Three cards to a pack</p>
+        <p class="collect-status" id="collect-status">Five cards to a pack</p>
       </div>
     </div>
   `
@@ -230,11 +233,49 @@ export function vBindCollect(arrCards: tCollectCard[]): void {
   }
 
   objOpenButton.addEventListener('click', () => {
+    bOpenButtonLastClicked = true
+    vOpenPack()
+  })
+
+  document.addEventListener(
+    'click',
+    (objEvent) => {
+      const objTarget = objEvent.target
+      if (!(objTarget instanceof Node) || !objOpenButton) {
+        return
+      }
+      bOpenButtonLastClicked = objOpenButton === objTarget || objOpenButton.contains(objTarget)
+    },
+    true,
+  )
+
+  window.addEventListener('keydown', (objEvent) => {
+    if (objEvent.key !== ' ' && objEvent.code !== 'Space') {
+      return
+    }
+    if (!bCollectActive || !bOpenButtonLastClicked || !objOpenButton || objOpenButton.disabled) {
+      return
+    }
+    const objActive = document.activeElement
+    if (
+      objActive instanceof HTMLElement &&
+      (objActive.tagName === 'INPUT' ||
+        objActive.tagName === 'TEXTAREA' ||
+        objActive.tagName === 'SELECT' ||
+        objActive.isContentEditable)
+    ) {
+      return
+    }
+    if (objActive === objOpenButton) {
+      return
+    }
+    objEvent.preventDefault()
     vOpenPack()
   })
 }
 
 export function vSetCollectActive(bActive: boolean): void {
+  bCollectActive = bActive
   if (!bActive) {
     return
   }
@@ -246,7 +287,7 @@ export function vSetCollectActive(bActive: boolean): void {
     const nOpened = nPacksOpened()
     vSetStatus(
       nOpened === 0
-        ? 'Three cards to a pack'
+        ? 'Five cards to a pack'
         : nOpened === 1
           ? '1 pack opened · ready for another'
           : `${nOpened} packs opened · ready for another`,

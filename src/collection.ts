@@ -1,5 +1,6 @@
 import { sCardIconMarkup } from './cardIcons'
 import {
+  bTintIsSecret,
   nMigrateLegacyTint,
   nStandardTint,
   nTintCount,
@@ -7,6 +8,7 @@ import {
   objParseOwnedVariantKey,
   sOwnedVariantKey,
   sTintAmbianceMarkup,
+  sTintCardNameMarkup,
   sTintCssVars,
 } from './cardTints'
 
@@ -33,7 +35,7 @@ const sStorageKey = 'binarot_collection'
 /** Saves without this (or older than 3) need tint-index migration (Copper / Crimson / Teal removals). */
 const nTintSchemeCurrent = 3
 /** When true, Collection shows every card/tint as owned (does not write to storage). */
-const bDevShowAllCollection = true
+const bDevShowAllCollection = false
 
 let arrBoundCards: tCollectionCard[] = []
 let setOwned = new Set<string>()
@@ -49,6 +51,40 @@ let objNextButton: HTMLButtonElement | null = null
 
 function bOwnsVariant(sBinaryValue: string, nTint: number): boolean {
   return bDevShowAllCollection || setOwned.has(sOwnedVariantKey(sBinaryValue, nTint))
+}
+
+function nOwnedOnTint(nTint: number): number {
+  if (bDevShowAllCollection) {
+    return arrBoundCards.length
+  }
+  let nCount = 0
+  for (const objCard of arrBoundCards) {
+    if (setOwned.has(sOwnedVariantKey(objCard.sBinaryValue, nTint))) {
+      nCount += 1
+    }
+  }
+  return nCount
+}
+
+function bTintPageUnlocked(nTint: number): boolean {
+  if (!bTintIsSecret(nTint)) {
+    return true
+  }
+  return bDevShowAllCollection || nOwnedOnTint(nTint) > 0
+}
+
+function arrUnlockedTintPages(): number[] {
+  const arrOut: number[] = []
+  for (let nI = 0; nI < nTintCount; nI++) {
+    if (bTintPageUnlocked(nI)) {
+      arrOut.push(nI)
+    }
+  }
+  return arrOut
+}
+
+function nUnlockedTintCount(): number {
+  return arrUnlockedTintPages().length
 }
 
 function objLoadSave(): tCollectionSave {
@@ -120,24 +156,11 @@ export function nCollectionOwnedCount(): number {
 }
 
 export function nCollectionTotalCount(): number {
-  return arrBoundCards.length * nTintCount
+  return arrBoundCards.length * nUnlockedTintCount()
 }
 
 export function bCollectionOwns(sBinaryValue: string, nTint: number = nStandardTint): boolean {
   return bOwnsVariant(sBinaryValue, nTint)
-}
-
-function nOwnedOnTint(nTint: number): number {
-  if (bDevShowAllCollection) {
-    return arrBoundCards.length
-  }
-  let nCount = 0
-  for (const objCard of arrBoundCards) {
-    if (setOwned.has(sOwnedVariantKey(objCard.sBinaryValue, nTint))) {
-      nCount += 1
-    }
-  }
-  return nCount
 }
 
 export function vRecordPackOpen(arrPulls: tPackPull[]): void {
@@ -166,7 +189,7 @@ function sOwnedCardMarkup(objCard: tCollectionCard, nTint: number): string {
       class="collect-card collection-card is-dealt is-flipped${bRare ? ' is-rare' : ''}"
       href="#card/${objCard.sBinaryValue}"
       data-tint-id="${objTint.sId}"
-      style="${sTintCssVars(objTint)}"
+      style="${sTintCssVars(objTint, objCard.sBinaryValue)}"
       aria-label="${objCard.sName} (${objCard.sBinaryValue})${sAriaTint}"
     >
       <div class="collect-card-inner">
@@ -179,7 +202,7 @@ function sOwnedCardMarkup(objCard: tCollectionCard, nTint: number): string {
         <div class="collect-card-face collect-card-front">
           ${sTintAmbianceMarkup(objTint)}
           ${sCardIconMarkup(objCard.sBinaryValue, 'collect-card-icon')}
-          <h3 class="collect-card-name">${objCard.sName}</h3>
+          ${sTintCardNameMarkup(objCard.sName, objTint)}
           <span class="collect-card-binary">${objCard.sBinaryValue}</span>
           <p class="collect-card-meaning">${objCard.sMeaning}</p>
         </div>
@@ -193,7 +216,7 @@ function sLockedCardMarkup(objCard: tCollectionCard, nTint: number): string {
   return `
     <div
       class="collect-card collection-card is-dealt is-locked"
-      style="${sTintCssVars(objTint)}"
+      style="${sTintCssVars(objTint, objCard.sBinaryValue)}"
       aria-label="${objCard.sName}, ${objTint.sName}, undiscovered"
     >
       <div class="collect-card-inner">
@@ -209,8 +232,16 @@ function sLockedCardMarkup(objCard: tCollectionCard, nTint: number): string {
   `
 }
 
-function vSetPageTint(nTint: number): void {
-  nPageTint = ((nTint % nTintCount) + nTintCount) % nTintCount
+function vStepPageTint(nDelta: number): void {
+  const arrPages = arrUnlockedTintPages()
+  if (arrPages.length === 0) {
+    return
+  }
+  let nIndex = arrPages.indexOf(nPageTint)
+  if (nIndex < 0) {
+    nIndex = 0
+  }
+  nPageTint = arrPages[(nIndex + nDelta + arrPages.length) % arrPages.length]!
   vRenderCollection()
 }
 
@@ -219,11 +250,18 @@ function vRenderCollection(): void {
     return
   }
 
+  const arrPages = arrUnlockedTintPages()
+  if (arrPages.length > 0 && !arrPages.includes(nPageTint)) {
+    nPageTint = arrPages[0]!
+  }
+
   const objTint = objCardTint(nPageTint)
   const nTotal = nCollectionTotalCount()
   const nOwned = bDevShowAllCollection ? nTotal : setOwned.size
   const nPageOwned = nOwnedOnTint(nPageTint)
   const nPageTotal = arrBoundCards.length
+  const nPageIndex = Math.max(0, arrPages.indexOf(nPageTint))
+  const nPageCount = arrPages.length
 
   objProgress.textContent = bDevShowAllCollection
     ? `All ${nTotal} variants (dev)`
@@ -238,7 +276,7 @@ function vRenderCollection(): void {
     objPageLabel.style.color = objTint.sBright
   }
   if (objPageMeta) {
-    objPageMeta.textContent = `${nPageOwned} / ${nPageTotal} on this page · ${nPageTint + 1} / ${nTintCount}`
+    objPageMeta.textContent = `${nPageOwned} / ${nPageTotal} on this page · ${nPageIndex + 1} / ${nPageCount}`
   }
 
   objGrid.innerHTML = arrBoundCards
@@ -264,7 +302,7 @@ export function sCollectionMarkup(): string {
         </button>
         <div class="collection-page-heading">
           <p class="collection-page-label" id="collection-page-label">Standard</p>
-          <p class="collection-page-meta" id="collection-page-meta">0 / 16 on this page · 1 / 6</p>
+          <p class="collection-page-meta" id="collection-page-meta">0 / 16 on this page · 1 / 4</p>
         </div>
         <button type="button" class="collection-page-btn" id="collection-next" aria-label="Next color variant">
           →
@@ -286,10 +324,10 @@ export function vBindCollection(arrCards: tCollectionCard[]): void {
   objNextButton = document.querySelector<HTMLButtonElement>('#collection-next')
 
   objPrevButton?.addEventListener('click', () => {
-    vSetPageTint(nPageTint - 1)
+    vStepPageTint(-1)
   })
   objNextButton?.addEventListener('click', () => {
-    vSetPageTint(nPageTint + 1)
+    vStepPageTint(1)
   })
 
   vHydrateFromStorage()

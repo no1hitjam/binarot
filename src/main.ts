@@ -584,7 +584,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="packs">
       <h2>Packs</h2>
       <p class="reading-intro">
-        Open packs of three binarot cards. Most pulls are Standard—rarer Verdant, Azure,
+        Open packs of five binarot cards. Most pulls are Standard—rarer Verdant, Azure,
         and Gold tints (the same palette as Platform) show up less often.
       </p>
       ${sCollectMarkup()}

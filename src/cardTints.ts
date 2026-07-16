@@ -7,6 +7,8 @@ export type tCardTint = {
   sWash: string
   sInner: string
   nWeight: number
+  /** Hidden from collection pager until at least one card of this tint is owned. */
+  bSecret?: boolean
 }
 
 /** Same palette cycle as the platform hero card. Index 0 is the common standard. */
@@ -51,10 +53,24 @@ export const arrCardTints: tCardTint[] = [
     sInner: 'rgba(184, 134, 20, 0.55)',
     nWeight: 2,
   },
+  {
+    sId: 'void',
+    sName: 'Void',
+    sBorder: 'rgba(18, 10, 28, 0.95)',
+    sAccent: '#7a6a9a',
+    sBright: '#f0e8ff',
+    sWash: 'rgba(60, 20, 90, 0.28)',
+    sInner: 'rgba(8, 4, 14, 0.85)',
+    nWeight: 0.5,
+    bSecret: true,
+  },
 ]
 
 export const nTintCount = arrCardTints.length
 export const nStandardTint = 0
+
+/** Public tints only (excludes secret variants like Void). */
+export const arrPublicCardTints: tCardTint[] = arrCardTints.filter((objTint) => !objTint.bSecret)
 
 let nWeightTotal = 0
 for (const objTint of arrCardTints) {
@@ -64,6 +80,10 @@ for (const objTint of arrCardTints) {
 export function objCardTint(nTint: number): tCardTint {
   const nIndex = ((nTint % nTintCount) + nTintCount) % nTintCount
   return arrCardTints[nIndex]!
+}
+
+export function bTintIsSecret(nTint: number): boolean {
+  return objCardTint(nTint).bSecret === true
 }
 
 export function nRollCardTint(): number {
@@ -128,14 +148,35 @@ export function nMigrateLegacyTint(nTint: number, nFromScheme: number = 1): numb
   return nMapped
 }
 
-export function sTintCssVars(objTint: tCardTint): string {
-  return [
+export function sTintCssVars(objTint: tCardTint, sBinaryValue: string = ''): string {
+  const arrParts = [
     `--tint-border:${objTint.sBorder}`,
     `--tint-accent:${objTint.sAccent}`,
     `--tint-bright:${objTint.sBright}`,
     `--tint-wash:${objTint.sWash}`,
     `--tint-inner:${objTint.sInner}`,
-  ].join(';')
+  ]
+  if (objTint.bSecret && sBinaryValue) {
+    let nHash = 0
+    for (let nI = 0; nI < sBinaryValue.length; nI++) {
+      nHash = (nHash * 33 + sBinaryValue.charCodeAt(nI)) >>> 0
+    }
+    const nPhase = (nHash % 470) / 100
+    arrParts.push(`--nGlitchPhase:-${nPhase.toFixed(2)}s`)
+  }
+  return arrParts.join(';')
+}
+
+export function sTintCardNameMarkup(sName: string, objTint: tCardTint): string {
+  if (objTint.sId === 'void') {
+    return `
+      <h3 class="collect-card-name">
+        <span class="void-title-real">${sName}</span>
+        <span class="void-title-alt" aria-hidden="true">The Void</span>
+      </h3>
+    `
+  }
+  return `<h3 class="collect-card-name">${sName}</h3>`
 }
 
 /** Decorative layer for rare tint flair. Empty for Standard. */
@@ -230,6 +271,28 @@ export function sTintAmbianceMarkup(objTint: tCardTint): string {
           <circle cx="16" cy="10" r="1.6" fill="currentColor" opacity="0.65" />
           <circle cx="48" cy="10" r="1.6" fill="currentColor" opacity="0.65" />
         </svg>
+      </div>
+    `
+  }
+  if (objTint.sId === 'void') {
+    return `
+      <div class="collect-card-ambiance is-void" aria-hidden="true">
+        <span class="void-haze"></span>
+        <span class="void-scanlines"></span>
+        <span class="void-noise"></span>
+        <span class="void-chromatic"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
+        <span class="void-particle"></span>
       </div>
     `
   }

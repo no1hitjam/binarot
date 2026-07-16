@@ -1,5 +1,5 @@
 import { sCardIconPaths } from './cardIcons'
-import { arrCardTints, type tCardTint } from './cardTints'
+import { arrPublicCardTints, type tCardTint } from './cardTints'
 
 const nGravity = 2200
 const nMoveAccel = 3200
@@ -885,7 +885,7 @@ function sHeroSlug(): string {
 
 function objHeroTint(): tCardTint {
   const nCycle = Math.floor(nCoinsTaken / nDeckSize)
-  return arrCardTints[nCycle % arrCardTints.length]!
+  return arrPublicCardTints[nCycle % arrPublicCardTints.length]!
 }
 
 function vDrawCardIcon(

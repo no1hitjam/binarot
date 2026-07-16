@@ -11,6 +11,7 @@ import { sPlatformMarkup, vBindPlatform, vSetPlatformActive } from './platform'
 import { sForestMarkup, vBindForest, vSetForestActive } from './forest'
 import { sCollectMarkup, vBindCollect, vSetCollectActive } from './collect'
 import { sCollectionMarkup, vBindCollection, vSetCollectionActive } from './collection'
+import { sSchoolMarkup, vBindSchool, vSetSchoolActive } from './school'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -425,6 +426,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="forest" aria-selected="false">Forest</button>
       <button type="button" class="tab-button" data-tab="packs" aria-selected="false">Packs</button>
       <button type="button" class="tab-button" data-tab="collection" aria-selected="false">Collection</button>
+      <button type="button" class="tab-button" data-tab="school" aria-selected="false">School</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -599,6 +601,15 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sCollectionMarkup()}
     </section>
 
+    <section class="tab-panel" data-panel="school">
+      <h2>School</h2>
+      <p class="reading-intro">
+        Binarot Academy — a short visual novel. Meet students who embody each binarot sign,
+        then wander the campus until the deck has faces.
+      </p>
+      ${sSchoolMarkup()}
+    </section>
+
     ${
       bShowDevPanel
         ? `
@@ -666,6 +677,7 @@ const arrUnlockOrder = [
   'forest',
   'packs',
   'collection',
+  'school',
   'about',
 ] as const
 const sDefaultUnlock = 'reading'
@@ -978,6 +990,7 @@ function vActivateTab(sTabId: string): void {
   vSetForestActive(sTabId === 'forest')
   vSetCollectActive(sTabId === 'packs')
   vSetCollectionActive(sTabId === 'collection')
+  vSetSchoolActive(sTabId === 'school')
   vSetCookie(sCookieTab, sTabId)
   vUnlockNextFrom(sTabId)
 }
@@ -1559,3 +1572,4 @@ vBindPlatform()
 vBindForest(arrCards)
 vBindCollect(arrCards)
 vBindCollection(arrCards)
+vBindSchool(arrCards)

@@ -61,7 +61,7 @@ export const arrCardTints: tCardTint[] = [
     sBright: '#f0e8ff',
     sWash: 'rgba(60, 20, 90, 0.28)',
     sInner: 'rgba(8, 4, 14, 0.85)',
-    nWeight: 0.5,
+    nWeight: 1,
     bSecret: true,
   },
 ]

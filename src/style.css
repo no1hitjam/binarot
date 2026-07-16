@@ -2002,6 +2002,1045 @@ code {
   text-shadow: 0 0 12px rgba(5, 3, 8, 0.9);
 }
 
+.collect {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.collect-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(52vh, 420px);
+  padding: 1.5rem 1rem;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 40%, rgba(139, 77, 255, 0.14), transparent 65%),
+    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(224, 184, 58, 0.06), transparent 50%),
+    var(--void);
+  overflow: hidden;
+}
+
+.collect-pack {
+  position: relative;
+  width: 148px;
+  height: 214px;
+  transition:
+    opacity 0.35s ease,
+    transform 0.38s cubic-bezier(0.4, 0, 0.7, 1);
+  transform-origin: 50% 80%;
+}
+
+.collect-pack.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: scale(0.88) translateY(12px);
+}
+
+.collect-pack.is-opening {
+  opacity: 0;
+  transform: scale(1.08) translateY(-28px);
+}
+
+.collect-pack-sleeve {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 1.1rem 0.75rem 1rem;
+  box-sizing: border-box;
+  border: 1px solid var(--border-strong);
+  background:
+    repeating-linear-gradient(
+      -32deg,
+      transparent,
+      transparent 6px,
+      rgba(139, 77, 255, 0.08) 6px,
+      rgba(139, 77, 255, 0.08) 7px
+    ),
+    linear-gradient(165deg, rgba(224, 184, 58, 0.12) 0%, transparent 42%),
+    linear-gradient(200deg, rgba(139, 77, 255, 0.18), transparent 55%),
+    var(--surface-raised);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 18px 36px -12px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(224, 184, 58, 0.16);
+}
+
+.collect-pack-sleeve::before,
+.collect-pack-sleeve::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 1px;
+  background: color-mix(in srgb, var(--gold) 40%, transparent);
+  opacity: 0.55;
+}
+
+.collect-pack-sleeve::before {
+  top: 2.65rem;
+}
+
+.collect-pack-sleeve::after {
+  bottom: 2.45rem;
+}
+
+.collect-pack-brand {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+.collect-pack-mark {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--gold) 55%, var(--purple));
+  text-shadow: 0 0 22px var(--purple-glow);
+}
+
+.collect-pack-count {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.collect-slots {
+  display: none;
+  width: 100%;
+  max-width: 560px;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+  perspective: 1100px;
+}
+
+.collect-slots.is-visible {
+  display: flex;
+}
+
+.collect-card {
+  position: relative;
+  flex: 0 1 148px;
+  width: 148px;
+  height: 222px;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0;
+  transform: translateY(28px) scale(0.92);
+  transform-style: preserve-3d;
+  transition:
+    opacity 0.35s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.collect-card.is-dealt {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.collect-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.52s cubic-bezier(0.4, 0.1, 0.2, 1);
+}
+
+.collect-card.is-flipped .collect-card-inner {
+  transform: rotateY(180deg);
+}
+
+.collect-card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.9rem 0.7rem;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  border: 1px solid var(--tint-border, var(--border-strong));
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 14px 30px -10px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 color-mix(in srgb, var(--tint-accent, var(--gold)) 35%, transparent);
+}
+
+.collect-card-front {
+  transform: rotateY(180deg) translateZ(1px);
+  background:
+    linear-gradient(165deg, rgba(139, 77, 255, 0.14) 0%, transparent 42%),
+    var(--surface);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 14px 30px -10px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(224, 184, 58, 0.12);
+}
+
+.collect-card.is-rare .collect-card-front {
+  background:
+    radial-gradient(ellipse 85% 65% at 50% 18%, var(--tint-wash), transparent 72%),
+    linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--tint-accent) 28%, var(--surface)) 0%,
+      color-mix(in srgb, var(--tint-accent) 10%, var(--void)) 55%,
+      var(--void) 100%
+    );
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 14px 30px -10px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 1px var(--tint-inner),
+    inset 0 1px 0 color-mix(in srgb, var(--tint-bright) 28%, transparent);
+}
+
+.collect-card-back {
+  transform: translateZ(1px);
+  background:
+    repeating-linear-gradient(
+      -32deg,
+      transparent,
+      transparent 6px,
+      rgba(139, 77, 255, 0.07) 6px,
+      rgba(139, 77, 255, 0.07) 7px
+    ),
+    linear-gradient(160deg, rgba(224, 184, 58, 0.08), transparent 50%),
+    var(--surface-raised);
+}
+
+.collect-card-back-mark {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--gold) 55%, var(--purple));
+  text-shadow: 0 0 18px var(--purple-glow);
+  opacity: 0.85;
+}
+
+.collect-card-icon {
+  width: 3.1rem;
+  height: 3.1rem;
+  margin: 0;
+  color: var(--tint-bright, var(--gold-bright));
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--tint-accent, var(--gold)) 45%, transparent));
+}
+
+.collect-card-name {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.collect-card-binary {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--tint-accent, var(--gold));
+}
+
+.collect-card-meaning {
+  margin: 0.15rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.collect-card:hover .collect-card-face {
+  border-color: var(--tint-accent, var(--gold));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tint-accent, var(--gold)) 35%, transparent),
+    0 14px 30px -10px rgba(0, 0, 0, 0.75),
+    0 0 22px -8px color-mix(in srgb, var(--tint-accent, var(--gold)) 45%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--tint-accent, var(--gold)) 40%, transparent);
+}
+
+.collect-card.is-rare.is-flipped .collect-card-front {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tint-accent) 40%, transparent),
+    0 14px 30px -10px rgba(0, 0, 0, 0.75),
+    0 0 32px -4px color-mix(in srgb, var(--tint-accent) 50%, transparent),
+    inset 0 0 0 1px var(--tint-inner),
+    inset 0 1px 0 color-mix(in srgb, var(--tint-bright) 35%, transparent);
+}
+
+.collect-card-front > *:not(.collect-card-ambiance) {
+  position: relative;
+  z-index: 1;
+}
+
+.collect-card-ambiance {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.collect-card-ambiance.is-verdant .verdant-glow {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 22%, rgba(110, 184, 126, 0.26), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 18% 78%, rgba(36, 96, 54, 0.28), transparent 65%),
+    radial-gradient(ellipse 60% 45% at 88% 70%, rgba(52, 130, 74, 0.18), transparent 68%);
+  animation: verdant-glow-breathe 4.8s ease-in-out infinite;
+}
+
+.collect-card-ambiance.is-verdant .verdant-dapple {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(circle at 22% 28%, rgba(110, 184, 126, 0.22) 0 1.5px, transparent 2.2px),
+    radial-gradient(circle at 68% 18%, rgba(45, 120, 68, 0.2) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 78% 42%, rgba(140, 200, 150, 0.14) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 36% 62%, rgba(45, 120, 68, 0.16) 0 1.4px, transparent 2.1px),
+    radial-gradient(circle at 58% 78%, rgba(110, 184, 126, 0.12) 0 1.1px, transparent 1.9px),
+    radial-gradient(circle at 14% 84%, rgba(52, 130, 74, 0.16) 0 1.3px, transparent 2px);
+  animation: verdant-dapple-drift 9s ease-in-out infinite alternate;
+}
+
+.collect-card-ambiance.is-verdant .verdant-mote {
+  --nX: 50%;
+  --nY: 50%;
+  --nSize: 3px;
+  --nDur: 5.2s;
+  --nDelay: 0s;
+  position: absolute;
+  left: var(--nX);
+  top: var(--nY);
+  width: var(--nSize);
+  height: var(--nSize);
+  margin: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #d8f0dc 0%, #6eb87e 40%, transparent 72%);
+  box-shadow:
+    0 0 5px 1px rgba(110, 184, 126, 0.55),
+    0 0 12px 2px rgba(45, 120, 68, 0.35);
+  animation: verdant-mote-drift var(--nDur) ease-in-out infinite;
+  animation-delay: var(--nDelay);
+  opacity: 0;
+}
+
+.collect-card-ambiance.is-verdant .verdant-mote:nth-child(3) {
+  --nX: 18%;
+  --nY: 32%;
+  --nSize: 2.5px;
+  --nDur: 4.6s;
+  --nDelay: 0s;
+}
+
+.collect-card-ambiance.is-verdant .verdant-mote:nth-child(4) {
+  --nX: 72%;
+  --nY: 24%;
+  --nSize: 3.2px;
+  --nDur: 5.8s;
+  --nDelay: -1.2s;
+}
+
+.collect-card-ambiance.is-verdant .verdant-mote:nth-child(5) {
+  --nX: 84%;
+  --nY: 58%;
+  --nSize: 2.2px;
+  --nDur: 4.2s;
+  --nDelay: -2.4s;
+}
+
+.collect-card-ambiance.is-verdant .verdant-mote:nth-child(6) {
+  --nX: 28%;
+  --nY: 72%;
+  --nSize: 2.8px;
+  --nDur: 6.4s;
+  --nDelay: -0.8s;
+}
+
+.collect-card-ambiance.is-verdant .verdant-mote:nth-child(7) {
+  --nX: 52%;
+  --nY: 46%;
+  --nSize: 2px;
+  --nDur: 5s;
+  --nDelay: -3.1s;
+}
+
+.collect-card-ambiance.is-verdant .verdant-mote:nth-child(8) {
+  --nX: 42%;
+  --nY: 16%;
+  --nSize: 2.6px;
+  --nDur: 7s;
+  --nDelay: -1.8s;
+}
+
+.collect-card-ambiance.is-verdant .verdant-vine {
+  position: absolute;
+  width: 2.65rem;
+  height: 2.65rem;
+  color: color-mix(in srgb, var(--tint-bright) 70%, var(--tint-accent));
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--tint-accent) 35%, transparent));
+  opacity: 0.85;
+}
+
+.collect-card-ambiance.is-verdant .verdant-vine-tl {
+  top: 0.15rem;
+  left: 0.1rem;
+  animation: verdant-vine-sway 6.5s ease-in-out infinite;
+  transform-origin: 20% 80%;
+}
+
+.collect-card-ambiance.is-verdant .verdant-vine-br {
+  right: 0.1rem;
+  bottom: 0.15rem;
+  animation: verdant-vine-sway 7.2s ease-in-out infinite reverse;
+  transform-origin: 80% 20%;
+}
+
+.collect-card[data-tint-id='verdant'].is-rare .collect-card-front {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 12%, rgba(110, 184, 126, 0.18), transparent 68%),
+    radial-gradient(ellipse 70% 55% at 12% 88%, rgba(28, 80, 44, 0.28), transparent 62%),
+    linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--tint-accent) 38%, var(--surface)) 0%,
+      color-mix(in srgb, var(--tint-accent) 18%, var(--void)) 52%,
+      var(--void) 100%
+    );
+}
+
+.collect-card[data-tint-id='verdant'].is-rare.is-flipped .collect-card-front {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tint-bright) 65%, transparent),
+    0 14px 30px -10px rgba(0, 0, 0, 0.75),
+    0 0 40px -2px color-mix(in srgb, var(--tint-bright) 55%, transparent),
+    0 0 20px -4px rgba(120, 210, 140, 0.7),
+    inset 0 0 0 1px var(--tint-inner),
+    inset 0 1px 0 color-mix(in srgb, var(--tint-bright) 55%, transparent);
+}
+
+@keyframes verdant-glow-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes verdant-dapple-drift {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate(3px, -4px);
+    opacity: 0.7;
+  }
+}
+
+@keyframes verdant-mote-drift {
+  0% {
+    opacity: 0;
+    transform: translate(0, 6px) scale(0.7);
+  }
+  18% {
+    opacity: 0.95;
+  }
+  55% {
+    opacity: 0.8;
+    transform: translate(4px, -10px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-3px, -22px) scale(0.55);
+  }
+}
+
+@keyframes verdant-vine-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.collect-card-ambiance.is-azure .azure-depth {
+  position: absolute;
+  inset: -15%;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 0%, rgba(160, 212, 255, 0.28), transparent 62%),
+    radial-gradient(ellipse 90% 70% at 50% 110%, rgba(40, 100, 180, 0.35), transparent 58%),
+    radial-gradient(ellipse 50% 40% at 20% 60%, rgba(80, 160, 230, 0.16), transparent 70%);
+  animation: azure-depth-swell 5.5s ease-in-out infinite;
+}
+
+.collect-card-ambiance.is-azure .azure-caustic {
+  position: absolute;
+  inset: -30%;
+  opacity: 0.4;
+  background:
+    radial-gradient(ellipse 18% 10% at 20% 30%, rgba(200, 236, 255, 0.45), transparent 70%),
+    radial-gradient(ellipse 22% 12% at 55% 45%, rgba(160, 212, 255, 0.35), transparent 70%),
+    radial-gradient(ellipse 16% 9% at 78% 28%, rgba(180, 224, 255, 0.4), transparent 70%),
+    radial-gradient(ellipse 20% 11% at 35% 70%, rgba(120, 190, 255, 0.3), transparent 70%),
+    radial-gradient(ellipse 24% 13% at 70% 75%, rgba(160, 212, 255, 0.32), transparent 70%);
+  filter: blur(1px);
+  animation: azure-caustic-drift 7s ease-in-out infinite alternate;
+}
+
+.collect-card-ambiance.is-azure .azure-ripple {
+  --nX: 50%;
+  --nY: 50%;
+  --nDelay: 0s;
+  --nDur: 3.6s;
+  position: absolute;
+  left: var(--nX);
+  top: var(--nY);
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: 0;
+  border: 1.5px solid color-mix(in srgb, var(--tint-bright) 70%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--tint-accent) 35%, transparent);
+  opacity: 0;
+  animation: azure-ripple-expand var(--nDur) ease-out infinite;
+  animation-delay: var(--nDelay);
+}
+
+.collect-card-ambiance.is-azure .azure-ripple:nth-child(3) {
+  --nX: 32%;
+  --nY: 38%;
+  --nDelay: 0s;
+  --nDur: 3.4s;
+}
+
+.collect-card-ambiance.is-azure .azure-ripple:nth-child(4) {
+  --nX: 68%;
+  --nY: 52%;
+  --nDelay: -1.2s;
+  --nDur: 4s;
+}
+
+.collect-card-ambiance.is-azure .azure-ripple:nth-child(5) {
+  --nX: 48%;
+  --nY: 72%;
+  --nDelay: -2.3s;
+  --nDur: 3.7s;
+}
+
+.collect-card-ambiance.is-azure .azure-glint {
+  --nX: 50%;
+  --nY: 40%;
+  --nDelay: 0s;
+  position: absolute;
+  left: var(--nX);
+  top: var(--nY);
+  width: 3px;
+  height: 3px;
+  margin: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 0%, #a0d4ff 45%, transparent 72%);
+  box-shadow:
+    0 0 6px 1px rgba(160, 212, 255, 0.7),
+    0 0 14px 2px rgba(80, 160, 230, 0.3);
+  opacity: 0;
+  animation: azure-glint-flash 2.8s ease-in-out infinite;
+  animation-delay: var(--nDelay);
+}
+
+.collect-card-ambiance.is-azure .azure-glint:nth-child(6) {
+  --nX: 24%;
+  --nY: 28%;
+  --nDelay: 0s;
+}
+
+.collect-card-ambiance.is-azure .azure-glint:nth-child(7) {
+  --nX: 76%;
+  --nY: 36%;
+  --nDelay: -0.9s;
+}
+
+.collect-card-ambiance.is-azure .azure-glint:nth-child(8) {
+  --nX: 56%;
+  --nY: 64%;
+  --nDelay: -1.7s;
+}
+
+.collect-card[data-tint-id='azure'].is-rare .collect-card-front {
+  background:
+    radial-gradient(ellipse 95% 55% at 50% 8%, rgba(160, 212, 255, 0.22), transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(40, 110, 190, 0.22), transparent 60%),
+    linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--tint-accent) 34%, var(--surface)) 0%,
+      color-mix(in srgb, var(--tint-accent) 14%, var(--void)) 52%,
+      var(--void) 100%
+    );
+}
+
+.collect-card[data-tint-id='azure'].is-rare.is-flipped .collect-card-front {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tint-accent) 45%, transparent),
+    0 14px 30px -10px rgba(0, 0, 0, 0.75),
+    0 0 34px -2px color-mix(in srgb, var(--tint-bright) 40%, transparent),
+    0 0 16px -6px rgba(80, 160, 230, 0.55),
+    inset 0 0 0 1px var(--tint-inner),
+    inset 0 1px 0 color-mix(in srgb, var(--tint-bright) 40%, transparent);
+}
+
+@keyframes azure-depth-swell {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3%) scale(1.03);
+  }
+}
+
+@keyframes azure-caustic-drift {
+  0% {
+    transform: translate(-2%, 1%) scale(1);
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate(3%, -2%) scale(1.06);
+    opacity: 0.5;
+  }
+}
+
+@keyframes azure-ripple-expand {
+  0% {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  55% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(4.2);
+  }
+}
+
+@keyframes azure-glint-flash {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  40% {
+    opacity: 0.2;
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  70% {
+    opacity: 0.15;
+    transform: scale(0.85);
+  }
+}
+
+.collect-card-ambiance.is-gold .gold-radiance {
+  position: absolute;
+  inset: -22%;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 8%, rgba(232, 192, 64, 0.28), transparent 62%),
+    radial-gradient(ellipse 55% 40% at 20% 70%, rgba(120, 70, 8, 0.32), transparent 65%),
+    radial-gradient(ellipse 55% 40% at 80% 65%, rgba(140, 90, 12, 0.28), transparent 65%),
+    conic-gradient(
+      from 200deg at 50% 40%,
+      transparent 0deg,
+      rgba(184, 134, 20, 0.1) 40deg,
+      transparent 80deg,
+      rgba(120, 70, 8, 0.12) 140deg,
+      transparent 180deg,
+      rgba(184, 134, 20, 0.09) 240deg,
+      transparent 300deg,
+      rgba(140, 90, 12, 0.1) 340deg,
+      transparent 360deg
+    );
+  animation: gold-radiance-swell 5.4s ease-in-out infinite;
+}
+
+.collect-card-ambiance.is-gold .gold-shimmer {
+  position: absolute;
+  inset: -40% -60%;
+  opacity: 0.28;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(200, 150, 30, 0.14) 42%,
+    rgba(232, 192, 64, 0.28) 50%,
+    rgba(200, 150, 30, 0.14) 58%,
+    transparent 70%
+  );
+  animation: gold-shimmer-sweep 5.6s ease-in-out infinite alternate;
+}
+
+.collect-card-ambiance.is-gold .gold-spark {
+  --nX: 50%;
+  --nY: 50%;
+  --nSize: 2.4px;
+  --nDelay: 0s;
+  position: absolute;
+  left: var(--nX);
+  top: var(--nY);
+  width: var(--nSize);
+  height: var(--nSize);
+  margin: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f0d060 0%, #e8c040 40%, transparent 72%);
+  box-shadow:
+    0 0 5px 1px rgba(232, 192, 64, 0.55),
+    0 0 12px 2px rgba(140, 90, 12, 0.35);
+  opacity: 0;
+  animation: gold-spark-twinkle 3.2s ease-in-out infinite;
+  animation-delay: var(--nDelay);
+}
+
+.collect-card-ambiance.is-gold .gold-spark:nth-child(3) {
+  --nX: 18%;
+  --nY: 30%;
+  --nSize: 2.2px;
+  --nDelay: 0s;
+}
+
+.collect-card-ambiance.is-gold .gold-spark:nth-child(4) {
+  --nX: 78%;
+  --nY: 24%;
+  --nSize: 2.6px;
+  --nDelay: -0.6s;
+}
+
+.collect-card-ambiance.is-gold .gold-spark:nth-child(5) {
+  --nX: 42%;
+  --nY: 44%;
+  --nSize: 2px;
+  --nDelay: -1.2s;
+}
+
+.collect-card-ambiance.is-gold .gold-spark:nth-child(6) {
+  --nX: 66%;
+  --nY: 58%;
+  --nSize: 2.8px;
+  --nDelay: -1.8s;
+}
+
+.collect-card-ambiance.is-gold .gold-spark:nth-child(7) {
+  --nX: 28%;
+  --nY: 68%;
+  --nSize: 2.1px;
+  --nDelay: -0.3s;
+}
+
+.collect-card-ambiance.is-gold .gold-spark:nth-child(8) {
+  --nX: 84%;
+  --nY: 72%;
+  --nSize: 2.4px;
+  --nDelay: -2.4s;
+}
+
+.collect-card-ambiance.is-gold .gold-crest {
+  position: absolute;
+  top: 0.35rem;
+  left: 50%;
+  width: 3.4rem;
+  height: 1.45rem;
+  margin: 0;
+  color: color-mix(in srgb, var(--tint-bright) 80%, var(--tint-accent));
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--tint-accent) 45%, transparent));
+  opacity: 0.8;
+  transform: translateX(-50%);
+  animation: gold-crest-gleam 4.6s ease-in-out infinite;
+}
+
+.collect-card[data-tint-id='gold'].is-rare .collect-card-front {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(184, 134, 20, 0.32), transparent 64%),
+    radial-gradient(ellipse 70% 45% at 15% 85%, rgba(70, 40, 4, 0.4), transparent 60%),
+    radial-gradient(ellipse 70% 45% at 85% 80%, rgba(90, 55, 6, 0.35), transparent 60%),
+    linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--tint-accent) 42%, var(--void)) 0%,
+      color-mix(in srgb, #5a3a08 70%, var(--void)) 52%,
+      var(--void) 100%
+    );
+}
+
+.collect-card[data-tint-id='gold'] .collect-card-name,
+.collect-card[data-tint-id='gold'] .collect-card-binary,
+.collect-card[data-tint-id='gold'] .collect-card-meaning {
+  color: #050301;
+}
+
+.collect-card[data-tint-id='gold'] .collect-card-icon {
+  color: #050301;
+  filter: drop-shadow(0 0 4px rgba(80, 50, 8, 0.35));
+}
+
+.collect-card[data-tint-id='gold'].is-rare.is-flipped .collect-card-front {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--tint-accent) 55%, transparent),
+    0 14px 30px -10px rgba(0, 0, 0, 0.85),
+    0 0 32px -2px color-mix(in srgb, var(--tint-accent) 40%, transparent),
+    0 0 14px -4px rgba(120, 70, 8, 0.65),
+    inset 0 0 0 1px var(--tint-inner),
+    inset 0 1px 0 color-mix(in srgb, var(--tint-bright) 30%, transparent);
+}
+
+@keyframes gold-radiance-swell {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04) rotate(4deg);
+  }
+}
+
+@keyframes gold-shimmer-sweep {
+  0% {
+    transform: translateX(-22%);
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.38;
+  }
+  100% {
+    transform: translateX(22%);
+    opacity: 0.12;
+  }
+}
+
+@keyframes gold-spark-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  70% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes gold-crest-gleam {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translateX(-50%) scale(1.04);
+  }
+}
+
+.collect-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.collect-status {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.collection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.collection-progress {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.collection-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(165deg, var(--tint-wash, rgba(139, 77, 255, 0.1)) 0%, transparent 60%),
+    var(--void);
+}
+
+.collection-page-heading {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.collection-page-label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+.collection-page-meta {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.collection-page-btn {
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0;
+  background-color: var(--void);
+  color: var(--gold-bright);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.collection-page-btn:hover {
+  background-color: var(--gold);
+  color: var(--black);
+  border-color: var(--gold);
+}
+
+.collection-page {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  justify-items: center;
+  gap: 0.85rem;
+  padding: 1rem 0.5rem 0.25rem;
+  perspective: 1100px;
+}
+
+.collection-page .collection-card {
+  opacity: 1;
+  transform: none;
+  flex: none;
+  width: 100%;
+  max-width: 148px;
+  height: auto;
+  aspect-ratio: 148 / 222;
+  margin: 0;
+  pointer-events: auto;
+}
+
+.collection-page .collection-card.is-locked {
+  pointer-events: none;
+  opacity: 0.78;
+}
+
+.collection-page .collection-card.is-locked .collect-card-back {
+  gap: 0.75rem;
+}
+
+.collection-card-locked-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .collect-slots.is-visible {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .collect-card {
+    flex: 0 1 118px;
+    width: 118px;
+    height: 178px;
+  }
+
+  .collect-card-meaning {
+    display: none;
+  }
+
+  .collect-card-icon {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  .collection-page {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .collection-page .collection-card {
+    max-width: 118px;
+  }
+
+  .collection-page-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+  }
+}
+
 .planets {
   display: flex;
   flex-direction: column;

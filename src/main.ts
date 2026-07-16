@@ -9,6 +9,8 @@ import { sHouseMarkup, vBindHouse, vSetHouseActive } from './house'
 import { sMatrixMarkup, vBindMatrixRain, vSetMatrixActive } from './matrix'
 import { sPlatformMarkup, vBindPlatform, vSetPlatformActive } from './platform'
 import { sForestMarkup, vBindForest, vSetForestActive } from './forest'
+import { sCollectMarkup, vBindCollect, vSetCollectActive } from './collect'
+import { sCollectionMarkup, vBindCollection, vSetCollectionActive } from './collection'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -421,6 +423,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="house" aria-selected="false">House</button>
       <button type="button" class="tab-button" data-tab="platform" aria-selected="false">Platform</button>
       <button type="button" class="tab-button" data-tab="forest" aria-selected="false">Forest</button>
+      <button type="button" class="tab-button" data-tab="packs" aria-selected="false">Packs</button>
+      <button type="button" class="tab-button" data-tab="collection" aria-selected="false">Collection</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -577,6 +581,24 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sForestMarkup()}
     </section>
 
+    <section class="tab-panel" data-panel="packs">
+      <h2>Packs</h2>
+      <p class="reading-intro">
+        Open packs of three binarot cards. Most pulls are Standard—rarer Verdant, Azure,
+        and Gold tints (the same palette as Platform) show up less often.
+      </p>
+      ${sCollectMarkup()}
+    </section>
+
+    <section class="tab-panel" data-panel="collection">
+      <h2>Collection</h2>
+      <p class="reading-intro">
+        Every sign has four color variants. Flip between tint pages to browse full cards; locked
+        slots stay face-down until you pull that variant.
+      </p>
+      ${sCollectionMarkup()}
+    </section>
+
     ${
       bShowDevPanel
         ? `
@@ -642,6 +664,8 @@ const arrUnlockOrder = [
   'house',
   'platform',
   'forest',
+  'packs',
+  'collection',
   'about',
 ] as const
 const sDefaultUnlock = 'reading'
@@ -679,6 +703,9 @@ function sAliasTabId(sTabId: string): string {
   }
   if (sTabId === 'birthday') {
     return 'quiz'
+  }
+  if (sTabId === 'collect') {
+    return 'packs'
   }
   return sTabId
 }
@@ -949,6 +976,8 @@ function vActivateTab(sTabId: string): void {
   vSetHouseActive(sTabId === 'house')
   vSetPlatformActive(sTabId === 'platform')
   vSetForestActive(sTabId === 'forest')
+  vSetCollectActive(sTabId === 'packs')
+  vSetCollectionActive(sTabId === 'collection')
   vSetCookie(sCookieTab, sTabId)
   vUnlockNextFrom(sTabId)
 }
@@ -1528,3 +1557,5 @@ vBindExplore(arrCards)
 vBindHouse(arrCards)
 vBindPlatform()
 vBindForest(arrCards)
+vBindCollect(arrCards)
+vBindCollection(arrCards)

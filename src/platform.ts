@@ -1,4 +1,5 @@
 import { sCardIconPaths } from './cardIcons'
+import { arrCardTints, type tCardTint } from './cardTints'
 
 const nGravity = 2200
 const nMoveAccel = 3200
@@ -30,66 +31,6 @@ const nHazardDriftAmp = 36
 const nHazardDriftSpeed = 0.0011
 const nBitPickupPad = 14
 const sBitGlyph = '1'
-
-type tCardTint = {
-  sBorder: string
-  sAccent: string
-  sBright: string
-  sWash: string
-  sInner: string
-}
-
-const arrCardTints: tCardTint[] = [
-  {
-    sBorder: 'rgba(224, 184, 58, 0.75)',
-    sAccent: '#e0b83a',
-    sBright: '#ffe08a',
-    sWash: 'rgba(139, 77, 255, 0.14)',
-    sInner: 'rgba(139, 77, 255, 0.4)',
-  },
-  {
-    sBorder: 'rgba(90, 200, 120, 0.8)',
-    sAccent: '#5ec878',
-    sBright: '#a8f0b8',
-    sWash: 'rgba(90, 200, 120, 0.16)',
-    sInner: 'rgba(90, 200, 120, 0.42)',
-  },
-  {
-    sBorder: 'rgba(176, 120, 64, 0.8)',
-    sAccent: '#b07840',
-    sBright: '#e0b078',
-    sWash: 'rgba(176, 120, 64, 0.16)',
-    sInner: 'rgba(176, 120, 64, 0.42)',
-  },
-  {
-    sBorder: 'rgba(80, 160, 230, 0.8)',
-    sAccent: '#50a0e6',
-    sBright: '#a0d4ff',
-    sWash: 'rgba(80, 160, 230, 0.16)',
-    sInner: 'rgba(80, 160, 230, 0.42)',
-  },
-  {
-    sBorder: 'rgba(220, 90, 90, 0.8)',
-    sAccent: '#dc5a5a',
-    sBright: '#ffb0b0',
-    sWash: 'rgba(220, 90, 90, 0.16)',
-    sInner: 'rgba(220, 90, 90, 0.42)',
-  },
-  {
-    sBorder: 'rgba(70, 190, 190, 0.8)',
-    sAccent: '#46bebe',
-    sBright: '#9aeeee',
-    sWash: 'rgba(70, 190, 190, 0.16)',
-    sInner: 'rgba(70, 190, 190, 0.42)',
-  },
-  {
-    sBorder: 'rgba(200, 200, 210, 0.8)',
-    sAccent: '#c8c8d2',
-    sBright: '#f0f0f6',
-    sWash: 'rgba(200, 200, 210, 0.16)',
-    sInner: 'rgba(200, 200, 210, 0.42)',
-  },
-]
 
 type tRect = {
   nX: number

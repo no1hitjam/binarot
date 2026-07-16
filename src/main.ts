@@ -12,6 +12,7 @@ import { sForestMarkup, vBindForest, vSetForestActive } from './forest'
 import { sCollectMarkup, vBindCollect, vSetCollectActive } from './collect'
 import { sCollectionMarkup, vBindCollection, vSetCollectionActive } from './collection'
 import { sSchoolMarkup, vBindSchool, vSetSchoolActive } from './school'
+import { sDiamondMarkup, vBindDiamond, vSetDiamondActive } from './diamond'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -427,6 +428,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="packs" aria-selected="false">Packs</button>
       <button type="button" class="tab-button" data-tab="collection" aria-selected="false">Collection</button>
       <button type="button" class="tab-button" data-tab="school" aria-selected="false">School</button>
+      <button type="button" class="tab-button" data-tab="diamond" aria-selected="false">Diamond</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -610,6 +612,14 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sSchoolMarkup()}
     </section>
 
+    <section class="tab-panel" data-panel="diamond">
+      <h2>Diamond</h2>
+      <p class="reading-intro">
+        A diamond holds the center while lesser forms orbit the void. Move to drift the gaze.
+      </p>
+      ${sDiamondMarkup()}
+    </section>
+
     ${
       bShowDevPanel
         ? `
@@ -678,6 +688,7 @@ const arrUnlockOrder = [
   'packs',
   'collection',
   'school',
+  'diamond',
   'about',
 ] as const
 const sDefaultUnlock = 'reading'
@@ -718,6 +729,9 @@ function sAliasTabId(sTabId: string): string {
   }
   if (sTabId === 'collect') {
     return 'packs'
+  }
+  if (sTabId === 'citadel') {
+    return 'diamond'
   }
   return sTabId
 }
@@ -991,6 +1005,7 @@ function vActivateTab(sTabId: string): void {
   vSetCollectActive(sTabId === 'packs')
   vSetCollectionActive(sTabId === 'collection')
   vSetSchoolActive(sTabId === 'school')
+  vSetDiamondActive(sTabId === 'diamond')
   vSetCookie(sCookieTab, sTabId)
   vUnlockNextFrom(sTabId)
 }
@@ -1573,3 +1588,4 @@ vBindForest(arrCards)
 vBindCollect(arrCards)
 vBindCollection(arrCards)
 vBindSchool(arrCards)
+vBindDiamond(arrCards)

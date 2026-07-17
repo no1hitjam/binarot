@@ -24,7 +24,7 @@ type tFifteenCard = {
   sFaceKind?: tFaceKind
 }
 
-type tPhase = 'betting' | 'ai' | 'player' | 'dealer' | 'settled'
+type tPhase = 'idle' | 'ai' | 'player' | 'dealer' | 'settled'
 
 type tOutcome = 'win' | 'lose' | 'push' | 'natural' | null
 
@@ -34,16 +34,12 @@ type tSeat = {
   bHuman: boolean
   nStandAt: number
   arrHand: tFifteenCard[]
-  nChips: number
-  nBet: number
   sOutcome: tOutcome
   bFinished: boolean
 }
 
 const nTarget = 31
 const nDealerStand = 24
-const nStartChips = 100
-const nDefaultBet = 10
 const nMinShoe = 12
 const nDealerHitDelayMs = 550
 const nAiDelayMs = 480
@@ -57,21 +53,25 @@ const arrFaceRanks: tFaceRank[] = [
   { sName: 'The Castle', sKind: 'castle', sMark: 'C' },
   { sName: 'The Hall', sKind: 'hall', sMark: 'H' },
 ]
-const arrBetSteps = [5, 10, 25, 50]
 const arrBotDefs = [
   { sId: 'bit', sName: 'Mr. Bit', nStandAt: 22 },
   { sId: 'nix', sName: 'Ms. Nix', nStandAt: 24 },
   { sId: 'lex', sName: 'Mrs. Lex', nStandAt: 26 },
 ]
+const sStorageKey = 'binarot_fifteen'
+
+type tFifteenSave = {
+  nWins: number
+  nLosses: number
+}
 
 let arrSource: tFifteenSource[] = []
 let arrShoe: tFifteenCard[] = []
 let arrDiscard: tFifteenCard[] = []
 let arrSeats: tSeat[] = []
 let arrDealer: tFifteenCard[] = []
-let sPhase: tPhase = 'betting'
+let sPhase: tPhase = 'idle'
 let sOutcome: tOutcome = null
-let nPendingBet = nDefaultBet
 let nAiSeat = 0
 let nDealerTimer = 0
 let nAiTimer = 0
@@ -79,17 +79,18 @@ let nDealerAnimatedIndex = -1
 let sSeatAnimatedId = ''
 let nSeatAnimatedIndex = -1
 let sRenderedSeatId = ''
-let sStatus = 'Place a bet, then deal.'
+let sStatus = 'Deal a hand when ready.'
 let sSummary = ''
+let nWins = 0
+let nLosses = 0
 let bBound = false
 
 let objRoot: HTMLElement | null = null
 let objTable: HTMLElement | null = null
-let objChips: HTMLElement | null = null
-let objBetLabel: HTMLElement | null = null
 let objStatus: HTMLElement | null = null
 let objSummary: HTMLElement | null = null
-let objBetRow: HTMLElement | null = null
+let objRecord: HTMLElement | null = null
+let objDealRow: HTMLElement | null = null
 let objActionRow: HTMLElement | null = null
 
 function objHuman(): tSeat {
@@ -100,6 +101,30 @@ function arrBots(): tSeat[] {
   return arrSeats.filter((objSeat) => !objSeat.bHuman)
 }
 
+function objLoadSave(): tFifteenSave {
+  try {
+    const sRaw = localStorage.getItem(sStorageKey)
+    if (!sRaw) {
+      return { nWins: 0, nLosses: 0 }
+    }
+    const objParsed = JSON.parse(sRaw) as Partial<tFifteenSave>
+    return {
+      nWins: typeof objParsed.nWins === 'number' && objParsed.nWins >= 0 ? Math.floor(objParsed.nWins) : 0,
+      nLosses:
+        typeof objParsed.nLosses === 'number' && objParsed.nLosses >= 0
+          ? Math.floor(objParsed.nLosses)
+          : 0,
+    }
+  } catch {
+    return { nWins: 0, nLosses: 0 }
+  }
+}
+
+function vPersistRecord(): void {
+  const objSave: tFifteenSave = { nWins, nLosses }
+  localStorage.setItem(sStorageKey, JSON.stringify(objSave))
+}
+
 function arrBuildSeats(): tSeat[] {
   const arrOut: tSeat[] = arrBotDefs.map((objBot) => ({
     sId: objBot.sId,
@@ -107,8 +132,6 @@ function arrBuildSeats(): tSeat[] {
     bHuman: false,
     nStandAt: objBot.nStandAt,
     arrHand: [],
-    nChips: nStartChips,
-    nBet: 0,
     sOutcome: null,
     bFinished: false,
   }))
@@ -118,8 +141,6 @@ function arrBuildSeats(): tSeat[] {
     bHuman: true,
     nStandAt: nDealerStand,
     arrHand: [],
-    nChips: nStartChips,
-    nBet: 0,
     sOutcome: null,
     bFinished: false,
   })
@@ -255,7 +276,6 @@ function vDiscardHands(): void {
   for (const objSeat of arrSeats) {
     arrDiscard.push(...objSeat.arrHand)
     objSeat.arrHand = []
-    objSeat.nBet = 0
     objSeat.sOutcome = null
     objSeat.bFinished = false
   }
@@ -356,28 +376,6 @@ function sOutcomeLabel(sResult: tOutcome): string {
   return ''
 }
 
-function nPickBotBet(objSeat: tSeat): number {
-  const arrAffordable = arrBetSteps.filter((nStep) => nStep <= objSeat.nChips)
-  if (arrAffordable.length === 0) {
-    return 0
-  }
-  return arrAffordable[Math.floor(Math.random() * arrAffordable.length)]!
-}
-
-function vClampPendingBet(): void {
-  const objYou = objHuman()
-  if (objYou.nChips <= 0) {
-    nPendingBet = 0
-    return
-  }
-  if (nPendingBet < 1) {
-    nPendingBet = Math.min(arrBetSteps[0]!, objYou.nChips)
-  }
-  if (nPendingBet > objYou.nChips) {
-    nPendingBet = objYou.nChips
-  }
-}
-
 function vClearTimers(): void {
   if (nDealerTimer !== 0) {
     window.clearTimeout(nDealerTimer)
@@ -394,33 +392,24 @@ function vSetButtons(): void {
     return
   }
 
-  const objYou = objHuman()
-  const arrBetBtns = Array.from(objRoot.querySelectorAll<HTMLButtonElement>('[data-bet]'))
   const objDeal = objRoot.querySelector<HTMLButtonElement>('[data-action="deal"]')
   const objHit = objRoot.querySelector<HTMLButtonElement>('[data-action="hit"]')
   const objStand = objRoot.querySelector<HTMLButtonElement>('[data-action="stand"]')
   const objAgain = objRoot.querySelector<HTMLButtonElement>('[data-action="again"]')
 
-  const bBetting = sPhase === 'betting'
+  const bIdle = sPhase === 'idle'
   const bPlayer = sPhase === 'player'
   const bSettled = sPhase === 'settled'
 
-  if (objBetRow) {
-    objBetRow.hidden = !bBetting
+  if (objDealRow) {
+    objDealRow.hidden = !bIdle
   }
   if (objActionRow) {
     objActionRow.hidden = !(bPlayer || bSettled)
   }
 
-  for (const objBtn of arrBetBtns) {
-    const nStep = Number(objBtn.dataset.bet)
-    objBtn.disabled = !bBetting || nStep > objYou.nChips
-    objBtn.classList.toggle('is-selected', bBetting && nStep === nPendingBet)
-  }
-
   if (objDeal) {
-    objDeal.disabled =
-      !bBetting || nPendingBet < 1 || nPendingBet > objYou.nChips || objYou.nChips <= 0
+    objDeal.disabled = !bIdle
   }
   if (objHit) {
     objHit.disabled = !bPlayer
@@ -448,7 +437,7 @@ function sSeatMarkup(objSeat: tSeat, bTakeover: boolean): string {
   const bActive =
     (sPhase === 'ai' && !objSeat.bHuman) ||
     (sPhase === 'player' && objSeat.bHuman)
-  const bShowHand = sPhase !== 'betting'
+  const bShowHand = sPhase !== 'idle'
   const nAnimate = sSeatAnimatedId === objSeat.sId ? nSeatAnimatedIndex : -1
   const sResult = sOutcomeLabel(objSeat.sOutcome)
   const sActive = bActive ? ' is-active' : ''
@@ -461,8 +450,6 @@ function sSeatMarkup(objSeat: tSeat, bTakeover: boolean): string {
       <header class="fifteen-seat-head">
         <h3>${objSeat.sName}</h3>
         <div class="fifteen-seat-bank">
-          <span>${objSeat.nChips} chips</span>
-          <span>bet ${objSeat.nBet || (sPhase === 'betting' && objSeat.bHuman ? nPendingBet : 0)}</span>
           ${sResult ? `<span class="fifteen-outcome">${sResult}</span>` : ''}
         </div>
         <div class="fifteen-seat-meta">${sMetaMarkup(objSeat.arrHand, bShowHand)}</div>
@@ -494,14 +481,6 @@ function vRender(): void {
     sRenderedSeatId = objSeat.sId
   }
 
-  const objYou = objHuman()
-  if (objChips) {
-    objChips.textContent = String(objYou.nChips)
-  }
-  if (objBetLabel) {
-    objBetLabel.textContent =
-      sPhase === 'betting' ? String(nPendingBet) : String(objYou.nBet)
-  }
   if (objStatus) {
     objStatus.textContent = sStatus
   }
@@ -509,9 +488,12 @@ function vRender(): void {
     objSummary.textContent = sSummary
     objSummary.hidden = sSummary === ''
   }
+  if (objRecord) {
+    objRecord.textContent = `Wins ${nWins} · Losses ${nLosses}`
+  }
 
   if (objRoot) {
-    objRoot.classList.toggle('is-betting', sPhase === 'betting')
+    objRoot.classList.toggle('is-idle', sPhase === 'idle')
     objRoot.classList.toggle('is-ai', sPhase === 'ai')
     objRoot.classList.toggle('is-player', sPhase === 'player')
     objRoot.classList.toggle('is-dealer', sPhase === 'dealer')
@@ -522,26 +504,14 @@ function vRender(): void {
   vSetButtons()
 }
 
-function vApplyPayout(objSeat: tSeat, sResult: Exclude<tOutcome, null>): void {
-  objSeat.sOutcome = sResult
-  if (sResult === 'natural') {
-    objSeat.nChips += objSeat.nBet + objSeat.nBet * 2
-  } else if (sResult === 'win') {
-    objSeat.nChips += objSeat.nBet * 2
-  } else if (sResult === 'push') {
-    objSeat.nChips += objSeat.nBet
-  }
-}
-
 function vSettleSeat(objSeat: tSeat, nDealer: number, bDealerBust: boolean): void {
-  if (objSeat.nBet <= 0 || objSeat.arrHand.length === 0) {
+  if (objSeat.arrHand.length === 0) {
     return
   }
   if (objSeat.sOutcome === 'lose' && bBust(objSeat.arrHand)) {
     return
   }
   if (objSeat.sOutcome === 'natural') {
-    vApplyPayout(objSeat, 'natural')
     return
   }
 
@@ -551,39 +521,38 @@ function vSettleSeat(objSeat: tSeat, nDealer: number, bDealerBust: boolean): voi
     return
   }
   if (bDealerBust || nSeatTotal > nDealer) {
-    vApplyPayout(objSeat, 'win')
+    objSeat.sOutcome = 'win'
     return
   }
   if (nSeatTotal < nDealer) {
     objSeat.sOutcome = 'lose'
     return
   }
-  vApplyPayout(objSeat, 'push')
+  objSeat.sOutcome = 'push'
 }
 
 function sHumanResultMessage(): string {
   const objYou = objHuman()
-  const nBet = objYou.nBet
   if (objYou.sOutcome === 'natural') {
-    return `Thirty-one! Natural pays 2:1 (+${nBet * 2}).`
+    return 'Thirty-one! Natural.'
   }
   if (objYou.sOutcome === 'win') {
     if (bBust(arrDealer)) {
-      return `Dealer busts. You win ${nBet}.`
+      return 'Dealer busts. You win.'
     }
-    return `You ${nHandTotal(objYou.arrHand)} beats dealer. You win ${nBet}.`
+    return `You ${nHandTotal(objYou.arrHand)} beats dealer. You win.`
   }
   if (objYou.sOutcome === 'push') {
-    return `Push at ${nHandTotal(objYou.arrHand)}. Stake returned.`
+    return `Push at ${nHandTotal(objYou.arrHand)}.`
   }
   if (objYou.sOutcome === 'lose') {
     if (bBust(objYou.arrHand)) {
-      return `Bust at ${nHandTotal(objYou.arrHand)}. You lose ${nBet}.`
+      return `Bust at ${nHandTotal(objYou.arrHand)}. You lose.`
     }
     if (bNatural(arrDealer)) {
       return 'Dealer hits thirty-one. You lose.'
     }
-    return `Dealer beats your ${nHandTotal(objYou.arrHand)}. You lose ${nBet}.`
+    return `Dealer beats your ${nHandTotal(objYou.arrHand)}. You lose.`
   }
   return 'Hand complete.'
 }
@@ -631,12 +600,15 @@ function vSettleAll(sOverrideStatus?: string): void {
   const objYou = objHuman()
   sOutcome = objYou.sOutcome
   sPhase = 'settled'
+  if (objYou.sOutcome === 'win' || objYou.sOutcome === 'natural') {
+    nWins += 1
+    vPersistRecord()
+  } else if (objYou.sOutcome === 'lose') {
+    nLosses += 1
+    vPersistRecord()
+  }
   sStatus = sOverrideStatus ?? sHumanResultMessage()
   sSummary = sTableSummary()
-  for (const objSeat of arrSeats) {
-    objSeat.nBet = 0
-  }
-  vClampPendingBet()
   sSeatAnimatedId = ''
   nSeatAnimatedIndex = -1
   vRender()
@@ -667,7 +639,6 @@ function vDealerStep(): void {
 function bAnyLiveForDealer(): boolean {
   return arrSeats.some(
     (objSeat) =>
-      objSeat.nBet > 0 &&
       objSeat.arrHand.length > 0 &&
       !bBust(objSeat.arrHand) &&
       objSeat.sOutcome !== 'lose',
@@ -693,7 +664,7 @@ function vDealerPlay(): void {
 
 function vStartPlayerTurn(): void {
   const objYou = objHuman()
-  if (objYou.nBet <= 0 || objYou.arrHand.length === 0) {
+  if (objYou.arrHand.length === 0) {
     vDealerPlay()
     return
   }
@@ -737,7 +708,7 @@ function vAiStep(): void {
   const arrAi = arrBots()
   while (nAiSeat < arrAi.length) {
     const objSeat = arrAi[nAiSeat]!
-    if (objSeat.nBet <= 0 || objSeat.arrHand.length === 0 || objSeat.bFinished) {
+    if (objSeat.arrHand.length === 0 || objSeat.bFinished) {
       nAiSeat += 1
       continue
     }
@@ -803,7 +774,7 @@ function vCheckDealerNatural(): boolean {
     return false
   }
   for (const objSeat of arrSeats) {
-    if (objSeat.nBet <= 0 || objSeat.arrHand.length === 0) {
+    if (objSeat.arrHand.length === 0) {
       continue
     }
     if (bNatural(objSeat.arrHand)) {
@@ -823,30 +794,9 @@ function vCheckDealerNatural(): boolean {
   return true
 }
 
-function vPlaceBets(): boolean {
-  vClampPendingBet()
-  const objYou = objHuman()
-  if (nPendingBet < 1 || nPendingBet > objYou.nChips) {
-    sStatus = objYou.nChips <= 0 ? 'Bankroll empty — refresh to reset chips.' : 'Choose a valid bet.'
-    vRender()
-    return false
-  }
-
-  for (const objSeat of arrBots()) {
-    const nBet = nPickBotBet(objSeat)
-    objSeat.nBet = nBet
-    objSeat.nChips -= nBet
-  }
-
-  objYou.nBet = nPendingBet
-  objYou.nChips -= nPendingBet
-  return true
-}
-
 function vDealCards(): void {
-  const arrActive = arrSeats.filter((objSeat) => objSeat.nBet > 0)
   for (let nRound = 0; nRound < 2; nRound++) {
-    for (const objSeat of arrActive) {
+    for (const objSeat of arrSeats) {
       objSeat.arrHand.push(objDraw())
     }
     arrDealer.push(objDraw())
@@ -854,7 +804,7 @@ function vDealCards(): void {
 }
 
 function vDeal(): void {
-  if (sPhase !== 'betting') {
+  if (sPhase !== 'idle') {
     return
   }
 
@@ -864,10 +814,6 @@ function vDeal(): void {
   sSeatAnimatedId = ''
   nSeatAnimatedIndex = -1
 
-  if (!vPlaceBets()) {
-    return
-  }
-
   vDealCards()
 
   if (vCheckDealerNatural()) {
@@ -875,7 +821,7 @@ function vDeal(): void {
   }
 
   for (const objSeat of arrSeats) {
-    if (objSeat.nBet > 0 && bNatural(objSeat.arrHand)) {
+    if (bNatural(objSeat.arrHand)) {
       objSeat.sOutcome = 'natural'
       objSeat.bFinished = true
     }
@@ -930,19 +876,8 @@ function vAgain(): void {
     return
   }
   vClearTimers()
-  vDiscardHands()
-  sOutcome = null
-  sPhase = 'betting'
-  sSeatAnimatedId = ''
-  nSeatAnimatedIndex = -1
-  sSummary = ''
-  vClampPendingBet()
-  const objYou = objHuman()
-  sStatus =
-    objYou.nChips <= 0
-      ? 'Bankroll empty — refresh the page to reset chips.'
-      : 'Place a bet, then deal.'
-  vRender()
+  sPhase = 'idle'
+  vDeal()
 }
 
 function vOnClick(objEvent: MouseEvent): void {
@@ -952,15 +887,6 @@ function vOnClick(objEvent: MouseEvent): void {
   }
   const objBtn = objTarget.closest('button')
   if (!(objBtn instanceof HTMLButtonElement) || objBtn.disabled) {
-    return
-  }
-
-  const sBet = objBtn.dataset.bet
-  if (sBet !== undefined) {
-    nPendingBet = Number(sBet)
-    vClampPendingBet()
-    sStatus = `Bet set to ${nPendingBet}.`
-    vRender()
     return
   }
 
@@ -983,30 +909,20 @@ function vOnClick(objEvent: MouseEvent): void {
 }
 
 export function sFifteenMarkup(): string {
-  const sBetButtons = arrBetSteps
-    .map(
-      (nStep) =>
-        `<button type="button" class="fifteen-chip" data-bet="${nStep}">${nStep}</button>`,
-    )
-    .join('')
-
   return `
     <div class="fifteen" id="fifteen" data-outcome="">
       <div class="fifteen-bank">
-        <span class="fifteen-bank-item">Your chips <strong id="fifteen-chips">${nStartChips}</strong></span>
-        <span class="fifteen-bank-item">Your bet <strong id="fifteen-bet">${nDefaultBet}</strong></span>
         <span class="fifteen-bank-item">Target <code>11111</code> (31)</span>
+        <span class="fifteen-bank-item">No stakes — just play</span>
       </div>
 
       <div class="fifteen-table" id="fifteen-table"></div>
 
-      <p class="fifteen-status" id="fifteen-status" aria-live="polite">Place a bet, then deal.</p>
+      <p class="fifteen-status" id="fifteen-status" aria-live="polite">Deal a hand when ready.</p>
       <p class="fifteen-summary" id="fifteen-summary" hidden></p>
 
       <div class="fifteen-controls">
-        <div class="fifteen-bet-row" id="fifteen-bet-row">
-          <span class="fifteen-bet-label">Bet</span>
-          <div class="fifteen-chip-row">${sBetButtons}</div>
+        <div class="fifteen-deal-row" id="fifteen-deal-row">
           <button type="button" class="reading-draw" data-action="deal">Deal</button>
         </div>
         <div class="fifteen-action-row" id="fifteen-action-row" hidden>
@@ -1015,6 +931,8 @@ export function sFifteenMarkup(): string {
           <button type="button" class="reading-draw" data-action="again" hidden>Next hand</button>
         </div>
       </div>
+
+      <p class="fifteen-record" id="fifteen-record" aria-live="polite">Wins 0 · Losses 0</p>
     </div>
   `
 }
@@ -1026,23 +944,25 @@ export function vBindFifteen(arrCards: tFifteenSource[]): void {
   arrDiscard = []
   arrSeats = arrBuildSeats()
   arrDealer = []
-  sPhase = 'betting'
+  sPhase = 'idle'
   sOutcome = null
-  nPendingBet = nDefaultBet
   nAiSeat = 0
   sSeatAnimatedId = ''
   nSeatAnimatedIndex = -1
   sRenderedSeatId = ''
-  sStatus = 'Place a bet, then deal.'
+  sStatus = 'Deal a hand when ready.'
   sSummary = ''
+
+  const objSave = objLoadSave()
+  nWins = objSave.nWins
+  nLosses = objSave.nLosses
 
   objRoot = document.querySelector<HTMLElement>('#fifteen')
   objTable = document.querySelector<HTMLElement>('#fifteen-table')
-  objChips = document.querySelector<HTMLElement>('#fifteen-chips')
-  objBetLabel = document.querySelector<HTMLElement>('#fifteen-bet')
   objStatus = document.querySelector<HTMLElement>('#fifteen-status')
   objSummary = document.querySelector<HTMLElement>('#fifteen-summary')
-  objBetRow = document.querySelector<HTMLElement>('#fifteen-bet-row')
+  objRecord = document.querySelector<HTMLElement>('#fifteen-record')
+  objDealRow = document.querySelector<HTMLElement>('#fifteen-deal-row')
   objActionRow = document.querySelector<HTMLElement>('#fifteen-action-row')
 
   if (!objRoot) {
@@ -1054,7 +974,6 @@ export function vBindFifteen(arrCards: tFifteenSource[]): void {
     bBound = true
   }
 
-  vClampPendingBet()
   vRender()
 }
 

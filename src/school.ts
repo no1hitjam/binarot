@@ -1,3 +1,5 @@
+import { sCardIconMarkup } from './cardIcons'
+
 type tSchoolCard = {
   sName: string
   sBinaryValue: string
@@ -53,6 +55,9 @@ let sSceneId = 'title'
 let nLine = 0
 let bBound = false
 
+let arrSchoolCards: tSchoolCard[] = []
+let sPendingNext: string | null = null
+
 let objRoot: HTMLElement | null = null
 let objStage: HTMLElement | null = null
 let objPortrait: HTMLElement | null = null
@@ -62,6 +67,7 @@ let objAdvance: HTMLElement | null = null
 let objChoices: HTMLElement | null = null
 let objProgress: HTMLElement | null = null
 let objHub: HTMLElement | null = null
+let objUnlock: HTMLElement | null = null
 
 const arrCharacters: tCharacter[] = [
   {
@@ -507,12 +513,104 @@ function vPersist(): void {
   localStorage.setItem(sStorageKey, JSON.stringify(objSave))
 }
 
-function vMeet(sId: string): void {
+function vMeet(sId: string): boolean {
   if (!sId || setMet.has(sId)) {
-    return
+    return false
   }
   setMet.add(sId)
   vPersist()
+  return true
+}
+
+function objSchoolCard(objChar: tCharacter): tSchoolCard {
+  const objCard = arrSchoolCards.find((objItem) => objItem.sBinaryValue === objChar.sBinaryValue)
+  if (objCard) {
+    return objCard
+  }
+  return {
+    sName: objChar.sTitle,
+    sBinaryValue: objChar.sBinaryValue,
+    sMeaning: objChar.sRole,
+  }
+}
+
+function sUnlockMeetId(objCurrent: tScene, objChoice: tChoice): string | null {
+  if (objChoice.sMeet) {
+    return objChoice.sMeet
+  }
+  if (objChoice.sNext === 'hub' && objCurrent.sPortrait && /^talk_.+_b$/.test(objCurrent.sId)) {
+    return objCurrent.sPortrait
+  }
+  return null
+}
+
+function vShowUnlock(sId: string, sNext: string): void {
+  const objChar = mapCharById[sId]
+  if (!objChar || !objUnlock) {
+    vGoScene(sNext)
+    return
+  }
+
+  const objCard = objSchoolCard(objChar)
+  sPendingNext = sNext
+  objUnlock.hidden = false
+  objUnlock.innerHTML = `
+    <div class="school-unlock-panel">
+      <p class="school-unlock-kicker">Thou art anew.</p>
+      <div class="school-unlock-card collect-card is-dealt is-flipped" aria-hidden="true">
+        <div class="collect-card-inner">
+          <div class="collect-card-face collect-card-back">
+            <div class="collect-card-back-mark">
+              <span>0</span>
+              <span>1</span>
+            </div>
+          </div>
+          <div class="collect-card-face collect-card-front">
+            ${sCardIconMarkup(objCard.sBinaryValue, 'collect-card-icon')}
+            <h3 class="collect-card-name">${sEscapeHtml(objCard.sName)}</h3>
+            <span class="collect-card-binary">${sEscapeHtml(objCard.sBinaryValue)}</span>
+            <p class="collect-card-meaning">${sEscapeHtml(objCard.sMeaning)}</p>
+          </div>
+        </div>
+      </div>
+      <p class="school-unlock-body">
+        <span class="school-unlock-line school-unlock-line-link">
+          A new binarot link has been unlocked and you have made a new connection.
+        </span>
+        <span class="school-unlock-line school-unlock-line-destiny">
+          Your destiny has now become intertwined with the
+          <strong>${sEscapeHtml(objCard.sName)}</strong> card.
+        </span>
+      </p>
+      <button type="button" class="school-choice school-unlock-continue" data-action="dismiss-unlock">
+        Continue
+      </button>
+    </div>
+  `
+
+  const objCardEl = objUnlock.querySelector<HTMLElement>('.school-unlock-card')
+  if (objCardEl) {
+    objCardEl.classList.remove('is-dealt', 'is-flipped')
+    requestAnimationFrame(() => {
+      objCardEl.classList.add('is-dealt')
+      window.setTimeout(() => {
+        objCardEl.classList.add('is-flipped')
+      }, 1400)
+    })
+  }
+}
+
+function vDismissUnlock(): void {
+  if (!objUnlock) {
+    return
+  }
+  objUnlock.hidden = true
+  objUnlock.innerHTML = ''
+  const sNext = sPendingNext
+  sPendingNext = null
+  if (sNext) {
+    vGoScene(sNext)
+  }
 }
 
 function objScene(sId: string): tScene | null {
@@ -539,10 +637,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: null,
-        sText: 'Binarot Academy — where every bit finds a face, and every sign wears a uniform.',
+        sText: 'Binarot Academy — sixteen signs, one campus, and somehow they all wear the same uniform.',
       },
     ],
-    arrChoices: [{ sLabel: 'Enter the school gates', sNext: 'arrive' }],
+    arrChoices: [{ sLabel: 'Head through the gates', sNext: 'arrive' }],
   },
   arrive: {
     sId: 'arrive',
@@ -551,15 +649,15 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: null,
-        sText: 'Morning light catches the academy crest: a circle split into sixteen quiet claims.',
+        sText: 'Morning hits the crest over the gate — a circle cut into sixteen little claims.',
       },
       {
         sSpeaker: null,
-        sText: 'Inside, students move like a living deck—each one a binarot sign walking on two legs.',
+        sText: 'Inside, students stream past like a deck that got up and started walking.',
       },
       {
         sSpeaker: null,
-        sText: 'Your transfer papers are already stamped. Homeroom is waiting.',
+        sText: "Your transfer papers are already stamped. Homeroom's waiting.",
       },
     ],
     sNext: 'homeroom',
@@ -571,20 +669,20 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '100',
-        sText: "Welcome in. I'm Hana—The Host. If you need a seat, a spare notebook, or somewhere to land, that's my job.",
+        sText: "Hey — come in. I'm Hana. People call me The Host. Seat, spare notebook, somewhere to land… that's me.",
       },
       {
         sSpeaker: '100',
-        sText: "Don't mind the noise. Sixteen archetypes sharing one campus is… lively.",
+        sText: "Don't mind the noise. Sixteen personalities stuffed into one campus gets… a lot.",
       },
       {
         sSpeaker: '100',
-        sText: 'Free period starts soon. Walk the grounds. Meet people. The signs remember who listens.',
+        sText: "Free period's almost here. Wander. Talk to people. They notice when you actually listen.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Thanks—I will look around.', sNext: 'hub', sMeet: '100' },
-      { sLabel: 'What should I know first?', sNext: 'homeroom_tip', sMeet: '100' },
+      { sLabel: "Thanks — I'll look around.", sNext: 'hub', sMeet: '100' },
+      { sLabel: 'Anything I should know first?', sNext: 'homeroom_tip' },
     ],
   },
   homeroom_tip: {
@@ -594,14 +692,14 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '100',
-        sText: 'Rei runs council like a planted flag. Kura keeps the library vault. Jin skips class from the roof.',
+        sText: 'Rei runs council like she planted a flag. The lab smells like ozone and bad decisions. Jin skips class from the roof.',
       },
       {
         sSpeaker: '100',
-        sText: 'Talk to everyone at least once. Binarot Academy is a reading—you are the other card.',
+        sText: "Talk to everyone at least once. This place is kind of a reading — and you're the other card in it.",
       },
     ],
-    arrChoices: [{ sLabel: 'Head out for free period', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Alright — free period it is', sNext: 'hub', sMeet: '100' }],
   },
   hub: {
     sId: 'hub',
@@ -611,7 +709,7 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: null,
-        sText: 'The hallway branches. Voices, chalk dust, and the soft click of locker bits.',
+        sText: 'Hallway splits three ways. Voices, chalk dust, lockers clicking shut.',
       },
     ],
   },
@@ -622,16 +720,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '0',
-        sText: "Oh—hi. I'm Sora. People call me The Seed. I was just… not writing anything yet. On purpose.",
+        sText: "Oh — hi. I'm Sora. People call me The Seed. I was just… not writing anything. On purpose.",
       },
       {
         sSpeaker: '0',
-        sText: 'Blank pages feel honest. Once you ink the first line, half the futures vanish.',
+        sText: "Blank pages feel honest, you know? Once you put something down, half the other options kind of… leave.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Potential suits you.', sNext: 'talk_0_b', sMeet: '0' },
-      { sLabel: 'What will you start?', sNext: 'talk_0_b', sMeet: '0' },
+      { sLabel: 'That blank-page thing suits you.', sNext: 'talk_0_b' },
+      { sLabel: 'So what are you gonna start?', sNext: 'talk_0_b' },
     ],
   },
   talk_0_b: {
@@ -641,10 +739,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '0',
-        sText: 'Maybe a club. Maybe a constellation. Ask me tomorrow—I might still be deciding which beginning is true.',
+        sText: "Maybe a club. Maybe something bigger. Ask me tomorrow — I might still be picking which beginning feels right.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1: {
     sId: 'talk_1',
@@ -653,16 +751,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1',
-        sText: "Rei. Student council. The Flag, if you're collecting titles. State your business clearly.",
+        sText: "Rei. Student council. The Flag, if you're collecting titles. What do you need?",
       },
       {
         sSpeaker: '1',
-        sText: 'This school runs on claims. If nobody plants one, the courtyard becomes rumor.',
+        sText: "This school runs on people actually saying what they want. Nobody does that, and the courtyard turns into gossip.",
       },
     ],
     arrChoices: [
-      { sLabel: 'I am here to learn the signs.', sNext: 'talk_1_b', sMeet: '1' },
-      { sLabel: 'Do you ever stand down?', sNext: 'talk_1_b', sMeet: '1' },
+      { sLabel: "I'm trying to learn the signs.", sNext: 'talk_1_b' },
+      { sLabel: 'Do you ever just… stand down?', sNext: 'talk_1_b' },
     ],
   },
   talk_1_b: {
@@ -672,10 +770,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1',
-        sText: 'I stand where the line needs a name. Visit the others—then tell me what you will claim.',
+        sText: "I stand where something needs a name. Go meet the others — then come back and tell me what you're claiming.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_10: {
     sId: 'talk_10',
@@ -684,16 +782,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '10',
-        sText: 'Yuki—The Call. Sorry, were you mid-sentence? Something always rings when I walk in.',
+        sText: "Yuki — The Call. Sorry, were you mid-sentence? Something always rings when I walk in.",
       },
       {
         sSpeaker: '10',
-        sText: "Duty finds me in the hallway. Serendipity finds me in the vending machines. I'm basically a notification.",
+        sText: "Duty finds me in the hallway. Random luck finds me at the vending machines. I'm basically a walking notification.",
       },
     ],
     arrChoices: [
-      { sLabel: 'What is calling today?', sNext: 'talk_10_b', sMeet: '10' },
-      { sLabel: 'Do you ever ignore it?', sNext: 'talk_10_b', sMeet: '10' },
+      { sLabel: "What's calling today?", sNext: 'talk_10_b' },
+      { sLabel: 'Do you ever just ignore it?', sNext: 'talk_10_b' },
     ],
   },
   talk_10_b: {
@@ -703,10 +801,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '10',
-        sText: "Ignoring it only makes the next ring louder. You'll hear yours soon. Transfer students always do.",
+        sText: "Ignoring it just makes the next ring louder. You'll hear yours soon. Transfers always do.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_11: {
     sId: 'talk_11',
@@ -715,16 +813,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '11',
-        sText: "Ren—The Link. Sit anywhere; I'll introduce you to three people before your tray hits the table.",
+        sText: "Ren — The Link. Sit anywhere. I'll get you talking to three people before your tray even hits the table.",
       },
       {
         sSpeaker: '11',
-        sText: 'Promises are bandwidth. Keep them clean and the whole campus syncs.',
+        sText: "Promises are like bandwidth. Keep them clean and the whole campus kind of… syncs.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Introduce me to someone.', sNext: 'talk_11_b', sMeet: '11' },
-      { sLabel: 'How do you not overload?', sNext: 'talk_11_b', sMeet: '11' },
+      { sLabel: 'Okay — introduce me to someone.', sNext: 'talk_11_b' },
+      { sLabel: "How are you not fried all the time?", sNext: 'talk_11_b' },
     ],
   },
   talk_11_b: {
@@ -734,10 +832,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '11',
-        sText: 'I overload constantly. Depth is the homework I keep postponing. Still—want a handshake?',
+        sText: "Oh, I am. Going deep with anyone is the homework I keep skipping. Still — want a handshake?",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_100: {
     sId: 'talk_100',
@@ -746,16 +844,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '100',
-        sText: 'Back already? Good. The door stays unlocked for the right people—and you look like one.',
+        sText: "Back already? Good. Door's unlocked for people who need it — and you look like one of them.",
       },
       {
         sSpeaker: '100',
-        sText: 'Shelter is a skill. So is knowing when the room is full.',
+        sText: "Making space for people is a skill. Knowing when the room's full is another one.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Your room feels safe.', sNext: 'talk_100_b', sMeet: '100' },
-      { sLabel: 'Who do you host for?', sNext: 'talk_100_b', sMeet: '100' },
+      { sLabel: 'Yeah… this room feels safe.', sNext: 'talk_100_b' },
+      { sLabel: 'Who do you host for?', sNext: 'talk_100_b' },
     ],
   },
   talk_100_b: {
@@ -765,41 +863,41 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '100',
-        sText: 'For anyone still deciding whether they belong. That includes me, some days.',
+        sText: "Anyone still figuring out if they belong. That includes me, some days.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_101: {
     sId: 'talk_101',
-    sPlace: 'courtyard',
+    sPlace: 'lab',
     sPortrait: '101',
     arrLines: [
       {
         sSpeaker: '101',
-        sText: "Kai. Fork. Don't ask my major—both answers are vibrating at once.",
+        sText: "Kai. Fork. Don't ask my major — both answers are buzzing at the same time.",
       },
       {
         sSpeaker: '101',
-        sText: 'Hunger is a compass. Resonance is the click when a path tastes right.',
+        sText: "Wanting something hard is a compass. That little click when a path feels right? That's the part I wait for.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Pick one path with me.', sNext: 'talk_101_b', sMeet: '101' },
-      { sLabel: 'Is indecision honest?', sNext: 'talk_101_b', sMeet: '101' },
+      { sLabel: 'Pick one with me, then.', sNext: 'talk_101_b' },
+      { sLabel: 'Is sitting on the fence… honest?', sNext: 'talk_101_b' },
     ],
   },
   talk_101_b: {
     sId: 'talk_101_b',
-    sPlace: 'courtyard',
+    sPlace: 'lab',
     sPortrait: '101',
     arrLines: [
       {
         sSpeaker: '101',
-        sText: 'Indecision is weather. Commitment is climate. I am still packing for both.',
+        sText: "Indecision's weather. Commitment's climate. I'm still packing for both, honestly.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_110: {
     sId: 'talk_110',
@@ -808,16 +906,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '110',
-        sText: "Mina—The Port. Transfer, gateway, customs for weird ideas. I decide what gets through.",
+        sText: "Mina — The Port. I'm the transfer desk, the gateway, customs for weird ideas. I decide what gets through.",
       },
       {
         sSpeaker: '110',
-        sText: 'Trade me a story from outside and I will trade you a campus rumor that is almost true.',
+        sText: "Trade me a story from outside and I'll trade you a campus rumor that's almost true.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Deal.', sNext: 'talk_110_b', sMeet: '110' },
-      { sLabel: 'What do you keep out?', sNext: 'talk_110_b', sMeet: '110' },
+      { sLabel: 'Deal.', sNext: 'talk_110_b' },
+      { sLabel: 'What do you keep out?', sNext: 'talk_110_b' },
     ],
   },
   talk_110_b: {
@@ -827,10 +925,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '110',
-        sText: 'I keep out anything that pretends it never changed at the threshold. Everything here is altered cargo.',
+        sText: "Anything that pretends it walked in unchanged. Crossing the threshold messes with you. That's the point.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_111: {
     sId: 'talk_111',
@@ -839,16 +937,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '111',
-        sText: 'Aoi. The Tree. Upperclass. I water the courtyard plot and occasionally people.',
+        sText: "Aoi. The Tree. Upperclass. I water the courtyard plot — and, uh, occasionally people.",
       },
       {
         sSpeaker: '111',
-        sText: 'Growth without roots is theater. Roots without reach is a stump with opinions.',
+        sText: "Growing without roots is just a show. Roots with nowhere to reach? That's a stump with opinions.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Your shade feels earned.', sNext: 'talk_111_b', sMeet: '111' },
-      { sLabel: 'How far do your branches go?', sNext: 'talk_111_b', sMeet: '111' },
+      { sLabel: 'Your shade feels earned.', sNext: 'talk_111_b' },
+      { sLabel: 'How far do you reach?', sNext: 'talk_111_b' },
     ],
   },
   talk_111_b: {
@@ -858,10 +956,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '111',
-        sText: 'Far enough to shelter first-years. Not so far I forget the quiet work underground.',
+        sText: "Far enough to cover first-years. Not so far I forget the quiet work underground.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1000: {
     sId: 'talk_1000',
@@ -874,12 +972,12 @@ const mapScenes: Record<string, tScene> = {
       },
       {
         sSpeaker: '1000',
-        sText: 'Will and action arrive together. Waiting for the bell is a hobby for other people.',
+        sText: "Wanting something and doing it should be the same move. Waiting for the bell is other people's hobby.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Teach me to move first.', sNext: 'talk_1000_b', sMeet: '1000' },
-      { sLabel: 'Lonely up here?', sNext: 'talk_1000_b', sMeet: '1000' },
+      { sLabel: 'Teach me to move first.', sNext: 'talk_1000_b' },
+      { sLabel: 'Lonely up here?', sNext: 'talk_1000_b' },
     ],
   },
   talk_1000_b: {
@@ -889,10 +987,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1000',
-        sText: 'Lonely is a weather report. Useful is a forecast. I prefer useful.',
+        sText: "Lonely's a weather report. Useful is a forecast. I pick useful.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1001: {
     sId: 'talk_1001',
@@ -901,16 +999,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1001',
-        sText: 'Nori—The Table. This seat is reserved for plots, meals, and alignments. Pull up a chair.',
+        sText: "Nori — The Table. This seat's for plots, meals, and getting people on the same page. Pull up a chair.",
       },
       {
         sSpeaker: '1001',
-        sText: 'What is said here rearranges the room. Choose your words like courses.',
+        sText: "What gets said here rearranges the room. Pick your words like you're ordering courses.",
       },
     ],
     arrChoices: [
-      { sLabel: 'What are we conspiring?', sNext: 'talk_1001_b', sMeet: '1001' },
-      { sLabel: 'Is the menu the agenda?', sNext: 'talk_1001_b', sMeet: '1001' },
+      { sLabel: 'Okay… what are we conspiring?', sNext: 'talk_1001_b' },
+      { sLabel: 'Is the menu the agenda?', sNext: 'talk_1001_b' },
     ],
   },
   talk_1001_b: {
@@ -920,41 +1018,41 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1001',
-        sText: 'Today: introduce the transfer to every sign before sunset. Ambitious. Delicious.',
+        sText: "Today's special: get the transfer talking to every sign before sunset. Ambitious. Delicious.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1010: {
     sId: 'talk_1010',
-    sPlace: 'library',
+    sPlace: 'lab',
     sPortrait: '1010',
     arrLines: [
       {
         sSpeaker: '1010',
-        sText: "Rina. Clone. Don't worry—there's only one of me today. Equality is the point, not copies for their own sake.",
+        sText: "Rina. Clone. Don't worry — there's only one of me today. Equality's the point, not copies for fun.",
       },
       {
         sSpeaker: '1010',
-        sText: 'I mirror until people see themselves. Then I step aside before sameness erases the spark.',
+        sText: "I mirror people until they catch themselves. Then I step back before it all turns into sameness.",
       },
     ],
     arrChoices: [
-      { sLabel: 'What do you see in me?', sNext: 'talk_1010_b', sMeet: '1010' },
-      { sLabel: 'How do you stay yourself?', sNext: 'talk_1010_b', sMeet: '1010' },
+      { sLabel: 'What do you see in me?', sNext: 'talk_1010_b' },
+      { sLabel: 'How do you stay yourself?', sNext: 'talk_1010_b' },
     ],
   },
   talk_1010_b: {
     sId: 'talk_1010_b',
-    sPlace: 'library',
+    sPlace: 'lab',
     sPortrait: '1010',
     arrLines: [
       {
         sSpeaker: '1010',
-        sText: 'I see someone collecting faces. Careful—collections can become mirrors too.',
+        sText: "Someone collecting faces. Careful — collections turn into mirrors too, if you're not watching.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1011: {
     sId: 'talk_1011',
@@ -963,16 +1061,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1011',
-        sText: 'Kura. Cache. Speak softly. Knowledge bruises if you drop it.',
+        sText: "Kura. Cache. Keep your voice down. Good knowledge bruises if you drop it.",
       },
       {
         sSpeaker: '1011',
-        sText: 'I keep what was costly to learn. Ask well, and the vault opens a crack.',
+        sText: "I hold onto the stuff that was expensive to learn. Ask well, and I'll crack the vault open a little.",
       },
     ],
     arrChoices: [
-      { sLabel: 'What secret fits a transfer?', sNext: 'talk_1011_b', sMeet: '1011' },
-      { sLabel: 'When do you spend what you keep?', sNext: 'talk_1011_b', sMeet: '1011' },
+      { sLabel: 'Got a secret that fits a transfer?', sNext: 'talk_1011_b' },
+      { sLabel: 'When do you actually spend what you keep?', sNext: 'talk_1011_b' },
     ],
   },
   talk_1011_b: {
@@ -982,41 +1080,41 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1011',
-        sText: 'Spend on timing. Hoard on principle. The wrong unlock is just expensive noise.',
+        sText: "Spend when the timing's right. Hoard when the principle says so. Wrong unlock is just expensive noise.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1100: {
     sId: 'talk_1100',
-    sPlace: 'classroom',
+    sPlace: 'lab',
     sPortrait: '1100',
     arrLines: [
       {
         sSpeaker: '1100',
-        sText: 'Saki—The Frame. Hold still. No—tilt your chin. The story changes with the window.',
+        sText: "Saki — The Frame. Hold still. No — chin up a little. The story changes depending on the window.",
       },
       {
         sSpeaker: '1100',
-        sText: 'I paint compositions, not people. People are what happens inside a good border.',
+        sText: "I paint compositions, not people. People are what happen inside a good border.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Reframe this day for me.', sNext: 'talk_1100_b', sMeet: '1100' },
-      { sLabel: 'Is the frame a cage?', sNext: 'talk_1100_b', sMeet: '1100' },
+      { sLabel: 'Reframe this day for me?', sNext: 'talk_1100_b' },
+      { sLabel: 'Is the frame just a cage?', sNext: 'talk_1100_b' },
     ],
   },
   talk_1100_b: {
     sId: 'talk_1100_b',
-    sPlace: 'classroom',
+    sPlace: 'lab',
     sPortrait: '1100',
     arrLines: [
       {
         sSpeaker: '1100',
-        sText: 'Only if you forget you can move it. Rigid models crack; living ones breathe.',
+        sText: "Only if you forget you can move it. Stiff frames crack. Living ones breathe.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1101: {
     sId: 'talk_1101',
@@ -1025,16 +1123,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1101',
-        sText: "Toru. Shell. Don't take the silence personally. The perimeter is load-bearing.",
+        sText: "Toru. Shell. Don't take the quiet personally. The wall's holding something up.",
       },
       {
         sSpeaker: '1101',
-        sText: 'Armor lets the kernel keep running. Some storms are not invited in.',
+        sText: "Armor's how the soft parts keep running. Some storms just don't get invited in.",
       },
     ],
     arrChoices: [
-      { sLabel: 'I can wait outside the wall.', sNext: 'talk_1101_b', sMeet: '1101' },
-      { sLabel: 'When does armor become a problem?', sNext: 'talk_1101_b', sMeet: '1101' },
+      { sLabel: "That's fine — I can wait outside.", sNext: 'talk_1101_b' },
+      { sLabel: 'When does the armor become a problem?', sNext: 'talk_1101_b' },
     ],
   },
   talk_1101_b: {
@@ -1044,10 +1142,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1101',
-        sText: 'When nothing soft can reach you—including help. I am… practicing the unlock.',
+        sText: "When nothing soft can get through — including help. I'm… practicing the unlock.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1110: {
     sId: 'talk_1110',
@@ -1056,16 +1154,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1110',
-        sText: 'Aria. Forum. Debate club. If your claim cannot survive a counterpoint, it was never noble—only loud.',
+        sText: "Aria. Forum. Debate club. If your take can't survive a pushback, it wasn't noble — just loud.",
       },
       {
         sSpeaker: '1110',
-        sText: 'Pull up a podium. Dignity is earned in the open square.',
+        sText: "Come on. Grab a spot. Dignity's what you earn out in the open, not in your notes.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Argue that transfers belong.', sNext: 'talk_1110_b', sMeet: '1110' },
-      { sLabel: 'What if theory never acts?', sNext: 'talk_1110_b', sMeet: '1110' },
+      { sLabel: 'Alright — argue that transfers belong.', sNext: 'talk_1110_b' },
+      { sLabel: 'What if the theory never does anything?', sNext: 'talk_1110_b' },
     ],
   },
   talk_1110_b: {
@@ -1075,10 +1173,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1110',
-        sText: 'Then the forum becomes a greenhouse for pretty sentences. I will not water that.',
+        sText: "Then the forum's just a greenhouse for pretty sentences. I'm not watering that.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   talk_1111: {
     sId: 'talk_1111',
@@ -1087,16 +1185,16 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1111',
-        sText: 'Ken. The State. From up here you can see the schedule as a machine, not a mood.',
+        sText: "Ken. The State. From up here the schedule looks like a machine, not a mood swing.",
       },
       {
         sSpeaker: '1111',
-        sText: 'Organization is care at scale. Politics is what happens when care needs votes.',
+        sText: "Organization is care with a bigger radius. Politics is what happens when that care needs votes.",
       },
     ],
     arrChoices: [
-      { sLabel: 'Does the machine serve people?', sNext: 'talk_1111_b', sMeet: '1111' },
-      { sLabel: 'Where do I fit in the system?', sNext: 'talk_1111_b', sMeet: '1111' },
+      { sLabel: 'Does the machine actually serve people?', sNext: 'talk_1111_b' },
+      { sLabel: 'Where do I fit in all this?', sNext: 'talk_1111_b' },
     ],
   },
   talk_1111_b: {
@@ -1106,10 +1204,10 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '1111',
-        sText: 'You fit where the bits need a new operator. Learn every sign—then decide which lever you pull.',
+        sText: "Wherever the system needs a new hand on the controls. Learn every sign — then pick which lever you pull.",
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   'talk_-1': {
     sId: 'talk_-1',
@@ -1118,37 +1216,37 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: '-1',
-        sText: 'You were not meant to map this hallway. Or the hallway mapped you—underflow always finds the curious.',
+        sText: "You weren't supposed to map this hallway. Or maybe it mapped you. Underflow always finds the curious ones.",
       },
       {
         sSpeaker: '-1',
-        sText: 'I am what the register refuses: the bit beneath zero. Call me The Void, if names still compile.',
+        sText: "I'm what the register refuses — the bit under zero. Call me The Void, if names still mean anything.",
       },
       {
         sSpeaker: '-1',
-        sText: 'Listen once. A battle with fate is coming—not a quiz, not a casual reading. The chart will tear, and you will be asked to stand in the tear.',
+        sText: "Listen once. A fight with fate is coming. Not a quiz. Not a casual reading. The chart tears, and someone has to stand in the gap.",
       },
     ],
     arrChoices: [
-      { sLabel: 'What kind of battle?', sNext: 'talk_-1_b', sMeet: '-1' },
-      { sLabel: 'Why warn me and vanish?', sNext: 'talk_-1_b', sMeet: '-1' },
+      { sLabel: 'What kind of fight?', sNext: 'talk_-1_b' },
+      { sLabel: 'Why warn me and then leave?', sNext: 'talk_-1_b' },
     ],
   },
   'talk_-1_b': {
     sId: 'talk_-1_b',
     sPlace: 'gate',
-    sPortrait: null,
+    sPortrait: '-1',
     arrLines: [
       {
         sSpeaker: '-1',
-        sText: 'Fate is the finished spread. Battle is the refusal to let it stay finished. When the lights go wrong, remember you were told.',
+        sText: "Fate is the spread that's already finished. Battle is refusing to let it stay that way. When the lights go wrong — remember you were told.",
       },
       {
         sSpeaker: null,
-        sText: 'The figure thins like static losing its carrier wave—then the threshold is empty. Only the warning remains.',
+        sText: 'The figure thins out like bad static — then the threshold is empty. Just the warning left behind.',
       },
     ],
-    arrChoices: [{ sLabel: 'Return to the hall', sNext: 'hub' }],
+    arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
   ending: {
     sId: 'ending',
@@ -1157,20 +1255,20 @@ const mapScenes: Record<string, tScene> = {
     arrLines: [
       {
         sSpeaker: null,
-        sText: 'Sunset catches the crest again. Sixteen conversations settle into something like a reading.',
+        sText: 'Sunset hits the crest again. Sixteen conversations settle into something that feels like a reading.',
       },
       {
         sSpeaker: null,
-        sText: 'Binarot Academy does not graduate you. It hands you a deck with faces you can name.',
+        sText: "Binarot Academy doesn't graduate you. It just hands you a deck with faces you can finally name.",
       },
       {
         sSpeaker: null,
-        sText: 'Whenever you return, the hallway will still branch—and the signs will still answer.',
+        sText: "Come back whenever. The hallway still branches — and the signs still answer.",
       },
     ],
     arrChoices: [
       { sLabel: 'Walk the grounds again', sNext: 'hub' },
-      { sLabel: 'Begin from the gates', sNext: 'title_reset' },
+      { sLabel: 'Start over at the gates', sNext: 'title_reset' },
     ],
   },
   title_reset: {
@@ -1189,10 +1287,11 @@ type tHubSpot = {
 }
 
 const arrHubSpots: tHubSpot[] = [
-  { sPlace: 'classroom', sLabel: 'Classroom', arrCharIds: ['100', '10', '1100', '1110'] },
-  { sPlace: 'courtyard', sLabel: 'Courtyard', arrCharIds: ['0', '101', '111'] },
+  { sPlace: 'classroom', sLabel: 'Classroom', arrCharIds: ['100', '10', '1110'] },
+  { sPlace: 'courtyard', sLabel: 'Courtyard', arrCharIds: ['0', '111'] },
   { sPlace: 'cafeteria', sLabel: 'Cafeteria', arrCharIds: ['11', '110', '1001'] },
-  { sPlace: 'library', sLabel: 'Library', arrCharIds: ['1011', '1010', '1101'] },
+  { sPlace: 'library', sLabel: 'Library', arrCharIds: ['1011', '1101'] },
+  { sPlace: 'lab', sLabel: 'Lab', arrCharIds: ['101', '1010', '1100'] },
   { sPlace: 'rooftop', sLabel: 'Rooftop', arrCharIds: ['1000', '1111', '1'] },
 ]
 
@@ -1291,12 +1390,12 @@ function vRenderHub(): void {
   objNameBox.hidden = true
   if (bSchoolComplete()) {
     objDialogue.textContent =
-      'You have met every sign—and the silence that follows. The gates glow like a finished spread—or keep wandering.'
+      "You've met every sign — and whatever comes after. The gates are glowing like a finished spread… or keep wandering."
   } else if (bVoidPresent()) {
     objDialogue.textContent =
-      "You have met every sign. Something uncounted waits where the crest's shadow thins—then, perhaps, the ending."
+      "You've met every sign. Something that shouldn't be counted is waiting where the crest's shadow thins — then maybe the ending."
   } else {
-    objDialogue.textContent = 'Where do you go? Each place holds a few of the sixteen.'
+    objDialogue.textContent = 'Where to? Each spot has a few of the sixteen hanging around.'
   }
   objAdvance.hidden = true
   objChoices.hidden = true
@@ -1304,7 +1403,7 @@ function vRenderHub(): void {
   objHub.hidden = false
 
   const sEndingBtn = bSchoolComplete()
-    ? `<button type="button" class="school-choice school-choice-ending" data-ending="1">Watch the sunset ending</button>`
+    ? `<button type="button" class="school-choice school-choice-ending" data-ending="1">Catch the sunset</button>`
     : ''
 
   const objVoid = mapCharById[sVoidId]
@@ -1422,6 +1521,12 @@ function vOnRootClick(objEvent: Event): void {
     return
   }
 
+  const objDismissUnlock = objTarget.closest<HTMLElement>('[data-action="dismiss-unlock"]')
+  if (objDismissUnlock) {
+    vDismissUnlock()
+    return
+  }
+
   const objChoiceBtn = objTarget.closest<HTMLButtonElement>('.school-choice')
   if (objChoiceBtn) {
     if (objChoiceBtn.dataset.ending === '1') {
@@ -1437,8 +1542,11 @@ function vOnRootClick(objEvent: Event): void {
     if (!objChoice) {
       return
     }
-    if (objChoice.sMeet) {
-      vMeet(objChoice.sMeet)
+    const sMeetId = sUnlockMeetId(objCurrent, objChoice)
+    if (sMeetId && vMeet(sMeetId)) {
+      vRenderProgress()
+      vShowUnlock(sMeetId, objChoice.sNext)
+      return
     }
     vGoScene(objChoice.sNext)
     return
@@ -1458,6 +1566,11 @@ function vOnRootClick(objEvent: Event): void {
 
   const objRestart = objTarget.closest<HTMLButtonElement>('[data-action="restart"]')
   if (objRestart) {
+    if (objUnlock && !objUnlock.hidden) {
+      objUnlock.hidden = true
+      objUnlock.innerHTML = ''
+      sPendingNext = null
+    }
     vGoScene('title_reset')
   }
 }
@@ -1589,6 +1702,7 @@ export function sSchoolMarkup(): string {
         ${sPetalsMarkup()}
         <div class="school-portrait" id="school-portrait" hidden></div>
         <div class="school-hub" id="school-hub" hidden></div>
+        <div class="school-unlock" id="school-unlock" hidden></div>
         <div class="school-textbox" id="school-textbox">
           <p class="school-name" id="school-name" hidden></p>
           <p class="school-dialogue" id="school-dialogue"></p>
@@ -1604,6 +1718,7 @@ export function sSchoolMarkup(): string {
 }
 
 export function vBindSchool(arrCards: tSchoolCard[]): void {
+  arrSchoolCards = arrCards
   mapCharById = {}
   for (const objChar of arrCharacters) {
     const objCard = arrCards.find((objItem) => objItem.sBinaryValue === objChar.sBinaryValue)
@@ -1615,6 +1730,7 @@ export function vBindSchool(arrCards: tSchoolCard[]): void {
 
   const objSave = objLoadSave()
   setMet = new Set(objSave.setMet)
+  sPendingNext = null
 
   objRoot = document.querySelector<HTMLElement>('#school')
   objStage = document.querySelector<HTMLElement>('#school-stage')
@@ -1625,10 +1741,14 @@ export function vBindSchool(arrCards: tSchoolCard[]): void {
   objChoices = document.querySelector<HTMLElement>('#school-choices')
   objProgress = document.querySelector<HTMLElement>('#school-progress')
   objHub = document.querySelector<HTMLElement>('#school-hub')
+  objUnlock = document.querySelector<HTMLElement>('#school-unlock')
 
-  if (!objRoot || !objStage || !objPortrait || !objDialogue || !objChoices || !objHub) {
+  if (!objRoot || !objStage || !objPortrait || !objDialogue || !objChoices || !objHub || !objUnlock) {
     return
   }
+
+  objUnlock.hidden = true
+  objUnlock.innerHTML = ''
 
   if (!bBound) {
     objRoot.addEventListener('click', vOnRootClick)

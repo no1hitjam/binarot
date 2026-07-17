@@ -25,6 +25,7 @@ type tChoice = {
   sLabel: string
   sNext: string
   sMeet?: string
+  bAwaken?: boolean
 }
 
 type tLine = {
@@ -43,14 +44,20 @@ type tScene = {
   bHub?: boolean
 }
 
+type tTimeOfDay = 'midday' | 'evening'
+
 const sStorageKey = 'binarot_school'
 
 type tSchoolSave = {
   setMet: string[]
+  bAwakened: boolean
+  sTimeOfDay: tTimeOfDay
 }
 
 let mapCharById: Record<string, tCharacter> = {}
 let setMet = new Set<string>()
+let bAwakened = false
+let sTimeOfDay: tTimeOfDay = 'midday'
 let sSceneId = 'title'
 let nLine = 0
 let bBound = false
@@ -68,6 +75,7 @@ let objChoices: HTMLElement | null = null
 let objProgress: HTMLElement | null = null
 let objHub: HTMLElement | null = null
 let objUnlock: HTMLElement | null = null
+let objTimeBtn: HTMLButtonElement | null = null
 
 const arrCharacters: tCharacter[] = [
   {
@@ -496,21 +504,49 @@ function objLoadSave(): tSchoolSave {
   try {
     const sRaw = localStorage.getItem(sStorageKey)
     if (!sRaw) {
-      return { setMet: [] }
+      return { setMet: [], bAwakened: false, sTimeOfDay: 'midday' }
     }
     const objParsed = JSON.parse(sRaw) as Partial<tSchoolSave>
     const arrMet = Array.isArray(objParsed.setMet)
       ? objParsed.setMet.filter((sValue): sValue is string => typeof sValue === 'string')
       : []
-    return { setMet: arrMet }
+    const bSavedAwakened = objParsed.bAwakened === true
+    const sSavedTime: tTimeOfDay =
+      bSavedAwakened && objParsed.sTimeOfDay === 'evening' ? 'evening' : 'midday'
+    return { setMet: arrMet, bAwakened: bSavedAwakened, sTimeOfDay: sSavedTime }
   } catch {
-    return { setMet: [] }
+    return { setMet: [], bAwakened: false, sTimeOfDay: 'midday' }
   }
 }
 
 function vPersist(): void {
-  const objSave: tSchoolSave = { setMet: Array.from(setMet) }
+  const objSave: tSchoolSave = {
+    setMet: Array.from(setMet),
+    bAwakened,
+    sTimeOfDay: bAwakened ? sTimeOfDay : 'midday',
+  }
   localStorage.setItem(sStorageKey, JSON.stringify(objSave))
+}
+
+function vAwaken(): void {
+  if (bAwakened) {
+    return
+  }
+  bAwakened = true
+  sTimeOfDay = 'midday'
+  vPersist()
+}
+
+function vSetTimeOfDay(sNext: tTimeOfDay): void {
+  if (!bAwakened || sTimeOfDay === sNext) {
+    return
+  }
+  sTimeOfDay = sNext
+  vPersist()
+}
+
+function bIsEvening(): boolean {
+  return bAwakened && sTimeOfDay === 'evening'
 }
 
 function vMeet(sId: string): boolean {
@@ -556,7 +592,7 @@ function vShowUnlock(sId: string, sNext: string): void {
   objUnlock.hidden = false
   objUnlock.innerHTML = `
     <div class="school-unlock-panel">
-      <p class="school-unlock-kicker">Thou art anew.</p>
+      <p class="school-unlock-kicker">Thine art thou.</p>
       <div class="school-unlock-card collect-card is-dealt is-flipped" aria-hidden="true">
         <div class="collect-card-inner">
           <div class="collect-card-face collect-card-back">
@@ -867,6 +903,181 @@ const mapScenes: Record<string, tScene> = {
       },
     ],
     arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
+  },
+  talk_100_omen: {
+    sId: 'talk_100_omen',
+    sPlace: 'classroom',
+    sPortrait: '100',
+    arrLines: [
+      {
+        sSpeaker: '100',
+        sText: "You saw it too, didn't you. That hole in the register — the thing that shouldn't have a face.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "I've seen The Void. More than once. I think it's an omen — something evil leaning on our world, trying to push through.",
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'An invasion?', sNext: 'talk_100_omen_b' },
+      { sLabel: 'What do we do about it?', sNext: 'talk_100_omen_b' },
+    ],
+  },
+  talk_100_omen_b: {
+    sId: 'talk_100_omen_b',
+    sPlace: 'classroom',
+    sPortrait: '100',
+    arrLines: [
+      {
+        sSpeaker: '100',
+        sText: "There's a quiet club of students who've woken up — we say we've awakened. We meet when the bells stop and the hallway thins out.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "Come find us in the evening. I'll leave the door cracked. Midday is for the campus; dusk is for what's coming.",
+      },
+    ],
+    arrChoices: [{ sLabel: "I'll be there.", sNext: 'hub', bAwaken: true }],
+  },
+  talk_100_evening: {
+    sId: 'talk_100_evening',
+    sPlace: 'classroom',
+    sPortrait: '100',
+    arrLines: [
+      {
+        sSpeaker: '100',
+        sText: "You made it. Good — the room's filling. Jin's already pacing drills, Rei's naming positions, Toru's hardening the door.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "We're not a study group anymore. When the evil leans through The Void, this club stands in the gap. Talk to them. Get ready.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Back to the evening hall', sNext: 'hub' }],
+  },
+  talk_1_evening: {
+    sId: 'talk_1_evening',
+    sPlace: 'classroom',
+    sPortrait: '1',
+    arrLines: [
+      {
+        sSpeaker: '1',
+        sText: "Rei. Evening session. Don't look surprised — someone has to plant a flag against whatever's trying to rewrite the chart.",
+      },
+      {
+        sSpeaker: '1',
+        sText: "I've mapped claim points across campus. When the invasion hits, we don't scatter. We hold named ground. Want a post?",
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Assign me somewhere.', sNext: 'talk_1_evening_b' },
+      { sLabel: 'How do you fight an omen?', sNext: 'talk_1_evening_b' },
+    ],
+  },
+  talk_1_evening_b: {
+    sId: 'talk_1_evening_b',
+    sPlace: 'classroom',
+    sPortrait: '1',
+    arrLines: [
+      {
+        sSpeaker: '1',
+        sText: "You fight it by refusing to let it stay unnamed. Evil loves blank spaces. We fill them first — then we push back.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Back to the evening hall', sNext: 'hub' }],
+  },
+  talk_110_evening: {
+    sId: 'talk_110_evening',
+    sPlace: 'classroom',
+    sPortrait: '110',
+    arrLines: [
+      {
+        sSpeaker: '110',
+        sText: "Mina — still The Port, even after hours. Thresholds are my whole thing. The Void's just a door that forgot which way it opens.",
+      },
+      {
+        sSpeaker: '110',
+        sText: "I've been walking the edges where the chart thins. If evil tries to cross, I want to feel the hinge turn before it swings wide.",
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Can you seal a threshold?', sNext: 'talk_110_evening_b' },
+      { sLabel: 'What happens if it opens?', sNext: 'talk_110_evening_b' },
+    ],
+  },
+  talk_110_evening_b: {
+    sId: 'talk_110_evening_b',
+    sPlace: 'classroom',
+    sPortrait: '110',
+    arrLines: [
+      {
+        sSpeaker: '110',
+        sText: "Seal what we can. Stall what we can't. And if it opens anyway — someone has to stand in the frame. I'm practicing not blinking.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Back to the evening hall', sNext: 'hub' }],
+  },
+  talk_1000_evening: {
+    sId: 'talk_1000_evening',
+    sPlace: 'classroom',
+    sPortrait: '1000',
+    arrLines: [
+      {
+        sSpeaker: '1000',
+        sText: "Jin. Agent. No permission slip for fighting fate — so I stopped asking.",
+      },
+      {
+        sSpeaker: '1000',
+        sText: "I've been running rooftop drills: strike the tear, don't stare at it. The Void warned you. I'm turning that warning into muscle.",
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Show me the drill.', sNext: 'talk_1000_evening_b' },
+      { sLabel: 'You really think we can win?', sNext: 'talk_1000_evening_b' },
+    ],
+  },
+  talk_1000_evening_b: {
+    sId: 'talk_1000_evening_b',
+    sPlace: 'classroom',
+    sPortrait: '1000',
+    arrLines: [
+      {
+        sSpeaker: '1000',
+        sText: "Winning's a big word. Surviving the first wave with the chart still readable — that's the homework. Come swing when you're ready.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Back to the evening hall', sNext: 'hub' }],
+  },
+  talk_1101_evening: {
+    sId: 'talk_1101_evening',
+    sPlace: 'classroom',
+    sPortrait: '1101',
+    arrLines: [
+      {
+        sSpeaker: '1101',
+        sText: "Toru. Shell. Quiet perimeter's louder at night — you hear every tick in the lock.",
+      },
+      {
+        sSpeaker: '1101',
+        sText: "I'm hardening interfaces: doors, wards, the little rituals that keep a room from becoming a wound. Offense is Jin's job. I make sure we still have a wall.",
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Need a hand on the perimeter?', sNext: 'talk_1101_evening_b' },
+      { sLabel: 'What if the wall fails?', sNext: 'talk_1101_evening_b' },
+    ],
+  },
+  talk_1101_evening_b: {
+    sId: 'talk_1101_evening_b',
+    sPlace: 'classroom',
+    sPortrait: '1101',
+    arrLines: [
+      {
+        sSpeaker: '1101',
+        sText: "Then we become the wall. Layers. People. Claims Rei plants. Ports Mina holds. I don't romanticize it — I just keep stacking.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Back to the evening hall', sNext: 'hub' }],
   },
   talk_101: {
     sId: 'talk_101',
@@ -1248,29 +1459,6 @@ const mapScenes: Record<string, tScene> = {
     ],
     arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
-  ending: {
-    sId: 'ending',
-    sPlace: 'gate',
-    sPortrait: null,
-    arrLines: [
-      {
-        sSpeaker: null,
-        sText: 'Sunset hits the crest again. Sixteen conversations settle into something that feels like a reading.',
-      },
-      {
-        sSpeaker: null,
-        sText: "Binarot Academy doesn't graduate you. It just hands you a deck with faces you can finally name.",
-      },
-      {
-        sSpeaker: null,
-        sText: "Come back whenever. The hallway still branches — and the signs still answer.",
-      },
-    ],
-    arrChoices: [
-      { sLabel: 'Walk the grounds again', sNext: 'hub' },
-      { sLabel: 'Start over at the gates', sNext: 'title_reset' },
-    ],
-  },
   title_reset: {
     sId: 'title_reset',
     sPlace: 'gate',
@@ -1295,9 +1483,36 @@ const arrHubSpots: tHubSpot[] = [
   { sPlace: 'rooftop', sLabel: 'Rooftop', arrCharIds: ['1000', '1111', '1'] },
 ]
 
+const arrEveningHubSpots: tHubSpot[] = [
+  { sPlace: 'classroom', sLabel: 'After-hours room', arrCharIds: ['100', '1', '110', '1000', '1101'] },
+]
+
+function arrChoicesFor(objCurrent: tScene): tChoice[] {
+  const arrBase = objCurrent.arrChoices ? [...objCurrent.arrChoices] : []
+  if (objCurrent.sId === 'talk_100' && setMet.has(sVoidId) && !bAwakened) {
+    arrBase.push({
+      sLabel: 'I saw something at the threshold…',
+      sNext: 'talk_100_omen',
+    })
+  }
+  return arrBase
+}
+
+function sTalkSceneId(sCharId: string): string {
+  if (bIsEvening()) {
+    const sEveningId = `talk_${sCharId}_evening`
+    if (objScene(sEveningId)) {
+      return sEveningId
+    }
+  }
+  return `talk_${sCharId}`
+}
+
 function vGoScene(sId: string): void {
   if (sId === 'title_reset') {
     setMet = new Set()
+    bAwakened = false
+    sTimeOfDay = 'midday'
     vPersist()
     sSceneId = 'title'
     nLine = 0
@@ -1326,8 +1541,9 @@ function vAdvanceLine(): void {
     return
   }
 
-  if (objCurrent.arrChoices && objCurrent.arrChoices.length > 0) {
-    vRenderChoices(objCurrent.arrChoices)
+  const arrChoices = arrChoicesFor(objCurrent)
+  if (arrChoices.length > 0) {
+    vRenderChoices(arrChoices)
     return
   }
 
@@ -1353,15 +1569,16 @@ function vRenderLine(): void {
   objDialogue.textContent = objLine.sText
 
   const bLast = nLine >= objCurrent.arrLines.length - 1
-  const bHasChoices = Boolean(objCurrent.arrChoices && objCurrent.arrChoices.length > 0)
+  const arrChoices = arrChoicesFor(objCurrent)
+  const bHasChoices = arrChoices.length > 0
   const bShowAdvance = !bLast || (!bHasChoices && Boolean(objCurrent.sNext))
   objAdvance.hidden = !bShowAdvance || Boolean(objCurrent.bHub) || Boolean(objCurrent.bTitle)
   objChoices.hidden = true
   objChoices.innerHTML = ''
 
-  if (bLast && bHasChoices && objCurrent.arrChoices) {
+  if (bLast && bHasChoices) {
     objAdvance.hidden = true
-    vRenderChoices(objCurrent.arrChoices)
+    vRenderChoices(arrChoices)
   }
 }
 
@@ -1388,12 +1605,18 @@ function vRenderHub(): void {
   }
 
   objNameBox.hidden = true
-  if (bSchoolComplete()) {
+  if (bIsEvening()) {
     objDialogue.textContent =
-      "You've met every sign — and whatever comes after. The gates are glowing like a finished spread… or keep wandering."
+      'Evening club is in session. Awakened students trade plans for the fight — hold the chart, seal the tears, push back the lean.'
+  } else if (bSchoolComplete()) {
+    objDialogue.textContent =
+      "You've met every sign — and whatever comes after. The hallway still branches if you want to keep wandering."
   } else if (bVoidPresent()) {
     objDialogue.textContent =
-      "You've met every sign. Something that shouldn't be counted is waiting where the crest's shadow thins — then maybe the ending."
+      "You've met every sign. Something that shouldn't be counted is waiting where the crest's shadow thins."
+  } else if (setMet.has(sVoidId) && !bAwakened) {
+    objDialogue.textContent =
+      "The threshold is quiet again. Maybe Hana's still in the classroom — she hosts people who've seen strange things."
   } else {
     objDialogue.textContent = 'Where to? Each spot has a few of the sixteen hanging around.'
   }
@@ -1402,13 +1625,9 @@ function vRenderHub(): void {
   objChoices.innerHTML = ''
   objHub.hidden = false
 
-  const sEndingBtn = bSchoolComplete()
-    ? `<button type="button" class="school-choice school-choice-ending" data-ending="1">Catch the sunset</button>`
-    : ''
-
   const objVoid = mapCharById[sVoidId]
   const sVoidBlock =
-    bVoidPresent() && objVoid
+    bVoidPresent() && objVoid && !bIsEvening()
       ? `
     <section class="school-hub-spot school-hub-spot-void" data-place="gate">
       <h3 class="school-hub-label">Threshold</h3>
@@ -1424,9 +1643,11 @@ function vRenderHub(): void {
   `
       : ''
 
+  const arrSpots = bIsEvening() ? arrEveningHubSpots : arrHubSpots
+
   objHub.innerHTML = `
     <div class="school-hub-grid">
-      ${arrHubSpots
+      ${arrSpots
         .map((objSpot) => {
           const sPeople = objSpot.arrCharIds
             .map((sId) => {
@@ -1435,12 +1656,14 @@ function vRenderHub(): void {
                 return ''
               }
               const bMet = setMet.has(sId)
+              const bOmenPending = sId === '100' && setMet.has(sVoidId) && !bAwakened
+              const sMeta = bIsEvening() ? 'club' : bOmenPending ? 'ask' : bMet ? 'met' : 'new'
               return `
-                <button type="button" class="school-person${bMet ? ' is-met' : ''}" data-talk="${sId}">
+                <button type="button" class="school-person${bMet ? ' is-met' : ''}${bOmenPending ? ' is-omen' : ''}" data-talk="${sId}">
                   <span class="school-person-bit">${sEscapeHtml(objChar.sBinaryValue)}</span>
                   <span class="school-person-name">${sEscapeHtml(objChar.sName)}</span>
                   <span class="school-person-title">${sEscapeHtml(objChar.sTitle)}</span>
-                  <span class="school-person-meta">${bMet ? 'met' : 'new'}</span>
+                  <span class="school-person-meta">${sMeta}</span>
                 </button>
               `
             })
@@ -1455,8 +1678,20 @@ function vRenderHub(): void {
         .join('')}
       ${sVoidBlock}
     </div>
-    ${sEndingBtn}
   `
+}
+
+function vRenderTimeBtn(): void {
+  if (!objTimeBtn) {
+    return
+  }
+  objTimeBtn.hidden = !bAwakened
+  if (!bAwakened) {
+    return
+  }
+  const sLabel = sTimeOfDay === 'evening' ? 'Evening' : 'Midday'
+  objTimeBtn.textContent = `Time · ${sLabel}`
+  objTimeBtn.setAttribute('aria-label', `Switch time of day. Currently ${sLabel}.`)
 }
 
 function vRenderProgress(): void {
@@ -1473,6 +1708,7 @@ function vRender(): void {
   }
 
   objRoot.dataset.place = objCurrent.sPlace
+  objRoot.dataset.time = bIsEvening() ? 'evening' : 'midday'
   objStage.classList.toggle('is-title', Boolean(objCurrent.bTitle))
 
   const sPortraitId = objCurrent.sPortrait
@@ -1492,6 +1728,7 @@ function vRender(): void {
   objHub.innerHTML = ''
 
   vRenderProgress()
+  vRenderTimeBtn()
 
   if (objCurrent.bHub) {
     vRenderHub()
@@ -1527,20 +1764,30 @@ function vOnRootClick(objEvent: Event): void {
     return
   }
 
+  const objTimeToggle = objTarget.closest<HTMLElement>('[data-action="toggle-time"]')
+  if (objTimeToggle) {
+    if (!bAwakened) {
+      return
+    }
+    vSetTimeOfDay(sTimeOfDay === 'evening' ? 'midday' : 'evening')
+    vGoScene('hub')
+    return
+  }
+
   const objChoiceBtn = objTarget.closest<HTMLButtonElement>('.school-choice')
   if (objChoiceBtn) {
-    if (objChoiceBtn.dataset.ending === '1') {
-      vGoScene('ending')
-      return
-    }
     const objCurrent = objScene(sSceneId)
-    if (!objCurrent?.arrChoices) {
+    if (!objCurrent) {
       return
     }
+    const arrChoices = arrChoicesFor(objCurrent)
     const nIndex = Number(objChoiceBtn.dataset.choice)
-    const objChoice = objCurrent.arrChoices[nIndex]
+    const objChoice = arrChoices[nIndex]
     if (!objChoice) {
       return
+    }
+    if (objChoice.bAwaken) {
+      vAwaken()
     }
     const sMeetId = sUnlockMeetId(objCurrent, objChoice)
     if (sMeetId && vMeet(sMeetId)) {
@@ -1554,7 +1801,7 @@ function vOnRootClick(objEvent: Event): void {
 
   const objTalkBtn = objTarget.closest<HTMLButtonElement>('[data-talk]')
   if (objTalkBtn?.dataset.talk) {
-    vGoScene(`talk_${objTalkBtn.dataset.talk}`)
+    vGoScene(sTalkSceneId(objTalkBtn.dataset.talk))
     return
   }
 
@@ -1691,9 +1938,12 @@ function sGateSceneryMarkup(): string {
 
 export function sSchoolMarkup(): string {
   return `
-    <div class="school" id="school" data-place="gate">
+    <div class="school" id="school" data-place="gate" data-time="midday">
       <div class="school-toolbar">
         <p class="school-progress" id="school-progress">Signs met · 0/16</p>
+        <button type="button" class="school-time" data-action="toggle-time" id="school-time" hidden>
+          Time · Midday
+        </button>
         <button type="button" class="school-restart" data-action="restart">Restart</button>
       </div>
       <div class="school-stage" id="school-stage">
@@ -1730,6 +1980,8 @@ export function vBindSchool(arrCards: tSchoolCard[]): void {
 
   const objSave = objLoadSave()
   setMet = new Set(objSave.setMet)
+  bAwakened = objSave.bAwakened
+  sTimeOfDay = objSave.sTimeOfDay
   sPendingNext = null
 
   objRoot = document.querySelector<HTMLElement>('#school')
@@ -1742,6 +1994,7 @@ export function vBindSchool(arrCards: tSchoolCard[]): void {
   objProgress = document.querySelector<HTMLElement>('#school-progress')
   objHub = document.querySelector<HTMLElement>('#school-hub')
   objUnlock = document.querySelector<HTMLElement>('#school-unlock')
+  objTimeBtn = document.querySelector<HTMLButtonElement>('#school-time')
 
   if (!objRoot || !objStage || !objPortrait || !objDialogue || !objChoices || !objHub || !objUnlock) {
     return

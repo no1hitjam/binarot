@@ -4237,8 +4237,10 @@ code {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gold);
+  flex: 1 1 auto;
 }
 
+.school-time,
 .school-restart {
   border: 1px solid var(--border);
   border-radius: 0;
@@ -4253,15 +4255,21 @@ code {
   transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 }
 
+.school-time:hover,
 .school-restart:hover {
   border-color: var(--border-strong);
   color: var(--gold-bright);
   background-color: rgba(139, 77, 255, 0.08);
 }
 
+.school-time:focus-visible,
 .school-restart:focus-visible {
   outline: 1px solid var(--gold);
   outline-offset: 2px;
+}
+
+.school-time[hidden] {
+  display: none;
 }
 
 .school-stage {
@@ -4361,6 +4369,45 @@ code {
     linear-gradient(180deg, rgba(5, 3, 8, 0.2) 0%, rgba(5, 3, 8, 0.8) 70%, #050308 100%),
     linear-gradient(90deg, rgba(224, 184, 58, 0.06) 0%, transparent 40%, transparent 60%, rgba(139, 77, 255, 0.08) 100%),
     linear-gradient(180deg, #1c1430 0%, #100a18 55%, #050308 100%);
+}
+
+.school[data-time='evening'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(8, 4, 16, 0.35) 0%, rgba(12, 6, 22, 0.72) 45%, rgba(5, 3, 8, 0.95) 100%),
+    radial-gradient(ellipse 65% 40% at 70% 12%, rgba(220, 110, 60, 0.28), transparent 55%),
+    radial-gradient(ellipse 50% 35% at 20% 30%, rgba(90, 40, 120, 0.22), transparent 50%),
+    linear-gradient(180deg, #3a2048 0%, #1a1030 40%, #0a0614 100%);
+}
+
+.school[data-time='evening'][data-place='gate'] .school-bg,
+.school[data-time='evening'][data-place='rooftop'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(8, 4, 16, 0.25) 0%, rgba(12, 6, 22, 0.55) 50%, rgba(5, 3, 8, 0.94) 100%),
+    radial-gradient(ellipse 70% 42% at 75% 16%, rgba(255, 140, 70, 0.35), transparent 52%),
+    linear-gradient(180deg, #6a3a68 0%, #3a2858 32%, #1a1840 68%, #080614 100%);
+}
+
+.school[data-time='evening'][data-place='classroom'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(8, 4, 16, 0.4) 0%, rgba(5, 3, 8, 0.88) 78%, #050308 100%),
+    repeating-linear-gradient(90deg, transparent 0 48px, rgba(224, 140, 80, 0.05) 48px 49px),
+    radial-gradient(ellipse 40% 30% at 18% 70%, rgba(232, 160, 184, 0.12), transparent 55%),
+    linear-gradient(180deg, #2a1838 0%, #140c22 55%, #080610 100%);
+}
+
+.school[data-time='evening'][data-place='hall'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(8, 4, 16, 0.35) 0%, rgba(5, 3, 8, 0.85) 72%, #050308 100%),
+    linear-gradient(90deg, #16101f 0%, #0e0a16 45%, #16101f 100%);
+}
+
+.school[data-time='evening'] .school-petal {
+  opacity: 0.55;
+  filter: saturate(0.75) brightness(0.85);
+}
+
+.school[data-time='evening'] .school-wall-svg {
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45)) brightness(0.72) saturate(0.85);
 }
 
 .school-petals {
@@ -4568,6 +4615,15 @@ code {
   color: var(--gold-dim);
 }
 
+.school-person.is-omen {
+  border-color: color-mix(in srgb, var(--gold) 55%, #e8a0b8);
+  box-shadow: 0 0 0 1px rgba(232, 160, 184, 0.2);
+}
+
+.school-person.is-omen .school-person-meta {
+  color: #e8a0b8;
+}
+
 .school-hub-spot-void {
   grid-column: 1 / -1;
 }
@@ -4629,11 +4685,6 @@ code {
     opacity: 0.94;
     transform: translate(1px, 0);
   }
-}
-
-.school-choice-ending {
-  margin-top: 0.75rem;
-  width: 100%;
 }
 
 .school-textbox {

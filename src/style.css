@@ -4410,6 +4410,110 @@ code {
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45)) brightness(0.72) saturate(0.85);
 }
 
+.school[data-time='night'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(2, 1, 6, 0.55) 0%, rgba(4, 2, 12, 0.88) 48%, #020106 100%),
+    radial-gradient(ellipse 55% 38% at 50% 8%, rgba(120, 70, 180, 0.22), transparent 58%),
+    radial-gradient(ellipse 40% 28% at 18% 42%, rgba(40, 180, 160, 0.08), transparent 50%),
+    radial-gradient(ellipse 35% 30% at 82% 55%, rgba(180, 40, 90, 0.12), transparent 48%),
+    linear-gradient(180deg, #12081c 0%, #080414 45%, #020106 100%);
+}
+
+.school[data-time='night'][data-place='gate'] .school-bg,
+.school[data-time='night'][data-place='rooftop'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(2, 1, 6, 0.4) 0%, rgba(4, 2, 12, 0.75) 55%, #020106 100%),
+    radial-gradient(ellipse 70% 45% at 72% 14%, rgba(90, 40, 160, 0.32), transparent 52%),
+    radial-gradient(ellipse 30% 22% at 30% 35%, rgba(200, 60, 100, 0.14), transparent 45%),
+    linear-gradient(180deg, #1a0c28 0%, #0c0818 40%, #04020a 100%);
+}
+
+.school[data-time='night'][data-place='classroom'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(2, 1, 6, 0.5) 0%, rgba(2, 1, 6, 0.92) 80%, #020106 100%),
+    repeating-linear-gradient(90deg, transparent 0 48px, rgba(120, 70, 180, 0.05) 48px 49px),
+    radial-gradient(ellipse 38% 28% at 16% 72%, rgba(232, 160, 184, 0.08), transparent 55%),
+    linear-gradient(180deg, #180c24 0%, #0a0614 55%, #020106 100%);
+}
+
+.school[data-time='night'][data-place='hall'] .school-bg {
+  background:
+    linear-gradient(180deg, rgba(2, 1, 6, 0.48) 0%, rgba(2, 1, 6, 0.9) 75%, #020106 100%),
+    linear-gradient(90deg, #0c0814 0%, #06040c 45%, #0c0814 100%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(100, 50, 140, 0.12), transparent 60%);
+}
+
+.school[data-time='night'] .school-petal {
+  opacity: 0.28;
+  filter: saturate(0.4) brightness(0.55) hue-rotate(40deg);
+}
+
+.school[data-time='night'] .school-wall-svg {
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.65)) brightness(0.45) saturate(0.55);
+}
+
+.school-stage.is-night-mission .school-textbox {
+  border-color: color-mix(in srgb, #6a5088 55%, var(--border-strong));
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 8px 28px rgba(40, 10, 60, 0.45),
+    inset 0 0 40px rgba(80, 40, 120, 0.08);
+}
+
+.school-hub-spot-mission {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.55rem 0.15rem 0.15rem;
+  border-top: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
+
+.school-mission-start {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--gold) 70%, var(--border-strong));
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(60, 28, 48, 0.95) 0%, rgba(24, 10, 28, 0.98) 100%);
+  color: var(--gold-bright);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  padding: 0.7rem 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.school-mission-start:hover {
+  border-color: var(--gold-bright);
+  background:
+    linear-gradient(180deg, rgba(80, 36, 58, 0.98) 0%, rgba(36, 14, 40, 1) 100%);
+  color: #fff4d8;
+}
+
+.school-mission-start:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.school-mission-hint {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.school-person.is-briefed {
+  border-color: color-mix(in srgb, var(--gold) 40%, var(--border));
+}
+
+.school-person.is-briefed .school-person-meta {
+  color: var(--gold);
+}
+
 .school-petals {
   position: absolute;
   inset: 0;

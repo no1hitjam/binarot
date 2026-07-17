@@ -42,6 +42,7 @@ type tScene = {
   sNext?: string
   bTitle?: boolean
   bHub?: boolean
+  bNight?: boolean
 }
 
 type tTimeOfDay = 'midday' | 'evening'
@@ -50,12 +51,14 @@ const sStorageKey = 'binarot_school'
 
 type tSchoolSave = {
   setMet: string[]
+  setEveningBriefed: string[]
   bAwakened: boolean
   sTimeOfDay: tTimeOfDay
 }
 
 let mapCharById: Record<string, tCharacter> = {}
 let setMet = new Set<string>()
+let setEveningBriefed = new Set<string>()
 let bAwakened = false
 let sTimeOfDay: tTimeOfDay = 'midday'
 let sSceneId = 'title'
@@ -504,24 +507,33 @@ function objLoadSave(): tSchoolSave {
   try {
     const sRaw = localStorage.getItem(sStorageKey)
     if (!sRaw) {
-      return { setMet: [], bAwakened: false, sTimeOfDay: 'midday' }
+      return { setMet: [], setEveningBriefed: [], bAwakened: false, sTimeOfDay: 'midday' }
     }
     const objParsed = JSON.parse(sRaw) as Partial<tSchoolSave>
     const arrMet = Array.isArray(objParsed.setMet)
       ? objParsed.setMet.filter((sValue): sValue is string => typeof sValue === 'string')
       : []
+    const arrEveningBriefed = Array.isArray(objParsed.setEveningBriefed)
+      ? objParsed.setEveningBriefed.filter((sValue): sValue is string => typeof sValue === 'string')
+      : []
     const bSavedAwakened = objParsed.bAwakened === true
     const sSavedTime: tTimeOfDay =
       bSavedAwakened && objParsed.sTimeOfDay === 'evening' ? 'evening' : 'midday'
-    return { setMet: arrMet, bAwakened: bSavedAwakened, sTimeOfDay: sSavedTime }
+    return {
+      setMet: arrMet,
+      setEveningBriefed: arrEveningBriefed,
+      bAwakened: bSavedAwakened,
+      sTimeOfDay: sSavedTime,
+    }
   } catch {
-    return { setMet: [], bAwakened: false, sTimeOfDay: 'midday' }
+    return { setMet: [], setEveningBriefed: [], bAwakened: false, sTimeOfDay: 'midday' }
   }
 }
 
 function vPersist(): void {
   const objSave: tSchoolSave = {
     setMet: Array.from(setMet),
+    setEveningBriefed: Array.from(setEveningBriefed),
     bAwakened,
     sTimeOfDay: bAwakened ? sTimeOfDay : 'midday',
   }
@@ -556,6 +568,47 @@ function vMeet(sId: string): boolean {
   setMet.add(sId)
   vPersist()
   return true
+}
+
+function vEveningBrief(sId: string): void {
+  if (!sId || setEveningBriefed.has(sId)) {
+    return
+  }
+  setEveningBriefed.add(sId)
+  vPersist()
+}
+
+function arrEveningClubIds(): string[] {
+  const arrIds: string[] = []
+  for (const objSpot of arrEveningHubSpots) {
+    for (const sId of objSpot.arrCharIds) {
+      arrIds.push(sId)
+    }
+  }
+  return arrIds
+}
+
+function bEveningClubReady(): boolean {
+  const arrIds = arrEveningClubIds()
+  if (arrIds.length === 0) {
+    return false
+  }
+  for (const sId of arrIds) {
+    if (!setEveningBriefed.has(sId)) {
+      return false
+    }
+  }
+  return true
+}
+
+function sEveningBriefId(objCurrent: tScene, objChoice: tChoice): string | null {
+  if (objChoice.sNext !== 'hub' || !objCurrent.sPortrait) {
+    return null
+  }
+  if (!/^talk_.+_evening(_b)?$/.test(objCurrent.sId)) {
+    return null
+  }
+  return objCurrent.sPortrait
 }
 
 function objSchoolCard(objChar: tCharacter): tSchoolCard {
@@ -1459,6 +1512,241 @@ const mapScenes: Record<string, tScene> = {
     ],
     arrChoices: [{ sLabel: 'Back to the hall', sNext: 'hub' }],
   },
+  mission_start: {
+    sId: 'mission_start',
+    sPlace: 'classroom',
+    sPortrait: '100',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '100',
+        sText: "Lights just dipped on the west wing. Not a brownout — the bulbs are still humming. Something's eating the glow from the inside.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "This is it. Evening club becomes a line. You briefed everyone — now we hold what we named.",
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Take positions.', sNext: 'mission_deploy' },
+      { sLabel: 'What are we fighting?', sNext: 'mission_deploy' },
+    ],
+  },
+  mission_deploy: {
+    sId: 'mission_deploy',
+    sPlace: 'classroom',
+    sPortrait: '1',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '1',
+        sText: "Rei — Flag. Claim points are live: gate, hall spine, rooftop rail. If a square goes blank, we lose the map of the school.",
+      },
+      {
+        sSpeaker: '1',
+        sText: "You stay mobile. We're the fixed claims. Don't let the chart forget who we are.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Move out.', sNext: 'mission_siren' }],
+  },
+  mission_siren: {
+    sId: 'mission_siren',
+    sPlace: 'hall',
+    sPortrait: null,
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: null,
+        sText: 'The hallway clocks skip a second — then another. Lockers rattle without hands. Somewhere past the crest, a tone like a wrong bell rings once and keeps ringing.',
+      },
+      {
+        sSpeaker: null,
+        sText: 'Shadows peel off the walls in shapes that never learned to be people. Void-monsters: underflow given teeth.',
+      },
+    ],
+    arrChoices: [{ sLabel: 'Run for the gate.', sNext: 'mission_gate' }],
+  },
+  mission_gate: {
+    sId: 'mission_gate',
+    sPlace: 'gate',
+    sPortrait: '-1',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: null,
+        sText: 'The threshold yawns. Not open — unfinished. Creatures pour through like spilled ink that decided to stand up.',
+      },
+      {
+        sSpeaker: '-1',
+        sText: "…You were told. The lean becomes a shove. Fate wants a finished spread. They're here to write over you.",
+      },
+      {
+        sSpeaker: null,
+        sText: 'The Void thins to static. The monsters do not. They surge toward the crest like moths that hate light.',
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Hold the gate with Toru.', sNext: 'mission_toru' },
+      { sLabel: 'Cut to Mina at the tear.', sNext: 'mission_mina' },
+    ],
+  },
+  mission_toru: {
+    sId: 'mission_toru',
+    sPlace: 'gate',
+    sPortrait: '1101',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '1101',
+        sText: "Toru — Shell. Door's a ritual, not wood. Stack with me: breath, stamp, claim. Each layer buys a second.",
+      },
+      {
+        sSpeaker: '1101',
+        sText: "A monster hits the ward and folds wrong — like a page forced into a book it doesn't belong in. Another climbs the seam.",
+      },
+      {
+        sSpeaker: '1101',
+        sText: "I don't need pretty. I need closed. Stay in the stack — don't chase the ones that slip.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Seal it — then check Mina.', sNext: 'mission_mina' }],
+  },
+  mission_mina: {
+    sId: 'mission_mina',
+    sPlace: 'hall',
+    sPortrait: '110',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '110',
+        sText: "Mina — Port. There's a hinge in the air by the trophy case. Feel that cold? That's a door pretending it was always here.",
+      },
+      {
+        sSpeaker: '110',
+        sText: "Three monsters squeeze sideways through nothing. I catch the hinge mid-swing — shove it the other way. One of them shears in half and unravels into chalk dust.",
+      },
+      {
+        sSpeaker: '110',
+        sText: "Seal what we can. Stall what we can't. Go — Rei's claim is flickering on the board.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Reinforce Rei.', sNext: 'mission_rei' }],
+  },
+  mission_rei: {
+    sId: 'mission_rei',
+    sPlace: 'classroom',
+    sPortrait: '1',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '1',
+        sText: "They're trying to blank the roster. Watch — names smear, then rewrite into garbage bits. I plant the Flag again. Harder.",
+      },
+      {
+        sSpeaker: '1',
+        sText: "You fight an omen by refusing the blank. Say it with me: this room is claimed. This hall is claimed. This school stays readable.",
+      },
+      {
+        sSpeaker: null,
+        sText: 'The blackboard steadies. A void-beast that was climbing the chalk rail shrieks without a mouth and drops into a scribble that fades.',
+      },
+    ],
+    arrChoices: [{ sLabel: 'Rooftop — Jin needs backup.', sNext: 'mission_jin' }],
+  },
+  mission_jin: {
+    sId: 'mission_jin',
+    sPlace: 'rooftop',
+    sPortrait: '1000',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '1000',
+        sText: "Jin — Agent. Don't stare into the tear. Strike the edge. The Void warned you; I'm collecting interest.",
+      },
+      {
+        sSpeaker: '1000',
+        sText: "Drill, now: step, cut, recover. A cluster of monsters blooms over the rail — I break the lead one and the rest lose the idea of standing.",
+      },
+      {
+        sSpeaker: '1000',
+        sText: "Surviving the first wave with the chart still readable — that's the homework. We're grading ourselves in real time.",
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Fall back to Hana.', sNext: 'mission_hana' },
+      { sLabel: 'Push the tear shut together.', sNext: 'mission_push' },
+    ],
+  },
+  mission_hana: {
+    sId: 'mission_hana',
+    sPlace: 'classroom',
+    sPortrait: '100',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '100',
+        sText: "Hana — Host. Door's still cracked for anyone who needs a landing. Even mid-invasion.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "You're bleeding static at the edges — sit, breathe, then go back out. A host keeps the room open so the line doesn't become a tomb.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "They're massing at the gate again. All of us. One push.",
+      },
+    ],
+    arrChoices: [{ sLabel: 'Rally the club.', sNext: 'mission_push' }],
+  },
+  mission_push: {
+    sId: 'mission_push',
+    sPlace: 'gate',
+    sPortrait: null,
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: null,
+        sText: 'Five claims braid into one. Rei names the ground. Mina pins the hinge. Toru stacks the wall. Jin cuts the bloom. Hana holds the room that must remain a room.',
+      },
+      {
+        sSpeaker: null,
+        sText: 'The void-monsters thrash — a wrong algebra of limbs — then the crest over the gate flares like sixteen little suns refusing to go out.',
+      },
+      {
+        sSpeaker: null,
+        sText: 'The tear cinches. Ink reverses. Something on the far side of underflow screams without air, and the night remembers how to be ordinary dark.',
+      },
+    ],
+    arrChoices: [
+      { sLabel: 'Did we win?', sNext: 'mission_aftermath' },
+      { sLabel: 'Is it over?', sNext: 'mission_aftermath' },
+    ],
+  },
+  mission_aftermath: {
+    sId: 'mission_aftermath',
+    sPlace: 'classroom',
+    sPortrait: '100',
+    bNight: true,
+    arrLines: [
+      {
+        sSpeaker: '100',
+        sText: "First wave survived. Chart still readable. That's tonight's grade — not forever, not fate rewritten, but a school still standing.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "Rei's already rewriting claim maps. Jin wants another drill before dawn. Mina's walking edges; Toru's restacking locks. We made it.",
+      },
+      {
+        sSpeaker: '100',
+        sText: "Come back to the hall when your hands stop shaking. Evening club doesn't end because the monsters did — we just earned a quieter hour.",
+      },
+      {
+        sSpeaker: null,
+        sText: 'The bells settle. The hallway is a hallway again. Outside, the crest over the gate holds sixteen claims against a sky that almost forgot them.',
+      },
+    ],
+    arrChoices: [{ sLabel: 'Return to the evening hall', sNext: 'hub' }],
+  },
   title_reset: {
     sId: 'title_reset',
     sPlace: 'gate',
@@ -1511,6 +1799,7 @@ function sTalkSceneId(sCharId: string): string {
 function vGoScene(sId: string): void {
   if (sId === 'title_reset') {
     setMet = new Set()
+    setEveningBriefed = new Set()
     bAwakened = false
     sTimeOfDay = 'midday'
     vPersist()
@@ -1605,7 +1894,10 @@ function vRenderHub(): void {
   }
 
   objNameBox.hidden = true
-  if (bIsEvening()) {
+  if (bIsEvening() && bEveningClubReady()) {
+    objDialogue.textContent =
+      "Everyone's briefed. The lean is close — when you're ready, start the mission and hold the school through the night."
+  } else if (bIsEvening()) {
     objDialogue.textContent =
       'Evening club is in session. Awakened students trade plans for the fight — hold the chart, seal the tears, push back the lean.'
   } else if (bSchoolComplete()) {
@@ -1643,6 +1935,19 @@ function vRenderHub(): void {
   `
       : ''
 
+  const sMissionBlock =
+    bIsEvening() && bEveningClubReady()
+      ? `
+    <section class="school-hub-spot school-hub-spot-mission">
+      <h3 class="school-hub-label">Night defense</h3>
+      <button type="button" class="school-mission-start" data-action="start-mission">
+        Start mission
+      </button>
+      <p class="school-mission-hint">Void-monsters at the gate · hold the chart</p>
+    </section>
+  `
+      : ''
+
   const arrSpots = bIsEvening() ? arrEveningHubSpots : arrHubSpots
 
   objHub.innerHTML = `
@@ -1657,9 +1962,18 @@ function vRenderHub(): void {
               }
               const bMet = setMet.has(sId)
               const bOmenPending = sId === '100' && setMet.has(sVoidId) && !bAwakened
-              const sMeta = bIsEvening() ? 'club' : bOmenPending ? 'ask' : bMet ? 'met' : 'new'
+              const bBriefed = bIsEvening() && setEveningBriefed.has(sId)
+              const sMeta = bIsEvening()
+                ? bBriefed
+                  ? 'ready'
+                  : 'brief'
+                : bOmenPending
+                  ? 'ask'
+                  : bMet
+                    ? 'met'
+                    : 'new'
               return `
-                <button type="button" class="school-person${bMet ? ' is-met' : ''}${bOmenPending ? ' is-omen' : ''}" data-talk="${sId}">
+                <button type="button" class="school-person${bMet ? ' is-met' : ''}${bOmenPending ? ' is-omen' : ''}${bBriefed ? ' is-briefed' : ''}" data-talk="${sId}">
                   <span class="school-person-bit">${sEscapeHtml(objChar.sBinaryValue)}</span>
                   <span class="school-person-name">${sEscapeHtml(objChar.sName)}</span>
                   <span class="school-person-title">${sEscapeHtml(objChar.sTitle)}</span>
@@ -1677,6 +1991,7 @@ function vRenderHub(): void {
         })
         .join('')}
       ${sVoidBlock}
+      ${sMissionBlock}
     </div>
   `
 }
@@ -1685,8 +2000,10 @@ function vRenderTimeBtn(): void {
   if (!objTimeBtn) {
     return
   }
-  objTimeBtn.hidden = !bAwakened
-  if (!bAwakened) {
+  const objCurrent = objScene(sSceneId)
+  const bHide = !bAwakened || Boolean(objCurrent?.bNight)
+  objTimeBtn.hidden = bHide
+  if (bHide) {
     return
   }
   const sLabel = sTimeOfDay === 'evening' ? 'Evening' : 'Midday'
@@ -1708,8 +2025,9 @@ function vRender(): void {
   }
 
   objRoot.dataset.place = objCurrent.sPlace
-  objRoot.dataset.time = bIsEvening() ? 'evening' : 'midday'
+  objRoot.dataset.time = objCurrent.bNight ? 'night' : bIsEvening() ? 'evening' : 'midday'
   objStage.classList.toggle('is-title', Boolean(objCurrent.bTitle))
+  objStage.classList.toggle('is-night-mission', Boolean(objCurrent.bNight))
 
   const sPortraitId = objCurrent.sPortrait
   if (sPortraitId && mapCharById[sPortraitId]) {
@@ -1774,6 +2092,15 @@ function vOnRootClick(objEvent: Event): void {
     return
   }
 
+  const objStartMission = objTarget.closest<HTMLElement>('[data-action="start-mission"]')
+  if (objStartMission) {
+    if (!bIsEvening() || !bEveningClubReady()) {
+      return
+    }
+    vGoScene('mission_start')
+    return
+  }
+
   const objChoiceBtn = objTarget.closest<HTMLButtonElement>('.school-choice')
   if (objChoiceBtn) {
     const objCurrent = objScene(sSceneId)
@@ -1788,6 +2115,10 @@ function vOnRootClick(objEvent: Event): void {
     }
     if (objChoice.bAwaken) {
       vAwaken()
+    }
+    const sBriefId = sEveningBriefId(objCurrent, objChoice)
+    if (sBriefId) {
+      vEveningBrief(sBriefId)
     }
     const sMeetId = sUnlockMeetId(objCurrent, objChoice)
     if (sMeetId && vMeet(sMeetId)) {
@@ -1980,6 +2311,7 @@ export function vBindSchool(arrCards: tSchoolCard[]): void {
 
   const objSave = objLoadSave()
   setMet = new Set(objSave.setMet)
+  setEveningBriefed = new Set(objSave.setEveningBriefed)
   bAwakened = objSave.bAwakened
   sTimeOfDay = objSave.sTimeOfDay
   sPendingNext = null

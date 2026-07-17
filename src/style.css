@@ -5261,6 +5261,22 @@ code {
   --suit-accent: #e0b83a;
 }
 
+.fifteen-card.is-face {
+  border-color: color-mix(in srgb, var(--gold-bright) 55%, var(--suit-accent));
+}
+
+.fifteen-face-icon {
+  color: var(--gold-bright);
+}
+
+.fifteen-face-mark {
+  fill: currentColor;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
 .fifteen-card-back {
   --suit-accent: var(--purple-dim);
   justify-content: center;
@@ -5342,6 +5358,17 @@ code {
   text-transform: uppercase;
   color: var(--text-muted);
   text-align: center;
+}
+
+.fifteen-summary {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.45;
 }
 
 .fifteen[data-outcome='win'] .fifteen-status,

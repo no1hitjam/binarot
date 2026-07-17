@@ -637,9 +637,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="fifteen">
       <h2>Thirty-one</h2>
       <p class="reading-intro">
-        Binarot blackjack: draw cards and add their values toward <code>11111</code> (31).
+        Draw cards and add their values toward <code>11111</code> (31).
         Bust if you go over. Three other players bet and play before you; the dealer
-        shows one card. The shoe is four suits of the full deck. Dealer stands on 24 or higher.
+        shows one card. The shoe is four suits of the full deck plus face cards
+        The Barony, The Manor, The Castle, and The Hall (each worth 15). Dealer stands on 24 or higher.
       </p>
       ${sFifteenMarkup()}
     </section>

@@ -7,11 +7,21 @@ type tFifteenSource = {
 
 type tSuit = 'void' | 'signal' | 'mask' | 'state'
 
+type tFaceKind = 'barony' | 'manor' | 'castle' | 'hall'
+
+type tFaceRank = {
+  sName: string
+  sKind: tFaceKind
+  sMark: string
+}
+
 type tFifteenCard = {
   sName: string
   sBinaryValue: string
   sSuit: tSuit
   nValue: number
+  bFace: boolean
+  sFaceKind?: tFaceKind
 }
 
 type tPhase = 'betting' | 'ai' | 'player' | 'dealer' | 'settled'
@@ -38,7 +48,15 @@ const nMinShoe = 12
 const nDealerHitDelayMs = 550
 const nAiDelayMs = 480
 const nAiFinishDelayMs = 3000
+// Face ranks per suit, each worth 15 (same as The State).
+const nFaceValue = 15
 const arrSuits: tSuit[] = ['void', 'signal', 'mask', 'state']
+const arrFaceRanks: tFaceRank[] = [
+  { sName: 'The Barony', sKind: 'barony', sMark: 'B' },
+  { sName: 'The Manor', sKind: 'manor', sMark: 'M' },
+  { sName: 'The Castle', sKind: 'castle', sMark: 'C' },
+  { sName: 'The Hall', sKind: 'hall', sMark: 'H' },
+]
 const arrBetSteps = [5, 10, 25, 50]
 const arrBotDefs = [
   { sId: 'bit', sName: 'Mr. Bit', nStandAt: 22 },
@@ -62,6 +80,7 @@ let sSeatAnimatedId = ''
 let nSeatAnimatedIndex = -1
 let sRenderedSeatId = ''
 let sStatus = 'Place a bet, then deal.'
+let sSummary = ''
 let bBound = false
 
 let objRoot: HTMLElement | null = null
@@ -69,6 +88,7 @@ let objTable: HTMLElement | null = null
 let objChips: HTMLElement | null = null
 let objBetLabel: HTMLElement | null = null
 let objStatus: HTMLElement | null = null
+let objSummary: HTMLElement | null = null
 let objBetRow: HTMLElement | null = null
 let objActionRow: HTMLElement | null = null
 
@@ -134,10 +154,64 @@ function arrBuildShoe(arrCards: tFifteenSource[]): tFifteenCard[] {
         sBinaryValue: objCard.sBinaryValue,
         sSuit,
         nValue: nCardValue(objCard.sBinaryValue),
+        bFace: false,
+      })
+    }
+    for (const objFace of arrFaceRanks) {
+      arrBuilt.push({
+        sName: objFace.sName,
+        sBinaryValue: objFace.sMark,
+        sSuit,
+        nValue: nFaceValue,
+        bFace: true,
+        sFaceKind: objFace.sKind,
       })
     }
   }
   return arrShuffled(arrBuilt)
+}
+
+function sFaceIconMarkup(sKind: tFaceKind, sMark: string): string {
+  let sPaths = ''
+  if (sKind === 'barony') {
+    sPaths = `
+      <path d="M18 48 V28 H46 V48"/>
+      <path d="M14 28 H50"/>
+      <path d="M24 28 V18 H40 V28"/>
+      <path d="M28 38 H36 V48"/>
+      <circle cx="32" cy="14" r="3"/>
+    `
+  } else if (sKind === 'manor') {
+    sPaths = `
+      <path d="M12 48 V30 L32 16 L52 30 V48"/>
+      <path d="M22 48 V34 H42 V48"/>
+      <path d="M12 30 H52"/>
+      <path d="M28 22 H36 V28 H28 Z"/>
+    `
+  } else if (sKind === 'castle') {
+    sPaths = `
+      <path d="M10 48 V28 H22 V18 H28 V28 H36 V14 H42 V28 H54 V48"/>
+      <path d="M22 18 L25 12 L28 18"/>
+      <path d="M36 14 L39 8 L42 14"/>
+      <path d="M10 28 L13 22 L16 28"/>
+      <path d="M48 28 L51 22 L54 28"/>
+      <path d="M30 36 H38 V48 H30 Z"/>
+    `
+  } else {
+    sPaths = `
+      <path d="M14 48 V26 H50 V48"/>
+      <path d="M14 26 L32 12 L50 26"/>
+      <path d="M22 48 V34 H28 V48"/>
+      <path d="M36 48 V34 H42 V48"/>
+      <path d="M30 26 V20 H34 V26"/>
+    `
+  }
+  return `
+    <svg class="card-icon fifteen-card-icon fifteen-face-icon" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false">
+      ${sPaths}
+      <text x="32" y="58" text-anchor="middle" class="fifteen-face-mark">${sMark}</text>
+    </svg>
+  `
 }
 
 function vEnsureShoe(): void {
@@ -194,11 +268,15 @@ function bDealerRevealed(): boolean {
 }
 
 function sCardMarkup(objCard: tFifteenCard, bAnimate: boolean): string {
+  const sIcon = objCard.bFace
+    ? sFaceIconMarkup(objCard.sFaceKind ?? 'barony', objCard.sBinaryValue)
+    : sCardIconMarkup(objCard.sBinaryValue, 'fifteen-card-icon')
+  const sFaceClass = objCard.bFace ? ` is-face face-${objCard.sFaceKind ?? 'barony'}` : ''
   return `
-    <div class="fifteen-card suit-${objCard.sSuit}${bAnimate ? ' is-dealt' : ''}" title="${objCard.sName} (${objCard.sBinaryValue}) · ${objCard.sSuit}">
-      ${sCardIconMarkup(objCard.sBinaryValue, 'fifteen-card-icon')}
+    <div class="fifteen-card suit-${objCard.sSuit}${sFaceClass}${bAnimate ? ' is-dealt' : ''}" title="${objCard.sName} (${objCard.nValue}) · ${objCard.sSuit}">
+      ${sIcon}
       <span class="fifteen-card-name">${objCard.sName}</span>
-      <span class="fifteen-card-binary">${objCard.sBinaryValue}</span>
+      <span class="fifteen-card-binary">${objCard.bFace ? '1111' : objCard.sBinaryValue}</span>
       <span class="fifteen-card-value">${objCard.nValue}</span>
       <span class="fifteen-card-suit">${objCard.sSuit}</span>
     </div>
@@ -247,7 +325,8 @@ function sMetaMarkup(arrHand: tFifteenCard[], bShow: boolean, nUpOnly: number = 
   if (!bShow) {
     if (nUpOnly >= 0 && nUpOnly < arrHand.length) {
       const objUp = arrHand[nUpOnly]!
-      return `<span class="fifteen-total">up <code>${objUp.sBinaryValue}</code> (${objUp.nValue})</span>`
+      const sUpBits = objUp.bFace ? '1111' : objUp.sBinaryValue
+      return `<span class="fifteen-total">up <code>${sUpBits}</code> (${objUp.nValue})</span>`
     }
     return '<span class="fifteen-total">total —</span>'
   }
@@ -426,6 +505,10 @@ function vRender(): void {
   if (objStatus) {
     objStatus.textContent = sStatus
   }
+  if (objSummary) {
+    objSummary.textContent = sSummary
+    objSummary.hidden = sSummary === ''
+  }
 
   if (objRoot) {
     objRoot.classList.toggle('is-betting', sPhase === 'betting')
@@ -505,6 +588,39 @@ function sHumanResultMessage(): string {
   return 'Hand complete.'
 }
 
+function sSeatSummaryPhrase(objSeat: tSeat): string {
+  if (objSeat.arrHand.length === 0) {
+    return ''
+  }
+  const nTotal = nHandTotal(objSeat.arrHand)
+  if (objSeat.sOutcome === 'natural') {
+    return `${objSeat.sName}: thirty-one`
+  }
+  if (objSeat.sOutcome === 'win') {
+    return `${objSeat.sName}: ${nTotal} wins`
+  }
+  if (objSeat.sOutcome === 'push') {
+    return `${objSeat.sName}: push at ${nTotal}`
+  }
+  if (objSeat.sOutcome === 'lose') {
+    if (bBust(objSeat.arrHand)) {
+      return `${objSeat.sName}: busts at ${nTotal}`
+    }
+    return `${objSeat.sName}: ${nTotal} loses`
+  }
+  return `${objSeat.sName}: ${nTotal}`
+}
+
+function sTableSummary(): string {
+  const arrParts = arrBots()
+    .map((objSeat) => sSeatSummaryPhrase(objSeat))
+    .filter((sPart) => sPart !== '')
+  if (arrParts.length === 0) {
+    return ''
+  }
+  return `Table · ${arrParts.join(' · ')}`
+}
+
 function vSettleAll(sOverrideStatus?: string): void {
   const nDealer = nHandTotal(arrDealer)
   const bDealerBust = bBust(arrDealer)
@@ -516,6 +632,7 @@ function vSettleAll(sOverrideStatus?: string): void {
   sOutcome = objYou.sOutcome
   sPhase = 'settled'
   sStatus = sOverrideStatus ?? sHumanResultMessage()
+  sSummary = sTableSummary()
   for (const objSeat of arrSeats) {
     objSeat.nBet = 0
   }
@@ -743,6 +860,7 @@ function vDeal(): void {
 
   vDiscardHands()
   sOutcome = null
+  sSummary = ''
   sSeatAnimatedId = ''
   nSeatAnimatedIndex = -1
 
@@ -817,6 +935,7 @@ function vAgain(): void {
   sPhase = 'betting'
   sSeatAnimatedId = ''
   nSeatAnimatedIndex = -1
+  sSummary = ''
   vClampPendingBet()
   const objYou = objHuman()
   sStatus =
@@ -882,6 +1001,7 @@ export function sFifteenMarkup(): string {
       <div class="fifteen-table" id="fifteen-table"></div>
 
       <p class="fifteen-status" id="fifteen-status" aria-live="polite">Place a bet, then deal.</p>
+      <p class="fifteen-summary" id="fifteen-summary" hidden></p>
 
       <div class="fifteen-controls">
         <div class="fifteen-bet-row" id="fifteen-bet-row">
@@ -914,12 +1034,14 @@ export function vBindFifteen(arrCards: tFifteenSource[]): void {
   nSeatAnimatedIndex = -1
   sRenderedSeatId = ''
   sStatus = 'Place a bet, then deal.'
+  sSummary = ''
 
   objRoot = document.querySelector<HTMLElement>('#fifteen')
   objTable = document.querySelector<HTMLElement>('#fifteen-table')
   objChips = document.querySelector<HTMLElement>('#fifteen-chips')
   objBetLabel = document.querySelector<HTMLElement>('#fifteen-bet')
   objStatus = document.querySelector<HTMLElement>('#fifteen-status')
+  objSummary = document.querySelector<HTMLElement>('#fifteen-summary')
   objBetRow = document.querySelector<HTMLElement>('#fifteen-bet-row')
   objActionRow = document.querySelector<HTMLElement>('#fifteen-action-row')
 

@@ -13,6 +13,8 @@ import { sCollectMarkup, vBindCollect, vSetCollectActive } from './collect'
 import { sCollectionMarkup, vBindCollection, vSetCollectionActive } from './collection'
 import { sSchoolMarkup, vBindSchool, vSetSchoolActive } from './school'
 import { sDiamondMarkup, vBindDiamond, vSetDiamondActive } from './diamond'
+import { sRogueMarkup, vBindRogue, vSetRogueActive } from './rogue'
+import { sFifteenMarkup, vBindFifteen, vSetFifteenActive } from './fifteen'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -429,6 +431,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="collection" aria-selected="false">Collection</button>
       <button type="button" class="tab-button" data-tab="school" aria-selected="false">School</button>
       <button type="button" class="tab-button" data-tab="diamond" aria-selected="false">Diamond</button>
+      <button type="button" class="tab-button" data-tab="rogue" aria-selected="false">Rogue</button>
+      <button type="button" class="tab-button" data-tab="fifteen" aria-selected="false">Thirty-one</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -621,6 +625,25 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sDiamondMarkup()}
     </section>
 
+    <section class="tab-panel" data-panel="rogue">
+      <h2>Rogue</h2>
+      <p class="reading-intro">
+        A traditional ASCII dungeon. Explore rooms, fight monsters, and collect all
+        sixteen binarot cards marked <code>*</code> on the floor.
+      </p>
+      ${sRogueMarkup()}
+    </section>
+
+    <section class="tab-panel" data-panel="fifteen">
+      <h2>Thirty-one</h2>
+      <p class="reading-intro">
+        Binarot blackjack: draw cards and add their values toward <code>11111</code> (31).
+        Bust if you go over. Three other players bet and play before you; the dealer
+        shows one card. The shoe is four suits of the full deck. Dealer stands on 24 or higher.
+      </p>
+      ${sFifteenMarkup()}
+    </section>
+
     ${
       bShowDevPanel
         ? `
@@ -690,6 +713,8 @@ const arrUnlockOrder = [
   'collection',
   'school',
   'diamond',
+  'rogue',
+  'fifteen',
   'about',
 ] as const
 const sDefaultUnlock = 'reading'
@@ -1007,6 +1032,8 @@ function vActivateTab(sTabId: string): void {
   vSetCollectionActive(sTabId === 'collection')
   vSetSchoolActive(sTabId === 'school')
   vSetDiamondActive(sTabId === 'diamond')
+  vSetRogueActive(sTabId === 'rogue')
+  vSetFifteenActive(sTabId === 'fifteen')
   vSetCookie(sCookieTab, sTabId)
   vUnlockNextFrom(sTabId)
 }
@@ -1590,3 +1617,5 @@ vBindCollect(arrCards)
 vBindCollection(arrCards)
 vBindSchool(arrCards)
 vBindDiamond(arrCards)
+vBindRogue(arrCards)
+vBindFifteen(arrCards)

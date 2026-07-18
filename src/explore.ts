@@ -1,16 +1,27 @@
 import * as THREE from 'three'
 import { sCardIconPaths } from './cardIcons'
 
-const nTerrainSize = 5120
+const nTerrainSize = 9600
 const nTerrainSegs = 320
-const nHeightScale = 78
-const nHillPeakScale = 110
-const nMaxClimb = 0.95
-const nMoveSpeed = 28
+const nHeightScale = 165
+const nMountainScale = 220
+const nMountainStart = 0.91
+const nMountainAngCenter = Math.PI * 0.25
+const nMountainAngHalf = Math.PI * 0.5
+const nMountainAngFade = 0.4
+const arrMountainPeaks: { nAng: number; nDist: number; nRadius: number; nH: number }[] = [
+  { nAng: Math.PI * 0.25, nDist: 0.955, nRadius: 0.11, nH: 820 },
+  { nAng: Math.PI * 0.08, nDist: 0.94, nRadius: 0.075, nH: 540 },
+  { nAng: Math.PI * 0.42, nDist: 0.948, nRadius: 0.085, nH: 620 },
+  { nAng: Math.PI * -0.06, nDist: 0.935, nRadius: 0.065, nH: 440 },
+  { nAng: Math.PI * 0.58, nDist: 0.942, nRadius: 0.07, nH: 490 },
+]
+const nMaxClimb = 1.35
+const nMoveSpeed = 8
 const nTurnSpeed = 1.8
-const nEyeHeight = 2.2
-const nFogNear = 80
-const nFogFar = 1100
+const nEyeHeight = 5.8
+const nFogNear = 140
+const nFogFar = 4200
 const nPlayHalf = nTerrainSize * 0.5 - 1.5
 const nStatueMargin = 140
 const nStatueClearSpawn = 70
@@ -25,36 +36,22 @@ const nPitchMin = -1.25
 const nPitchMax = 1.35
 const nLookReturnSpeed = 1.6
 const nDefaultPitch = -0.08
-const nFloraTreeCount = 1400
-const nFloraMargin = 48
-const nFloraClearSpawn = 36
-const nFloraClearStatue = 24
-const nFloraLift = -2.8
-const nTreeTrunkBaseR = 0.95
-const nTreeClearPad = 2.4
-const nTreeScaleMin = 9
-const nTreeScaleSpan = 16
-const nTreeLookAhead = 48
-const nTreeSteerAngle = 1.15
-const nGrassCount = 2200
-const nGrassRadius = 58
-const nGrassCell = 1.85
-const nGrassClearFeet = 2.8
-const nGrassLift = 0.02
-const nGrassMaxHeightT = 0.30
-const nSnowCount = 1600
-const nSnowRadius = 62
-const nSnowCell = 2.35
+const nBobSpeed = 1.25
+const nBobAmp = 0.14
+const nBobBlendSpeed = 2.4
+const nSnowCount = 900
+const nSnowRadius = 58
+const nSnowCell = 2.6
 const nSnowClearFeet = 3.2
 const nSnowLift = 0.04
-const nSnowMinHeightT = 0.45
+const nSnowMinHeightT = 0.48
 const nSkyLift = 2560
 const nSkyTilt = 0.42
 const nStarCount = 2400
 const nStarRadius = 9000
 const nStarSize = 6.5
 const nStarDrift = 0.003
-const nFairyCount = 16
+const nFairyCount = 12
 const nFairyCullR = 38
 const nFairySpawnMin = 16
 const nFairySpawnMax = 28
@@ -63,7 +60,20 @@ const nFairySize = 0.85
 const nFairyHoverMin = 1.1
 const nFairyHoverSpan = 2.6
 const nFairyFadeSec = 1.35
-const nFairySpawnGap = 0.4
+const nFairySpawnGap = 0.55
+const nSandCount = 720
+const nSandSize = 0.2
+const nSandCullR = 110
+const nSandSpawnMin = 12
+const nSandSpawnMax = 88
+const nSandWindYaw = 0.95
+const nSandWindSpd = 18
+const nSandWindGust = 7
+const nSandLiftMin = 0.25
+const nSandLiftMax = 5.2
+const nSandLifeMin = 2.2
+const nSandLifeMax = 5.5
+const nSandTwinkleSpd = 9
 const nExploreStartDelayMs = 80
 const nVhsBleedPx = 4.5
 const bVhsEnabled = false
@@ -80,12 +90,6 @@ type tStatue = {
   objRay: THREE.Group
   arrLitMats: THREE.MeshStandardMaterial[]
   objGlow: THREE.PointLight
-}
-
-type tTree = {
-  nX: number
-  nZ: number
-  nR: number
 }
 
 type tSkyOrbit = {
@@ -111,9 +115,25 @@ type tFairy = {
   bActive: boolean
 }
 
+type tSandMote = {
+  nX: number
+  nY: number
+  nZ: number
+  nVx: number
+  nVy: number
+  nVz: number
+  nLife: number
+  nMaxLife: number
+  nTwinkle: number
+  nTwinkleSpd: number
+  nCr: number
+  nCg: number
+  nCb: number
+  nBright: number
+}
+
 let arrExploreCards: tExploreCard[] = []
 let arrStatues: tStatue[] = []
-let arrTrees: tTree[] = []
 let objCanvasHost: HTMLElement | null = null
 let objRenderer: THREE.WebGLRenderer | null = null
 let objScene: THREE.Scene | null = null
@@ -135,6 +155,8 @@ let nAvoidYaw = 0
 let nAvoidUntil = 0
 let nAvoidSign = 1
 let nDwellUntil = 0
+let nBobPhase = 0
+let nBobBlend = 0
 let bLookDragging = false
 let nLookPtrId = -1
 let nLookLastX = 0
@@ -142,9 +164,6 @@ let nLookLastY = 0
 let objSkyRoot: THREE.Group | null = null
 let objStarRoot: THREE.Group | null = null
 let arrSkyOrbits: tSkyOrbit[] = []
-let objGrassMesh: THREE.InstancedMesh | null = null
-let nGrassLastCx = Number.NaN
-let nGrassLastCz = Number.NaN
 let objSnowMesh: THREE.InstancedMesh | null = null
 let nSnowLastCx = Number.NaN
 let nSnowLastCz = Number.NaN
@@ -152,6 +171,10 @@ let objFairyPoints: THREE.Points | null = null
 let arrFairies: tFairy[] = []
 let objFairyTex: THREE.CanvasTexture | null = null
 let nFairySpawnCool = 0
+let objSandPoints: THREE.Points | null = null
+let arrSandMotes: tSandMote[] = []
+let objSandTex: THREE.CanvasTexture | null = null
+let nSandWindPhase = 0
 let objSceneTarget: THREE.WebGLRenderTarget | null = null
 let objVhsScene: THREE.Scene | null = null
 let objVhsCam: THREE.OrthographicCamera | null = null
@@ -179,35 +202,12 @@ const objMatPurple = new THREE.MeshStandardMaterial({
   emissive: 0x2a1050,
   emissiveIntensity: 0.2,
 })
-const objMatTrunk = new THREE.MeshStandardMaterial({
-  color: 0xffffff,
-  roughness: 0.94,
-  metalness: 0.06,
-  vertexColors: true,
-  emissive: 0x050302,
-  emissiveIntensity: 0.05,
-})
-const objMatCanopy = new THREE.MeshStandardMaterial({
-  color: 0x5a38a0,
-  roughness: 0.82,
-  metalness: 0.1,
-  emissive: 0x2a1458,
-  emissiveIntensity: 0.32,
-})
-const objMatGrass = new THREE.MeshStandardMaterial({
-  color: 0x3a6a52,
-  roughness: 0.86,
-  metalness: 0.04,
-  emissive: 0x183828,
-  emissiveIntensity: 0.22,
-  side: THREE.DoubleSide,
-})
 const objMatSnow = new THREE.MeshStandardMaterial({
-  color: 0xe8b0d0,
-  roughness: 0.78,
-  metalness: 0.08,
-  emissive: 0x582848,
-  emissiveIntensity: 0.24,
+  color: 0x6a5848,
+  roughness: 0.96,
+  metalness: 0.04,
+  emissive: 0x1a1410,
+  emissiveIntensity: 0.06,
 })
 
 const nRayHeight = 480
@@ -257,24 +257,116 @@ function nFbm(nX: number, nZ: number, nOctaves: number = 5): number {
   return nSum / nNorm
 }
 
-function nInteriorHeight(nX: number, nZ: number): number {
-  const nWarp = (nFbm(nX * 0.0024, nZ * 0.0024, 3) - 0.5) * 120
-  const nWx = nX + nWarp
-  const nWz = nZ - nWarp * 0.7
+/** 1 on the East→South half (SE-centered), 0 toward the NW, with soft edges. */
+function nMountainAngMask(nAng: number): number {
+  let nDelta = nAng - nMountainAngCenter
+  while (nDelta > Math.PI) nDelta -= Math.PI * 2
+  while (nDelta < -Math.PI) nDelta += Math.PI * 2
+  const nAbs = Math.abs(nDelta)
+  const nInner = nMountainAngHalf - nMountainAngFade
+  const nOuter = nMountainAngHalf + nMountainAngFade
+  if (nAbs <= nInner) {
+    return 1
+  }
+  if (nAbs >= nOuter) {
+    return 0
+  }
+  return nSmooth(1 - (nAbs - nInner) / Math.max(0.001, nOuter - nInner))
+}
 
-  const nContinent = nFbm(nWx * 0.0016, nWz * 0.0016, 4)
-  const nRolling = nFbm(nWx * 0.0055 + 3.1, nWz * 0.0055 - 1.7, 5)
-  const nLocal = nFbm(nWx * 0.014 + 11, nWz * 0.014 + 4, 4)
-  const nRidge = 1 - Math.abs(nFbm(nWx * 0.0038 + 20, nWz * 0.0038 - 11, 4) * 2 - 1)
-  const nPeaks = Math.pow(nFbm(nWx * 0.0042 - 8, nWz * 0.0042 + 15, 5), 2.1)
+function nInteriorHeight(nX: number, nZ: number): number {
+  // Mild warp — keep mega-dunes coherent while still letting ridges snake.
+  const nWarp = (nFbm(nX * 0.0007, nZ * 0.0007, 3) - 0.5) * 420
+  const nWarpB = (nFbm(nX * 0.0016 + 19, nZ * 0.0016 - 7, 3) - 0.5) * 140
+  const nWx = nX + nWarp + nWarpB * 0.35
+  const nWz = nZ - nWarp * 0.55 + nWarpB * 0.7
+  const nHalf = nTerrainSize * 0.5
+  const nDist = Math.hypot(nX, nZ) / nHalf
+  const nAng = Math.atan2(nZ, nX)
+
+  // Slow envelope — some dune seas slightly taller than others.
+  const nAmpField = 0.7 + 0.3 * nFbm(nWx * 0.00028 + 5, nWz * 0.00028 - 2, 3)
+
+  // Mega transverse dunes (~800–1100 unit crests) — full sine for crest→valley travel.
+  const nAcrossA = nWx * 0.00045 + nWz * 0.00185
+  const nAlongA = nWx * 0.00035 - nWz * 0.0001
+  const nPhaseA =
+    nAcrossA +
+    (nFbm(nAlongA * 0.55 + 3, nAcrossA * 0.08, 3) - 0.5) * 1.4 +
+    Math.sin(nAlongA * 0.9) * 0.22
+  const nDuneA = 0.5 + 0.5 * Math.sin(nPhaseA * Math.PI)
+
+  // Large secondary dunes at a shallow cross-angle (~500–700 units).
+  const nAcrossB = nWx * 0.00155 - nWz * 0.0007
+  const nAlongB = nWx * 0.00018 + nWz * 0.0004
+  const nPhaseB =
+    nAcrossB +
+    (nFbm(nAlongB + 11, nAcrossB * 0.12 + 4, 3) - 0.5) * 1.2 +
+    Math.sin(nAlongB * 1.1) * 0.18
+  const nDuneB = 0.5 + 0.5 * Math.sin(nPhaseB * Math.PI)
+
+  // Soft mid ripples on the big faces (kept subtle).
+  const nAcrossC = nWx * 0.0042 + nWz * 0.0015
+  const nPhaseC = nAcrossC + (nFbm(nWx * 0.0012 + 28, nWz * 0.0012, 2) - 0.5) * 1.1
+  const nDuneC = 0.5 + 0.5 * Math.sin(nPhaseC * Math.PI)
+
+  // Fine wind texture only.
+  const nRipplePhase = nWx * 0.018 + nWz * 0.0065 + nFbm(nWx * 0.004, nWz * 0.004, 2) * 1.8
+  const nRipple = Math.pow(Math.abs(Math.sin(nRipplePhase * Math.PI)), 2.0)
+
+  // Broad basin bowls under the mega-dunes.
+  const nSwell = nFbm(nWx * 0.00028 + 9, nWz * 0.00028 + 3, 3)
+  const nSwellB = nFbm(nWx * 0.0007 - 4, nWz * 0.0007 + 14, 3)
+
+  const nBasinFade = 1 - Math.min(1, Math.max(0, (nDist - 0.72) / 0.2))
 
   let nH =
-    nContinent * 0.34 +
-    nRolling * 0.32 +
-    nLocal * 0.16 +
-    nRidge * nRidge * 0.28
-  nH = Math.pow(Math.min(1, Math.max(0, nH)), 0.95)
-  nH = nH * nHeightScale + nPeaks * nHillPeakScale
+    nSwell * 0.22 +
+    nSwellB * 0.12 +
+    (nDuneA * 0.72 + nDuneB * 0.38 + nDuneC * 0.12) * nAmpField * nBasinFade +
+    nRipple * 0.04 * nBasinFade
+  nH *= nHeightScale
+
+  const nRimT = Math.min(1, Math.max(0, (nDist - nMountainStart) / Math.max(0.001, 1 - nMountainStart)))
+  const nAngMask = nMountainAngMask(nAng)
+  if (nRimT > 0 && nAngMask > 0) {
+    // Soft, low plateau rise — broad hills more than sharp peaks.
+    const nRimEase = Math.pow(nRimT, 1.25)
+    const nPeakMask = nFbm(Math.cos(nAng) * 1.6 + 40, Math.sin(nAng) * 1.6 - 15, 3)
+    const nRolling = nFbm(nWx * 0.0022 - 8, nWz * 0.0022 + 15, 3)
+    nH +=
+      nRimEase *
+      nAngMask *
+      nMountainScale *
+      (0.78 + nPeakMask * 0.22) *
+      (0.88 + nRolling * 0.12)
+  }
+
+  // Distinct pyramidal peaks along the southeast range.
+  for (let nI = 0; nI < arrMountainPeaks.length; nI++) {
+    const objPeak = arrMountainPeaks[nI]!
+    const nPeakX = Math.cos(objPeak.nAng) * nHalf * objPeak.nDist
+    const nPeakZ = Math.sin(objPeak.nAng) * nHalf * objPeak.nDist
+    const nDx = (nX - nPeakX) / nHalf
+    const nDz = (nZ - nPeakZ) / nHalf
+    // Orient square base toward the range tangent so faces read clearly.
+    const nYaw = objPeak.nAng + Math.PI * 0.25 + nI * 0.18
+    const nC = Math.cos(nYaw)
+    const nS = Math.sin(nYaw)
+    const nLx = nDx * nC + nDz * nS
+    const nLz = -nDx * nS + nDz * nC
+    const nPyramidDist = Math.max(Math.abs(nLx), Math.abs(nLz)) / objPeak.nRadius
+    const nPeakT = Math.min(1, Math.max(0, 1 - nPyramidDist))
+    if (nPeakT <= 0) {
+      continue
+    }
+
+    // Near-linear falloff keeps planar faces; tiny tip sharpening.
+    const nProfile = Math.pow(nPeakT, 0.92)
+    const nFaceGrain = nFbm(nLx * 18 + nI * 9, nLz * 18 - nI * 4, 2)
+    nH += objPeak.nH * nProfile * (0.94 + nFaceGrain * 0.06)
+  }
+
   return nH
 }
 
@@ -308,19 +400,31 @@ function nSampleHeight(nWorldX: number, nWorldZ: number): number {
 
 function objTerrainColor(nH: number, nMin: number, nMax: number): THREE.Color {
   const objColor = new THREE.Color()
-  const nT = Math.min(1, Math.max(0, (nH - nMin) / Math.max(0.001, nMax - nMin)))
-  if (nT < 0.28) {
-    objColor.setRGB(0.08, 0.08, 0.21)
-  } else if (nT < 0.45) {
-    objColor.setRGB(0.18, 0.12, 0.31)
-  } else if (nT < 0.62) {
-    objColor.setRGB(0.3, 0.17, 0.48)
-  } else if (nT < 0.78) {
-    objColor.setRGB(0.535, 0.34, 0.8)
-  } else if (nT < 0.9) {
-    objColor.setRGB(0.79, 0.615, 0.34)
+  const nDuneCeiling = nHeightScale * 1.4
+  if (nH <= nDuneCeiling) {
+    // Color dunes on their own short range so crests still read against troughs.
+    const nT = Math.min(1, Math.max(0, (nH - nMin) / Math.max(0.001, nDuneCeiling - nMin)))
+    if (nT < 0.28) {
+      objColor.setRGB(0.94, 0.78, 0.38)
+    } else if (nT < 0.55) {
+      objColor.setRGB(0.88, 0.68, 0.28)
+    } else if (nT < 0.78) {
+      objColor.setRGB(0.82, 0.58, 0.22)
+    } else {
+      objColor.setRGB(0.74, 0.48, 0.18)
+    }
+    return objColor
+  }
+
+  const nT = Math.min(1, Math.max(0, (nH - nDuneCeiling) / Math.max(0.001, nMax - nDuneCeiling)))
+  if (nT < 0.25) {
+    objColor.setRGB(0.58, 0.38, 0.26)
+  } else if (nT < 0.5) {
+    objColor.setRGB(0.42, 0.3, 0.32)
+  } else if (nT < 0.75) {
+    objColor.setRGB(0.3, 0.26, 0.36)
   } else {
-    objColor.setRGB(0.95, 0.9, 0.7)
+    objColor.setRGB(0.36, 0.32, 0.44)
   }
   return objColor
 }
@@ -371,8 +475,8 @@ function objBuildTerrain(): THREE.Mesh {
 
   const objMat = new THREE.MeshStandardMaterial({
     vertexColors: true,
-    roughness: 0.92,
-    metalness: 0.08,
+    roughness: 0.96,
+    metalness: 0.02,
     flatShading: false,
   })
 
@@ -690,49 +794,6 @@ function nTryStep(nYawDir: number, nStep: number): number {
   return Math.hypot(objPlayerPos.x - nBeforeX, objPlayerPos.z - nBeforeZ)
 }
 
-function bHitsTree(nX: number, nZ: number): boolean {
-  for (const objTree of arrTrees) {
-    const nDx = nX - objTree.nX
-    const nDz = nZ - objTree.nZ
-    const nR = objTree.nR
-    if (nDx * nDx + nDz * nDz < nR * nR) {
-      return true
-    }
-  }
-  return false
-}
-
-function nSteerAroundTrees(nDesiredYaw: number): number {
-  const nFx = Math.sin(nDesiredYaw)
-  const nFz = Math.cos(nDesiredYaw)
-  let nHitAlong = Infinity
-  let nHitAcross = 0
-
-  for (const objTree of arrTrees) {
-    const nDx = objTree.nX - objPlayerPos.x
-    const nDz = objTree.nZ - objPlayerPos.z
-    const nAlong = nDx * nFx + nDz * nFz
-    if (nAlong < 0 || nAlong > nTreeLookAhead || nAlong >= nHitAlong) {
-      continue
-    }
-
-    const nAcross = nDx * nFz - nDz * nFx
-    if (Math.abs(nAcross) > objTree.nR) {
-      continue
-    }
-
-    nHitAlong = nAlong
-    nHitAcross = nAcross
-  }
-
-  if (nHitAlong === Infinity) {
-    return nDesiredYaw
-  }
-
-  const nSide = nHitAcross >= 0 ? -1 : 1
-  return nDesiredYaw + nSide * nTreeSteerAngle
-}
-
 function vCommitTarget(objStatue: tStatue | null): void {
   if (objTargetStatue === objStatue) {
     return
@@ -764,8 +825,6 @@ function vAutoNavigate(nDt: number): void {
   let nSteerYaw = nDesiredYaw
   if (nNow < nAvoidUntil) {
     nSteerYaw = nAvoidYaw
-  } else {
-    nSteerYaw = nSteerAroundTrees(nDesiredYaw)
   }
 
   nMoveYaw += nAngleDiff(nMoveYaw, nSteerYaw) * Math.min(1, nTurnSpeed * nDt)
@@ -809,227 +868,15 @@ function vAddStatues(objParent: THREE.Object3D): void {
   }
 }
 
-function bFloraSiteOk(nX: number, nZ: number): boolean {
-  if (Math.hypot(nX, nZ) < nFloraClearSpawn) {
-    return false
-  }
-
-  const nClear2 = nFloraClearStatue * nFloraClearStatue
-  for (const objStatue of arrStatues) {
-    const nDx = nX - objStatue.nX
-    const nDz = nZ - objStatue.nZ
-    if (nDx * nDx + nDz * nDz < nClear2) {
-      return false
-    }
-  }
-  return true
-}
-
-function arrFloraSites(nCount: number, nSalt: number): { nX: number; nZ: number; nSeed: number }[] {
-  const nHalf = nTerrainSize * 0.5 - nFloraMargin
-  const nGrid = Math.ceil(Math.sqrt(nCount * 4.5))
-  const nCell = (nHalf * 2) / nGrid
-  const arrCandidates: { nX: number; nZ: number; nSeed: number; nPick: number }[] = []
-
-  for (let nGz = 0; nGz < nGrid; nGz++) {
-    for (let nGx = 0; nGx < nGrid; nGx++) {
-      const nSeed = nHash2(nGx + nSalt * 17, nGz + nSalt * 29)
-      if (nSeed > 0.78) {
-        continue
-      }
-
-      const nJx = nHash2(nGx + nSalt + 3, nGz + 71)
-      const nJz = nHash2(nGx + 41, nGz + nSalt + 9)
-      const nX = -nHalf + (nGx + nJx) * nCell
-      const nZ = -nHalf + (nGz + nJz) * nCell
-      if (!bFloraSiteOk(nX, nZ)) {
-        continue
-      }
-
-      arrCandidates.push({
-        nX,
-        nZ,
-        nSeed,
-        nPick: nHash2(nGx + nSalt * 53, nGz + nSalt * 91),
-      })
-    }
-  }
-
-  if (arrCandidates.length <= nCount) {
-    return arrCandidates.map(({ nX, nZ, nSeed }) => ({ nX, nZ, nSeed }))
-  }
-
-  arrCandidates.sort((objA, objB) => objA.nPick - objB.nPick)
-  const arrOut: { nX: number; nZ: number; nSeed: number }[] = []
-  for (let nI = 0; nI < nCount; nI++) {
-    const objSite = arrCandidates[nI]!
-    arrOut.push({ nX: objSite.nX, nZ: objSite.nZ, nSeed: objSite.nSeed })
-  }
-  return arrOut
-}
-
-function objBuildTreeGeos(): { objTrunk: THREE.BufferGeometry; objCanopy: THREE.BufferGeometry } {
-  const objTrunk = new THREE.CylinderGeometry(0.55, 0.95, 8.5, 5)
-  objTrunk.translate(0, 4.25, 0)
-
-  const objPos = objTrunk.attributes.position as THREE.BufferAttribute
-  const arrColors = new Float32Array(objPos.count * 3)
-  const nTrunkH = 8.5
-  for (let nI = 0; nI < objPos.count; nI++) {
-    const nT = Math.min(1, Math.max(0, objPos.getY(nI) / nTrunkH))
-    // Stronger light near the ground, falling off toward the canopy.
-    const nLit = Math.pow(1 - nT, 1.55)
-    const nBr = 0.028 + 0.06 * nLit
-    const nBg = 0.015 + 0.028 * nLit
-    const nBb = 0.01 + 0.012 * nLit
-    arrColors[nI * 3] = nBr
-    arrColors[nI * 3 + 1] = nBg
-    arrColors[nI * 3 + 2] = nBb
-  }
-  objTrunk.setAttribute('color', new THREE.BufferAttribute(arrColors, 3))
-
-  const objCanopy = new THREE.ConeGeometry(3.8, 9.0, 6)
-  objCanopy.translate(0, 11.0, 0)
-  return { objTrunk, objCanopy }
-}
-
-function vAddFlora(objParent: THREE.Object3D): void {
-  const objDummyPos = new THREE.Vector3()
-  const objDummyQuat = new THREE.Quaternion()
-  const objDummyScale = new THREE.Vector3()
-  const objUp = new THREE.Vector3(0, 1, 0)
-  const objMatrix = new THREE.Matrix4()
-
-  const vPlace = (
-    objMesh: THREE.InstancedMesh,
-    arrSites: { nX: number; nZ: number; nSeed: number }[],
-    nScaleMin: number,
-    nScaleSpan: number,
-  ): void => {
-    for (let nI = 0; nI < arrSites.length; nI++) {
-      const objSite = arrSites[nI]!
-      const nYaw = objSite.nSeed * Math.PI * 2
-      const nScale = nScaleMin + nHash2(nI + 11, Math.floor(objSite.nSeed * 9999)) * nScaleSpan
-      const nGround = nSampleHeight(objSite.nX, objSite.nZ) + nFloraLift
-      objDummyPos.set(objSite.nX, nGround, objSite.nZ)
-      objDummyQuat.setFromAxisAngle(objUp, nYaw)
-      objDummyScale.set(nScale, nScale, nScale)
-      objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
-      objMesh.setMatrixAt(nI, objMatrix)
-    }
-    objMesh.instanceMatrix.needsUpdate = true
-    // Instance transforms span the whole map; default bounds sit at the origin and cull everything.
-    objMesh.frustumCulled = false
-    objMesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), nTerrainSize)
-    objParent.add(objMesh)
-  }
-
-  const objTreeGeos = objBuildTreeGeos()
-  const arrTreeSites = arrFloraSites(nFloraTreeCount, 1)
-  arrTrees = []
-  for (let nI = 0; nI < arrTreeSites.length; nI++) {
-    const objSite = arrTreeSites[nI]!
-    const nScale = nTreeScaleMin + nHash2(nI + 11, Math.floor(objSite.nSeed * 9999)) * nTreeScaleSpan
-    arrTrees.push({
-      nX: objSite.nX,
-      nZ: objSite.nZ,
-      nR: nTreeTrunkBaseR * nScale + nTreeClearPad,
-    })
-  }
-  const objTreeTrunks = new THREE.InstancedMesh(objTreeGeos.objTrunk, objMatTrunk, arrTreeSites.length)
-  const objTreeCanopies = new THREE.InstancedMesh(objTreeGeos.objCanopy, objMatCanopy, arrTreeSites.length)
-  vPlace(objTreeTrunks, arrTreeSites, nTreeScaleMin, nTreeScaleSpan)
-  vPlace(objTreeCanopies, arrTreeSites, nTreeScaleMin, nTreeScaleSpan)
-}
-
-function objBuildBladeGeo(): THREE.BufferGeometry {
-  const objBlade = new THREE.ConeGeometry(0.28, 0.58, 4)
-  objBlade.translate(0, 0.29, 0)
-  return objBlade
-}
-
-function vAddGrass(objParent: THREE.Object3D): void {
-  objGrassMesh = new THREE.InstancedMesh(objBuildBladeGeo(), objMatGrass, nGrassCount)
-  objGrassMesh.frustumCulled = false
-  objGrassMesh.count = 0
-  objParent.add(objGrassMesh)
-  nGrassLastCx = Number.NaN
-  nGrassLastCz = Number.NaN
-  vUpdateGrass()
-}
-
-function vUpdateGrass(): void {
-  if (!objGrassMesh) {
-    return
-  }
-
-  const nCx = Math.floor(objPlayerPos.x / nGrassCell)
-  const nCz = Math.floor(objPlayerPos.z / nGrassCell)
-  if (nCx === nGrassLastCx && nCz === nGrassLastCz) {
-    return
-  }
-
-  nGrassLastCx = nCx
-  nGrassLastCz = nCz
-
-  const objDummyPos = new THREE.Vector3()
-  const objDummyQuat = new THREE.Quaternion()
-  const objDummyScale = new THREE.Vector3()
-  const objEuler = new THREE.Euler(0, 0, 0, 'YXZ')
-  const objMatrix = new THREE.Matrix4()
-  const nRadius2 = nGrassRadius * nGrassRadius
-  const nClear2 = nGrassClearFeet * nGrassClearFeet
-  const nSpan = Math.ceil(nGrassRadius / nGrassCell)
-  const nPx = objPlayerPos.x
-  const nPz = objPlayerPos.z
-  let nUsed = 0
-
-  for (let nOz = -nSpan; nOz <= nSpan && nUsed < nGrassCount; nOz++) {
-    for (let nOx = -nSpan; nOx <= nSpan && nUsed < nGrassCount; nOx++) {
-      const nGx = nCx + nOx
-      const nGz = nCz + nOz
-      const nSeed = nHash2(nGx + 91, nGz + 17)
-      if (nSeed > 0.72) {
-        continue
-      }
-
-      const nJx = nHash2(nGx + 3, nGz + 51)
-      const nJz = nHash2(nGx + 67, nGz + 9)
-      const nX = (nGx + nJx) * nGrassCell
-      const nZ = (nGz + nJz) * nGrassCell
-      const nDx = nX - nPx
-      const nDz = nZ - nPz
-      const nDist2 = nDx * nDx + nDz * nDz
-      if (nDist2 > nRadius2 || nDist2 < nClear2) {
-        continue
-      }
-
-      const nGround = nSampleHeight(nX, nZ)
-      const nHeightT = (nGround - nTerrainMinH) / Math.max(0.001, nTerrainMaxH - nTerrainMinH)
-      if (nHeightT > nGrassMaxHeightT) {
-        continue
-      }
-
-      const nYaw = nSeed * Math.PI * 2
-      const nLean = 0.35 + nHash2(nGx + 21, nGz + 44) * 0.55
-      const nFade = 1 - Math.sqrt(nDist2) / nGrassRadius
-      const nScale = (0.85 + nHash2(nGx + 13, nGz + 29) * 0.65) * (0.7 + nFade * 0.4)
-      objDummyPos.set(nX, nGround + nGrassLift, nZ)
-      objEuler.set(nLean, nYaw, 0)
-      objDummyQuat.setFromEuler(objEuler)
-      objDummyScale.set(nScale * 1.55, nScale, nScale * 0.55)
-      objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
-      objGrassMesh.setMatrixAt(nUsed, objMatrix)
-      nUsed++
-    }
-  }
-
-  objGrassMesh.count = nUsed
-  objGrassMesh.instanceMatrix.needsUpdate = true
+function objBuildRockGeo(): THREE.BufferGeometry {
+  const objRock = new THREE.DodecahedronGeometry(0.42, 0)
+  objRock.scale(1.15, 0.55, 0.9)
+  objRock.translate(0, 0.22, 0)
+  return objRock
 }
 
 function vAddSnow(objParent: THREE.Object3D): void {
-  objSnowMesh = new THREE.InstancedMesh(objBuildBladeGeo(), objMatSnow, nSnowCount)
+  objSnowMesh = new THREE.InstancedMesh(objBuildRockGeo(), objMatSnow, nSnowCount)
   objSnowMesh.frustumCulled = false
   objSnowMesh.count = 0
   objParent.add(objSnowMesh)
@@ -1069,7 +916,7 @@ function vUpdateSnow(): void {
       const nGx = nCx + nOx
       const nGz = nCz + nOz
       const nSeed = nHash2(nGx + 203, nGz + 77)
-      if (nSeed > 0.68) {
+      if (nSeed > 0.82) {
         continue
       }
 
@@ -1091,14 +938,14 @@ function vUpdateSnow(): void {
       }
 
       const nYaw = nSeed * Math.PI * 2
-      const nLean = 0.35 + nHash2(nGx + 31, nGz + 62) * 0.55
+      const nTilt = (nHash2(nGx + 31, nGz + 62) - 0.5) * 0.45
       const nFade = 1 - Math.sqrt(nDist2) / nSnowRadius
-      const nHigh = Math.min(1, (nHeightT - nSnowMinHeightT) / 0.22)
-      const nScale = (0.85 + nHash2(nGx + 41, nGz + 15) * 0.65) * (0.7 + nFade * 0.4) * (0.8 + nHigh * 0.35)
+      const nHigh = Math.min(1, (nHeightT - nSnowMinHeightT) / 0.28)
+      const nScale = (0.7 + nHash2(nGx + 41, nGz + 15) * 1.1) * (0.65 + nFade * 0.45) * (0.75 + nHigh * 0.55)
       objDummyPos.set(nX, nGround + nSnowLift, nZ)
-      objEuler.set(nLean, nYaw, 0)
+      objEuler.set(nTilt, nYaw, nTilt * 0.6)
       objDummyQuat.setFromEuler(objEuler)
-      objDummyScale.set(nScale * 1.55, nScale, nScale * 0.55)
+      objDummyScale.set(nScale, nScale * (0.7 + nHigh * 0.4), nScale * 0.9)
       objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
       objSnowMesh.setMatrixAt(nUsed, objMatrix)
       nUsed++
@@ -1122,10 +969,10 @@ function objFairyTexture(): THREE.CanvasTexture {
   const nMid = nS * 0.5
   const objGrad = objCtx.createRadialGradient(nMid, nMid, 0, nMid, nMid, nMid)
   objGrad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-  objGrad.addColorStop(0.18, 'rgba(255, 248, 220, 0.95)')
-  objGrad.addColorStop(0.42, 'rgba(255, 210, 140, 0.45)')
-  objGrad.addColorStop(0.72, 'rgba(220, 160, 255, 0.12)')
-  objGrad.addColorStop(1, 'rgba(180, 120, 255, 0)')
+  objGrad.addColorStop(0.18, 'rgba(255, 236, 190, 0.95)')
+  objGrad.addColorStop(0.42, 'rgba(255, 180, 90, 0.4)')
+  objGrad.addColorStop(0.72, 'rgba(200, 120, 60, 0.1)')
+  objGrad.addColorStop(1, 'rgba(160, 90, 40, 0)')
   objCtx.fillStyle = objGrad
   objCtx.fillRect(0, 0, nS, nS)
 
@@ -1163,12 +1010,12 @@ function vAddFairies(objParent: THREE.Object3D): void {
   const arrPos = new Float32Array(nFairyCount * 3)
   const arrCol = new Float32Array(nFairyCount * 3)
   const arrPalette = [
-    [1.0, 0.92, 0.55],
-    [0.85, 0.7, 1.0],
-    [0.7, 1.0, 0.85],
-    [1.0, 0.75, 0.82],
-    [0.75, 0.88, 1.0],
-    [1.0, 0.85, 0.45],
+    [1.0, 0.88, 0.52],
+    [1.0, 0.72, 0.38],
+    [0.95, 0.82, 0.62],
+    [1.0, 0.78, 0.48],
+    [0.9, 0.7, 0.42],
+    [1.0, 0.92, 0.7],
   ]
 
   for (let nI = 0; nI < nFairyCount; nI++) {
@@ -1282,6 +1129,188 @@ function vUpdateFairies(nDt: number): void {
   objCol.needsUpdate = true
 }
 
+function objSandTexture(): THREE.CanvasTexture {
+  if (objSandTex) {
+    return objSandTex
+  }
+
+  const nS = 64
+  const objCanvas = document.createElement('canvas')
+  objCanvas.width = nS
+  objCanvas.height = nS
+  const objCtx = objCanvas.getContext('2d')!
+  const nMid = nS * 0.5
+  const objGrad = objCtx.createRadialGradient(nMid, nMid, 0, nMid, nMid, nMid)
+  objGrad.addColorStop(0, 'rgba(255, 255, 255, 1)')
+  objGrad.addColorStop(0.12, 'rgba(255, 236, 160, 1)')
+  objGrad.addColorStop(0.28, 'rgba(255, 200, 90, 0.85)')
+  objGrad.addColorStop(0.5, 'rgba(230, 160, 60, 0.35)')
+  objGrad.addColorStop(0.75, 'rgba(180, 120, 40, 0.08)')
+  objGrad.addColorStop(1, 'rgba(120, 80, 30, 0)')
+  objCtx.fillStyle = objGrad
+  objCtx.fillRect(0, 0, nS, nS)
+
+  // Tiny cross sparkle for glitter.
+  objCtx.strokeStyle = 'rgba(255, 250, 220, 0.9)'
+  objCtx.lineWidth = 1.5
+  objCtx.beginPath()
+  objCtx.moveTo(nMid, nMid - 10)
+  objCtx.lineTo(nMid, nMid + 10)
+  objCtx.moveTo(nMid - 10, nMid)
+  objCtx.lineTo(nMid + 10, nMid)
+  objCtx.stroke()
+
+  objSandTex = new THREE.CanvasTexture(objCanvas)
+  objSandTex.colorSpace = THREE.SRGBColorSpace
+  return objSandTex
+}
+
+function vRespawnSandMote(objMote: tSandMote): void {
+  // Spawn mostly upwind so grains blow past the pilgrim.
+  const nWindYaw = nSandWindYaw + Math.sin(nSandWindPhase * 0.35) * 0.25
+  const nAng = nWindYaw + Math.PI + (Math.random() * 2 - 1) * 0.95
+  // Bias toward farther rings so distant wind sheets stay visible.
+  const nDistT = Math.sqrt(Math.random())
+  const nDist = nSandSpawnMin + nDistT * (nSandSpawnMax - nSandSpawnMin)
+  objMote.nX = objPlayerPos.x + Math.sin(nAng) * nDist
+  objMote.nZ = objPlayerPos.z + Math.cos(nAng) * nDist
+  const nGround = nSampleHeight(objMote.nX, objMote.nZ)
+  objMote.nY = nGround + nSandLiftMin + Math.random() * (nSandLiftMax - nSandLiftMin)
+
+  const nGust = nSandWindSpd + (Math.random() * 2 - 1) * nSandWindGust
+  const nYawJitter = nWindYaw + (Math.random() * 2 - 1) * 0.35
+  objMote.nVx = Math.sin(nYawJitter) * nGust
+  objMote.nVz = Math.cos(nYawJitter) * nGust
+  objMote.nVy = (Math.random() - 0.35) * 2.8
+
+  objMote.nMaxLife = nSandLifeMin + Math.random() * (nSandLifeMax - nSandLifeMin)
+  objMote.nLife = objMote.nMaxLife
+  objMote.nTwinkle = Math.random() * Math.PI * 2
+  objMote.nTwinkleSpd = nSandTwinkleSpd * (0.65 + Math.random() * 0.9)
+
+  const nRoll = Math.random()
+  if (nRoll > 0.82) {
+    // Hot glitter spark.
+    objMote.nCr = 1.0
+    objMote.nCg = 0.92
+    objMote.nCb = 0.7
+    objMote.nBright = 1.15 + Math.random() * 0.55
+  } else if (nRoll > 0.45) {
+    objMote.nCr = 0.95
+    objMote.nCg = 0.72
+    objMote.nCb = 0.32
+    objMote.nBright = 0.7 + Math.random() * 0.4
+  } else {
+    objMote.nCr = 0.82
+    objMote.nCg = 0.58
+    objMote.nCb = 0.28
+    objMote.nBright = 0.45 + Math.random() * 0.35
+  }
+}
+
+function vAddSandWind(objParent: THREE.Object3D): void {
+  arrSandMotes = []
+  nSandWindPhase = 0
+  const arrPos = new Float32Array(nSandCount * 3)
+  const arrCol = new Float32Array(nSandCount * 3)
+
+  for (let nI = 0; nI < nSandCount; nI++) {
+    const objMote: tSandMote = {
+      nX: 0,
+      nY: -999,
+      nZ: 0,
+      nVx: 0,
+      nVy: 0,
+      nVz: 0,
+      nLife: 0,
+      nMaxLife: 1,
+      nTwinkle: 0,
+      nTwinkleSpd: nSandTwinkleSpd,
+      nCr: 1,
+      nCg: 0.8,
+      nCb: 0.4,
+      nBright: 1,
+    }
+    vRespawnSandMote(objMote)
+    // Stagger lifetimes so the field is already mid-blow on first frame.
+    objMote.nLife = Math.random() * objMote.nMaxLife
+    arrSandMotes.push(objMote)
+    arrPos[nI * 3] = objMote.nX
+    arrPos[nI * 3 + 1] = objMote.nY
+    arrPos[nI * 3 + 2] = objMote.nZ
+    arrCol[nI * 3] = 0
+    arrCol[nI * 3 + 1] = 0
+    arrCol[nI * 3 + 2] = 0
+  }
+
+  const objGeo = new THREE.BufferGeometry()
+  objGeo.setAttribute('position', new THREE.BufferAttribute(arrPos, 3))
+  objGeo.setAttribute('color', new THREE.BufferAttribute(arrCol, 3))
+
+  const objMat = new THREE.PointsMaterial({
+    map: objSandTexture(),
+    size: nSandSize,
+    sizeAttenuation: true,
+    vertexColors: true,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    fog: false,
+  })
+
+  objSandPoints = new THREE.Points(objGeo, objMat)
+  objSandPoints.frustumCulled = false
+  objParent.add(objSandPoints)
+}
+
+function vUpdateSandWind(nDt: number): void {
+  if (!objSandPoints) {
+    return
+  }
+
+  const objPos = objSandPoints.geometry.getAttribute('position') as THREE.BufferAttribute
+  const objCol = objSandPoints.geometry.getAttribute('color') as THREE.BufferAttribute
+  const nCull2 = nSandCullR * nSandCullR
+  nSandWindPhase += nDt
+
+  for (let nI = 0; nI < arrSandMotes.length; nI++) {
+    const objMote = arrSandMotes[nI]!
+    objMote.nLife -= nDt
+
+    const nDx = objMote.nX - objPlayerPos.x
+    const nDz = objMote.nZ - objPlayerPos.z
+    if (objMote.nLife <= 0 || nDx * nDx + nDz * nDz > nCull2) {
+      vRespawnSandMote(objMote)
+    }
+
+    // Gust flutter + gentle settle.
+    const nFlutter = Math.sin(nSandWindPhase * 3.2 + objMote.nTwinkle) * 1.8
+    objMote.nX += (objMote.nVx + nFlutter * 0.35) * nDt
+    objMote.nZ += (objMote.nVz + Math.cos(objMote.nTwinkle) * 1.2) * nDt
+    objMote.nVy += -1.6 * nDt
+    objMote.nY += objMote.nVy * nDt
+
+    const nGround = nSampleHeight(objMote.nX, objMote.nZ) + 0.15
+    if (objMote.nY < nGround) {
+      objMote.nY = nGround
+      objMote.nVy = Math.abs(objMote.nVy) * 0.35 + Math.random() * 0.8
+    }
+
+    objMote.nTwinkle += objMote.nTwinkleSpd * nDt
+    const nLifeT = Math.max(0, objMote.nLife / objMote.nMaxLife)
+    const nFade = nLifeT < 0.2 ? nLifeT / 0.2 : nLifeT > 0.75 ? (1 - nLifeT) / 0.25 : 1
+    const nSpark = 0.55 + 0.45 * Math.max(0, Math.sin(objMote.nTwinkle))
+    const nGlint = Math.pow(Math.max(0, Math.sin(objMote.nTwinkle * 1.7)), 8) * 0.85
+    const nLit = (objMote.nBright * nSpark + nGlint) * nFade
+
+    objPos.setXYZ(nI, objMote.nX, objMote.nY, objMote.nZ)
+    objCol.setXYZ(nI, objMote.nCr * nLit, objMote.nCg * nLit, objMote.nCb * nLit)
+  }
+
+  objPos.needsUpdate = true
+  objCol.needsUpdate = true
+}
+
 function objSkyMat(nColor: number): THREE.MeshBasicMaterial {
   return new THREE.MeshBasicMaterial({
     color: nColor,
@@ -1293,14 +1322,14 @@ function objBuildStarfield(): THREE.Points {
   const arrPos = new Float32Array(nStarCount * 3)
   const arrCol = new Float32Array(nStarCount * 3)
   const arrPalette = [
-    [0.42, 0.32, 0.14],
-    [0.28, 0.16, 0.4],
-    [0.36, 0.18, 0.3],
-    [0.48, 0.4, 0.22],
-    [0.22, 0.12, 0.32],
-    [0.4, 0.22, 0.34],
-    [0.32, 0.26, 0.12],
-    [0.55, 0.48, 0.32],
+    [0.55, 0.42, 0.28],
+    [0.4, 0.32, 0.55],
+    [0.52, 0.36, 0.48],
+    [0.62, 0.52, 0.32],
+    [0.32, 0.24, 0.48],
+    [0.48, 0.38, 0.55],
+    [0.45, 0.34, 0.28],
+    [0.58, 0.48, 0.62],
   ]
 
   for (let nI = 0; nI < nStarCount; nI++) {
@@ -1356,11 +1385,11 @@ function vAddSkyOrbits(objParent: THREE.Object3D): void {
   objSkyRoot.rotation.z = 0.18
 
   const objBodyGeo = new THREE.SphereGeometry(1, 24, 16)
-  const objSun = new THREE.Mesh(objBodyGeo, objSkyMat(0xa07828))
-  objSun.scale.setScalar(220)
+  const objSun = new THREE.Mesh(objBodyGeo, objSkyMat(0xd4a050))
+  objSun.scale.setScalar(240)
   objSkyRoot.add(objSun)
 
-  const arrPalette = [0x6a3058, 0x6a4a18, 0x3a1868, 0x5a2848, 0x4a2868, 0x6a5818, 0x482068, 0x2a1048, 0x5a3048, 0x705018, 0x582848, 0x2a1438, 0x482058, 0x583848]
+  const arrPalette = [0x8a6040, 0x6a5848, 0x5a4860, 0x7a5038, 0x4a5868, 0x8a7048, 0x584838, 0x3a4858, 0x705040, 0x6a6850, 0x485060, 0x7a5838, 0x504848, 0x685848]
 
   const nPlanetCount = 5
   for (let nI = 0; nI < nPlanetCount; nI++) {
@@ -1371,7 +1400,7 @@ function vAddSkyOrbits(objParent: THREE.Object3D): void {
     const nSeedC = nHash2(nI + 19, nI * 3 + 8)
     const nSize = (3.5 + nSeed * 14 + (nI % 9 === 4 ? 6 : 0)) * 10
     const nColor = arrPalette[Math.floor(nSeedB * arrPalette.length)]!
-    const nSpeed = 0.24 * Math.pow(880 / nOrbitR, 1.35) * (0.75 + nSeedC * 0.5)
+    const nSpeed = 0.035 * Math.pow(880 / nOrbitR, 1.35) * (0.75 + nSeedC * 0.5)
 
     const objPivot = new THREE.Group()
     objPivot.rotation.y = nSeed * Math.PI * 2
@@ -1413,10 +1442,11 @@ function vUpdateCameraOrientation(): void {
     Math.sin(nPitch),
     Math.cos(nYaw) * Math.cos(nPitch),
   )
-  objCamera.position.copy(objPlayerPos)
+  const nBobY = Math.sin(nBobPhase) * nBobAmp * nBobBlend
+  objCamera.position.set(objPlayerPos.x, objPlayerPos.y + nBobY, objPlayerPos.z)
   objCamera.lookAt(
     objPlayerPos.x + objLookDir.x,
-    objPlayerPos.y + objLookDir.y,
+    objPlayerPos.y + nBobY + objLookDir.y,
     objPlayerPos.z + objLookDir.z,
   )
 }
@@ -1427,6 +1457,8 @@ function vPlacePlayerOnTerrain(): void {
   nYaw = 0
   nMoveYaw = 0
   nPitch = nDefaultPitch
+  nBobPhase = 0
+  nBobBlend = 0
   vUpdateCameraOrientation()
 }
 
@@ -1505,9 +1537,6 @@ function bCanStandAt(nX: number, nZ: number, nFromH: number): boolean {
   if (Math.abs(nX) > nPlayHalf || Math.abs(nZ) > nPlayHalf) {
     return false
   }
-  if (bHitsTree(nX, nZ)) {
-    return false
-  }
 
   const nToH = nSampleHeight(nX, nZ)
   const nHoriz = Math.hypot(nX - objPlayerPos.x, nZ - objPlayerPos.z)
@@ -1555,11 +1584,15 @@ function vTick(nTs: number): void {
 
   objPlayerPos.y = nSampleHeight(objPlayerPos.x, objPlayerPos.z) + nEyeHeight
 
+  const nWantBob = performance.now() / 1000 >= nDwellUntil && objTargetStatue ? 1 : 0
+  nBobBlend += (nWantBob - nBobBlend) * Math.min(1, nBobBlendSpeed * nDt)
+  nBobPhase += nBobSpeed * nBobBlend * nDt
+
   vUpdateStatueProximity()
   vUpdateSkyOrbits(nDt)
-  vUpdateGrass()
   vUpdateSnow()
   vUpdateFairies(nDt)
+  vUpdateSandWind(nDt)
   vUpdateCameraOrientation()
 
   if (bVhsEnabled && objSceneTarget && objVhsScene && objVhsCam && objVhsMat) {
@@ -1585,8 +1618,8 @@ function vInitScene(): void {
   }
 
   objScene = new THREE.Scene()
-  objScene.background = new THREE.Color(0x14081c)
-  objScene.fog = new THREE.Fog(0x1e1028, nFogNear, nFogFar)
+  objScene.background = new THREE.Color(0x1a1028)
+  objScene.fog = new THREE.Fog(0x2a1838, nFogNear, nFogFar)
 
   objCamera = new THREE.PerspectiveCamera(70, 1, 0.1, 16000)
 
@@ -1596,21 +1629,21 @@ function vInitScene(): void {
   objCanvasHost.appendChild(objRenderer.domElement)
   vInitVhsPass()
 
-  const objAmb = new THREE.AmbientLight(0x7a5aae, 0.85)
+  const objAmb = new THREE.AmbientLight(0xe0c090, 0.72)
   objScene.add(objAmb)
 
-  const objSun = new THREE.DirectionalLight(0xffe499, 1.6)
-  objSun.position.set(120, 220, 80)
+  const objSun = new THREE.DirectionalLight(0xffe08a, 1.7)
+  objSun.position.set(160, 200, 60)
   objScene.add(objSun)
 
-  const objFill = new THREE.DirectionalLight(0x9a62ff, 0.55)
-  objFill.position.set(-90, 60, -140)
+  const objFill = new THREE.DirectionalLight(0x9a62d8, 0.55)
+  objFill.position.set(-100, 50, -150)
   objScene.add(objFill)
 
   const objSky = new THREE.Mesh(
     new THREE.SphereGeometry(12000, 24, 16),
     new THREE.MeshBasicMaterial({
-      color: 0x180c24,
+      color: 0x1c1030,
       side: THREE.BackSide,
       fog: false,
     }),
@@ -1621,10 +1654,9 @@ function vInitScene(): void {
   vAddSkyOrbits(objScene)
   objScene.add(objBuildTerrain())
   vAddStatues(objScene)
-  vAddFlora(objScene)
-  vAddGrass(objScene)
   vAddSnow(objScene)
   vAddFairies(objScene)
+  vAddSandWind(objScene)
   vCommitTarget(null)
 
   vPlacePlayerOnTerrain()
@@ -1731,7 +1763,7 @@ export function sExploreMarkup(): string {
   return `
     <div class="explore" id="explore">
       <div class="explore-viewport" id="explore-viewport" role="img" aria-label="Terrain explorer — drag to look around"></div>
-      <p class="explore-caption">pilgrim · stars, flora, orbits & statues</p>
+      <p class="explore-caption">pilgrim · desert dunes, distant mountains & statues</p>
     </div>
   `
 }
@@ -1765,7 +1797,7 @@ export function vSetExploreActive(bActive: boolean): void {
   }
 
   // Already built: resume the loop immediately. First visit: let the tab paint
-  // before the heavy terrain / flora geometry work blocks the main thread.
+  // before the heavy terrain geometry work blocks the main thread.
   if (objRenderer) {
     vStart()
     return

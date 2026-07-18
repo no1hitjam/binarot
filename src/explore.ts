@@ -16,6 +16,7 @@ const arrMountainPeaks: { nAng: number; nDist: number; nRadius: number; nH: numb
   { nAng: Math.PI * -0.06, nDist: 0.935, nRadius: 0.065, nH: 440 },
   { nAng: Math.PI * 0.58, nDist: 0.942, nRadius: 0.07, nH: 490 },
 ]
+const nMountainPyramidSink = 28
 const nMaxClimb = 1.35
 const nMoveSpeed = 8
 const nTurnSpeed = 1.8
@@ -23,6 +24,7 @@ const nEyeHeight = 5.8
 const nFogNear = 140
 const nFogFar = 4200
 const nPlayHalf = nTerrainSize * 0.5 - 1.5
+const nSpawnHalf = nTerrainSize * 0.5 * 0.62
 const nStatueMargin = 140
 const nStatueClearSpawn = 70
 const nStatueFindRadius = 16
@@ -39,12 +41,6 @@ const nDefaultPitch = -0.08
 const nBobSpeed = 1.25
 const nBobAmp = 0.14
 const nBobBlendSpeed = 2.4
-const nSnowCount = 900
-const nSnowRadius = 58
-const nSnowCell = 2.6
-const nSnowClearFeet = 3.2
-const nSnowLift = 0.04
-const nSnowMinHeightT = 0.48
 const nSkyLift = 2560
 const nSkyTilt = 0.42
 const nStarCount = 2400
@@ -139,8 +135,6 @@ let objRenderer: THREE.WebGLRenderer | null = null
 let objScene: THREE.Scene | null = null
 let objCamera: THREE.PerspectiveCamera | null = null
 let arrHeights: Float32Array | null = null
-let nTerrainMinH = 0
-let nTerrainMaxH = 1
 let nAnimFrame = 0
 let nStartTimer = 0
 let bRunning = false
@@ -164,9 +158,6 @@ let nLookLastY = 0
 let objSkyRoot: THREE.Group | null = null
 let objStarRoot: THREE.Group | null = null
 let arrSkyOrbits: tSkyOrbit[] = []
-let objSnowMesh: THREE.InstancedMesh | null = null
-let nSnowLastCx = Number.NaN
-let nSnowLastCz = Number.NaN
 let objFairyPoints: THREE.Points | null = null
 let arrFairies: tFairy[] = []
 let objFairyTex: THREE.CanvasTexture | null = null
@@ -201,13 +192,6 @@ const objMatPurple = new THREE.MeshStandardMaterial({
   metalness: 0.25,
   emissive: 0x2a1050,
   emissiveIntensity: 0.2,
-})
-const objMatSnow = new THREE.MeshStandardMaterial({
-  color: 0x6a5848,
-  roughness: 0.96,
-  metalness: 0.04,
-  emissive: 0x1a1410,
-  emissiveIntensity: 0.06,
 })
 
 const nRayHeight = 480
@@ -342,31 +326,6 @@ function nInteriorHeight(nX: number, nZ: number): number {
       (0.88 + nRolling * 0.12)
   }
 
-  // Distinct pyramidal peaks along the southeast range.
-  for (let nI = 0; nI < arrMountainPeaks.length; nI++) {
-    const objPeak = arrMountainPeaks[nI]!
-    const nPeakX = Math.cos(objPeak.nAng) * nHalf * objPeak.nDist
-    const nPeakZ = Math.sin(objPeak.nAng) * nHalf * objPeak.nDist
-    const nDx = (nX - nPeakX) / nHalf
-    const nDz = (nZ - nPeakZ) / nHalf
-    // Orient square base toward the range tangent so faces read clearly.
-    const nYaw = objPeak.nAng + Math.PI * 0.25 + nI * 0.18
-    const nC = Math.cos(nYaw)
-    const nS = Math.sin(nYaw)
-    const nLx = nDx * nC + nDz * nS
-    const nLz = -nDx * nS + nDz * nC
-    const nPyramidDist = Math.max(Math.abs(nLx), Math.abs(nLz)) / objPeak.nRadius
-    const nPeakT = Math.min(1, Math.max(0, 1 - nPyramidDist))
-    if (nPeakT <= 0) {
-      continue
-    }
-
-    // Near-linear falloff keeps planar faces; tiny tip sharpening.
-    const nProfile = Math.pow(nPeakT, 0.92)
-    const nFaceGrain = nFbm(nLx * 18 + nI * 9, nLz * 18 - nI * 4, 2)
-    nH += objPeak.nH * nProfile * (0.94 + nFaceGrain * 0.06)
-  }
-
   return nH
 }
 
@@ -457,9 +416,6 @@ function objBuildTerrain(): THREE.Mesh {
     nMaxH = nHeightScale
   }
 
-  nTerrainMinH = nMinH
-  nTerrainMaxH = nMaxH
-
   for (let nI = 0; nI < nVertCount; nI++) {
     const nH = arrRaw[nI]!
     objPos.setY(nI, nH)
@@ -483,6 +439,39 @@ function objBuildTerrain(): THREE.Mesh {
   const objMesh = new THREE.Mesh(objGeo, objMat)
   objMesh.receiveShadow = true
   return objMesh
+}
+
+function vAddMountainPyramids(objParent: THREE.Object3D): void {
+  const nHalf = nTerrainSize * 0.5
+  const arrPalette = [0x4a4250, 0x3a3644, 0x524850, 0x383440, 0x464054]
+
+  for (let nI = 0; nI < arrMountainPeaks.length; nI++) {
+    const objPeak = arrMountainPeaks[nI]!
+    const nPeakX = Math.cos(objPeak.nAng) * nHalf * objPeak.nDist
+    const nPeakZ = Math.sin(objPeak.nAng) * nHalf * objPeak.nDist
+    const nGround = nSampleHeight(nPeakX, nPeakZ)
+    const nBaseR = objPeak.nRadius * nHalf
+    const nH = objPeak.nH
+
+    const objGeo = new THREE.ConeGeometry(nBaseR, nH, 4)
+    objGeo.computeVertexNormals()
+
+    const objMat = new THREE.MeshStandardMaterial({
+      color: arrPalette[nI % arrPalette.length]!,
+      roughness: 0.94,
+      metalness: 0.06,
+      flatShading: true,
+      emissive: 0x100818,
+      emissiveIntensity: 0.08,
+    })
+
+    const objMesh = new THREE.Mesh(objGeo, objMat)
+    objMesh.position.set(nPeakX, nGround + nH * 0.5 - nMountainPyramidSink, nPeakZ)
+    objMesh.rotation.y = objPeak.nAng + Math.PI * 0.25 + nI * 0.18
+    objMesh.castShadow = false
+    objMesh.receiveShadow = true
+    objParent.add(objMesh)
+  }
 }
 
 function vDrawCardIcon(objCtx: CanvasRenderingContext2D, sSlug: string, nOx: number, nOy: number, nSize: number): void {
@@ -866,94 +855,6 @@ function vAddStatues(objParent: THREE.Object3D): void {
     const objSite = arrSites[nI]!
     objParent.add(objBuildStatue(objCard, objSite.nX, objSite.nZ))
   }
-}
-
-function objBuildRockGeo(): THREE.BufferGeometry {
-  const objRock = new THREE.DodecahedronGeometry(0.42, 0)
-  objRock.scale(1.15, 0.55, 0.9)
-  objRock.translate(0, 0.22, 0)
-  return objRock
-}
-
-function vAddSnow(objParent: THREE.Object3D): void {
-  objSnowMesh = new THREE.InstancedMesh(objBuildRockGeo(), objMatSnow, nSnowCount)
-  objSnowMesh.frustumCulled = false
-  objSnowMesh.count = 0
-  objParent.add(objSnowMesh)
-  nSnowLastCx = Number.NaN
-  nSnowLastCz = Number.NaN
-  vUpdateSnow()
-}
-
-function vUpdateSnow(): void {
-  if (!objSnowMesh) {
-    return
-  }
-
-  const nCx = Math.floor(objPlayerPos.x / nSnowCell)
-  const nCz = Math.floor(objPlayerPos.z / nSnowCell)
-  if (nCx === nSnowLastCx && nCz === nSnowLastCz) {
-    return
-  }
-
-  nSnowLastCx = nCx
-  nSnowLastCz = nCz
-
-  const objDummyPos = new THREE.Vector3()
-  const objDummyQuat = new THREE.Quaternion()
-  const objDummyScale = new THREE.Vector3()
-  const objEuler = new THREE.Euler(0, 0, 0, 'YXZ')
-  const objMatrix = new THREE.Matrix4()
-  const nRadius2 = nSnowRadius * nSnowRadius
-  const nClear2 = nSnowClearFeet * nSnowClearFeet
-  const nSpan = Math.ceil(nSnowRadius / nSnowCell)
-  const nPx = objPlayerPos.x
-  const nPz = objPlayerPos.z
-  let nUsed = 0
-
-  for (let nOz = -nSpan; nOz <= nSpan && nUsed < nSnowCount; nOz++) {
-    for (let nOx = -nSpan; nOx <= nSpan && nUsed < nSnowCount; nOx++) {
-      const nGx = nCx + nOx
-      const nGz = nCz + nOz
-      const nSeed = nHash2(nGx + 203, nGz + 77)
-      if (nSeed > 0.82) {
-        continue
-      }
-
-      const nJx = nHash2(nGx + 11, nGz + 88)
-      const nJz = nHash2(nGx + 55, nGz + 19)
-      const nX = (nGx + nJx) * nSnowCell
-      const nZ = (nGz + nJz) * nSnowCell
-      const nDx = nX - nPx
-      const nDz = nZ - nPz
-      const nDist2 = nDx * nDx + nDz * nDz
-      if (nDist2 > nRadius2 || nDist2 < nClear2) {
-        continue
-      }
-
-      const nGround = nSampleHeight(nX, nZ)
-      const nHeightT = (nGround - nTerrainMinH) / Math.max(0.001, nTerrainMaxH - nTerrainMinH)
-      if (nHeightT < nSnowMinHeightT) {
-        continue
-      }
-
-      const nYaw = nSeed * Math.PI * 2
-      const nTilt = (nHash2(nGx + 31, nGz + 62) - 0.5) * 0.45
-      const nFade = 1 - Math.sqrt(nDist2) / nSnowRadius
-      const nHigh = Math.min(1, (nHeightT - nSnowMinHeightT) / 0.28)
-      const nScale = (0.7 + nHash2(nGx + 41, nGz + 15) * 1.1) * (0.65 + nFade * 0.45) * (0.75 + nHigh * 0.55)
-      objDummyPos.set(nX, nGround + nSnowLift, nZ)
-      objEuler.set(nTilt, nYaw, nTilt * 0.6)
-      objDummyQuat.setFromEuler(objEuler)
-      objDummyScale.set(nScale, nScale * (0.7 + nHigh * 0.4), nScale * 0.9)
-      objMatrix.compose(objDummyPos, objDummyQuat, objDummyScale)
-      objSnowMesh.setMatrixAt(nUsed, objMatrix)
-      nUsed++
-    }
-  }
-
-  objSnowMesh.count = nUsed
-  objSnowMesh.instanceMatrix.needsUpdate = true
 }
 
 function objFairyTexture(): THREE.CanvasTexture {
@@ -1452,10 +1353,13 @@ function vUpdateCameraOrientation(): void {
 }
 
 function vPlacePlayerOnTerrain(): void {
-  const nGround = nSampleHeight(0, 0)
-  objPlayerPos.set(0, nGround + nEyeHeight, 0)
-  nYaw = 0
-  nMoveYaw = 0
+  const nX = (Math.random() * 2 - 1) * nSpawnHalf
+  const nZ = (Math.random() * 2 - 1) * nSpawnHalf
+  const nGround = nSampleHeight(nX, nZ)
+  const nFacing = Math.random() * Math.PI * 2
+  objPlayerPos.set(nX, nGround + nEyeHeight, nZ)
+  nYaw = nFacing
+  nMoveYaw = nFacing
   nPitch = nDefaultPitch
   nBobPhase = 0
   nBobBlend = 0
@@ -1590,7 +1494,6 @@ function vTick(nTs: number): void {
 
   vUpdateStatueProximity()
   vUpdateSkyOrbits(nDt)
-  vUpdateSnow()
   vUpdateFairies(nDt)
   vUpdateSandWind(nDt)
   vUpdateCameraOrientation()
@@ -1653,8 +1556,8 @@ function vInitScene(): void {
   vAddStarfield(objScene)
   vAddSkyOrbits(objScene)
   objScene.add(objBuildTerrain())
+  vAddMountainPyramids(objScene)
   vAddStatues(objScene)
-  vAddSnow(objScene)
   vAddFairies(objScene)
   vAddSandWind(objScene)
   vCommitTarget(null)

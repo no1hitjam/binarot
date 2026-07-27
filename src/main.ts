@@ -15,6 +15,8 @@ import { sSchoolMarkup, vBindSchool, vSetSchoolActive } from './school'
 import { sDiamondMarkup, vBindDiamond, vSetDiamondActive } from './diamond'
 import { sRogueMarkup, vBindRogue, vSetRogueActive } from './rogue'
 import { sFifteenMarkup, vBindFifteen, vSetFifteenActive } from './fifteen'
+import { sPickupMarkup, vBindPickup, vSetPickupActive } from './pickup'
+import { sDreamMarkup, vBindDream, vSetDreamActive } from './dream'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -436,6 +438,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="diamond" aria-selected="false">Diamond</button>
       <button type="button" class="tab-button" data-tab="rogue" aria-selected="false">Rogue</button>
       <button type="button" class="tab-button" data-tab="fifteen" aria-selected="false">Thirty-one</button>
+      <button type="button" class="tab-button" data-tab="pickup" aria-selected="false">Pickup</button>
+      <button type="button" class="tab-button" data-tab="dream" aria-selected="false">Dream</button>
       ${bShowDevPanel ? '<button type="button" class="tab-button" data-tab="dev" aria-selected="false">Dev</button>' : ''}
       <button type="button" class="tab-button" data-tab="about" aria-selected="false">About</button>
     </nav>
@@ -561,7 +565,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="pilgrim">
       <h2>Pilgrim</h2>
       <p class="reading-intro">
-        Wandering a generated landscape of ridges, valleys, gold-lit peaks, and scattered flora in the void.
+        Wandering a vast desert of dunes, with mountains rising in the far southeast haze.
         Planets drift across the sky while the pilgrim walks toward the nearest unvisited statue.
       </p>
       ${sExploreMarkup()}
@@ -649,6 +653,26 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sFifteenMarkup()}
     </section>
 
+    <section class="tab-panel" data-panel="pickup">
+      <h2>Pickup</h2>
+      <p class="reading-intro">
+        Scatter the full deck face-up across the table. Drag cards to rearrange,
+        then click them in binary order from <code>0</code> to <code>1111</code>.
+        Best time is saved.
+      </p>
+      ${sPickupMarkup()}
+    </section>
+
+    <section class="tab-panel" data-panel="dream">
+      <h2>Dream</h2>
+      <p class="reading-intro">
+        Watch the deck dream itself. Binarot signs drift through unstable sleep states,
+        combine through spontaneous <code>AND</code> and <code>OR</code> readings, and let
+        each result mutate what follows. The animation never unfolds the same way twice.
+      </p>
+      ${sDreamMarkup()}
+    </section>
+
     ${
       bShowDevPanel
         ? `
@@ -720,6 +744,8 @@ const arrUnlockOrder = [
   'diamond',
   'rogue',
   'fifteen',
+  'pickup',
+  'dream',
   'about',
 ] as const
 const sDefaultUnlock = 'reading'
@@ -1039,6 +1065,8 @@ function vActivateTab(sTabId: string): void {
   vSetDiamondActive(sTabId === 'diamond')
   vSetRogueActive(sTabId === 'rogue')
   vSetFifteenActive(sTabId === 'fifteen')
+  vSetPickupActive(sTabId === 'pickup')
+  vSetDreamActive(sTabId === 'dream')
   vSetCookie(sCookieTab, sTabId)
   vUnlockNextFrom(sTabId)
 }
@@ -1624,3 +1652,5 @@ vBindSchool(arrCards)
 vBindDiamond(arrCards)
 vBindRogue(arrCards)
 vBindFifteen(arrCards)
+vBindPickup(arrCards)
+vBindDream(arrCards)

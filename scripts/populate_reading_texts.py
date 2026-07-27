@@ -2,6 +2,8 @@
 
 Only unordered card pairs are written (lower binary value first), so Seed is
 paired with every other card, Flag with every card after Flag, and so on.
+Reflection lines are pulled in order from scripts/reflections.txt
+(AND then OR for each unordered pair).
 """
 
 from __future__ import annotations
@@ -10,6 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_PATH = ROOT / "src" / "readingTexts.ts"
+REFLECTIONS_PATH = ROOT / "scripts" / "reflections.txt"
 
 CARDS: list[dict[str, str]] = [
     {"name": "The Seed", "binary": "0", "meaning": "beginnings, ideas, and origins"},
@@ -54,7 +57,48 @@ def s_card_summary(obj_card: dict[str, str]) -> str:
     return f"{obj_card['name']} ({obj_card['binary']}) represents {obj_card['meaning']}."
 
 
-def s_reading_text(obj_left: dict[str, str], obj_right: dict[str, str], s_op: str) -> str:
+def s_card_label(obj_card: dict[str, str]) -> str:
+    return f"{obj_card['name']} ({obj_card['binary']})"
+
+
+def s_operation_summary(
+    obj_left: dict[str, str], obj_right: dict[str, str], s_op: str
+) -> str:
+    n_left = int(obj_left["binary"], 2)
+    n_right = int(obj_right["binary"], 2)
+
+    if s_op == "OR":
+        n_result = n_left | n_right
+        # Result matches an operand when that operand's bits already contain the other.
+        if n_result == n_left and n_result != n_right:
+            return f"{s_card_label(obj_left)} subsumes {s_card_label(obj_right)}"
+        if n_result == n_right and n_result != n_left:
+            return f"{s_card_label(obj_right)} subsumes {s_card_label(obj_left)}"
+
+    if s_op == "AND":
+        n_result = n_left & n_right
+        # Result matches an operand when that operand's bits are already contained in the other.
+        if n_result == n_left and n_result != n_right:
+            return f"{s_card_label(obj_left)} excludes {s_card_label(obj_right)}"
+        if n_result == n_right and n_result != n_left:
+            return f"{s_card_label(obj_right)} excludes {s_card_label(obj_left)}"
+
+    return ""
+
+
+def arr_load_reflections() -> list[str]:
+    """Load newline-separated reflections in pair order (AND then OR)."""
+    if not REFLECTIONS_PATH.exists():
+        return []
+    return REFLECTIONS_PATH.read_text(encoding="utf-8").splitlines()
+
+
+def s_reading_text(
+    obj_left: dict[str, str],
+    obj_right: dict[str, str],
+    s_op: str,
+    s_reflection: str = "",
+) -> str:
     n_left = int(obj_left["binary"], 2)
     n_right = int(obj_right["binary"], 2)
     n_result = n_left & n_right if s_op == "AND" else n_left | n_right
@@ -69,7 +113,13 @@ def s_reading_text(obj_left: dict[str, str], obj_right: dict[str, str], s_op: st
             s_card_summary(obj_result),
         ]
     )
-    return f"{s_reading}\nReflection: "
+
+    arr_lines = [s_reading]
+    s_summary = s_operation_summary(obj_left, obj_right, s_op)
+    if s_summary:
+        arr_lines.append(f"Summary: {s_summary}")
+    arr_lines.append(f"Reflection: {s_reflection}".rstrip())
+    return "\n".join(arr_lines)
 
 
 def s_ts_template_literal(s_value: str) -> str:
@@ -80,6 +130,9 @@ def s_ts_template_literal(s_value: str) -> str:
 
 
 def s_build_typescript() -> tuple[str, int]:
+    arr_reflections = arr_load_reflections()
+    n_reflection_index = 0
+
     arr_lines = [
         "export type tOperator = 'AND' | 'OR'",
         "",
@@ -106,8 +159,26 @@ def s_build_typescript() -> tuple[str, int]:
         arr_lines.append(f"  '{obj_left['binary']}': {{")
         for obj_right in arr_right_cards:
             n_pair_count += 1
-            s_and = s_ts_template_literal(s_reading_text(obj_left, obj_right, "AND"))
-            s_or = s_ts_template_literal(s_reading_text(obj_left, obj_right, "OR"))
+
+            s_and_reflection = (
+                arr_reflections[n_reflection_index]
+                if n_reflection_index < len(arr_reflections)
+                else ""
+            )
+            n_reflection_index += 1
+            s_or_reflection = (
+                arr_reflections[n_reflection_index]
+                if n_reflection_index < len(arr_reflections)
+                else ""
+            )
+            n_reflection_index += 1
+
+            s_and = s_ts_template_literal(
+                s_reading_text(obj_left, obj_right, "AND", s_and_reflection)
+            )
+            s_or = s_ts_template_literal(
+                s_reading_text(obj_left, obj_right, "OR", s_or_reflection)
+            )
             arr_lines.append(f"    '{obj_right['binary']}': {{")
             arr_lines.append(f"      AND: {s_and},")
             arr_lines.append(f"      OR: {s_or},")
@@ -211,7 +282,11 @@ export function sStyledReadingText(
 def main() -> None:
     s_typescript, n_pair_count = s_build_typescript()
     OUTPUT_PATH.write_text(s_typescript, encoding="utf-8")
-    print(f"Wrote {OUTPUT_PATH.relative_to(ROOT)} ({n_pair_count} unordered pairs)")
+    n_reflection_count = len(arr_load_reflections())
+    print(
+        f"Wrote {OUTPUT_PATH.relative_to(ROOT)} "
+        f"({n_pair_count} unordered pairs, {n_reflection_count} reflections)"
+    )
 
 
 if __name__ == "__main__":

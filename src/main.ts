@@ -325,12 +325,15 @@ const sDevAiInstructions =
   `
   AI Prompt for readings:
   <br><br>
-  Binarot is a tarot-like deck where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply. This results in a final card. Given the following reading, generate a single phrase of reflection that the sequence gives rise to.
+  Binarot is a tarot-like deck based on binary symbols and operations, where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply, resulting in a final card. Given the following reading, generate 3 paragraphs reflecting upon the reading. Keep your response concise and to the point. Avoid unnecessary adjectives.
   
   <br><br>
 
-  For example, The Seed (0) AND The Flag (1) = 0. Reflection: Exploring origins before lines were drawn
-  Another example, The Fork (101) OR The Tree (111) = 111. Reflection: Growth leading to more growth
+  The first paragraph should be a concise parable acting out the read sequence, the two cards and symbol being the proposition, and the result being the conclusion.
+
+  The second paragraph should be describe how the cards and symbols form this story, and how it might relate to the reader.
+
+  The third paragraph should offer consideration for what the reader might think or do next in regards to the reading.
 
   <br><br>
  `

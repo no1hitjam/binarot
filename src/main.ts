@@ -286,10 +286,6 @@ function nCardValue(objCard: tCard): number {
   return parseInt(objCard.sBinaryValue, 2)
 }
 
-function objFindCardByValue(nValue: number): tCard {
-  return arrCards.find((objCard: tCard) => nCardValue(objCard) === nValue)!
-}
-
 function arrDrawTwoCards(): [tCard, tCard] {
   const nFirst = Math.floor(Math.random() * arrCards.length)
   let nSecond = Math.floor(Math.random() * (arrCards.length - 1))
@@ -299,13 +295,6 @@ function arrDrawTwoCards(): [tCard, tCard] {
   }
 
   return [arrCards[nFirst]!, arrCards[nSecond]!]
-}
-
-function objResolveReading(objLeft: tCard, objRight: tCard, sOp: tOperator): tCard {
-  const nLeft = nCardValue(objLeft)
-  const nRight = nCardValue(objRight)
-  const nResult = sOp === 'AND' ? nLeft & nRight : nLeft | nRight
-  return objFindCardByValue(nResult)
 }
 
 function sCardItemMarkup(objCard: tCard): string {
@@ -322,12 +311,7 @@ const sDevAiInstructions =
   `
   AI Prompt for readings:
   <br><br>
-  Binarot is a tarot-like deck based on binary symbols and operations, where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply, resulting in a final card. Given the following reading, generate 2 paragraphs reflecting upon the reading. Keep your response concise and to the point. Avoid unnecessary adjectives.
-  
-  What happens when we <operand> on <left> and <right>?
-
-  
-
+  Binarot is a tarot-like deck based on binary symbols and operations. Draw two cards and read both mindsets: focused AND keeps only what they share; expansive OR keeps all they offer. Given the following reading, generate 2 paragraphs reflecting upon the pair and how the two outcomes differ. Keep your response concise and to the point. Avoid unnecessary adjectives.
   <br><br>
  `
 
@@ -339,78 +323,38 @@ function sReadingOutcomeMarkup(
   objLow: tCard,
   objHigh: tCard,
   sOp: tOperator,
-  sHeading: string,
+): string {
+  const sText = sReadingText(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)
+  if (!sText) {
+    return ''
+  }
+
+  return `
+    <div class="reading-outcome" data-op="${sOp}">
+      <p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>
+    </div>
+  `
+}
+
+function sDualReadingResultMarkup(
+  objLeft: tCard,
+  objRight: tCard,
   bIncludeAiInstructions: boolean = false,
 ): string {
-  const objResult = objResolveReading(objLow, objHigh, sOp)
-  const sSymbol = sOp === 'AND' ? '&' : '|'
-  const sText = sReadingText(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)
-  const sTextMarkup = sText
-    ? `<p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>`
+  const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
+  const sPair = sPairReadingText(objLow.sBinaryValue, objHigh.sBinaryValue)
+  const sPairMarkup = sPair
+    ? `<p class="reading-text reading-pair-text">${sStyledReadingText(sPair, arrCardPages)}</p>`
     : ''
   const sAiMarkup = bIncludeAiInstructions
     ? `<p class="dev-ai-instructions">${sDevAiInstructions}</p>`
     : ''
 
   return `
-    <div class="reading-outcome" data-op="${sOp}">
-      <p class="reading-equation">
-        <span class="binary-value">${objLow.sBinaryValue}</span>
-        ${sSymbol}
-        <span class="binary-value">${objHigh.sBinaryValue}</span>
-        =
-        <span class="binary-value">${objResult.sBinaryValue}</span>
-      </p>
-      <div class="reading-final">
-        <h3>${sHeading}</h3>
-        ${sCardItemMarkup(objResult)}
-        ${sAiMarkup}
-        ${sTextMarkup}
-      </div>
-    </div>
-  `
-}
-
-function sReadingResultMarkup(
-  objLeft: tCard,
-  objRight: tCard,
-  sOp: tOperator,
-  bIncludeAiInstructions: boolean = false,
-): string {
-  const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
-  const sSymbol = sOp === 'AND' ? '&' : '|'
-
-  return `
-    <div class="reading-spread">
-      ${sCardItemMarkup(objLow)}
-      <div class="reading-coin" aria-label="Coin landed on ${sOp}">
-        <span class="reading-coin-face">${sOp}</span>
-        <span class="reading-coin-symbol binary-value">${sSymbol}</span>
-      </div>
-      ${sCardItemMarkup(objHigh)}
-    </div>
-    ${sReadingOutcomeMarkup(objLow, objHigh, sOp, 'Result', bIncludeAiInstructions)}
-  `
-}
-
-function sDualReadingResultMarkup(objLeft: tCard, objRight: tCard): string {
-  const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
-  const sPair = sPairReadingText(objLow.sBinaryValue, objHigh.sBinaryValue)
-  const sPairMarkup = sPair
-    ? `<p class="reading-text reading-pair-text">${sStyledReadingText(sPair, arrCardPages)}</p>`
-    : ''
-
-  return `
-    <div class="reading-spread reading-spread-pair">
-      ${sCardItemMarkup(objLow)}
-      <div class="reading-pair-mark" aria-hidden="true">
-        <span class="reading-pair-mark-dot">·</span>
-      </div>
-      ${sCardItemMarkup(objHigh)}
-    </div>
+    ${sAiMarkup}
     ${sPairMarkup}
-    ${sReadingOutcomeMarkup(objLow, objHigh, 'AND', 'Focused · AND')}
-    ${sReadingOutcomeMarkup(objLow, objHigh, 'OR', 'Expansive · OR')}
+    ${sReadingOutcomeMarkup(objLow, objHigh, 'AND')}
+    ${sReadingOutcomeMarkup(objLow, objHigh, 'OR')}
   `
 }
 
@@ -707,19 +651,13 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="dev">
       <h2>Dev Reading</h2>
       <p class="reading-intro">
-        Choose any two cards and coin face to preview a reading.
+        Choose any two cards to preview both focused <code>AND</code> and expansive
+        <code>OR</code> outcomes.
       </p>
       <form class="dev-controls" id="dev-form">
         <label class="dev-field">
           <span>First card</span>
           <select id="dev-left" name="left">${sCardOptionsMarkup('0')}</select>
-        </label>
-        <label class="dev-field">
-          <span>Coin</span>
-          <select id="dev-op" name="op">
-            <option value="AND" selected>AND</option>
-            <option value="OR">OR</option>
-          </select>
         </label>
         <label class="dev-field">
           <span>Second card</span>
@@ -1261,12 +1199,10 @@ objDrawButton.addEventListener('click', () => {
 if (bShowDevPanel) {
   const objDevLeft = document.querySelector<HTMLSelectElement>('#dev-left')!
   const objDevRight = document.querySelector<HTMLSelectElement>('#dev-right')!
-  const objDevOp = document.querySelector<HTMLSelectElement>('#dev-op')!
   const objDevResult = document.querySelector<HTMLDivElement>('#dev-result')!
 
   const sDevCookieLeft = 'binarot_dev_left'
   const sDevCookieRight = 'binarot_dev_right'
-  const sDevCookieOp = 'binarot_dev_op'
 
   function bSelectHasValue(objSelect: HTMLSelectElement, sValue: string): boolean {
     return Array.from(objSelect.options).some(
@@ -1277,7 +1213,6 @@ if (bShowDevPanel) {
   function vRestoreDevControls(): void {
     const sLeft = sCookieValue(sDevCookieLeft)
     const sRight = sCookieValue(sDevCookieRight)
-    const sOp = sCookieValue(sDevCookieOp)
 
     if (sLeft !== null && bSelectHasValue(objDevLeft, sLeft)) {
       objDevLeft.value = sLeft
@@ -1286,30 +1221,23 @@ if (bShowDevPanel) {
     if (sRight !== null && bSelectHasValue(objDevRight, sRight)) {
       objDevRight.value = sRight
     }
-
-    if (sOp !== null && bSelectHasValue(objDevOp, sOp)) {
-      objDevOp.value = sOp
-    }
   }
 
   function vSaveDevControls(): void {
     vSetCookie(sDevCookieLeft, objDevLeft.value)
     vSetCookie(sDevCookieRight, objDevRight.value)
-    vSetCookie(sDevCookieOp, objDevOp.value)
   }
 
   function vUpdateDevReading(): void {
     const objLeft = objFindCardByBinary(objDevLeft.value)
     const objRight = objFindCardByBinary(objDevRight.value)
-    const sOp = objDevOp.value as tOperator
 
     vSaveDevControls()
-    objDevResult.innerHTML = sReadingResultMarkup(objLeft, objRight, sOp, true)
+    objDevResult.innerHTML = sDualReadingResultMarkup(objLeft, objRight, true)
   }
 
   objDevLeft.addEventListener('change', vUpdateDevReading)
   objDevRight.addEventListener('change', vUpdateDevReading)
-  objDevOp.addEventListener('change', vUpdateDevReading)
   vRestoreDevControls()
   vUpdateDevReading()
 }

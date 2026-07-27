@@ -69,19 +69,31 @@ def s_operation_summary(
 
     if s_op == "OR":
         n_result = n_left | n_right
+        obj_result = CARDS_BY_VALUE[n_result]
         # Result matches an operand when that operand's bits already contain the other.
         if n_result == n_left and n_result != n_right:
             return f"{s_card_label(obj_left)} subsumes {s_card_label(obj_right)}"
         if n_result == n_right and n_result != n_left:
             return f"{s_card_label(obj_right)} subsumes {s_card_label(obj_left)}"
+        if n_result != n_left and n_result != n_right:
+            return (
+                f"{s_card_label(obj_result)} subsumes "
+                f"{s_card_label(obj_left)} and {s_card_label(obj_right)}"
+            )
 
     if s_op == "AND":
         n_result = n_left & n_right
+        obj_result = CARDS_BY_VALUE[n_result]
         # Result matches an operand when that operand's bits are already contained in the other.
         if n_result == n_left and n_result != n_right:
             return f"{s_card_label(obj_left)} excludes {s_card_label(obj_right)}"
         if n_result == n_right and n_result != n_left:
             return f"{s_card_label(obj_right)} excludes {s_card_label(obj_left)}"
+        if n_result != n_left and n_result != n_right:
+            return (
+                f"{s_card_label(obj_result)} is the intersection of "
+                f"{s_card_label(obj_left)} and {s_card_label(obj_right)}"
+            )
 
     return ""
 
@@ -117,7 +129,7 @@ def s_reading_text(
     arr_lines = [s_reading]
     s_summary = s_operation_summary(obj_left, obj_right, s_op)
     if s_summary:
-        arr_lines.append(f"Summary: {s_summary}")
+        arr_lines.append(f"Explain how {s_summary}")
     arr_lines.append(f"Reflection: {s_reflection}".rstrip())
     return "\n".join(arr_lines)
 

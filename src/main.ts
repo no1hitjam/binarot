@@ -327,15 +327,11 @@ const sDevAiInstructions =
   `
   AI Prompt for readings:
   <br><br>
-  Binarot is a tarot-like deck based on binary symbols and operations, where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply, resulting in a final card. Given the following reading, generate 3 paragraphs reflecting upon the reading. Keep your response concise and to the point. Avoid unnecessary adjectives.
+  Binarot is a tarot-like deck based on binary symbols and operations, where the rules are to draw two cards and flip a coin to get an AND/OR operation to apply, resulting in a final card. Given the following reading, generate 2 paragraphs reflecting upon the reading. Keep your response concise and to the point. Avoid unnecessary adjectives.
   
-  <br><br>
+  What happens when we <operand> on <left> and <right>?
 
-  The first paragraph should be a concise parable acting out the read sequence, the two cards and symbol being the proposition, and the result being the conclusion.
-
-  The second paragraph should be describe how the cards and symbols form this story, and how it might relate to the reader.
-
-  The third paragraph should offer consideration for what the reader might think or do next in regards to the reading.
+  
 
   <br><br>
  `

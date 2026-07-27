@@ -661,7 +661,9 @@ code {
 
 .reading-console-output .reading-spread,
 .reading-console-output .reading-equation,
-.reading-console-output .reading-final {
+.reading-console-output .reading-final,
+.reading-console-output .reading-outcome,
+.reading-console-output .reading-pair-text {
   font-family: var(--font-mono);
 }
 
@@ -728,11 +730,13 @@ code {
 }
 
 .reading-console-output .reading-final h3::before {
-  content: '?? ';
+  content: '── ';
+  color: color-mix(in srgb, var(--gold) 55%, transparent);
 }
 
 .reading-console-output .reading-final h3::after {
-  content: ' ?????????????????????????';
+  content: ' ──────────────────────────';
+  color: color-mix(in srgb, var(--gold) 35%, transparent);
 }
 
 .reading-console-output .reading-text {
@@ -763,9 +767,9 @@ code {
 }
 
 .reading-console-output .reading-text-sep::before {
-  content: '????????';
+  content: '· · ·';
   font-size: 0.75rem;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.35em;
   color: var(--purple-dim);
 }
 
@@ -800,6 +804,40 @@ code {
 .reading-spread .card-icon {
   width: 2.25rem;
   height: 2.25rem;
+}
+
+.reading-pair-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  min-width: 2.5rem;
+  color: var(--gold);
+}
+
+.reading-pair-mark-dot {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.reading-pair-text {
+  margin: 1.15rem 0 0.35rem;
+}
+
+.reading-outcome {
+  margin-top: 1.35rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid color-mix(in srgb, var(--gold) 28%, transparent);
+}
+
+.reading-outcome[data-op='AND'] .reading-final h3 {
+  color: color-mix(in srgb, var(--purple) 70%, var(--gold));
+}
+
+.reading-outcome[data-op='OR'] .reading-final h3 {
+  color: var(--gold-bright);
 }
 
 .reading-coin {
@@ -3909,7 +3947,8 @@ code {
     grid-template-columns: 1fr;
   }
 
-  .reading-coin {
+  .reading-coin,
+  .reading-pair-mark {
     width: 5rem;
     justify-self: center;
   }

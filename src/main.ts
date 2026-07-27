@@ -1,8 +1,7 @@
 import './style.css'
 import { sCardIconMarkup } from './cardIcons'
 import { sCompatibilityText } from './compatibilityTexts'
-import { sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
-import { sReadingSigilMarkup } from './readingSigil'
+import { sPairReadingText, sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
 import { sExploreMarkup, vBindExplore, vSetExploreActive } from './explore'
 import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
 import { sHouseMarkup, vBindHouse, vSetHouseActive } from './house'
@@ -302,10 +301,6 @@ function arrDrawTwoCards(): [tCard, tCard] {
   return [arrCards[nFirst]!, arrCards[nSecond]!]
 }
 
-function sFlipCoin(): tOperator {
-  return Math.random() < 0.5 ? 'AND' : 'OR'
-}
-
 function objResolveReading(objLeft: tCard, objRight: tCard, sOp: tOperator): tCard {
   const nLeft = nCardValue(objLeft)
   const nRight = nCardValue(objRight)
@@ -340,13 +335,13 @@ function arrOrderedPair(objLeft: tCard, objRight: tCard): [tCard, tCard] {
   return nCardValue(objLeft) <= nCardValue(objRight) ? [objLeft, objRight] : [objRight, objLeft]
 }
 
-function sReadingResultMarkup(
-  objLeft: tCard,
-  objRight: tCard,
+function sReadingOutcomeMarkup(
+  objLow: tCard,
+  objHigh: tCard,
   sOp: tOperator,
+  sHeading: string,
   bIncludeAiInstructions: boolean = false,
 ): string {
-  const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
   const objResult = objResolveReading(objLow, objHigh, sOp)
   const sSymbol = sOp === 'AND' ? '&' : '|'
   const sText = sReadingText(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)
@@ -358,6 +353,34 @@ function sReadingResultMarkup(
     : ''
 
   return `
+    <div class="reading-outcome" data-op="${sOp}">
+      <p class="reading-equation">
+        <span class="binary-value">${objLow.sBinaryValue}</span>
+        ${sSymbol}
+        <span class="binary-value">${objHigh.sBinaryValue}</span>
+        =
+        <span class="binary-value">${objResult.sBinaryValue}</span>
+      </p>
+      <div class="reading-final">
+        <h3>${sHeading}</h3>
+        ${sCardItemMarkup(objResult)}
+        ${sAiMarkup}
+        ${sTextMarkup}
+      </div>
+    </div>
+  `
+}
+
+function sReadingResultMarkup(
+  objLeft: tCard,
+  objRight: tCard,
+  sOp: tOperator,
+  bIncludeAiInstructions: boolean = false,
+): string {
+  const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
+  const sSymbol = sOp === 'AND' ? '&' : '|'
+
+  return `
     <div class="reading-spread">
       ${sCardItemMarkup(objLow)}
       <div class="reading-coin" aria-label="Coin landed on ${sOp}">
@@ -366,20 +389,28 @@ function sReadingResultMarkup(
       </div>
       ${sCardItemMarkup(objHigh)}
     </div>
-    <p class="reading-equation">
-      <span class="binary-value">${objLow.sBinaryValue}</span>
-      ${sSymbol}
-      <span class="binary-value">${objHigh.sBinaryValue}</span>
-      =
-      <span class="binary-value">${objResult.sBinaryValue}</span>
-    </p>
-    <div class="reading-final">
-      <h3>Result</h3>
-      ${sCardItemMarkup(objResult)}
-      ${sAiMarkup}
-      ${sTextMarkup}
-      ${sReadingSigilMarkup(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)}
+    ${sReadingOutcomeMarkup(objLow, objHigh, sOp, 'Result', bIncludeAiInstructions)}
+  `
+}
+
+function sDualReadingResultMarkup(objLeft: tCard, objRight: tCard): string {
+  const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
+  const sPair = sPairReadingText(objLow.sBinaryValue, objHigh.sBinaryValue)
+  const sPairMarkup = sPair
+    ? `<p class="reading-text reading-pair-text">${sStyledReadingText(sPair, arrCardPages)}</p>`
+    : ''
+
+  return `
+    <div class="reading-spread reading-spread-pair">
+      ${sCardItemMarkup(objLow)}
+      <div class="reading-pair-mark" aria-hidden="true">
+        <span class="reading-pair-mark-dot">·</span>
+      </div>
+      ${sCardItemMarkup(objHigh)}
     </div>
+    ${sPairMarkup}
+    ${sReadingOutcomeMarkup(objLow, objHigh, 'AND', 'Focused · AND')}
+    ${sReadingOutcomeMarkup(objLow, objHigh, 'OR', 'Expansive · OR')}
   `
 }
 
@@ -453,10 +484,11 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="reading">
       <h2>Binarot Reading</h2>
       <p class="reading-intro">
-        Draw two cards and flip the AND/OR coin. The coin chooses whether the cards are combined with
-        bitwise <code>AND</code> or <code>OR</code>, yielding a final binary result.
+        Draw two cards—no coin. Read both mindsets: focused
+        <code>AND</code> keeps only what they share; expansive
+        <code>OR</code> keeps all they offer. Compare the two outcomes.
       </p>
-      <button type="button" class="reading-draw" id="reading-draw">Draw a reading</button>
+      <button type="button" class="reading-draw" id="reading-draw">Draw two cards</button>
       <div class="reading-result" id="reading-result" hidden></div>
     </section>
 
@@ -1145,8 +1177,8 @@ const arrDrawLoadLines: string[] = [
   'shuffling deck...',
   'drawing left card...',
   'drawing right card...',
-  'flipping AND/OR coin...',
-  'resolving bitwise operation...',
+  'resolving focused AND...',
+  'resolving expansive OR...',
 ]
 
 let nDrawLoadTimer: number | undefined
@@ -1169,7 +1201,7 @@ function vAppendConsoleLine(objLog: HTMLElement, sText: string, sClass: string =
   }
 }
 
-function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void {
+function vRunDrawConsole(objLeft: tCard, objRight: tCard): void {
   vClearDrawLoadTimer()
 
   objDrawButton.disabled = true
@@ -1209,7 +1241,7 @@ function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void 
       objOutput.className = 'reading-console-output'
       objOutput.innerHTML = `
         <p class="reading-console-line reading-console-section">── spread ──────────────────────────</p>
-        ${sReadingResultMarkup(objLeft, objRight, sOp)}
+        ${sDualReadingResultMarkup(objLeft, objRight)}
       `
       objBody.appendChild(objOutput)
       objConsole.classList.add('is-complete')
@@ -1223,8 +1255,7 @@ function vRunDrawConsole(objLeft: tCard, objRight: tCard, sOp: tOperator): void 
 
 objDrawButton.addEventListener('click', () => {
   const [objLeft, objRight] = arrDrawTwoCards()
-  const sOp = sFlipCoin()
-  vRunDrawConsole(objLeft, objRight, sOp)
+  vRunDrawConsole(objLeft, objRight)
 })
 
 if (bShowDevPanel) {

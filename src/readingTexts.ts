@@ -16,13 +16,13 @@ export const objReadingTexts: tReadingTexts = {
   '0': {
     '1': {
       pair: `
-The Seed (0) represents beginnings, ideas, and origins. The Flag (1) represents claims, power, and sovereignty.
+The Seed (0) paired with The Flag (1) marks the direct transition from raw potential to formal declaration. Where The Seed represents unmanifested origin, The Flag establishes visible boundary and authority. Together, this combination signifies an abstract concept gaining structure, definition, and explicit standing.
 `,
       AND: `
-Viewed from the lens of AND, with differentiation and focus.  The Seed (0) represents beginnings, ideas, and origins. The Flag (1) represents claims, power, and sovereignty. Result: The Seed (0) represents beginnings, ideas, and origins.
+When one approaches this combination with an AND mindset, the focus gently settles on finding what is truly grounded when a new beginning meets a desire for control. Any pressure to assert power or claim territory quietly fades, as unformed potential cannot be forced. What remains is a peaceful return to the root—a quiet space where the original idea can rest, clear and undisturbed.
 `,
       OR: `
-Viewed from the lens of OR, with inclusivity and openness.  The Seed (0) represents beginnings, ideas, and origins. The Flag (1) represents claims, power, and sovereignty. Result: The Flag (1) represents claims, power, and sovereignty.
+When one approaches this combination with an OR mindset, the focus expands to welcome any presence of active force, allowing even a single spark of assertion to carry the moment. Because this perspective embraces every contribution rather than demanding agreement, the quiet potential of the origin effortlessly gives way to clear structure. The result is a confident stepping forward into sovereignty, where the power to claim space takes root and defines the outcome.
 `,
     },
     '10': {

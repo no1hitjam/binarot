@@ -307,11 +307,27 @@ function sCardItemMarkup(objCard: tCard): string {
   `
 }
 
-const sDevAiInstructions =
+const sDevAiInstructionsPair =
   `
-  AI Prompt for readings:
+  AI Prompt for the card combination:
   <br><br>
-  Binarot is a tarot-like deck based on binary symbols and operations. Draw two cards and read both mindsets: focused AND keeps only what they share; expansive OR keeps all they offer. Given the following reading, generate 2 paragraphs reflecting upon the pair and how the two outcomes differ. Keep your response concise and to the point. Avoid unnecessary adjectives.
+  Binarot is a tarot-like deck based on binary symbols and operations. Draw two cards. Given the following pair, write one short paragraph about the combination of the two cards. Keep your response concise and to the point. Avoid unnecessary adjectives.
+  <br><br>
+ `
+
+const sDevAiInstructionsAnd =
+  `
+  AI Prompt for the AND reading:
+  <br><br>
+  Given the following AND reading, write one short paragraph reflecting on this focused outcome. Try to poetically capture the essence of the reading without getting into the technical binary operations. Use a soothing tone and try to approach real-life advice.
+  <br><br>
+ `
+
+const sDevAiInstructionsOr =
+  `
+  AI Prompt for the OR reading:
+  <br><br>
+  Given the following OR reading, write one short paragraph reflecting on this expansive outcome.
   <br><br>
  `
 
@@ -319,18 +335,26 @@ function arrOrderedPair(objLeft: tCard, objRight: tCard): [tCard, tCard] {
   return nCardValue(objLeft) <= nCardValue(objRight) ? [objLeft, objRight] : [objRight, objLeft]
 }
 
+function sAiInstructionsMarkup(sInstructions: string): string {
+  return `<p class="dev-ai-instructions">${sInstructions}</p>`
+}
+
 function sReadingOutcomeMarkup(
   objLow: tCard,
   objHigh: tCard,
   sOp: tOperator,
+  sAiInstructions: string = '',
 ): string {
   const sText = sReadingText(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)
   if (!sText) {
     return ''
   }
 
+  const sAiMarkup = sAiInstructions ? sAiInstructionsMarkup(sAiInstructions) : ''
+
   return `
     <div class="reading-outcome" data-op="${sOp}">
+      ${sAiMarkup}
       <p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>
     </div>
   `
@@ -346,15 +370,24 @@ function sDualReadingResultMarkup(
   const sPairMarkup = sPair
     ? `<p class="reading-text reading-pair-text">${sStyledReadingText(sPair, arrCardPages)}</p>`
     : ''
-  const sAiMarkup = bIncludeAiInstructions
-    ? `<p class="dev-ai-instructions">${sDevAiInstructions}</p>`
-    : ''
+  const sPairAiMarkup =
+    bIncludeAiInstructions && sPair ? sAiInstructionsMarkup(sDevAiInstructionsPair) : ''
 
   return `
-    ${sAiMarkup}
+    ${sPairAiMarkup}
     ${sPairMarkup}
-    ${sReadingOutcomeMarkup(objLow, objHigh, 'AND')}
-    ${sReadingOutcomeMarkup(objLow, objHigh, 'OR')}
+    ${sReadingOutcomeMarkup(
+      objLow,
+      objHigh,
+      'AND',
+      bIncludeAiInstructions ? sDevAiInstructionsAnd : '',
+    )}
+    ${sReadingOutcomeMarkup(
+      objLow,
+      objHigh,
+      'OR',
+      bIncludeAiInstructions ? sDevAiInstructionsOr : '',
+    )}
   `
 }
 

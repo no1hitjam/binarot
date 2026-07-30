@@ -2,6 +2,7 @@ import './style.css'
 import { sCardIconMarkup } from './cardIcons'
 import { sCompatibilityText } from './compatibilityTexts'
 import { sPairReadingText, sReadingText, sStyledReadingText, type tOperator } from './readingTexts'
+import { sPairSigilMarkup } from './readingSigil'
 import { sExploreMarkup, vBindExplore, vSetExploreActive } from './explore'
 import { sFloatMarkup, vBindFloat, vSetFloatActive } from './float'
 import { sHouseMarkup, vBindHouse, vSetHouseActive } from './house'
@@ -411,6 +412,9 @@ function sDualReadingResultMarkup(
   const sPairMarkup = sPair
     ? `<p class="reading-text reading-pair-text">${sStyledReadingText(sPair, arrCardPages)}</p>`
     : ''
+  const sSigilMarkup = sPair
+    ? sPairSigilMarkup(objLow.sBinaryValue, objHigh.sBinaryValue)
+    : ''
   const sPairAiMarkup =
     bIncludeAiInstructions && sPair ? sAiInstructionsMarkup(sDevAiInstructionsPair) : ''
   const sSpreadMarkup = bIncludeCardGraphics
@@ -450,6 +454,7 @@ function sDualReadingResultMarkup(
     ${sSpreadMarkup}
     ${sPairAiMarkup}
     ${sPairMarkup}
+    ${sSigilMarkup}
     ${sOutcomesMarkup}
   `
 }

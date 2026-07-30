@@ -297,6 +297,17 @@ function arrDrawTwoCards(): [tCard, tCard] {
   return [arrCards[nFirst]!, arrCards[nSecond]!]
 }
 
+function objFindCardByValue(nValue: number): tCard {
+  return arrCards.find((objCard: tCard) => nCardValue(objCard) === nValue)!
+}
+
+function objResolveReading(objLeft: tCard, objRight: tCard, sOp: tOperator): tCard {
+  const nLeft = nCardValue(objLeft)
+  const nRight = nCardValue(objRight)
+  const nResult = sOp === 'AND' ? nLeft & nRight : nLeft | nRight
+  return objFindCardByValue(nResult)
+}
+
 function sCardItemMarkup(objCard: tCard): string {
   return `
     <a class="card-item card-item-link" href="#card/${objCard.sBinaryValue}">
@@ -343,19 +354,47 @@ function sReadingOutcomeMarkup(
   objLow: tCard,
   objHigh: tCard,
   sOp: tOperator,
+  sHeading: string,
   sAiInstructions: string = '',
+  bIncludeCardGraphics: boolean = false,
 ): string {
   const sText = sReadingText(objLow.sBinaryValue, objHigh.sBinaryValue, sOp)
-  if (!sText) {
+  if (!sText && !bIncludeCardGraphics) {
     return ''
   }
 
   const sAiMarkup = sAiInstructions ? sAiInstructionsMarkup(sAiInstructions) : ''
+  const sTextMarkup = sText
+    ? `<p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>`
+    : ''
+
+  if (!bIncludeCardGraphics) {
+    return `
+      <div class="reading-outcome" data-op="${sOp}">
+        ${sAiMarkup}
+        ${sTextMarkup}
+      </div>
+    `
+  }
+
+  const objResult = objResolveReading(objLow, objHigh, sOp)
+  const sSymbol = sOp === 'AND' ? '&' : '|'
 
   return `
     <div class="reading-outcome" data-op="${sOp}">
-      ${sAiMarkup}
-      <p class="reading-text">${sStyledReadingText(sText, arrCardPages)}</p>
+      <p class="reading-equation">
+        <span class="binary-value">${objLow.sBinaryValue}</span>
+        ${sSymbol}
+        <span class="binary-value">${objHigh.sBinaryValue}</span>
+        =
+        <span class="binary-value">${objResult.sBinaryValue}</span>
+      </p>
+      <div class="reading-final">
+        <h3>${sHeading}</h3>
+        ${sCardItemMarkup(objResult)}
+        ${sAiMarkup}
+        ${sTextMarkup}
+      </div>
     </div>
   `
 }
@@ -364,6 +403,7 @@ function sDualReadingResultMarkup(
   objLeft: tCard,
   objRight: tCard,
   bIncludeAiInstructions: boolean = false,
+  bIncludeCardGraphics: boolean = false,
 ): string {
   const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
   const sPair = sPairReadingText(objLow.sBinaryValue, objHigh.sBinaryValue)
@@ -372,21 +412,37 @@ function sDualReadingResultMarkup(
     : ''
   const sPairAiMarkup =
     bIncludeAiInstructions && sPair ? sAiInstructionsMarkup(sDevAiInstructionsPair) : ''
+  const sSpreadMarkup = bIncludeCardGraphics
+    ? `
+      <div class="reading-spread reading-spread-pair">
+        ${sCardItemMarkup(objLow)}
+        <div class="reading-pair-mark" aria-hidden="true">
+          <span class="reading-pair-mark-dot">·</span>
+        </div>
+        ${sCardItemMarkup(objHigh)}
+      </div>
+    `
+    : ''
 
   return `
+    ${sSpreadMarkup}
     ${sPairAiMarkup}
     ${sPairMarkup}
     ${sReadingOutcomeMarkup(
       objLow,
       objHigh,
       'AND',
+      'Focused · AND',
       bIncludeAiInstructions ? sDevAiInstructionsAnd : '',
+      bIncludeCardGraphics,
     )}
     ${sReadingOutcomeMarkup(
       objLow,
       objHigh,
       'OR',
+      'Expansive · OR',
       bIncludeAiInstructions ? sDevAiInstructionsOr : '',
+      bIncludeCardGraphics,
     )}
   `
 }
@@ -1212,7 +1268,7 @@ function vRunDrawConsole(objLeft: tCard, objRight: tCard): void {
       objOutput.className = 'reading-console-output'
       objOutput.innerHTML = `
         <p class="reading-console-line reading-console-section">── spread ──────────────────────────</p>
-        ${sDualReadingResultMarkup(objLeft, objRight)}
+        ${sDualReadingResultMarkup(objLeft, objRight, false, true)}
       `
       objBody.appendChild(objOutput)
       objConsole.classList.add('is-complete')

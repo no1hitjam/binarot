@@ -2,6 +2,9 @@
 
 Only unordered card pairs are written (lower binary value first), so Seed is
 paired with every other card, Flag with every card after Flag, and so on.
+
+Pair field overrides are read line-by-line from scripts/pairs.txt in that same
+order. Blank or missing lines fall back to the generated pair summary.
 """
 
 from __future__ import annotations
@@ -10,6 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_PATH = ROOT / "src" / "readingTexts.ts"
+PAIR_TEXTS_PATH = ROOT / "scripts" / "pairs.txt"
 
 CARDS: list[dict[str, str]] = [
     {"name": "The Seed", "binary": "0", "meaning": "beginnings, ideas, and origins"},
@@ -63,6 +67,12 @@ def s_pair_text(obj_left: dict[str, str], obj_right: dict[str, str]) -> str:
     )
 
 
+def arr_pair_texts() -> list[str]:
+    if not PAIR_TEXTS_PATH.exists():
+        return []
+    return PAIR_TEXTS_PATH.read_text(encoding="utf-8").splitlines()
+
+
 def s_reading_text(
     obj_left: dict[str, str],
     obj_right: dict[str, str],
@@ -91,7 +101,7 @@ def s_ts_template_literal(s_value: str) -> str:
     return f"`\n{s_escaped}\n`"
 
 
-def s_build_typescript() -> tuple[str, int]:
+def s_build_typescript() -> tuple[str, int, int]:
     arr_lines = [
         "export type tOperator = 'AND' | 'OR'",
         "",
@@ -110,7 +120,9 @@ def s_build_typescript() -> tuple[str, int]:
         "export const objReadingTexts: tReadingTexts = {",
     ]
 
+    arr_pair_overrides = arr_pair_texts()
     n_pair_count = 0
+    n_override_count = 0
     for n_left_index, obj_left in enumerate(CARDS):
         arr_right_cards = CARDS[n_left_index + 1 :]
         if not arr_right_cards:
@@ -118,9 +130,21 @@ def s_build_typescript() -> tuple[str, int]:
 
         arr_lines.append(f"  '{obj_left['binary']}': {{")
         for obj_right in arr_right_cards:
+            n_pair_index = n_pair_count
             n_pair_count += 1
 
-            s_pair = s_ts_template_literal(s_pair_text(obj_left, obj_right))
+            s_override = (
+                arr_pair_overrides[n_pair_index].strip()
+                if n_pair_index < len(arr_pair_overrides)
+                else ""
+            )
+            if s_override:
+                n_override_count += 1
+                s_pair_body = s_override
+            else:
+                s_pair_body = s_pair_text(obj_left, obj_right)
+
+            s_pair = s_ts_template_literal(s_pair_body)
             s_and = s_ts_template_literal(s_reading_text(obj_left, obj_right, "AND"))
             s_or = s_ts_template_literal(s_reading_text(obj_left, obj_right, "OR"))
             arr_lines.append(f"    '{obj_right['binary']}': {{")
@@ -134,7 +158,7 @@ def s_build_typescript() -> tuple[str, int]:
     arr_lines.append("")
     arr_lines.append(HELPERS_TYPESCRIPT.rstrip("\n"))
     arr_lines.append("")
-    return "\n".join(arr_lines), n_pair_count
+    return "\n".join(arr_lines), n_pair_count, n_override_count
 
 
 HELPERS_TYPESCRIPT = r"""
@@ -233,9 +257,12 @@ export function sStyledReadingText(
 
 
 def main() -> None:
-    s_typescript, n_pair_count = s_build_typescript()
+    s_typescript, n_pair_count, n_override_count = s_build_typescript()
     OUTPUT_PATH.write_text(s_typescript, encoding="utf-8")
-    print(f"Wrote {OUTPUT_PATH.relative_to(ROOT)} ({n_pair_count} unordered pairs)")
+    print(
+        f"Wrote {OUTPUT_PATH.relative_to(ROOT)} "
+        f"({n_pair_count} unordered pairs, {n_override_count} from {PAIR_TEXTS_PATH.name})"
+    )
 
 
 if __name__ == "__main__":

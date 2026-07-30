@@ -745,7 +745,7 @@ code {
   border-top: 1px dashed color-mix(in srgb, var(--gold) 28%, transparent);
   color: #d4cce0;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   line-height: 1.7;
   letter-spacing: 0.01em;
 }
@@ -1002,6 +1002,7 @@ code {
 .reading-text {
   margin: 0.85rem 0 0;
   color: #ddd6e8;
+  font-size: 1.125rem;
   white-space: pre-wrap;
   line-height: 1.65;
 }

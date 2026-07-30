@@ -1413,6 +1413,14 @@ function sLinkCardNames(sText: string, arrCardLinks: readonly tCardLink[]): stri
   return sResult
 }
 
+/** Insert a line break after each sentence-ending punctuation. */
+function sWithSentenceBreaks(sParagraph: string): string {
+  return sParagraph.replace(
+    /([.!?]["'\u201d\u2019]?)(\s+)(?=[A-Z"'\u201c\u2018])/g,
+    '$1\n\n',
+  )
+}
+
 /** Post-process reading prose into HTML (styled lead, accent paragraph, final sentence, card links). */
 export function sStyledReadingText(
   sText: string,
@@ -1426,7 +1434,7 @@ export function sStyledReadingText(
   const arrParagraphs = sText.split(/\n\n+/)
 
   const arrStyled = arrParagraphs.map((sParagraph: string, nIndex: number) => {
-    let sResult = sParagraph
+    let sResult = sWithSentenceBreaks(sParagraph.trim())
 
     if (nIndex === 0) {
       const objFirst = /^([^\s][^.!?]*)([.!?]["'\u201d\u2019]?)/.exec(sResult)

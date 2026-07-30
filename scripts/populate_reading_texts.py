@@ -5,6 +5,11 @@ paired with every other card, Flag with every card after Flag, and so on.
 
 Pair field overrides are read line-by-line from scripts/pairs.txt in that same
 order. Blank or missing lines fall back to the generated pair summary.
+
+To fill TODO stubs in pairs.txt via OpenAI, then sync this file:
+
+  python scripts/fill_pairs_llm.py
+  python scripts/populate_reading_texts.py
 """
 
 from __future__ import annotations

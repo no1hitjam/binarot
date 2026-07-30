@@ -404,6 +404,7 @@ function sDualReadingResultMarkup(
   objRight: tCard,
   bIncludeAiInstructions: boolean = false,
   bIncludeCardGraphics: boolean = false,
+  bIncludeOperatorOutcomes: boolean = true,
 ): string {
   const [objLow, objHigh] = arrOrderedPair(objLeft, objRight)
   const sPair = sPairReadingText(objLow.sBinaryValue, objHigh.sBinaryValue)
@@ -424,10 +425,8 @@ function sDualReadingResultMarkup(
     `
     : ''
 
-  return `
-    ${sSpreadMarkup}
-    ${sPairAiMarkup}
-    ${sPairMarkup}
+  const sOutcomesMarkup = bIncludeOperatorOutcomes
+    ? `
     ${sReadingOutcomeMarkup(
       objLow,
       objHigh,
@@ -444,6 +443,14 @@ function sDualReadingResultMarkup(
       bIncludeAiInstructions ? sDevAiInstructionsOr : '',
       bIncludeCardGraphics,
     )}
+    `
+    : ''
+
+  return `
+    ${sSpreadMarkup}
+    ${sPairAiMarkup}
+    ${sPairMarkup}
+    ${sOutcomesMarkup}
   `
 }
 
@@ -517,9 +524,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="reading">
       <h2>Binarot Reading</h2>
       <p class="reading-intro">
-        Draw two cards—no coin. Read both mindsets: focused
-        <code>AND</code> keeps only what they share; expansive
-        <code>OR</code> keeps all they offer. Compare the two outcomes.
+        Draw two cards and read what their combination reveals.
       </p>
       <button type="button" class="reading-draw" id="reading-draw">Draw two cards</button>
       <div class="reading-result" id="reading-result" hidden></div>
@@ -1204,8 +1209,7 @@ const arrDrawLoadLines: string[] = [
   'shuffling deck...',
   'drawing left card...',
   'drawing right card...',
-  'resolving focused AND...',
-  'resolving expansive OR...',
+  'reading the pair...',
 ]
 
 let nDrawLoadTimer: number | undefined
@@ -1268,7 +1272,7 @@ function vRunDrawConsole(objLeft: tCard, objRight: tCard): void {
       objOutput.className = 'reading-console-output'
       objOutput.innerHTML = `
         <p class="reading-console-line reading-console-section">── spread ──────────────────────────</p>
-        ${sDualReadingResultMarkup(objLeft, objRight, false, true)}
+        ${sDualReadingResultMarkup(objLeft, objRight, false, true, false)}
       `
       objBody.appendChild(objOutput)
       objConsole.classList.add('is-complete')

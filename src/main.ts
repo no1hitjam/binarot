@@ -19,6 +19,7 @@ import { sPickupMarkup, vBindPickup, vSetPickupActive } from './pickup'
 import { sDreamMarkup, vBindDream, vSetDreamActive } from './dream'
 import { sFortuneMarkup, vSetFortuneActive } from './fortune'
 import { sGemsMarkup } from './gems'
+import { sElementsMarkup } from './elements'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sCavePaintingMarkup, sStarmapMarkup, vBindStarmapHover } from './starmap'
 
@@ -505,6 +506,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="fortune" aria-selected="false">Fortune</button>
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
+      <button type="button" class="tab-button" data-tab="elements" aria-selected="false">Elements</button>
       <button type="button" class="tab-button" data-tab="gems" aria-selected="false">Gems</button>
       <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
       <button type="button" class="tab-button" data-tab="sparkles" aria-selected="false">Sparkles</button>
@@ -660,6 +662,53 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         approximate heliocentric positions for today (log radius; moons drawn near their parent).
       </p>
       ${sPlanetsMarkup(arrCards)}
+      <h3>History of the Binarot planets</h3>
+      <p>
+        In the winter of 1608, a secret scholarly network known as the Order of the Silent Grid
+        recovered the ancient dual-hemisphere slate tablets from an upland Pyrenean cave.
+        Recognizing that the prehistoric 4-bit notation mapped the fundamental states of the
+        cosmos, the Order surmised that the solar system must operate on the exact same underlying
+        logic. Throughout the 17th century, they secretly funded advanced lens-grinding workshops
+        across Europe, constructing massive aerial telescopes to systematically observe the heavens
+        and assign every major body to its corresponding Binarot sign.
+      </p>
+      <p>
+        The inner solar system was bound to the Northern Array (<code>0</code>–<code>111</code>),
+        anchoring Sol as The Seed (<code>0</code>) and Mercury as The Flag (<code>1</code>), with
+        the Earth-Moon system as The Link (<code>11</code>) and The Port (<code>110</code>), while
+        Mars served as The Host (<code>100</code>) and Jupiter as The Tree (<code>111</code>) for its
+        canopy of moons. Pushing their long-focal lenses into the outer darkness, the Order mapped
+        the Southern Array (<code>1000</code>–<code>1111</code>), secretly identifying Uranus as The
+        Agent (<code>1000</code>) for its sideways axis, Saturn as The Shell (<code>1101</code>)
+        guarding the icy perimeter, Neptune as The Frame (<code>1100</code>), and Europa as The Cache
+        (<code>1011</code>). By 1700, their hidden codices asserted that the planetary architecture
+        was not random, but a physical execution of the ancient binary sequence.
+      </p>
+    </section>
+
+    <section class="tab-panel" data-panel="elements">
+      <h2>Elements</h2>
+      <p class="reading-intro">
+        Each binarot sign has an alchemical substance paired for fit—from The Seed’s prima materia
+        through The State’s gold. Principia, metals, and reagents, not a modern periodic table.
+      </p>
+      ${sElementsMarkup(arrCards)}
+      <h3>History of the Binarot elements</h3>
+      <p>
+        Before they cut gemstones, the Order of the Silent Grid worked the furnace. Having bound
+        the planets to the 4-bit register, their alchemists asked whether the same sequence governed
+        the substances of the work itself. In sealed ateliers they matched each sign to a classical
+        element, a member of the tria prima, or a metal of the Great Work: prima materia for The
+        Seed (<code>0</code>) as formless stock, fire for The Flag (<code>1</code>), water for The
+        Link (<code>11</code>), and earth for The Host (<code>100</code>). The Northern Array
+        (<code>0</code>–<code>111</code>) took the volatiles and salts—mercury for The Fork
+        (<code>101</code>), salt for The Port (<code>110</code>), sulfur for The Tree
+        (<code>111</code>)—while the Southern Array (<code>1000</code>–<code>1111</code>) claimed
+        the harder metals and reagents: iron for The Agent (<code>1000</code>), lead for The Cache
+        (<code>1011</code>), vitriol for The Frame (<code>1100</code>), and gold for The State
+        (<code>1111</code>). Only once this elemental correspondence was sealed did they dare
+        assign the same register to cut stone.
+      </p>
     </section>
 
     <section class="tab-panel" data-panel="gems">
@@ -669,6 +718,23 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         diamond. Stones are chosen for meaning, not mineralogy textbooks.
       </p>
       ${sGemsMarkup(arrCards)}
+      <h3>History of the Binarot gems</h3>
+      <p>
+        Having sealed the elemental correspondence, the Order of the Silent Grid turned next to cut
+        stone. In sealed ateliers from Prague to Florence, their alchemists ground ores, distilled
+        waters, and polished crystal under the same 4-bit register they had recovered from the
+        Pyrenean slate. Each stone, they argued, was a terrestrial echo of a cosmic state: pearl for
+        The Seed (<code>0</code>) as soft origin before facets, ruby for The Flag (<code>1</code>) as
+        sovereignty cut and set, emerald for The Link (<code>11</code>) as the bond that will not
+        fray. The Northern Array (<code>0</code>–<code>111</code>) took the softer greens and
+        traveler’s blues—jade for The Host (<code>100</code>), turquoise for The Port
+        (<code>110</code>), moss agate for The Tree (<code>111</code>)—while the Southern Array
+        (<code>1000</code>–<code>1111</code>) claimed the harder lattices: obsidian for The Agent
+        (<code>1000</code>), sapphire for The Cache (<code>1011</code>), black onyx for The Shell
+        (<code>1101</code>), and diamond for The State (<code>1111</code>). By the mid-1700s their
+        ledgers held a complete mineral correspondence—alchemy as the quiet twin of astronomy,
+        proving the binary sequence in stone as surely as in orbit and furnace.
+      </p>
     </section>
 
     <section class="tab-panel" data-panel="matrix">
@@ -865,6 +931,7 @@ const arrUnlockOrder = [
   'fortune',
   'starmap',
   'planets',
+  'elements',
   'gems',
   'matrix',
   'sparkles',

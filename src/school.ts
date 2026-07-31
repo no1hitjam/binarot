@@ -372,7 +372,7 @@ function sHairFrontMarkup(objChar: tCharacter): string {
       return `
         <path fill="${sH}" d="M58 88 C62 58 86 42 100 42 C118 42 140 58 142 88
           C130 72 118 66 100 66 C82 66 70 74 58 88 Z"/>
-        <path fill="${sH}" d="M62 78 L48 118 L58 120 L70 86 Z"/>
+        <path fill="${sH}" d="M62 78 L48 118 L58 120 L70 74 Z"/>
       `
     case 'messy':
       return `
@@ -386,22 +386,22 @@ function sHairFrontMarkup(objChar: tCharacter): string {
       return `
         <path fill="${sH}" d="M54 92 C56 60 78 44 100 44 C122 44 144 60 146 92
           C138 78 120 72 100 72 C80 72 62 78 54 92 Z"/>
-        <path fill="${sH}" d="M52 96 C48 120 54 140 62 148 L70 100 Z"/>
-        <path fill="${sH}" d="M148 96 C152 120 146 140 138 148 L130 100 Z"/>
+        <path fill="${sH}" d="M52 88 C48 120 54 140 62 148 L70 76 Z"/>
+        <path fill="${sH}" d="M148 88 C152 120 146 140 138 148 L130 76 Z"/>
       `
     case 'twin':
       return `
         <path fill="${sH}" d="M58 88 C64 58 86 44 100 44 C114 44 136 58 142 88
           C130 72 116 66 100 66 C84 66 70 72 58 88 Z"/>
-        <path fill="${sH}" d="M70 70 L58 110 L68 112 Z"/>
-        <path fill="${sH}" d="M130 70 L142 110 L132 112 Z"/>
+        <path fill="${sH}" d="M70 66 L58 104 L68 106 Z"/>
+        <path fill="${sH}" d="M130 66 L142 104 L132 106 Z"/>
       `
     case 'long':
       return `
         <path fill="${sH}" d="M56 90 C60 58 82 40 100 40 C118 40 140 58 144 90
           C132 72 116 64 100 64 C84 64 68 72 56 90 Z"/>
-        <path fill="${sH}" d="M60 86 L46 150 L56 152 L72 96 Z"/>
-        <path fill="${sH}" d="M140 86 L154 150 L144 152 L128 96 Z"/>
+        <path fill="${sH}" d="M60 80 L46 150 L56 152 L72 72 Z"/>
+        <path fill="${sH}" d="M140 80 L154 150 L144 152 L128 72 Z"/>
       `
     case 'ponytail':
       return `
@@ -413,8 +413,8 @@ function sHairFrontMarkup(objChar: tCharacter): string {
       return `
         <path fill="${sH}" d="M56 92 C60 62 84 48 100 48 C116 48 140 62 144 92
           C134 78 118 74 100 74 C82 74 66 78 56 92 Z"/>
-        <path fill="${sH}" d="M64 100 C70 118 80 126 90 128 L88 100 Z"/>
-        <path fill="${sH}" d="M136 100 C130 118 120 126 110 128 L112 100 Z"/>
+        <path fill="${sH}" d="M64 84 C70 110 80 124 90 128 L88 76 Z"/>
+        <path fill="${sH}" d="M136 84 C130 110 120 124 110 128 L112 76 Z"/>
       `
     default:
       return `

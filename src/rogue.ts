@@ -84,6 +84,20 @@ const nConfuseDuration = 6
 const nBlindDuration = 8
 const nBlindFov = 2
 const nBlastDamage = 4
+const nAutoplayDelay = 140
+const nStepHealInterval = 10
+const nStepHealAmount = 1
+
+const arrAutoplayDirections = [
+  [-1, -1],
+  [0, -1],
+  [1, -1],
+  [-1, 0],
+  [1, 0],
+  [-1, 1],
+  [0, 1],
+  [1, 1],
+]
 
 const arrMonsterGlyphs = ['r', 'k', 'g', 'b', 's', 'z']
 const arrMonsterNames = ['rat', 'kobold', 'goblin', 'bitling', 'shade', 'zero']
@@ -342,10 +356,12 @@ let nRegenTurns = 0
 let nInvisTurns = 0
 let nConfuseTurns = 0
 let nBlindTurns = 0
+let nSteps = 0
+let nWins = 0
 let bDead = false
 let bWon = false
-let bBound = false
 let bActive = false
+let nAutoplayTimer: number | null = null
 
 let objRoot: HTMLElement | null = null
 let objStatus: HTMLElement | null = null
@@ -776,10 +792,12 @@ function vDescend(): void {
   }
   if (nFloor >= nFloorGoal) {
     bWon = true
+    nWins += 1
     vAppendLog(
       `You clear ${sFloorName()}. The sixteen floors fall silent.`,
       'rogue-log-success',
     )
+    vAppendLog(`Wins seen: ${nWins}.`, 'rogue-log-success')
     return
   }
   const nHp = objPlayer.nHp
@@ -820,6 +838,18 @@ function vApplyPalette(): void {
   objRoot.dataset.floor = String(nFloor)
 }
 
+function vTickStepHeal(): void {
+  if (!objPlayer || bDead || bWon) {
+    return
+  }
+  nSteps += 1
+  if (nSteps % nStepHealInterval !== 0 || objPlayer.nHp >= nPlayerMaxHp) {
+    return
+  }
+  objPlayer.nHp = Math.min(nPlayerMaxHp, objPlayer.nHp + nStepHealAmount)
+  vAppendLog(`You recover ${nStepHealAmount} HP.`, 'rogue-log-success')
+}
+
 function vMovePlayer(nDx: number, nDy: number): void {
   if (!objPlayer || bDead || bWon || (nDx === 0 && nDy === 0)) {
     return
@@ -847,6 +877,7 @@ function vMovePlayer(nDx: number, nDy: number): void {
   const objTile = objCell(nNx, nNy)
   if (!objTile || !objTile.bWalk) {
     if (nConfuseTurns > 0) {
+      vTickStepHeal()
       vTickStatus()
       if (!bDead && !bWon) {
         vEnemyTurn()
@@ -860,6 +891,7 @@ function vMovePlayer(nDx: number, nDy: number): void {
   const objEnemy = objActorAt(nNx, nNy)
   if (objEnemy && !objEnemy.bPlayer) {
     vAttack(objPlayer, objEnemy)
+    vTickStepHeal()
     vTickStatus()
     if (!bDead && !bWon) {
       vEnemyTurn()
@@ -871,6 +903,7 @@ function vMovePlayer(nDx: number, nDy: number): void {
 
   objPlayer.nX = nNx
   objPlayer.nY = nNy
+  vTickStepHeal()
   if (vTryPickup()) {
     vUpdateFov()
     vRefreshUi()
@@ -882,6 +915,84 @@ function vMovePlayer(nDx: number, nDy: number): void {
   }
   vUpdateFov()
   vRefreshUi()
+}
+
+function objAutoplayMove(): { nDx: number; nDy: number } | null {
+  if (!objPlayer) {
+    return null
+  }
+  const objStairs = arrItems.find((objItem) => objItem.bStairs)
+  if (!objStairs) {
+    return null
+  }
+
+  const nStart = objPlayer.nY * nMapW + objPlayer.nX
+  const nTarget = objStairs.nY * nMapW + objStairs.nX
+  const arrPrevious = new Array<number>(nMapW * nMapH).fill(-1)
+  const arrQueue = [nStart]
+  let nQueueIndex = 0
+  arrPrevious[nStart] = nStart
+
+  while (nQueueIndex < arrQueue.length && arrPrevious[nTarget] === -1) {
+    const nCurrent = arrQueue[nQueueIndex++]!
+    const nX = nCurrent % nMapW
+    const nY = Math.floor(nCurrent / nMapW)
+    for (const [nDx, nDy] of arrAutoplayDirections) {
+      const nNextX = nX + nDx!
+      const nNextY = nY + nDy!
+      const nNext = nNextY * nMapW + nNextX
+      const objTile = objCell(nNextX, nNextY)
+      if (!objTile?.bWalk || arrPrevious[nNext] !== -1) {
+        continue
+      }
+      arrPrevious[nNext] = nCurrent
+      arrQueue.push(nNext)
+    }
+  }
+
+  if (arrPrevious[nTarget] === -1 || nStart === nTarget) {
+    return null
+  }
+  let nStep = nTarget
+  while (arrPrevious[nStep] !== nStart) {
+    nStep = arrPrevious[nStep]!
+  }
+  return {
+    nDx: (nStep % nMapW) - objPlayer.nX,
+    nDy: Math.floor(nStep / nMapW) - objPlayer.nY,
+  }
+}
+
+function vStopAutoplay(): void {
+  if (nAutoplayTimer !== null) {
+    window.clearInterval(nAutoplayTimer)
+    nAutoplayTimer = null
+  }
+}
+
+function vAutoplayStep(): void {
+  if (!bActive) {
+    vStopAutoplay()
+    return
+  }
+  if (bDead || bWon) {
+    vResetGame()
+    return
+  }
+  const objMove = objAutoplayMove()
+  if (!objMove) {
+    vResetGame()
+    return
+  }
+  vMovePlayer(objMove.nDx, objMove.nDy)
+}
+
+function vStartAutoplay(): void {
+  if (nAutoplayTimer !== null || !bActive) {
+    return
+  }
+  nAutoplayTimer = window.setInterval(vAutoplayStep, nAutoplayDelay)
+  vAutoplayStep()
 }
 
 function vEnemyTurn(): void {
@@ -1143,7 +1254,7 @@ function sStatusMarkup(): string {
   const sFx = arrFx.length ? `  ${arrFx.join(' ')}` : ''
   const objCard = arrDeck[nFloor - 1]
   const sName = objCard ? objCard.sName : `Floor ${nFloor}`
-  return `Dlvl:${nFloor}/${nFloorGoal}  ${sName}  ${sLife}${sFx}`
+  return `Dlvl:${nFloor}/${nFloorGoal}  ${sName}  ${sLife}${sFx}  Wins:${nWins}`
 }
 
 function sChecklistMarkup(): string {
@@ -1189,6 +1300,7 @@ function vResetGame(): void {
   nInvisTurns = 0
   nConfuseTurns = 0
   nBlindTurns = 0
+  nSteps = 0
   vClearLog()
   vGenerateDungeon()
   vAppendLog('Welcome to Binarot Rogue.', 'rogue-log-command')
@@ -1200,154 +1312,21 @@ function vResetGame(): void {
   vRefreshUi()
 }
 
-function vOnKeyDown(objEvent: KeyboardEvent): void {
-  if (!bActive) {
-    return
-  }
-
-  const sKey = objEvent.key
-  if (sKey === 'r' || sKey === 'R') {
-    objEvent.preventDefault()
-    vResetGame()
-    return
-  }
-
-  if (bDead || bWon) {
-    return
-  }
-
-  let nDx = 0
-  let nDy = 0
-  switch (sKey) {
-    case 'ArrowLeft':
-    case 'a':
-    case 'A':
-    case 'h':
-    case 'H':
-    case '4':
-      nDx = -1
-      break
-    case 'ArrowRight':
-    case 'd':
-    case 'D':
-    case 'l':
-    case 'L':
-    case '6':
-      nDx = 1
-      break
-    case 'ArrowUp':
-    case 'w':
-    case 'W':
-    case 'k':
-    case 'K':
-    case '8':
-      nDy = -1
-      break
-    case 'ArrowDown':
-    case 's':
-    case 'S':
-    case 'j':
-    case 'J':
-    case '2':
-      nDy = 1
-      break
-    case 'y':
-    case 'Y':
-    case '7':
-      nDx = -1
-      nDy = -1
-      break
-    case 'u':
-    case 'U':
-    case '9':
-      nDx = 1
-      nDy = -1
-      break
-    case 'b':
-    case 'B':
-    case '1':
-      nDx = -1
-      nDy = 1
-      break
-    case 'n':
-    case 'N':
-    case '3':
-      nDx = 1
-      nDy = 1
-      break
-    case '.':
-    case '5':
-      objEvent.preventDefault()
-      vTickStatus()
-      if (!bDead && !bWon) {
-        vEnemyTurn()
-      }
-      vUpdateFov()
-      vRefreshUi()
-      return
-    default:
-      return
-  }
-
-  objEvent.preventDefault()
-  vMovePlayer(nDx, nDy)
-}
-
-function vOnPadClick(objEvent: Event): void {
-  const objTarget = objEvent.target
-  if (!(objTarget instanceof HTMLElement)) {
-    return
-  }
-  if (objTarget.closest('button[data-action="restart"]')) {
-    vResetGame()
-    return
-  }
-  const objBtn = objTarget.closest<HTMLButtonElement>('button[data-dx]')
-  if (!objBtn) {
-    return
-  }
-  if (objBtn.dataset.wait === '1') {
-    if (bDead || bWon) {
-      return
-    }
-    vTickStatus()
-    if (!bDead && !bWon) {
-      vEnemyTurn()
-    }
-    vUpdateFov()
-    vRefreshUi()
-    return
-  }
-  vMovePlayer(Number(objBtn.dataset.dx), Number(objBtn.dataset.dy))
-}
-
 export function sRogueMarkup(): string {
   return `
-    <div class="rogue" id="rogue" tabindex="0" aria-label="Rogue dungeon">
+    <div class="rogue" id="rogue" aria-label="Autonomous rogue dungeon">
       <div class="rogue-status" id="rogue-status" aria-live="polite"></div>
       <div class="rogue-body">
         <pre class="rogue-stage" id="rogue-stage" aria-label="Dungeon map"></pre>
         <div class="rogue-side">
           <div class="rogue-log" id="rogue-log" role="log" aria-relevant="additions"></div>
-          <div class="rogue-pad" id="rogue-pad" aria-label="Movement pad">
-            <button type="button" data-dx="-1" data-dy="-1">y</button>
-            <button type="button" data-dx="0" data-dy="-1">k</button>
-            <button type="button" data-dx="1" data-dy="-1">u</button>
-            <button type="button" data-dx="-1" data-dy="0">h</button>
-            <button type="button" data-dx="0" data-dy="0" data-wait="1">.</button>
-            <button type="button" data-dx="1" data-dy="0">l</button>
-            <button type="button" data-dx="-1" data-dy="1">b</button>
-            <button type="button" data-dx="0" data-dy="1">j</button>
-            <button type="button" data-dx="1" data-dy="1">n</button>
-          </div>
-          <button type="button" class="rogue-restart" data-action="restart">Restart</button>
         </div>
       </div>
       <div class="rogue-checklist-wrap">
         <span class="rogue-checklist-label">Floors</span>
         <ul class="rogue-checklist" id="rogue-checklist" aria-label="Dungeon floors"></ul>
       </div>
-      <p class="rogue-caption">rogue · arrows / wasd / hjkl · bump to fight · &gt; stairs · ! potions</p>
+      <p class="rogue-caption">rogue · autonomous descent · &gt; stairs · ! potions</p>
     </div>
   `
 }
@@ -1360,18 +1339,9 @@ export function vBindRogue(arrCards: tRogueCard[]): void {
   objStage = document.querySelector<HTMLElement>('#rogue-stage')
   objLog = document.querySelector<HTMLElement>('#rogue-log')
   objChecklist = document.querySelector<HTMLElement>('#rogue-checklist')
-  const objPad = document.querySelector<HTMLElement>('#rogue-pad')
 
-  if (!objRoot || !objStatus || !objStage || !objLog || !objChecklist || !objPad) {
+  if (!objRoot || !objStatus || !objStage || !objLog || !objChecklist) {
     return
-  }
-
-  if (!bBound) {
-    window.addEventListener('keydown', vOnKeyDown)
-    objPad.addEventListener('click', vOnPadClick)
-    objRoot.querySelector('.rogue-restart')?.addEventListener('click', () => vResetGame())
-    objRoot.addEventListener('click', () => objRoot?.focus())
-    bBound = true
   }
 
   vResetGame()
@@ -1380,6 +1350,11 @@ export function vBindRogue(arrCards: tRogueCard[]): void {
 export function vSetRogueActive(bNext: boolean): void {
   bActive = bNext
   if (bNext) {
-    objRoot?.focus()
+    if (bDead || bWon) {
+      vResetGame()
+    }
+    vStartAutoplay()
+  } else {
+    vStopAutoplay()
   }
 }

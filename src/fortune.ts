@@ -284,7 +284,7 @@ function vRenderFortune(arrCards: tFortuneCard[]): void {
   objStage.innerHTML = `
     <div class="fortune-board">
       <div class="fortune-board-bar">
-        <span>BINAROT FORTUNE EXCHANGE</span>
+        <span>BINAROT FORTUNE TICKER</span>
         <span class="fortune-live"><span aria-hidden="true"></span> LIVE</span>
       </div>
       ${sFortuneChartMarkup(

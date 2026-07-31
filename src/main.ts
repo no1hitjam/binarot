@@ -591,7 +591,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </section>
 
     <section class="tab-panel" data-panel="fortune">
-      <h2>Fortune Exchange</h2>
+      <h2>Fortune Ticker</h2>
       <p class="reading-intro">
         Live luck for all sixteen signs, split into upper (<code>0</code>–<code>111</code>) and lower
         (<code>1000</code>–<code>1111</code>) charts. Every node is one hour; hover or tap a ranking

@@ -38,6 +38,25 @@ type tSeat = {
   bFinished: boolean
 }
 
+type tHairStyle = 'short' | 'bob' | 'long' | 'slick' | 'messy'
+
+type tBotLook = {
+  sHair: string
+  sEyes: string
+  sAccent: string
+  sSkin: string
+  sHairStyle: tHairStyle
+  sJacket: string
+  sJacketDark: string
+}
+
+type tBotDef = {
+  sId: string
+  sName: string
+  nStandAt: number
+  objLook: tBotLook
+}
+
 const nTarget = 31
 const nDealerStand = 24
 const nMinShoe = 12
@@ -53,11 +72,53 @@ const arrFaceRanks: tFaceRank[] = [
   { sName: 'The Castle', sKind: 'castle', sMark: 'C' },
   { sName: 'The Hall', sKind: 'hall', sMark: 'H' },
 ]
-const arrBotDefs = [
-  { sId: 'bit', sName: 'Mr. Bit', nStandAt: 22 },
-  { sId: 'nix', sName: 'Ms. Nix', nStandAt: 24 },
-  { sId: 'lex', sName: 'Mrs. Lex', nStandAt: 26 },
+const arrBotDefs: tBotDef[] = [
+  {
+    sId: 'bit',
+    sName: 'Mr. Bit',
+    nStandAt: 22,
+    objLook: {
+      sHair: '#1e2438',
+      sEyes: '#4a78c8',
+      sAccent: '#6a9ae0',
+      sSkin: '#e6c09a',
+      sHairStyle: 'slick',
+      sJacket: '#2a4a8a',
+      sJacketDark: '#152848',
+    },
+  },
+  {
+    sId: 'nix',
+    sName: 'Ms. Nix',
+    nStandAt: 24,
+    objLook: {
+      sHair: '#2a4038',
+      sEyes: '#3a9a6a',
+      sAccent: '#5ec89a',
+      sSkin: '#c49a70',
+      sHairStyle: 'bob',
+      sJacket: '#2a6a4a',
+      sJacketDark: '#143828',
+    },
+  },
+  {
+    sId: 'lex',
+    sName: 'Mrs. Lex',
+    nStandAt: 26,
+    objLook: {
+      sHair: '#5a2840',
+      sEyes: '#c86890',
+      sAccent: '#e090b0',
+      sSkin: '#f0d4cc',
+      sHairStyle: 'long',
+      sJacket: '#8a3060',
+      sJacketDark: '#4a1834',
+    },
+  },
 ]
+const mapBotLook: Record<string, tBotLook> = Object.fromEntries(
+  arrBotDefs.map((objBot) => [objBot.sId, objBot.objLook]),
+)
 const sStorageKey = 'binarot_fifteen'
 
 type tFifteenSave = {
@@ -433,6 +494,143 @@ function objVisibleSeat(): tSeat {
   return objHuman()
 }
 
+function nSkinLuma(sSkin: string): number {
+  const sHex = sSkin.replace('#', '')
+  if (sHex.length !== 6) {
+    return 200
+  }
+  const nR = Number.parseInt(sHex.slice(0, 2), 16)
+  const nG = Number.parseInt(sHex.slice(2, 4), 16)
+  const nB = Number.parseInt(sHex.slice(4, 6), 16)
+  return 0.2126 * nR + 0.7152 * nG + 0.0722 * nB
+}
+
+function sBlushFill(sSkin: string): string {
+  const nLuma = nSkinLuma(sSkin)
+  if (nLuma < 140) {
+    return 'rgba(200, 90, 100, 0.34)'
+  }
+  return 'rgba(232, 120, 140, 0.28)'
+}
+
+function sLipStroke(sSkin: string): string {
+  return nSkinLuma(sSkin) < 140 ? '#b86878' : '#c07080'
+}
+
+function sHairBackMarkup(objLook: tBotLook): string {
+  const sH = objLook.sHair
+  if (objLook.sHairStyle === 'long') {
+    return `
+      <path fill="${sH}" d="M52 88 C40 72 40 48 58 36 C78 22 122 22 142 36 C160 48 160 72 148 88
+        L156 200 C150 220 130 228 100 228 C70 228 50 220 44 200 Z"/>
+    `
+  }
+  if (objLook.sHairStyle === 'bob') {
+    return `
+      <path fill="${sH}" d="M54 96 C44 74 50 46 72 36 C98 24 128 26 144 42 C158 56 158 78 150 96
+        L152 150 C146 168 128 176 100 176 C72 176 54 168 48 150 Z"/>
+    `
+  }
+  return `
+    <path fill="${sH}" d="M54 96 C44 74 50 46 72 36 C98 24 128 26 144 42 C158 56 158 78 150 96 Z"/>
+  `
+}
+
+function sHairFrontMarkup(objLook: tBotLook): string {
+  const sH = objLook.sHair
+  // Keep the top of the fringe buried in the crown, but end the bangs
+  // just below the skull line (~52) so they sit high on the forehead.
+  if (objLook.sHairStyle === 'slick') {
+    return `
+      <path fill="${sH}" d="M54 70 C58 44 82 32 100 32 C120 32 142 44 146 70
+        C134 58 118 54 100 54 C82 54 66 60 54 70 Z"/>
+      <path fill="${sH}" d="M60 62 L48 96 L58 98 L70 70 Z"/>
+    `
+  }
+  if (objLook.sHairStyle === 'bob') {
+    return `
+      <path fill="${sH}" d="M50 74 C54 46 78 34 100 34 C122 34 146 46 150 74
+        C140 62 120 58 100 58 C80 58 60 64 50 74 Z"/>
+      <path fill="${sH}" d="M48 78 C44 100 50 118 58 126 L66 82 Z"/>
+      <path fill="${sH}" d="M152 78 C156 100 150 118 142 126 L134 82 Z"/>
+    `
+  }
+  if (objLook.sHairStyle === 'long') {
+    return `
+      <path fill="${sH}" d="M52 72 C56 44 80 32 100 32 C120 32 144 44 148 72
+        C136 60 116 56 100 56 C84 56 64 62 52 72 Z"/>
+      <path fill="${sH}" d="M56 68 L44 120 L54 122 L68 78 Z"/>
+      <path fill="${sH}" d="M144 68 L156 120 L146 122 L132 78 Z"/>
+    `
+  }
+  if (objLook.sHairStyle === 'messy') {
+    return `
+      <path fill="${sH}" d="M52 72 C56 46 80 32 100 34 C118 28 142 44 148 72
+        C136 60 118 54 100 54 C82 56 66 64 52 72 Z"/>
+      <path fill="${sH}" d="M72 40 L66 20 L84 42 Z"/>
+      <path fill="${sH}" d="M118 38 L128 16 L132 44 Z"/>
+    `
+  }
+  return `
+    <path fill="${sH}" d="M52 74 C56 46 80 34 100 34 C120 34 144 46 148 74
+      C136 62 116 58 100 58 C84 58 64 64 52 74 Z"/>
+  `
+}
+
+function sBotPortraitMarkup(sId: string): string {
+  const objLook = mapBotLook[sId]
+  if (!objLook) {
+    return ''
+  }
+  const sBlush = sBlushFill(objLook.sSkin)
+  const sLip = sLipStroke(objLook.sSkin)
+  const sGradId = `fifteen-jacket-${sId}`
+  return `
+    <div class="fifteen-portrait" aria-hidden="true">
+      <svg class="fifteen-portrait-svg" viewBox="18 18 164 164" focusable="false">
+        <defs>
+          <clipPath id="fifteen-portrait-clip-${sId}">
+            <circle cx="100" cy="100" r="80"/>
+          </clipPath>
+          <linearGradient id="${sGradId}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="${objLook.sJacket}"/>
+            <stop offset="100%" stop-color="${objLook.sJacketDark}"/>
+          </linearGradient>
+        </defs>
+        <circle cx="100" cy="100" r="84" fill="${objLook.sAccent}" opacity="0.2"/>
+        <g clip-path="url(#fifteen-portrait-clip-${sId})">
+          <circle cx="100" cy="100" r="80" fill="#0a0610"/>
+          ${sHairBackMarkup(objLook)}
+          <path fill="url(#${sGradId})" d="M40 190 C50 156 70 138 100 138 C130 138 150 156 160 190
+            L168 240 H32 Z"/>
+          <path fill="#f4efe8" d="M88 148 H112 L118 168 H82 Z"/>
+          <path fill="${objLook.sAccent}" opacity="0.85" d="M82 168 H118 L122 178 H78 Z"/>
+          <ellipse fill="${objLook.sSkin}" cx="100" cy="108" rx="48" ry="56"/>
+          <ellipse fill="${objLook.sSkin}" cx="100" cy="160" rx="14" ry="12"/>
+          <ellipse fill="${sBlush}" cx="68" cy="118" rx="10" ry="6"/>
+          <ellipse fill="${sBlush}" cx="132" cy="118" rx="10" ry="6"/>
+          <ellipse fill="#fff" cx="80" cy="108" rx="10" ry="12"/>
+          <ellipse fill="#fff" cx="120" cy="108" rx="10" ry="12"/>
+          <ellipse fill="${objLook.sEyes}" cx="80" cy="110" rx="5" ry="7"/>
+          <ellipse fill="${objLook.sEyes}" cx="120" cy="110" rx="5" ry="7"/>
+          <circle fill="#1a1020" cx="80" cy="111" r="2.5"/>
+          <circle fill="#1a1020" cx="120" cy="111" r="2.5"/>
+          <circle fill="#fff" cx="78" cy="108" r="1.2"/>
+          <circle fill="#fff" cx="118" cy="108" r="1.2"/>
+          <path fill="none" stroke="#2a2030" stroke-width="2.2" stroke-linecap="round"
+            d="M70 96 Q80 90 90 96"/>
+          <path fill="none" stroke="#2a2030" stroke-width="2.2" stroke-linecap="round"
+            d="M110 96 Q120 90 130 96"/>
+          <path fill="none" stroke="${sLip}" stroke-width="2" stroke-linecap="round"
+            d="M92 132 Q100 138 108 132"/>
+          ${sHairFrontMarkup(objLook)}
+        </g>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="${objLook.sAccent}" stroke-width="3.5" opacity="0.6"/>
+      </svg>
+    </div>
+  `
+}
+
 function sSeatMarkup(objSeat: tSeat, bTakeover: boolean): string {
   const bActive =
     (sPhase === 'ai' && !objSeat.bHuman) ||
@@ -444,11 +642,14 @@ function sSeatMarkup(objSeat: tSeat, bTakeover: boolean): string {
   const sYou = objSeat.bHuman ? ' is-you' : ''
   const sTakeover = bTakeover ? ' is-takeover' : ''
   const sOutClass = sResult ? ` is-${sResult}` : ''
+  const sTitle = objSeat.bHuman
+    ? `<h3>${objSeat.sName}</h3>`
+    : `<div class="fifteen-seat-identity">${sBotPortraitMarkup(objSeat.sId)}<div class="fifteen-seat-title"><h3>${objSeat.sName}</h3><p class="fifteen-seat-role">Fellow player</p></div></div>`
 
   return `
     <section class="fifteen-seat fifteen-player-stage${sYou}${sActive}${sTakeover}${sOutClass}" data-seat="${objSeat.sId}" aria-label="${objSeat.sName}">
       <header class="fifteen-seat-head">
-        <h3>${objSeat.sName}</h3>
+        ${sTitle}
         <div class="fifteen-seat-bank">
           ${sResult ? `<span class="fifteen-outcome">${sResult}</span>` : ''}
         </div>

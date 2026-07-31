@@ -36,8 +36,22 @@ type tItem = {
   nX: number
   nY: number
   sGlyph: string
-  sCardId?: string
+  bStairs?: boolean
   sPotion?: tPotionKind
+}
+
+type tFloorPalette = {
+  sBg: string
+  sSide: string
+  sStatus: string
+  sWall: string
+  sFloor: string
+  sFog: string
+  sPlayer: string
+  sMob: string
+  sStairs: string
+  sPotion: string
+  sAccent: string
 }
 
 type tRoom = {
@@ -51,12 +65,12 @@ const nMapW = 48
 const nMapH = 28
 const nFovRadius = 7
 const nPlayerMaxHp = 24
-const nCardGoal = 16
+const nFloorGoal = 16
 const nRoomAttempts = 40
 const nMinRoomSize = 4
 const nMaxRoomSize = 8
-const nMonsterCount = 10
-const nPotionCount = 8
+const nMonsterBase = 8
+const nPotionCount = 4
 const nShieldGain = 5
 const nPowerBonus = 3
 const nPowerDuration = 8
@@ -86,14 +100,240 @@ const arrPotionKinds: tPotionKind[] = [
   'blast',
 ]
 
+/** One palette per binarot card / dungeon floor, in deck order. */
+const arrFloorPalettes: tFloorPalette[] = [
+  {
+    // The Seed — damp earth, first sprout
+    sBg: '#0a1008',
+    sSide: '#060a05',
+    sStatus: '#1a2814',
+    sWall: '#3d5a32',
+    sFloor: '#2a3824',
+    sFog: '#1a2218',
+    sPlayer: '#a8e07a',
+    sMob: '#c45a4a',
+    sStairs: '#d4e878',
+    sPotion: '#6a9e5a',
+    sAccent: '#7cb85c',
+  },
+  {
+    // The Flag — planted claim, banner red
+    sBg: '#140808',
+    sSide: '#0c0404',
+    sStatus: '#2a1010',
+    sWall: '#7a3038',
+    sFloor: '#3a2024',
+    sFog: '#241414',
+    sPlayer: '#f0c060',
+    sMob: '#ff5060',
+    sStairs: '#e8a020',
+    sPotion: '#c05070',
+    sAccent: '#e05050',
+  },
+  {
+    // The Call — interrupt signal, cyan ping
+    sBg: '#061018',
+    sSide: '#040c12',
+    sStatus: '#102030',
+    sWall: '#286888',
+    sFloor: '#1a3040',
+    sFog: '#101c28',
+    sPlayer: '#70e8ff',
+    sMob: '#ff7090',
+    sStairs: '#40c8f0',
+    sPotion: '#5090c8',
+    sAccent: '#38b8e0',
+  },
+  {
+    // The Link — bridge magenta, paired contact
+    sBg: '#100818',
+    sSide: '#0a0410',
+    sStatus: '#201028',
+    sWall: '#683878',
+    sFloor: '#302038',
+    sFog: '#1c1024',
+    sPlayer: '#f0a0e0',
+    sMob: '#ff6080',
+    sStairs: '#d070f0',
+    sPotion: '#9070c8',
+    sAccent: '#c060d8',
+  },
+  {
+    // The Host — hearth amber, warm welcome
+    sBg: '#141008',
+    sSide: '#0c0804',
+    sStatus: '#282010',
+    sWall: '#8a6840',
+    sFloor: '#3a3020',
+    sFog: '#221c10',
+    sPlayer: '#ffe090',
+    sMob: '#d05040',
+    sStairs: '#f0b040',
+    sPotion: '#c88840',
+    sAccent: '#e0a048',
+  },
+  {
+    // The Fork — split path, dual teal
+    sBg: '#081412',
+    sSide: '#040c0a',
+    sStatus: '#102820',
+    sWall: '#287868',
+    sFloor: '#1c3830',
+    sFog: '#10241c',
+    sPlayer: '#60f0c8',
+    sMob: '#e07050',
+    sStairs: '#40e0a8',
+    sPotion: '#40a888',
+    sAccent: '#38c8a0',
+  },
+  {
+    // The Port — deep harbor, night water
+    sBg: '#060c18',
+    sSide: '#040814',
+    sStatus: '#101c30',
+    sWall: '#304878',
+    sFloor: '#182438',
+    sFog: '#0c1424',
+    sPlayer: '#90c8ff',
+    sMob: '#ff6a5a',
+    sStairs: '#5090e8',
+    sPotion: '#4070b0',
+    sAccent: '#4880d0',
+  },
+  {
+    // The Tree — canopy green, root brown
+    sBg: '#0a140a',
+    sSide: '#060e06',
+    sStatus: '#182818',
+    sWall: '#406030',
+    sFloor: '#243820',
+    sFog: '#142018',
+    sPlayer: '#c0e860',
+    sMob: '#b05040',
+    sStairs: '#88c840',
+    sPotion: '#589048',
+    sAccent: '#68a840',
+  },
+  {
+    // The Agent — steel slate, covert grey
+    sBg: '#0c0e12',
+    sSide: '#08090c',
+    sStatus: '#1a1e28',
+    sWall: '#505868',
+    sFloor: '#282c38',
+    sFog: '#161820',
+    sPlayer: '#c8d0e0',
+    sMob: '#e05060',
+    sStairs: '#8898b0',
+    sPotion: '#687898',
+    sAccent: '#7888a0',
+  },
+  {
+    // The Table — parchment, ink brown
+    sBg: '#14100c',
+    sSide: '#0c0806',
+    sStatus: '#281e14',
+    sWall: '#786048',
+    sFloor: '#3a3024',
+    sFog: '#201810',
+    sPlayer: '#f0d8a0',
+    sMob: '#c04040',
+    sStairs: '#d0a060',
+    sPotion: '#a07848',
+    sAccent: '#c09858',
+  },
+  {
+    // The Clone — mirrored silver-cyan
+    sBg: '#0c1014',
+    sSide: '#080c10',
+    sStatus: '#182028',
+    sWall: '#487088',
+    sFloor: '#243038',
+    sFog: '#141c24',
+    sPlayer: '#b0f0f8',
+    sMob: '#ff5878',
+    sStairs: '#70d8e8',
+    sPotion: '#5898b0',
+    sAccent: '#60c0d0',
+  },
+  {
+    // The Cache — vault gold on shadow
+    sBg: '#100c04',
+    sSide: '#0a0802',
+    sStatus: '#241c08',
+    sWall: '#786028',
+    sFloor: '#342c14',
+    sFog: '#1c1808',
+    sPlayer: '#ffe060',
+    sMob: '#c04838',
+    sStairs: '#e8c020',
+    sPotion: '#b09030',
+    sAccent: '#d0a828',
+  },
+  {
+    // The Frame — scaffold orange, structure
+    sBg: '#141008',
+    sSide: '#0c0804',
+    sStatus: '#2a2010',
+    sWall: '#886038',
+    sFloor: '#3a2c1c',
+    sFog: '#221810',
+    sPlayer: '#ffb060',
+    sMob: '#e04050',
+    sStairs: '#f08830',
+    sPotion: '#c07040',
+    sAccent: '#e07830',
+  },
+  {
+    // The Shell — pearl, protective hush
+    sBg: '#101014',
+    sSide: '#0a0a0e',
+    sStatus: '#202028',
+    sWall: '#686878',
+    sFloor: '#303038',
+    sFog: '#18181e',
+    sPlayer: '#f0e8f0',
+    sMob: '#d05070',
+    sStairs: '#c8b8d0',
+    sPotion: '#9080a0',
+    sAccent: '#a898b0',
+  },
+  {
+    // The Forum — civic bronze, marble discourse
+    sBg: '#12100c',
+    sSide: '#0c0a06',
+    sStatus: '#28241c',
+    sWall: '#706048',
+    sFloor: '#343028',
+    sFog: '#1c1a14',
+    sPlayer: '#e8d8b0',
+    sMob: '#c84840',
+    sStairs: '#c8a868',
+    sPotion: '#988060',
+    sAccent: '#b09860',
+  },
+  {
+    // The State — sovereign black-gold finale
+    sBg: '#08060a',
+    sSide: '#040308',
+    sStatus: '#1a1420',
+    sWall: '#5a4870',
+    sFloor: '#282030',
+    sFog: '#141018',
+    sPlayer: '#ffe08a',
+    sMob: '#ff4a68',
+    sStairs: '#e0b83a',
+    sPotion: '#8b4dff',
+    sAccent: '#e0b83a',
+  },
+]
+
 let arrDeck: tRogueCard[] = []
-let mapCardById: Record<string, tRogueCard> = {}
 
 let arrGrid: tCell[][] = []
 let arrActors: tActor[] = []
 let arrItems: tItem[] = []
 let objPlayer: tActor | null = null
-let setFound: Set<string> = new Set()
 let nFloor = 1
 let nShield = 0
 let nPowerTurns = 0
@@ -400,9 +640,9 @@ function bTeleportPlayer(): boolean {
   return true
 }
 
-function vDrinkPotion(sKind: tPotionKind): void {
+function vDrinkPotion(sKind: tPotionKind): boolean {
   if (!objPlayer) {
-    return
+    return false
   }
   if (sKind === 'shield') {
     nShield += nShieldGain
@@ -450,14 +690,14 @@ function vDrinkPotion(sKind: tPotionKind): void {
   } else if (sKind === 'teleport') {
     if (bTeleportPlayer()) {
       vAppendLog('You quaff a flickering potion. Space folds — you reappear elsewhere.', 'rogue-log-success')
-      vTryPickup()
-    } else {
-      vAppendLog('You quaff a flickering potion. Nothing happens.', 'rogue-log-system')
+      return vTryPickup()
     }
+    vAppendLog('You quaff a flickering potion. Nothing happens.', 'rogue-log-system')
   } else {
     vAppendLog('You quaff a volatile potion. It detonates around you!', 'rogue-log-success')
     vBlastNearby()
   }
+  return false
 }
 
 function vTickStatus(): void {
@@ -509,38 +749,75 @@ function vTickStatus(): void {
   }
 }
 
-function vTryPickup(): void {
+function vTryPickup(): boolean {
   if (!objPlayer || bDead || bWon) {
-    return
+    return false
   }
   const objItem = objItemAt(objPlayer.nX, objPlayer.nY)
   if (!objItem) {
-    return
+    return false
   }
 
   if (objItem.sPotion) {
     arrItems = arrItems.filter((objOther) => objOther !== objItem)
-    vDrinkPotion(objItem.sPotion)
-    return
+    return vDrinkPotion(objItem.sPotion)
   }
 
-  if (!objItem.sCardId) {
+  if (objItem.bStairs) {
+    vDescend()
+    return true
+  }
+  return false
+}
+
+function vDescend(): void {
+  if (!objPlayer || bDead || bWon) {
     return
   }
-  const objCard = mapCardById[objItem.sCardId]
-  if (!objCard) {
-    return
-  }
-  setFound.add(objCard.sBinaryValue)
-  arrItems = arrItems.filter((objOther) => objOther !== objItem)
-  vAppendLog(
-    `You pick up ${objCard.sName} (${objCard.sBinaryValue}). [${setFound.size}/${nCardGoal}]`,
-    'rogue-log-success',
-  )
-  if (setFound.size >= nCardGoal) {
+  if (nFloor >= nFloorGoal) {
     bWon = true
-    vAppendLog('The deck is complete. The dungeon yields.', 'rogue-log-success')
+    vAppendLog(
+      `You clear ${sFloorName()}. The sixteen floors fall silent.`,
+      'rogue-log-success',
+    )
+    return
   }
+  const nHp = objPlayer.nHp
+  nFloor += 1
+  vGenerateDungeon(nHp)
+  vAppendLog(`You descend the stairs into ${sFloorName()}.`, 'rogue-log-success')
+}
+
+function sFloorName(): string {
+  const objCard = arrDeck[nFloor - 1]
+  if (!objCard) {
+    return `Floor ${nFloor}`
+  }
+  return `${objCard.sName} (${objCard.sBinaryValue})`
+}
+
+function objFloorPalette(): tFloorPalette {
+  const nIndex = Math.max(0, Math.min(arrFloorPalettes.length - 1, nFloor - 1))
+  return arrFloorPalettes[nIndex]!
+}
+
+function vApplyPalette(): void {
+  if (!objRoot) {
+    return
+  }
+  const objPal = objFloorPalette()
+  objRoot.style.setProperty('--rogue-bg', objPal.sBg)
+  objRoot.style.setProperty('--rogue-side', objPal.sSide)
+  objRoot.style.setProperty('--rogue-status-bg', objPal.sStatus)
+  objRoot.style.setProperty('--rogue-wall', objPal.sWall)
+  objRoot.style.setProperty('--rogue-floor', objPal.sFloor)
+  objRoot.style.setProperty('--rogue-fog', objPal.sFog)
+  objRoot.style.setProperty('--rogue-player', objPal.sPlayer)
+  objRoot.style.setProperty('--rogue-mob', objPal.sMob)
+  objRoot.style.setProperty('--rogue-stairs', objPal.sStairs)
+  objRoot.style.setProperty('--rogue-potion', objPal.sPotion)
+  objRoot.style.setProperty('--rogue-accent', objPal.sAccent)
+  objRoot.dataset.floor = String(nFloor)
 }
 
 function vMovePlayer(nDx: number, nDy: number): void {
@@ -594,7 +871,11 @@ function vMovePlayer(nDx: number, nDy: number): void {
 
   objPlayer.nX = nNx
   objPlayer.nY = nNy
-  vTryPickup()
+  if (vTryPickup()) {
+    vUpdateFov()
+    vRefreshUi()
+    return
+  }
   vTickStatus()
   if (!bDead && !bWon) {
     vEnemyTurn()
@@ -655,6 +936,7 @@ function vEnemyTurn(): void {
 }
 
 function vPlaceMonsters(arrRooms: tRoom[]): void {
+  const nMonsterCount = nMonsterBase + Math.floor((nFloor - 1) / 2)
   let nPlaced = 0
   let nGuard = 0
   while (nPlaced < nMonsterCount && nGuard < 200) {
@@ -666,12 +948,13 @@ function vPlaceMonsters(arrRooms: tRoom[]): void {
       continue
     }
     const nKind = nRandInt(0, arrMonsterGlyphs.length - 1)
+    const nFloorBonus = Math.floor((nFloor - 1) / 4)
     arrActors.push({
       nX,
       nY,
       sGlyph: arrMonsterGlyphs[nKind]!,
-      nHp: 2 + nRandInt(0, 3),
-      nAtk: 1 + nRandInt(0, 1),
+      nHp: 2 + nRandInt(0, 3) + nFloorBonus,
+      nAtk: 1 + nRandInt(0, 1) + (nFloor >= 9 ? 1 : 0),
       bPlayer: false,
       sName: arrMonsterNames[nKind]!,
     })
@@ -679,32 +962,28 @@ function vPlaceMonsters(arrRooms: tRoom[]): void {
   }
 }
 
-function vPlaceCards(arrRooms: tRoom[]): void {
-  const arrShuffled = [...arrDeck].sort(() => Math.random() - 0.5)
+function vPlaceStairs(arrRooms: tRoom[]): void {
   const arrTargets = arrRooms.slice(1)
-  for (let nIndex = 0; nIndex < arrShuffled.length; nIndex += 1) {
-    const objCard = arrShuffled[nIndex]!
-    const objRoom = arrTargets[nIndex % arrTargets.length]!
-    let nX = 0
-    let nY = 0
-    let bOk = false
-    for (let nTry = 0; nTry < 30; nTry += 1) {
-      nX = nRandInt(objRoom.nX, objRoom.nX + objRoom.nW - 1)
-      nY = nRandInt(objRoom.nY, objRoom.nY + objRoom.nH - 1)
-      if (bWalkable(nX, nY) && !objItemAt(nX, nY)) {
-        bOk = true
-        break
-      }
+  if (arrTargets.length === 0) {
+    return
+  }
+  for (let nTry = 0; nTry < 80; nTry += 1) {
+    const objRoom = arrTargets[nRandInt(0, arrTargets.length - 1)]!
+    const nX = nRandInt(objRoom.nX, objRoom.nX + objRoom.nW - 1)
+    const nY = nRandInt(objRoom.nY, objRoom.nY + objRoom.nH - 1)
+    if (!bWalkable(nX, nY) || objItemAt(nX, nY)) {
+      continue
     }
-    if (!bOk) {
+    if (objPlayer && nX === objPlayer.nX && nY === objPlayer.nY) {
       continue
     }
     arrItems.push({
       nX,
       nY,
-      sCardId: objCard.sBinaryValue,
-      sGlyph: '*',
+      sGlyph: '>',
+      bStairs: true,
     })
+    return
   }
 }
 
@@ -729,7 +1008,7 @@ function vPlacePotions(arrRooms: tRoom[]): void {
   }
 }
 
-function vGenerateDungeon(): void {
+function vGenerateDungeon(nHp: number = nPlayerMaxHp): void {
   vInitGrid()
   arrActors = []
   arrItems = []
@@ -762,15 +1041,16 @@ function vGenerateDungeon(): void {
     nX: objStart.nX,
     nY: objStart.nY,
     sGlyph: '@',
-    nHp: nPlayerMaxHp,
+    nHp: Math.max(1, Math.min(nPlayerMaxHp, nHp)),
     nAtk: 2,
     bPlayer: true,
     sName: 'you',
   }
   arrActors.push(objPlayer)
   vPlaceMonsters(arrRooms)
-  vPlaceCards(arrRooms)
+  vPlaceStairs(arrRooms)
   vPlacePotions(arrRooms)
+  vApplyPalette()
   vUpdateFov()
 }
 
@@ -813,6 +1093,8 @@ function sMapMarkup(): string {
             sClass += ' is-mob'
           } else if (objItemAt(nX, nY)?.sPotion) {
             sClass += ' is-potion'
+          } else if (objItemAt(nX, nY)?.bStairs) {
+            sClass += ' is-stairs'
           } else {
             sClass += ' is-loot'
           }
@@ -859,16 +1141,27 @@ function sStatusMarkup(): string {
     arrFx.push(`Poison:${nPoisonTurns}`)
   }
   const sFx = arrFx.length ? `  ${arrFx.join(' ')}` : ''
-  return `Dlvl:${nFloor}  ${sLife}  Cards:${setFound.size}/${nCardGoal}${sFx}`
+  const objCard = arrDeck[nFloor - 1]
+  const sName = objCard ? objCard.sName : `Floor ${nFloor}`
+  return `Dlvl:${nFloor}/${nFloorGoal}  ${sName}  ${sLife}${sFx}`
 }
 
 function sChecklistMarkup(): string {
   return arrDeck
-    .map((objCard) => {
-      const bFound = setFound.has(objCard.sBinaryValue)
+    .map((objCard, nIndex) => {
+      const nCardFloor = nIndex + 1
+      const bCleared = bWon || nCardFloor < nFloor
+      const bCurrent = !bWon && nCardFloor === nFloor
+      let sState = 'is-pending'
+      if (bCleared) {
+        sState = 'is-cleared'
+      } else if (bCurrent) {
+        sState = 'is-current'
+      }
+      const sMark = bCleared ? '*' : bCurrent ? '>' : '·'
       return `
-        <li class="rogue-check-item${bFound ? ' is-found' : ''}">
-          <span class="rogue-check-mark" aria-hidden="true">${bFound ? '*' : '·'}</span>
+        <li class="rogue-check-item ${sState}">
+          <span class="rogue-check-mark" aria-hidden="true">${sMark}</span>
           <span class="rogue-check-name">${objCard.sName}</span>
           <span class="binary-value">${objCard.sBinaryValue}</span>
         </li>
@@ -881,13 +1174,13 @@ function vRefreshUi(): void {
   if (!objStatus || !objStage || !objChecklist) {
     return
   }
+  vApplyPalette()
   objStatus.textContent = sStatusMarkup()
   objStage.innerHTML = sMapMarkup()
   objChecklist.innerHTML = sChecklistMarkup()
 }
 
 function vResetGame(): void {
-  setFound = new Set()
   nFloor = 1
   nShield = 0
   nPowerTurns = 0
@@ -899,8 +1192,11 @@ function vResetGame(): void {
   vClearLog()
   vGenerateDungeon()
   vAppendLog('Welcome to Binarot Rogue.', 'rogue-log-command')
-  vAppendLog('Find all sixteen cards. Move with arrows, WASD, or hjkl. Bump to fight.', 'rogue-log-system')
-  vAppendLog('Cards are * ; potions are ! and quaff on contact — effects vary wildly.', 'rogue-log-system')
+  vAppendLog(
+    `Descend through all ${nFloorGoal} floors, each named for a card. You stand in ${sFloorName()}.`,
+    'rogue-log-system',
+  )
+  vAppendLog('Stairs are > ; potions are ! and quaff on contact — effects vary wildly.', 'rogue-log-system')
   vRefreshUi()
 }
 
@@ -1048,20 +1344,16 @@ export function sRogueMarkup(): string {
         </div>
       </div>
       <div class="rogue-checklist-wrap">
-        <span class="rogue-checklist-label">Deck</span>
-        <ul class="rogue-checklist" id="rogue-checklist" aria-label="Collected cards"></ul>
+        <span class="rogue-checklist-label">Floors</span>
+        <ul class="rogue-checklist" id="rogue-checklist" aria-label="Dungeon floors"></ul>
       </div>
-      <p class="rogue-caption">rogue · arrows / wasd / hjkl · bump to fight · * cards · ! potions</p>
+      <p class="rogue-caption">rogue · arrows / wasd / hjkl · bump to fight · &gt; stairs · ! potions</p>
     </div>
   `
 }
 
 export function vBindRogue(arrCards: tRogueCard[]): void {
   arrDeck = arrCards
-  mapCardById = {}
-  for (const objCard of arrDeck) {
-    mapCardById[objCard.sBinaryValue] = objCard
-  }
 
   objRoot = document.querySelector<HTMLElement>('#rogue')
   objStatus = document.querySelector<HTMLElement>('#rogue-status')

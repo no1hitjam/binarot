@@ -12,11 +12,12 @@ import { sForestMarkup, vBindForest, vSetForestActive } from './forest'
 import { sCollectMarkup, vBindCollect, vSetCollectActive } from './collect'
 import { sCollectionMarkup, vBindCollection, vSetCollectionActive } from './collection'
 import { sSchoolMarkup, vBindSchool, vSetSchoolActive } from './school'
-import { sDiamondMarkup, vBindDiamond, vSetDiamondActive } from './diamond'
+import { sPrismMarkup, vBindPrism, vSetPrismActive } from './prism'
 import { sRogueMarkup, vBindRogue, vSetRogueActive } from './rogue'
 import { sFifteenMarkup, vBindFifteen, vSetFifteenActive } from './fifteen'
 import { sPickupMarkup, vBindPickup, vSetPickupActive } from './pickup'
 import { sDreamMarkup, vBindDream, vSetDreamActive } from './dream'
+import { sFortuneMarkup, vSetFortuneActive } from './fortune'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sStarmapMarkup, vBindStarmapHover } from './starmap'
@@ -495,6 +496,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button is-active" data-tab="cards" aria-selected="true">Cards</button>
       <button type="button" class="tab-button" data-tab="reading" aria-selected="false">Reading</button>
       <button type="button" class="tab-button" data-tab="quiz" aria-selected="false">Quiz</button>
+      <button type="button" class="tab-button" data-tab="fortune" aria-selected="false">Fortune</button>
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
       <button type="button" class="tab-button" data-tab="gems" aria-selected="false">Gems</button>
@@ -507,7 +509,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="packs" aria-selected="false">Packs</button>
       <button type="button" class="tab-button" data-tab="collection" aria-selected="false">Collection</button>
       <button type="button" class="tab-button" data-tab="school" aria-selected="false">School</button>
-      <button type="button" class="tab-button" data-tab="diamond" aria-selected="false">Diamond</button>
+      <button type="button" class="tab-button" data-tab="prism" aria-selected="false">Prism</button>
       <button type="button" class="tab-button" data-tab="rogue" aria-selected="false">Rogue</button>
       <button type="button" class="tab-button" data-tab="fifteen" aria-selected="false">Thirty-one</button>
       <button type="button" class="tab-button" data-tab="pickup" aria-selected="false">Pickup</button>
@@ -586,6 +588,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         Each question has four choices; your pattern of answers reveals your sign.
       </p>
       <div class="quiz-stage" id="quiz-stage"></div>
+    </section>
+
+    <section class="tab-panel" data-panel="fortune">
+      <h2>Fortune Exchange</h2>
+      <p class="reading-intro">
+        Live luck for all sixteen signs, split into upper (<code>0</code>–<code>111</code>) and lower
+        (<code>1000</code>–<code>1111</code>) charts. Every node is one hour; hover or tap a ranking
+        to isolate that sign’s line.
+      </p>
+      ${sFortuneMarkup()}
     </section>
 
     <section class="tab-panel" data-panel="starmap">
@@ -694,20 +706,21 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       ${sSchoolMarkup()}
     </section>
 
-    <section class="tab-panel" data-panel="diamond">
-      <h2>Diamond</h2>
+    <section class="tab-panel" data-panel="prism">
+      <h2>Prism</h2>
       <p class="reading-intro">
         Crystal scenes cycle through the void—geometry, particles, and color shift
         while binarot signs drift the perimeter. Move to drift the gaze.
       </p>
-      ${sDiamondMarkup()}
+      ${sPrismMarkup()}
     </section>
 
     <section class="tab-panel" data-panel="rogue">
       <h2>Rogue</h2>
       <p class="reading-intro">
-        A traditional ASCII dungeon. Explore rooms, fight monsters, and collect all
-        sixteen binarot cards marked <code>*</code> on the floor.
+        A traditional ASCII dungeon. Descend sixteen floors named for the binarot
+        deck—from The Seed to The State. Find the stairs <code>&gt;</code> on each
+        level; clear the last floor to win.
       </p>
       ${sRogueMarkup()}
     </section>
@@ -794,6 +807,7 @@ const arrUnlockOrder = [
   'cards',
   'reading',
   'quiz',
+  'fortune',
   'starmap',
   'planets',
   'gems',
@@ -806,7 +820,7 @@ const arrUnlockOrder = [
   'packs',
   'collection',
   'school',
-  'diamond',
+  'prism',
   'rogue',
   'fifteen',
   'pickup',
@@ -852,8 +866,8 @@ function sAliasTabId(sTabId: string): string {
   if (sTabId === 'collect') {
     return 'packs'
   }
-  if (sTabId === 'citadel') {
-    return 'diamond'
+  if (sTabId === 'citadel' || sTabId === 'diamond') {
+    return 'prism'
   }
   return sTabId
 }
@@ -1119,6 +1133,7 @@ function vActivateTab(sTabId: string): void {
   })
 
   vSetMatrixActive(sTabId === 'matrix')
+  vSetFortuneActive(sTabId === 'fortune', arrCards)
   vSetFloatActive(sTabId === 'sparkles')
   vSetExploreActive(sTabId === 'pilgrim')
   vSetHouseActive(sTabId === 'house')
@@ -1127,7 +1142,7 @@ function vActivateTab(sTabId: string): void {
   vSetCollectActive(sTabId === 'packs')
   vSetCollectionActive(sTabId === 'collection')
   vSetSchoolActive(sTabId === 'school')
-  vSetDiamondActive(sTabId === 'diamond')
+  vSetPrismActive(sTabId === 'prism')
   vSetRogueActive(sTabId === 'rogue')
   vSetFifteenActive(sTabId === 'fifteen')
   vSetPickupActive(sTabId === 'pickup')
@@ -1506,121 +1521,130 @@ vUpdateBirthdaySign()
 
 type tQuizAxis = 'family' | 'role'
 
+type tQuizAnswer = {
+  sText: string
+  nPrimary: number
+  nSecondary: number
+}
+
 type tQuizQuestion = {
   sPrompt: string
   sAxis: tQuizAxis
-  arrAnswers: [string, string, string, string, string]
+  arrAnswers: tQuizAnswer[]
 }
 
 const nQuizVoidChoice = 4
+const nQuizPrimaryWeight = 2
+const nQuizSecondaryWeight = 1
 
+// Family (high bits): 0 beginnings/bonds, 1 place/path, 2 action/reserve, 3 framework/system
+// Role (low bits): 0 opening/perspective, 1 hard edge/claim, 2 bridge/signal, 3 lasting form
 const arrQuizQuestions: tQuizQuestion[] = [
   {
-    sPrompt: 'Where does your energy most naturally live?',
+    sPrompt: 'What do you like to do in your free time?',
     sAxis: 'family',
     arrAnswers: [
-      'Near beginnings—ideas, claims, summons, and the first bonds between people.',
-      'In places and paths—shelter, crossroads, thresholds, and things that grow.',
-      'In motion and reserve—independent action, gatherings, mirrors, and what you keep.',
-      'In frameworks—perspective, armor, debate, and the systems that hold people.',
-      'Nowhere I can point to—outside the chart, before a place is chosen.',
+      { sText: 'Make art or craft', nPrimary: 0, nSecondary: 2 },
+      { sText: 'Hang out with friends', nPrimary: 0, nSecondary: 1 },
+      { sText: 'Cook or bake', nPrimary: 1, nSecondary: 0 },
+      { sText: 'Listen to music', nPrimary: 1, nSecondary: 0 },
+      { sText: 'Read', nPrimary: 2, nSecondary: 3 },
+      { sText: 'Exercise', nPrimary: 2, nSecondary: 3 },
+      { sText: 'Play games', nPrimary: 3, nSecondary: 2 },
+      { sText: 'Watch TV or movies', nPrimary: 3, nSecondary: 2 },
+      { sText: 'Something else', nPrimary: nQuizVoidChoice, nSecondary: nQuizVoidChoice },
     ],
   },
   {
-    sPrompt: 'When you leave a mark, what does it most often look like?',
+    sPrompt: 'What state of mind do you like to be in?',
     sAxis: 'role',
     arrAnswers: [
-      'An opening—room for something unformed to take shape.',
-      'A hard edge—a claim, a cut, a line others have to answer.',
-      'A bridge—a signal answered, a gap crossed, a likeness found.',
-      'A lasting structure—something that binds, grows, stores, or governs.',
-      'No mark at all—the absence where a mark would have been.',
+      { sText: 'Meditative', nPrimary: 0, nSecondary: 3 },
+      { sText: 'Relaxed', nPrimary: 0, nSecondary: 2 },
+      { sText: 'Problem-solving', nPrimary: 1, nSecondary: 2 },
+      { sText: 'Focused', nPrimary: 1, nSecondary: 3 },
+      { sText: 'Curious', nPrimary: 2, nSecondary: 0 },
+      { sText: 'Entertained', nPrimary: 2, nSecondary: 0 },
+      { sText: 'Social', nPrimary: 3, nSecondary: 2 },
+      { sText: 'Productive', nPrimary: 3, nSecondary: 1 },
+      { sText: 'Something else', nPrimary: nQuizVoidChoice, nSecondary: nQuizVoidChoice },
     ],
   },
   {
-    sPrompt: 'In a tense room, what are you most likely to do?',
+    sPrompt: 'How do you prefer to spend a weekend?',
     sAxis: 'family',
     arrAnswers: [
-      'Sense what wants to start, name it, or draw people into the first connection.',
-      'Make the space safer, name the fork in the road, or open a door to elsewhere.',
-      'Act on your own, gather the right people, reflect what you see, or hold a quiet reserve.',
-      'Reframe the problem, hold a firm boundary, elevate the debate, or organize the whole.',
-      'Step out of the frame—let the room resolve without counting you in it.',
+      { sText: 'Trying something new', nPrimary: 0, nSecondary: 1 },
+      { sText: 'Going out', nPrimary: 0, nSecondary: 1 },
+      { sText: 'Hosting friends', nPrimary: 1, nSecondary: 0 },
+      { sText: 'Exploring outdoors', nPrimary: 1, nSecondary: 2 },
+      { sText: 'Working on a hobby', nPrimary: 2, nSecondary: 0 },
+      { sText: 'Getting stuff done', nPrimary: 2, nSecondary: 3 },
+      { sText: 'Staying home', nPrimary: 3, nSecondary: 2 },
+      { sText: 'Following a routine', nPrimary: 3, nSecondary: 1 },
+      { sText: 'Something else', nPrimary: nQuizVoidChoice, nSecondary: nQuizVoidChoice },
     ],
   },
   {
-    sPrompt: 'What do others most reliably come to you for?',
+    sPrompt: 'What do friends usually come to you for?',
     sAxis: 'role',
     arrAnswers: [
-      'A blank page—permission to begin before the shape is clear.',
-      'A stake in the ground—clarity about what is claimed and what is not.',
-      'A crossing—someone who can carry a message, a deal, or a likeness across a gap.',
-      'A finished form—a bond, a canopy, a vault, or a working order that holds.',
-      'Nothing they can name—you are the option that does not appear on their list.',
+      { sText: 'A fresh perspective', nPrimary: 0, nSecondary: 2 },
+      { sText: 'Creative ideas', nPrimary: 0, nSecondary: 2 },
+      { sText: 'Honest advice', nPrimary: 1, nSecondary: 0 },
+      { sText: 'A straight answer', nPrimary: 1, nSecondary: 3 },
+      { sText: 'Someone to talk to', nPrimary: 2, nSecondary: 3 },
+      { sText: 'A connection or intro', nPrimary: 2, nSecondary: 3 },
+      { sText: 'Practical help', nPrimary: 3, nSecondary: 1 },
+      { sText: 'Someone reliable', nPrimary: 3, nSecondary: 1 },
+      { sText: 'Something else', nPrimary: nQuizVoidChoice, nSecondary: nQuizVoidChoice },
     ],
   },
 ]
 
 const objQuizStage = document.querySelector<HTMLDivElement>('#quiz-stage')!
 const arrQuizAnswers: number[] = []
-const arrQuizChoiceLabels = ['A', 'B', 'C', 'D', 'E'] as const
+
+function objQuizAnswer(nQuestion: number): tQuizAnswer {
+  const objQuestion = arrQuizQuestions[nQuestion]!
+  return objQuestion.arrAnswers[arrQuizAnswers[nQuestion]!]!
+}
 
 function bQuizAllVoid(): boolean {
   return (
     arrQuizAnswers.length === arrQuizQuestions.length &&
-    arrQuizAnswers.every((nChoice: number) => nChoice === nQuizVoidChoice)
+    arrQuizAnswers.every(
+      (_nChoice: number, nQuestion: number) => objQuizAnswer(nQuestion).nPrimary === nQuizVoidChoice,
+    )
   )
 }
 
 function nQuizSignIndex(): number {
-  const arrScores = Array.from({ length: arrCards.length }, () => 0)
-  let nLastFamily = 0
-  let nLastRole = 0
-  let bHasFamily = false
-  let bHasRole = false
+  const arrFamilyScores = [0, 0, 0, 0]
+  const arrRoleScores = [0, 0, 0, 0]
 
-  for (let nIndex = 0; nIndex < arrQuizAnswers.length; nIndex += 1) {
-    const objQuestion = arrQuizQuestions[nIndex]!
-    const nChoice = arrQuizAnswers[nIndex]!
-    if (nChoice === nQuizVoidChoice) {
+  for (let nQuestion = 0; nQuestion < arrQuizAnswers.length; nQuestion += 1) {
+    const objAnswer = objQuizAnswer(nQuestion)
+    if (objAnswer.nPrimary === nQuizVoidChoice) {
       continue
     }
 
-    if (objQuestion.sAxis === 'family') {
-      nLastFamily = nChoice
-      bHasFamily = true
-      for (let nSign = 0; nSign < arrCards.length; nSign += 1) {
-        if ((nSign >> 2) === nChoice) {
-          arrScores[nSign]! += 1
-        }
-      }
-    } else {
-      nLastRole = nChoice
-      bHasRole = true
-      for (let nSign = 0; nSign < arrCards.length; nSign += 1) {
-        if ((nSign & 3) === nChoice) {
-          arrScores[nSign]! += 1
-        }
-      }
+    const arrScores =
+      arrQuizQuestions[nQuestion]!.sAxis === 'family' ? arrFamilyScores : arrRoleScores
+    arrScores[objAnswer.nPrimary]! += nQuizPrimaryWeight
+    arrScores[objAnswer.nSecondary]! += nQuizSecondaryWeight
+  }
+
+  return (nQuizAxisValue(arrFamilyScores) << 2) | nQuizAxisValue(arrRoleScores)
+}
+
+function nQuizAxisValue(arrScores: number[]): number {
+  let nBest = 0
+  for (let nValue = 1; nValue < arrScores.length; nValue += 1) {
+    if (arrScores[nValue]! > arrScores[nBest]!) {
+      nBest = nValue
     }
   }
-
-  if (!bHasFamily && !bHasRole) {
-    return -1
-  }
-
-  const nFallback = (nLastFamily << 2) | nLastRole
-  let nBest = nFallback
-  let nBestScore = -1
-
-  for (let nSign = 0; nSign < arrScores.length; nSign += 1) {
-    const nScore = arrScores[nSign]!
-    if (nScore > nBestScore || (nScore === nBestScore && nSign === nFallback)) {
-      nBestScore = nScore
-      nBest = nSign
-    }
-  }
-
   return nBest
 }
 
@@ -1667,10 +1691,10 @@ function vRenderQuiz(): void {
   const objQuestion = arrQuizQuestions[nQuestion]!
   const sChoices = objQuestion.arrAnswers
     .map(
-      (sAnswer: string, nChoice: number) => `
+      (objAnswer: tQuizAnswer, nChoice: number) => `
         <button type="button" class="quiz-choice" data-choice="${nChoice}">
-          <span class="quiz-choice-label">${arrQuizChoiceLabels[nChoice]}</span>
-          <span class="quiz-choice-text">${sAnswer}</span>
+          <span class="quiz-choice-label">${String.fromCharCode(65 + nChoice)}</span>
+          <span class="quiz-choice-text">${objAnswer.sText}</span>
         </button>
       `,
     )
@@ -1702,7 +1726,7 @@ vBindForest(arrCards)
 vBindCollect(arrCards)
 vBindCollection(arrCards)
 vBindSchool(arrCards)
-vBindDiamond(arrCards)
+vBindPrism(arrCards)
 vBindRogue(arrCards)
 vBindFifteen(arrCards)
 vBindPickup(arrCards)

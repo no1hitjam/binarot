@@ -1,8 +1,8 @@
+import { sCardIconPaths } from './cardIcons'
+
 const arrGlyphs = [
   '0',
   '1',
-  '00',
-  '01',
   '10',
   '11',
   '100',
@@ -17,49 +17,30 @@ const arrGlyphs = [
   '1101',
   '1110',
   '1111',
-  '&',
-  '|',
-  '^',
-  '~',
-  'AND',
-  'OR',
-  'XOR',
 ]
 
-const arrCardNames = [
-  'The Seed',
-  'The Flag',
-  'The Call',
-  'The Link',
-  'The Host',
-  'The Fork',
-  'The Port',
-  'The Tree',
-  'The Agent',
-  'The Table',
-  'The Clone',
-  'The Cache',
-  'The Frame',
-  'The Shell',
-  'The Forum',
-  'The State',
-]
-
-const nFontSize = 15
-const nMinTrail = 10
-const nMaxTrail = 32
+const nGlyphSize = 28
+const nMinTrail = 8
+const nMaxTrail = 22
 const nHeadGoldChance = 0.2
-const nGlyphMutateChance = 0.08
-const nCardNameChance = 0.12
+const nGlyphMutateChance = 0.015
 const nFadeInMs = 4500
-/** Cell step per trail link: +x and +y = down-right diagonal. */
-const nDiagX = 1
-const nDiagY = 1
+const nIconBake = 128
+/** Shared down-right diagonal (unit vector). */
+const nDiagX = Math.SQRT1_2
+const nDiagY = Math.SQRT1_2
+
+const sStrokeBlue = '#6a78e8'
+const sStrokeGold = '#c4a030'
 
 type tDrop = {
   nX: number
   nY: number
+  nVx: number
+  nVy: number
   nSpeed: number
+  nGap: number
+  nSize: number
   bGoldHead: boolean
   arrTrail: string[]
 }
@@ -72,6 +53,9 @@ let bRunning = false
 let nDpr = 1
 let nDropCount = 0
 let nFadeInStart = 0
+let mapIconBlue: Map<string, HTMLCanvasElement> = new Map()
+let mapIconGold: Map<string, HTMLCanvasElement> = new Map()
+let bIconsReady = false
 
 function nIntroAlpha(): number {
   const nElapsed = performance.now() - nFadeInStart
@@ -80,9 +64,6 @@ function nIntroAlpha(): number {
 }
 
 function sPickGlyph(): string {
-  if (Math.random() < nCardNameChance) {
-    return arrCardNames[Math.floor(Math.random() * arrCardNames.length)]!
-  }
   return arrGlyphs[Math.floor(Math.random() * arrGlyphs.length)]!
 }
 
@@ -95,28 +76,112 @@ function arrNewTrail(): string[] {
   return arrTrail
 }
 
-function objSpawnDrop(nCols: number, nRows: number, bSeeded: boolean): tDrop {
+function objSpawnDrop(nW: number, nH: number, bSeeded: boolean): tDrop {
   let nX: number
   let nY: number
 
   if (bSeeded) {
-    nX = Math.random() * (nCols + nRows) - nRows
-    nY = Math.random() * nRows
+    nX = Math.random() * (nW + nH) - nH
+    nY = Math.random() * nH
   } else if (Math.random() < 0.55) {
-    nX = Math.random() * nCols
-    nY = -2 - Math.random() * nRows * 0.35
+    nX = Math.random() * nW
+    nY = -40 - Math.random() * nH * 0.35
   } else {
-    nX = -2 - Math.random() * nCols * 0.35
-    nY = Math.random() * nRows
+    nX = -40 - Math.random() * nW * 0.35
+    nY = Math.random() * nH
   }
+
+  const nSpeed = 0.55 + Math.random() * 0.95
+  const nGap = nGlyphSize * (0.72 + Math.random() * 0.55)
+  const nSize = nGlyphSize * (0.78 + Math.random() * 0.4)
 
   return {
     nX,
     nY,
-    nSpeed: 0.18 + Math.random() * 0.35,
+    nVx: nDiagX,
+    nVy: nDiagY,
+    nSpeed,
+    nGap,
+    nSize,
     bGoldHead: Math.random() < nHeadGoldChance,
     arrTrail: arrNewTrail(),
   }
+}
+
+function objBakeIcon(sSlug: string, sStroke: string): HTMLCanvasElement {
+  const objBake = document.createElement('canvas')
+  objBake.width = nIconBake
+  objBake.height = nIconBake
+  const objBakeCtx = objBake.getContext('2d')!
+
+  const sPaths = sCardIconPaths(sSlug)
+  if (!sPaths) {
+    return objBake
+  }
+
+  const nScale = nIconBake / 64
+  objBakeCtx.scale(nScale, nScale)
+  objBakeCtx.strokeStyle = sStroke
+  objBakeCtx.lineWidth = 2.4
+  objBakeCtx.lineCap = 'round'
+  objBakeCtx.lineJoin = 'round'
+
+  for (const objMatch of sPaths.matchAll(/<path d="([^"]+)"/g)) {
+    objBakeCtx.stroke(new Path2D(objMatch[1]!))
+  }
+
+  for (const objMatch of sPaths.matchAll(/<circle cx="([^"]+)" cy="([^"]+)" r="([^"]+)"(?:[^/]*)?\/>/g)) {
+    objBakeCtx.beginPath()
+    objBakeCtx.arc(Number(objMatch[1]), Number(objMatch[2]), Number(objMatch[3]), 0, Math.PI * 2)
+    objBakeCtx.stroke()
+  }
+
+  for (const objMatch of sPaths.matchAll(
+    /<rect x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"(?:[^/]*)?\/>/g,
+  )) {
+    objBakeCtx.strokeRect(Number(objMatch[1]), Number(objMatch[2]), Number(objMatch[3]), Number(objMatch[4]))
+  }
+
+  return objBake
+}
+
+function vEnsureIcons(): void {
+  if (bIconsReady) {
+    return
+  }
+
+  mapIconBlue = new Map()
+  mapIconGold = new Map()
+  for (const sSlug of arrGlyphs) {
+    mapIconBlue.set(sSlug, objBakeIcon(sSlug, sStrokeBlue))
+    mapIconGold.set(sSlug, objBakeIcon(sSlug, sStrokeGold))
+  }
+  bIconsReady = true
+}
+
+function vDrawGlyph(
+  objCtxLocal: CanvasRenderingContext2D,
+  sSlug: string,
+  nCx: number,
+  nCy: number,
+  nSize: number,
+  bGold: boolean,
+  nAlpha: number,
+  nShadowBlur: number,
+): void {
+  const objIcon = (bGold ? mapIconGold : mapIconBlue).get(sSlug)
+  if (!objIcon || nAlpha <= 0) {
+    return
+  }
+
+  objCtxLocal.save()
+  objCtxLocal.globalAlpha = nAlpha
+  if (nShadowBlur > 0) {
+    objCtxLocal.shadowColor = bGold ? sStrokeGold : sStrokeBlue
+    objCtxLocal.shadowBlur = nShadowBlur
+  }
+  objCtxLocal.drawImage(objIcon, nCx - nSize * 0.5, nCy, nSize, nSize)
+  objCtxLocal.restore()
 }
 
 function vResize(): void {
@@ -132,14 +197,13 @@ function vResize(): void {
   objCanvas.height = Math.max(1, Math.floor(nCssH * nDpr))
   objCtx.setTransform(nDpr, 0, 0, nDpr, 0, 0)
 
-  const nCols = Math.max(1, Math.floor(nCssW / nFontSize))
-  const nRows = Math.max(1, Math.floor(nCssH / nFontSize))
-  nDropCount = Math.max(24, Math.floor(nCols * 1.15))
+  const nCols = Math.max(1, Math.floor(nCssW / nGlyphSize))
+  nDropCount = Math.max(32, Math.floor(nCols * 1.9))
 
   if (arrDrops.length !== nDropCount) {
     const arrNext: tDrop[] = []
     for (let nI = 0; nI < nDropCount; nI++) {
-      arrNext.push(arrDrops[nI] ?? objSpawnDrop(nCols, nRows, true))
+      arrNext.push(arrDrops[nI] ?? objSpawnDrop(nCssW, nCssH, true))
     }
     arrDrops = arrNext
   }
@@ -152,32 +216,22 @@ function vDrawFrame(): void {
 
   const nW = objCanvas.clientWidth
   const nH = objCanvas.clientHeight
-  const nCols = Math.max(1, Math.floor(nW / nFontSize))
-  const nRows = Math.max(1, Math.floor(nH / nFontSize))
 
-  objCtx.fillStyle = 'rgba(5, 3, 8, 0.14)'
+  objCtx.fillStyle = 'rgba(5, 3, 8, 0.1)'
   objCtx.fillRect(0, 0, nW, nH)
 
   const nIntro = nIntroAlpha()
-  objCtx.globalAlpha = nIntro
-
-  objCtx.font = `${nFontSize}px "IBM Plex Mono", Consolas, Monaco, monospace`
-  objCtx.textAlign = 'center'
-  objCtx.textBaseline = 'top'
 
   for (let nI = 0; nI < arrDrops.length; nI++) {
     const objDrop = arrDrops[nI]!
-    const nHeadCol = Math.floor(objDrop.nX)
-    const nHeadRow = Math.floor(objDrop.nY)
     const nTrailLen = objDrop.arrTrail.length
+    const nTrailPx = (nTrailLen - 1) * objDrop.nGap
 
     for (let nStep = 0; nStep < nTrailLen; nStep++) {
-      const nCol = nHeadCol - nStep * nDiagX
-      const nRow = nHeadRow - nStep * nDiagY
-      const nPx = nCol * nFontSize + nFontSize * 0.5
-      const nPy = nRow * nFontSize
+      const nPx = objDrop.nX - nStep * objDrop.nGap * objDrop.nVx
+      const nPy = objDrop.nY - nStep * objDrop.nGap * objDrop.nVy
 
-      if (nPx < -nFontSize * 4 || nPx > nW + nFontSize * 4 || nPy < -nFontSize || nPy > nH) {
+      if (nPx < -objDrop.nSize * 2 || nPx > nW + objDrop.nSize * 2 || nPy < -objDrop.nSize || nPy > nH + objDrop.nSize) {
         continue
       }
 
@@ -185,42 +239,42 @@ function vDrawFrame(): void {
         objDrop.arrTrail[nStep] = sPickGlyph()
       }
 
-      const nFade = 1 - nStep / nTrailLen
+      const nT = nStep / Math.max(1, nTrailLen - 1)
+      const nFade = (1 - nT) * (1 - nT)
       const sGlyph = objDrop.arrTrail[nStep]!
+      let nAlpha: number
+      let nShadow = 0
+      let bGold = false
 
       if (nStep === 0) {
         if (objDrop.bGoldHead) {
-          objCtx.fillStyle = `rgba(120, 95, 25, ${0.22 + 0.2 * nFade})`
-          objCtx.shadowColor = 'rgba(120, 95, 25, 0.15)'
-          objCtx.shadowBlur = 3
+          bGold = true
+          nAlpha = nIntro * (0.55 + 0.45 * nFade)
+          nShadow = 6
         } else {
-          objCtx.fillStyle = `rgba(45, 55, 130, ${0.25 + 0.2 * nFade})`
-          objCtx.shadowColor = 'rgba(45, 55, 130, 0.15)'
-          objCtx.shadowBlur = 3
+          nAlpha = nIntro * (0.6 + 0.4 * nFade)
+          nShadow = 6
         }
       } else if (nStep < 4) {
-        objCtx.shadowBlur = 0
-        objCtx.fillStyle = `rgba(50, 60, 140, ${0.2 + 0.22 * nFade})`
+        nAlpha = nIntro * (0.28 + 0.45 * nFade)
       } else {
-        objCtx.shadowBlur = 0
-        objCtx.fillStyle = `rgba(40, 48, 110, ${0.12 + 0.2 * nFade})`
+        nAlpha = nIntro * (0.08 + 0.32 * nFade)
       }
 
-      objCtx.fillText(sGlyph, nPx, nPy)
+      const nDrawSize = objDrop.nSize * (0.88 + 0.12 * nFade)
+      vDrawGlyph(objCtx, sGlyph, nPx, nPy - nDrawSize * 0.5, nDrawSize, bGold, nAlpha, nShadow)
     }
 
-    objCtx.shadowBlur = 0
-    objDrop.nX += objDrop.nSpeed * nDiagX
-    objDrop.nY += objDrop.nSpeed * nDiagY
+    objDrop.nX += objDrop.nVx * objDrop.nSpeed
+    objDrop.nY += objDrop.nVy * objDrop.nSpeed
 
-    const bOffBottom = objDrop.nY - nTrailLen * nDiagY > nRows + 2
-    const bOffRight = objDrop.nX - nTrailLen * nDiagX > nCols + 2
+    const bOffBottom = objDrop.nY - nTrailPx * objDrop.nVy > nH + objDrop.nSize
+    const bOffRight = objDrop.nX - nTrailPx * objDrop.nVx > nW + objDrop.nSize
     if (bOffBottom || bOffRight) {
-      arrDrops[nI] = objSpawnDrop(nCols, nRows, false)
+      arrDrops[nI] = objSpawnDrop(nW, nH, false)
     }
   }
 
-  objCtx.globalAlpha = 1
   nAnimFrame = window.requestAnimationFrame(vDrawFrame)
 }
 
@@ -229,6 +283,7 @@ function vStart(): void {
     return
   }
 
+  vEnsureIcons()
   bRunning = true
   nFadeInStart = performance.now()
   arrDrops = []
@@ -252,7 +307,7 @@ export function sMatrixMarkup(): string {
   return `
     <div class="matrix" id="matrix">
       <canvas class="matrix-canvas" id="matrix-canvas" aria-hidden="true"></canvas>
-      <p class="matrix-caption">binary rain · 0–1111</p>
+      <p class="matrix-caption">sign rain · sixteen glyphs</p>
     </div>
   `
 }
@@ -267,6 +322,8 @@ export function vBindMatrixRain(): void {
   if (!objCtx) {
     return
   }
+
+  vEnsureIcons()
 
   window.addEventListener('resize', () => {
     if (bRunning) {

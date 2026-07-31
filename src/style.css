@@ -1255,6 +1255,224 @@ code {
   max-width: 28rem;
 }
 
+.fortune-stage {
+  display: grid;
+  gap: 1rem;
+}
+
+.fortune-board {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(rgba(139, 77, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 77, 255, 0.035) 1px, transparent 1px),
+    var(--void);
+  background-size: 24px 24px;
+}
+
+.fortune-board-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--gold-bright);
+  background-color: rgba(10, 6, 16, 0.9);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.fortune-live {
+  color: #6de89a;
+}
+
+.fortune-live span {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+  background-color: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.fortune-chart-wrap {
+  padding: 0.75rem 0.75rem 0.5rem;
+}
+
+.fortune-chart-wrap + .fortune-chart-wrap {
+  border-top: 1px solid var(--border);
+}
+
+.fortune-chart-label {
+  margin: 0 0 0.35rem;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.fortune-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 12rem;
+}
+
+.fortune-grid line {
+  stroke: rgba(224, 184, 58, 0.18);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+
+.fortune-grid line:nth-child(2) {
+  stroke: rgba(224, 184, 58, 0.42);
+}
+
+.fortune-axis-label {
+  fill: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.fortune-series {
+  opacity: 0.72;
+  transition: opacity 0.18s ease;
+}
+
+.fortune-stage.is-focusing .fortune-series {
+  opacity: 0.2;
+}
+
+.fortune-stage.is-focusing .fortune-series.is-focused {
+  opacity: 1;
+}
+
+.fortune-line {
+  fill: none;
+  stroke: var(--fortune-color);
+  stroke-width: 2;
+  stroke-linecap: square;
+  stroke-linejoin: bevel;
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--fortune-color) 55%, transparent));
+}
+
+.fortune-node {
+  fill: var(--panel);
+  stroke: var(--fortune-color);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.fortune-chart-time {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+}
+
+.fortune-tickers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 1px;
+  list-style: none;
+  background-color: var(--border);
+}
+
+.fortune-ticker {
+  display: grid;
+  grid-template-columns: 2rem 0.55rem minmax(0, 1fr) 2.8rem 3.25rem;
+  gap: 0.55rem;
+  align-items: center;
+  min-width: 0;
+  padding: 0.65rem 0.7rem;
+  background-color: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition:
+    opacity 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.fortune-stage.is-focusing .fortune-ticker:not(.is-focused) > * {
+  opacity: 0.35;
+}
+
+.fortune-stage.is-focusing .fortune-ticker.is-focused {
+  background-color: color-mix(in srgb, var(--fortune-color) 12%, var(--surface));
+}
+
+.fortune-ticker:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: -1px;
+}
+
+.fortune-rank {
+  color: var(--text-muted);
+}
+
+.fortune-swatch {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--fortune-color);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--fortune-color) 70%, transparent);
+}
+
+.fortune-sign {
+  overflow: hidden;
+  color: var(--text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fortune-ticker.is-focused .fortune-sign {
+  color: var(--gold-bright);
+}
+
+.fortune-value,
+.fortune-change {
+  text-align: right;
+}
+
+.fortune-value.is-up,
+.fortune-change.is-up {
+  color: #6de89a;
+}
+
+.fortune-value.is-down,
+.fortune-change.is-down {
+  color: #ff7188;
+}
+
+.fortune-change {
+  font-size: 0.65rem;
+}
+
+@media (max-width: 720px) {
+  .fortune-tickers {
+    grid-template-columns: 1fr;
+  }
+
+  .fortune-chart-wrap {
+    overflow-x: auto;
+  }
+
+  .fortune-chart {
+    width: 44rem;
+    max-width: none;
+  }
+}
+
 .birthday-compat,
 .birthday-special {
   margin-top: 2.25rem;
@@ -5169,7 +5387,7 @@ code {
   }
 }
 
-.diamond {
+.prism {
   position: relative;
   margin-top: 0.5rem;
   border: 1px solid var(--border);
@@ -5178,7 +5396,7 @@ code {
   overflow: hidden;
 }
 
-.diamond-viewport {
+.prism-viewport {
   position: relative;
   width: 100%;
   height: min(82vh, 780px);
@@ -5189,17 +5407,17 @@ code {
   cursor: crosshair;
 }
 
-.diamond-viewport canvas {
+.prism-viewport canvas {
   display: block;
   opacity: 0;
   transition: opacity 1.1s ease;
 }
 
-.diamond-viewport.is-revealed canvas {
+.prism-viewport.is-revealed canvas {
   opacity: 1;
 }
 
-.diamond-caption {
+.prism-caption {
   position: absolute;
   right: 0.75rem;
   bottom: 0.55rem;
@@ -5214,17 +5432,29 @@ code {
 }
 
 .rogue {
+  --rogue-bg: #020104;
+  --rogue-side: #020104;
+  --rogue-status-bg: var(--surface);
+  --rogue-wall: color-mix(in srgb, var(--purple) 55%, var(--text-muted));
+  --rogue-floor: color-mix(in srgb, var(--text-muted) 55%, transparent);
+  --rogue-fog: color-mix(in srgb, var(--text-muted) 35%, transparent);
+  --rogue-player: var(--gold-bright);
+  --rogue-mob: #ff6b7a;
+  --rogue-stairs: var(--gold);
+  --rogue-potion: var(--purple);
+  --rogue-accent: var(--gold);
   margin-top: 0.75rem;
   border: 1px solid var(--border);
-  background-color: #020104;
+  background-color: var(--rogue-bg);
   box-shadow:
-    inset 0 0 40px rgba(139, 77, 255, 0.08),
-    0 0 28px -12px var(--purple-glow);
+    inset 0 0 40px color-mix(in srgb, var(--rogue-accent) 12%, transparent),
+    0 0 28px -12px color-mix(in srgb, var(--rogue-accent) 40%, transparent);
   outline: none;
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .rogue:focus-visible {
-  outline: 1px solid var(--gold);
+  outline: 1px solid var(--rogue-accent);
   outline-offset: 2px;
 }
 
@@ -5235,8 +5465,9 @@ code {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold);
-  background-color: var(--surface);
+  color: var(--rogue-accent);
+  background-color: var(--rogue-status-bg);
+  transition: color 0.35s ease, background-color 0.35s ease;
 }
 
 .rogue-body {
@@ -5250,7 +5481,7 @@ code {
   padding: 0.65rem 0.55rem;
   overflow: auto;
   border-right: 1px solid var(--border);
-  background-color: var(--void);
+  background-color: #000;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   line-height: 1.05;
@@ -5276,34 +5507,39 @@ code {
 }
 
 .rogue-cell.is-fog {
-  color: color-mix(in srgb, var(--text-muted) 35%, transparent);
+  color: var(--rogue-fog);
 }
 
 .rogue-cell.is-wall {
-  color: color-mix(in srgb, var(--purple) 55%, var(--text-muted));
+  color: var(--rogue-wall);
 }
 
 .rogue-cell.is-floor {
-  color: color-mix(in srgb, var(--text-muted) 55%, transparent);
+  color: var(--rogue-floor);
 }
 
 .rogue-cell.is-player {
-  color: var(--gold-bright);
+  color: var(--rogue-player);
   font-weight: 700;
 }
 
 .rogue-cell.is-mob {
-  color: #ff6b7a;
+  color: var(--rogue-mob);
   font-weight: 600;
 }
 
 .rogue-cell.is-loot {
-  color: var(--gold);
+  color: var(--rogue-stairs);
+  font-weight: 700;
+}
+
+.rogue-cell.is-stairs {
+  color: var(--rogue-stairs);
   font-weight: 700;
 }
 
 .rogue-cell.is-potion {
-  color: var(--purple);
+  color: var(--rogue-potion);
   font-weight: 700;
 }
 
@@ -5311,7 +5547,8 @@ code {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background-color: #020104;
+  background-color: var(--rogue-side);
+  transition: background-color 0.35s ease;
 }
 
 .rogue-log {
@@ -5336,7 +5573,7 @@ code {
 }
 
 .rogue-log-command {
-  color: var(--gold-bright);
+  color: var(--rogue-player);
 }
 
 .rogue-log-system {
@@ -5348,11 +5585,11 @@ code {
 }
 
 .rogue-log-success {
-  color: var(--gold);
+  color: var(--rogue-accent);
 }
 
 .rogue-log-alert {
-  color: #ff6b7a;
+  color: var(--rogue-mob);
 }
 
 .rogue-pad {
@@ -5366,8 +5603,8 @@ code {
 .rogue-pad button {
   border: 1px solid var(--border);
   border-radius: 0;
-  background-color: var(--void);
-  color: var(--gold);
+  background-color: var(--rogue-bg);
+  color: var(--rogue-accent);
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 600;
@@ -5380,21 +5617,21 @@ code {
 
 .rogue-pad button:hover {
   border-color: var(--border-strong);
-  color: var(--gold-bright);
-  background-color: rgba(139, 77, 255, 0.08);
+  color: var(--rogue-player);
+  background-color: color-mix(in srgb, var(--rogue-accent) 12%, transparent);
 }
 
 .rogue-pad button:focus-visible {
-  outline: 1px solid var(--gold);
+  outline: 1px solid var(--rogue-accent);
   outline-offset: 2px;
 }
 
 .rogue-restart {
   margin: 0.65rem 0.75rem 0.85rem;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--rogue-accent);
   border-radius: 0;
-  background-color: var(--void);
-  color: var(--gold-bright);
+  background-color: var(--rogue-bg);
+  color: var(--rogue-player);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
@@ -5402,22 +5639,23 @@ code {
   text-transform: uppercase;
   padding: 0.55rem 0.85rem;
   cursor: pointer;
-  box-shadow: 0 0 16px -6px rgba(224, 184, 58, 0.35);
+  box-shadow: 0 0 16px -6px color-mix(in srgb, var(--rogue-accent) 45%, transparent);
 }
 
 .rogue-restart:hover {
-  background-color: rgba(224, 184, 58, 0.1);
+  background-color: color-mix(in srgb, var(--rogue-accent) 12%, transparent);
 }
 
 .rogue-restart:focus-visible {
-  outline: 1px solid var(--gold-bright);
+  outline: 1px solid var(--rogue-player);
   outline-offset: 2px;
 }
 
 .rogue-checklist-wrap {
   border-top: 1px solid var(--border);
   padding: 0.75rem 0.85rem;
-  background-color: var(--surface);
+  background-color: var(--rogue-status-bg);
+  transition: background-color 0.35s ease;
 }
 
 .rogue-checklist-label {
@@ -5449,8 +5687,16 @@ code {
   color: var(--text-muted);
 }
 
-.rogue-check-item.is-found {
-  color: var(--gold);
+.rogue-check-item.is-cleared {
+  color: var(--rogue-accent);
+}
+
+.rogue-check-item.is-current {
+  color: var(--rogue-player);
+}
+
+.rogue-check-item.is-pending {
+  color: var(--text-muted);
 }
 
 .rogue-check-mark {
@@ -5471,8 +5717,9 @@ code {
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--gold) 55%, transparent);
-  background-color: var(--void);
+  color: color-mix(in srgb, var(--rogue-accent) 55%, transparent);
+  background-color: var(--rogue-bg);
+  transition: color 0.35s ease, background-color 0.35s ease;
 }
 
 @media (max-width: 720px) {
@@ -5587,10 +5834,41 @@ code {
 .fifteen-seat-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 0.35rem 1rem;
   margin-bottom: 0.65rem;
+}
+
+.fifteen-seat-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.fifteen-portrait {
+  flex: 0 0 auto;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--gold) 28%, transparent),
+    0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+.fifteen-portrait-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fifteen-seat-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
 }
 
 .fifteen-seat-head h3 {
@@ -5603,8 +5881,38 @@ code {
   color: var(--gold);
 }
 
+.fifteen-seat-role {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
 .fifteen-seat.is-you .fifteen-seat-head h3 {
   color: var(--gold-bright);
+}
+
+.fifteen-seat.is-active .fifteen-portrait {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--gold) 55%, transparent),
+    0 10px 22px rgba(0, 0, 0, 0.4);
+}
+
+.fifteen-player-stage.is-takeover .fifteen-portrait {
+  animation: fifteen-portrait-pop 0.36s ease-out;
+}
+
+@keyframes fifteen-portrait-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .fifteen-seat-bank {

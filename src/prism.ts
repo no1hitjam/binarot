@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { sCardIconPaths } from './cardIcons'
 
-type tDiamondCard = {
+type tPrismCard = {
   sBinaryValue: string
 }
 
@@ -66,9 +66,9 @@ type tTheme = {
 }
 
 const nShapeCount = 16
-const nDiamondStartDelayMs = 40
-const nDiamondRadius = 1.85
-const nDiamondHeight = 3.4
+const nPrismStartDelayMs = 40
+const nPrismRadius = 1.85
+const nPrismHeight = 3.4
 const nSymbolSize = 0.62
 const nHoldSec = 12
 const nFadeSec = 5.75
@@ -474,7 +474,7 @@ let objKey: THREE.PointLight | null = null
 let objFill: THREE.PointLight | null = null
 let objCoreGlow: THREE.PointLight | null = null
 let arrFloaters: tFloater[] = []
-let arrBoundCards: tDiamondCard[] = []
+let arrBoundCards: tPrismCard[] = []
 let arrFloaterMats: THREE.MeshStandardMaterial[] = []
 let objMatCore: THREE.MeshStandardMaterial | null = null
 let objMatCoreEdge: THREE.LineBasicMaterial | null = null
@@ -627,76 +627,76 @@ function objStarGeo(nRadius: number, nHeight: number): THREE.BufferGeometry {
 
 function objCenterGeo(sKind: tCenterKind): THREE.BufferGeometry {
   if (sKind === 'icosa') {
-    return new THREE.IcosahedronGeometry(nDiamondRadius * 1.15, 0)
+    return new THREE.IcosahedronGeometry(nPrismRadius * 1.15, 0)
   }
   if (sKind === 'dodeca') {
-    return new THREE.DodecahedronGeometry(nDiamondRadius * 1.05, 0)
+    return new THREE.DodecahedronGeometry(nPrismRadius * 1.05, 0)
   }
   if (sKind === 'crystal') {
-    return objDiamondGeo(nDiamondRadius * 0.72, nDiamondHeight * 1.35)
+    return objDiamondGeo(nPrismRadius * 0.72, nPrismHeight * 1.35)
   }
   if (sKind === 'prism') {
-    return objPrismGeo(nDiamondRadius * 1.05, nDiamondHeight * 1.1)
+    return objPrismGeo(nPrismRadius * 1.05, nPrismHeight * 1.1)
   }
   if (sKind === 'star') {
-    return objStarGeo(nDiamondRadius, nDiamondHeight)
+    return objStarGeo(nPrismRadius, nPrismHeight)
   }
   if (sKind === 'torus') {
-    return new THREE.TorusGeometry(nDiamondRadius * 0.95, nDiamondRadius * 0.32, 12, 28)
+    return new THREE.TorusGeometry(nPrismRadius * 0.95, nPrismRadius * 0.32, 12, 28)
   }
   if (sKind === 'hex') {
-    return objBipyramidGeo(6, nDiamondRadius * 1.05, nDiamondHeight)
+    return objBipyramidGeo(6, nPrismRadius * 1.05, nPrismHeight)
   }
   if (sKind === 'spike') {
-    return objBipyramidGeo(5, nDiamondRadius * 0.7, nDiamondHeight * 1.45)
+    return objBipyramidGeo(5, nPrismRadius * 0.7, nPrismHeight * 1.45)
   }
   if (sKind === 'cube') {
-    return new THREE.BoxGeometry(nDiamondRadius * 1.55, nDiamondRadius * 1.55, nDiamondRadius * 1.55)
+    return new THREE.BoxGeometry(nPrismRadius * 1.55, nPrismRadius * 1.55, nPrismRadius * 1.55)
   }
   if (sKind === 'octa') {
-    return new THREE.OctahedronGeometry(nDiamondRadius * 1.2, 0)
+    return new THREE.OctahedronGeometry(nPrismRadius * 1.2, 0)
   }
   if (sKind === 'knot') {
-    return new THREE.TorusKnotGeometry(nDiamondRadius * 0.85, nDiamondRadius * 0.28, 80, 12, 2, 3)
+    return new THREE.TorusKnotGeometry(nPrismRadius * 0.85, nPrismRadius * 0.28, 80, 12, 2, 3)
   }
-  return objDiamondGeo(nDiamondRadius, nDiamondHeight)
+  return objDiamondGeo(nPrismRadius, nPrismHeight)
 }
 
 function objInnerGeo(sKind: tCenterKind): THREE.BufferGeometry {
   if (sKind === 'icosa') {
-    return new THREE.IcosahedronGeometry(nDiamondRadius * 0.42, 0)
+    return new THREE.IcosahedronGeometry(nPrismRadius * 0.42, 0)
   }
   if (sKind === 'dodeca') {
-    return new THREE.DodecahedronGeometry(nDiamondRadius * 0.38, 0)
+    return new THREE.DodecahedronGeometry(nPrismRadius * 0.38, 0)
   }
   if (sKind === 'crystal') {
-    return objDiamondGeo(nDiamondRadius * 0.28, nDiamondHeight * 0.5)
+    return objDiamondGeo(nPrismRadius * 0.28, nPrismHeight * 0.5)
   }
   if (sKind === 'prism') {
-    return objPrismGeo(nDiamondRadius * 0.4, nDiamondHeight * 0.42)
+    return objPrismGeo(nPrismRadius * 0.4, nPrismHeight * 0.42)
   }
   if (sKind === 'star') {
-    return objBipyramidGeo(8, nDiamondRadius * 0.35, nDiamondHeight * 0.4)
+    return objBipyramidGeo(8, nPrismRadius * 0.35, nPrismHeight * 0.4)
   }
   if (sKind === 'torus') {
-    return new THREE.TorusGeometry(nDiamondRadius * 0.38, nDiamondRadius * 0.12, 10, 20)
+    return new THREE.TorusGeometry(nPrismRadius * 0.38, nPrismRadius * 0.12, 10, 20)
   }
   if (sKind === 'hex') {
-    return objBipyramidGeo(6, nDiamondRadius * 0.4, nDiamondHeight * 0.4)
+    return objBipyramidGeo(6, nPrismRadius * 0.4, nPrismHeight * 0.4)
   }
   if (sKind === 'spike') {
-    return objBipyramidGeo(5, nDiamondRadius * 0.28, nDiamondHeight * 0.55)
+    return objBipyramidGeo(5, nPrismRadius * 0.28, nPrismHeight * 0.55)
   }
   if (sKind === 'cube') {
-    return new THREE.BoxGeometry(nDiamondRadius * 0.55, nDiamondRadius * 0.55, nDiamondRadius * 0.55)
+    return new THREE.BoxGeometry(nPrismRadius * 0.55, nPrismRadius * 0.55, nPrismRadius * 0.55)
   }
   if (sKind === 'octa') {
-    return new THREE.OctahedronGeometry(nDiamondRadius * 0.45, 0)
+    return new THREE.OctahedronGeometry(nPrismRadius * 0.45, 0)
   }
   if (sKind === 'knot') {
-    return new THREE.TorusKnotGeometry(nDiamondRadius * 0.32, nDiamondRadius * 0.1, 48, 8, 2, 3)
+    return new THREE.TorusKnotGeometry(nPrismRadius * 0.32, nPrismRadius * 0.1, 48, 8, 2, 3)
   }
-  return objDiamondGeo(nDiamondRadius * 0.38, nDiamondHeight * 0.38)
+  return objDiamondGeo(nPrismRadius * 0.38, nPrismHeight * 0.38)
 }
 
 function objFloaterGeo(nKind: number, nScale: number): THREE.BufferGeometry {
@@ -790,7 +790,7 @@ function vApplyThemeMeta(objTheme: tTheme): void {
   nCenterSpin = objTheme.nCenterSpin
   nCamR = objTheme.nCamR
   if (objCaption) {
-    objCaption.textContent = `diamond · ${objTheme.sLabel}`
+    objCaption.textContent = `prism · ${objTheme.sLabel}`
   }
 }
 
@@ -1208,11 +1208,11 @@ function vOnPointerLeave(): void {
   nTargetPointerY = 0
 }
 
-export function sDiamondMarkup(): string {
+export function sPrismMarkup(): string {
   return `
-    <div class="diamond" id="diamond">
-      <div class="diamond-viewport" id="diamond-viewport" role="img" aria-label="Diamond — cycling crystal scenes"></div>
-      <p class="diamond-caption" id="diamond-caption">diamond · violet gold</p>
+    <div class="prism" id="prism">
+      <div class="prism-viewport" id="prism-viewport" role="img" aria-label="Prism — cycling crystal scenes"></div>
+      <p class="prism-caption" id="prism-caption">prism · violet gold</p>
     </div>
   `
 }
@@ -1235,10 +1235,10 @@ function vDisposeScene(): void {
   objCanvasHost?.classList.remove('is-revealed')
 }
 
-export function vBindDiamond(arrCards: tDiamondCard[]): void {
+export function vBindPrism(arrCards: tPrismCard[]): void {
   arrBoundCards = arrCards
-  objCanvasHost = document.querySelector<HTMLElement>('#diamond-viewport')
-  objCaption = document.querySelector<HTMLElement>('#diamond-caption')
+  objCanvasHost = document.querySelector<HTMLElement>('#prism-viewport')
+  objCaption = document.querySelector<HTMLElement>('#prism-caption')
   if (!objCanvasHost) {
     return
   }
@@ -1265,13 +1265,13 @@ export function vBindDiamond(arrCards: tDiamondCard[]): void {
     objObserver.observe(objCanvasHost)
   }
 
-  const objPanel = document.querySelector<HTMLElement>('[data-panel="diamond"]')
+  const objPanel = document.querySelector<HTMLElement>('[data-panel="prism"]')
   if (objPanel?.classList.contains('is-active')) {
-    vSetDiamondActive(true)
+    vSetPrismActive(true)
   }
 }
 
-export function vSetDiamondActive(bActive: boolean): void {
+export function vSetPrismActive(bActive: boolean): void {
   vCancelPendingStart()
   if (!bActive) {
     vStop()
@@ -1286,5 +1286,5 @@ export function vSetDiamondActive(bActive: boolean): void {
   nStartTimer = window.setTimeout(() => {
     nStartTimer = 0
     vStart()
-  }, nDiamondStartDelayMs)
+  }, nPrismStartDelayMs)
 }

@@ -20,7 +20,7 @@ import { sDreamMarkup, vBindDream, vSetDreamActive } from './dream'
 import { sFortuneMarkup, vSetFortuneActive } from './fortune'
 import { sGemsMarkup } from './gems'
 import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
-import { sStarmapMarkup, vBindStarmapHover } from './starmap'
+import { sCavePaintingMarkup, sStarmapMarkup, vBindStarmapHover } from './starmap'
 
 type tCard = {
   sName: string
@@ -352,6 +352,12 @@ function sAiInstructionsMarkup(sInstructions: string): string {
   return `<p class="dev-ai-instructions">${sInstructions}</p>`
 }
 
+const sCardDescriptorsText: string = arrCards
+  .map((objCard: tCard) => {
+    return `${objCard.sName} (${objCard.sBinaryValue}) — ${objCard.sMeaning}`
+  })
+  .join('\n')
+
 function sReadingOutcomeMarkup(
   objLow: tCard,
   objHigh: tCard,
@@ -608,6 +614,42 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         <code>1000</code>–<code>1111</code> to the southern.
       </p>
       ${sStarmapMarkup()}
+      <h3>History of the Binarot starmap</h3>
+      <p>
+        During the peak of the Last Glacial Maximum, an unnamed hunter-gatherer culture engineered a
+        systematic observational record of the night sky as they migrated across the globe. Initially
+        inhabiting the high latitudes of the Northern Hemisphere, their sky-watchers cataloged the
+        first eight star patterns (asterisms), organizing them by geometric complexity using a
+        base-2 counting method. These northern markers ranged from single-star positional anchors
+        like The Seed (<code>0</code>) and The Flag (<code>1</code>) to multi-star arrangements such
+        as The Link (<code>11</code>) and The Tree (<code>111</code>), which were used to mark
+        seasonal shifts, migration paths, and territorial boundaries across the Eurasian tundra.
+      </p>
+      <p>
+        Driven south by encroaching ice sheets and changing game patterns, populations from this
+        culture crossed equatorial regions and established settlements in the Southern Hemisphere.
+        There, under an entirely new night sky, astronomers developed the second half of the 16-part
+        system to record their expanding societal structure. Utilizing prominent southern star
+        configurations, they established four-star groupings to govern administrative
+        functions—ranging from The Agent (<code>1000</code>) for navigation parties to The Cache
+        (<code>1011</code>) for resource storage, culminating in The State (<code>1111</code>) to
+        represent regional tribal councils.
+      </p>
+      <p>
+        The culture's coastal settlements and low-lying transit corridors were eventually inundated
+        by rising sea levels at the end of the Pleistocene, destroying most of their permanent
+        settlements. However, inscribed slate tablets recovered from upland caves in both
+        hemispheres confirm that these scattered populations maintained a shared mathematical
+        framework. By mapping eight northern and eight southern asterisms into a unified 4-bit
+        sequence, this migratory society established the earliest recorded global astronomical grid
+        millennia before the emergence of written history.
+      </p>
+      <h3>Mapped cave painting</h3>
+      <p>
+        A single upland chamber preserves the whole catalogue on one wall—both registers, all
+        sixteen asterisms, in bit order. The tracing below reproduces the surveyed panel.
+      </p>
+      ${sCavePaintingMarkup()}
     </section>
 
     <section class="tab-panel" data-panel="planets">
@@ -766,6 +808,19 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         Choose any two cards to preview both focused <code>AND</code> and expansive
         <code>OR</code> outcomes.
       </p>
+      <div class="dev-descriptors">
+        <div class="dev-descriptors-bar">
+          <span>Card base descriptors</span>
+          <button type="button" class="dev-copy" id="dev-copy-descriptors">Copy</button>
+        </div>
+        <textarea
+          class="dev-descriptors-text"
+          id="dev-descriptors"
+          readonly
+          rows="16"
+          spellcheck="false"
+        >${sCardDescriptorsText}</textarea>
+      </div>
       <form class="dev-controls" id="dev-form">
         <label class="dev-field">
           <span>First card</span>
@@ -1313,9 +1368,12 @@ if (bShowDevPanel) {
   const objDevLeft = document.querySelector<HTMLSelectElement>('#dev-left')!
   const objDevRight = document.querySelector<HTMLSelectElement>('#dev-right')!
   const objDevResult = document.querySelector<HTMLDivElement>('#dev-result')!
+  const objDevDescriptors = document.querySelector<HTMLTextAreaElement>('#dev-descriptors')!
+  const objDevCopy = document.querySelector<HTMLButtonElement>('#dev-copy-descriptors')!
 
   const sDevCookieLeft = 'binarot_dev_left'
   const sDevCookieRight = 'binarot_dev_right'
+  let nDevCopyTimer = 0
 
   function bSelectHasValue(objSelect: HTMLSelectElement, sValue: string): boolean {
     return Array.from(objSelect.options).some(
@@ -1348,6 +1406,26 @@ if (bShowDevPanel) {
     vSaveDevControls()
     objDevResult.innerHTML = sDualReadingResultMarkup(objLeft, objRight, true)
   }
+
+  async function vCopyDevDescriptors(): Promise<void> {
+    const sText = objDevDescriptors.value
+    try {
+      await navigator.clipboard.writeText(sText)
+    } catch {
+      objDevDescriptors.focus()
+      objDevDescriptors.select()
+      document.execCommand('copy')
+    }
+    window.clearTimeout(nDevCopyTimer)
+    objDevCopy.textContent = 'Copied'
+    nDevCopyTimer = window.setTimeout(() => {
+      objDevCopy.textContent = 'Copy'
+    }, 1200)
+  }
+
+  objDevCopy.addEventListener('click', () => {
+    void vCopyDevDescriptors()
+  })
 
   objDevLeft.addEventListener('change', vUpdateDevReading)
   objDevRight.addEventListener('change', vUpdateDevReading)

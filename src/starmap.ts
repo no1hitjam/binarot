@@ -1,3 +1,5 @@
+import { sCardIconPaths } from './cardIcons'
+
 type tHemisphere = 'N' | 'S'
 
 type tStar = {
@@ -24,6 +26,21 @@ const nCenter = nViewSize / 2
 const nChartRadius = 138
 const nFieldStarCount = 96
 const nFieldStarSeed = 0b1011
+
+const nCaveWidth = 960
+const nCaveHeight = 460
+const nCaveGlyphBox = 64
+const nCaveMarginX = 68
+const nCaveColumns = 8
+const nCaveSeed = 0b1111
+const sCaveWallOutline =
+  'M 14 26 L 120 10 L 300 20 L 520 8 L 760 18 L 946 30 L 952 180 L 940 300 L 950 430 L 780 448 L 520 440 L 260 450 L 40 436 L 8 300 Z'
+const arrCaveCracks = [
+  'M 22 96 C 140 118 210 76 318 108 C 420 138 470 96 560 120 C 660 146 760 108 946 132',
+  'M 96 18 C 118 120 84 210 122 318 C 156 412 132 430 148 448',
+  'M 700 16 C 686 130 726 220 700 330 C 682 404 704 428 696 446',
+  'M 18 350 C 160 372 250 336 400 362 C 560 390 700 356 946 378',
+]
 
 const arrStars: tStar[] = [
   // Seed — sprout (N ~20°)
@@ -622,6 +639,138 @@ function sLegendListMarkup(sHemisphere: tHemisphere): string {
       <h3>${sHemisphereTitle(sHemisphere)}</h3>
       <ul class="starmap-legend-list">${sItems}</ul>
     </div>
+  `
+}
+
+function nCaveColumnX(nIndex: number): number {
+  const nStep = (nCaveWidth - nCaveMarginX * 2) / nCaveColumns
+  return nCaveMarginX + nStep * (nIndex + 0.5)
+}
+
+function nCaveRowY(sHemisphere: tHemisphere): number {
+  return sHemisphere === 'N' ? 136 : 316
+}
+
+function sCaveGridMarkup(): string {
+  const arrParts: string[] = []
+
+  for (let nIndex = 0; nIndex <= nCaveColumns; nIndex += 1) {
+    const nX = nCaveMarginX + ((nCaveWidth - nCaveMarginX * 2) / nCaveColumns) * nIndex
+    arrParts.push(`<line class="cave-grid" x1="${nX}" y1="52" x2="${nX}" y2="396"/>`)
+  }
+
+  for (let nIndex = 0; nIndex < nCaveColumns; nIndex += 1) {
+    const nX = nCaveColumnX(nIndex)
+    const sLetter = String.fromCharCode(65 + nIndex)
+    arrParts.push(`<text class="cave-tick" x="${nX.toFixed(1)}" y="44">${sLetter}</text>`)
+    arrParts.push(`<text class="cave-tick" x="${nX.toFixed(1)}" y="234">${sLetter}${sLetter}</text>`)
+  }
+
+  for (const sHemisphere of ['N', 'S'] as tHemisphere[]) {
+    const nTop = nCaveRowY(sHemisphere) - 76
+    arrParts.push(
+      `<rect class="cave-band" x="${nCaveMarginX}" y="${nTop}" width="${nCaveWidth - nCaveMarginX * 2}" height="152"/>`,
+    )
+    const sLabel = sHemisphere === 'N' ? 'REGISTER I · NORTHERN' : 'REGISTER II · SOUTHERN'
+    const nMid = nCaveRowY(sHemisphere)
+    arrParts.push(
+      `<text class="cave-register" x="44" y="${nMid}" transform="rotate(-90 44 ${nMid})">${sLabel}</text>`,
+    )
+  }
+
+  return arrParts.join('')
+}
+
+function sCaveFigureMarkup(
+  objConstellation: tConstellation,
+  nIndex: number,
+  fnRand: () => number,
+): string {
+  const nColumnX = nCaveColumnX(nIndex)
+  const nRowY = nCaveRowY(objConstellation.sHemisphere)
+  const nGlyphX = nColumnX + (fnRand() - 0.5) * 10
+  const nGlyphY = nRowY + (fnRand() - 0.5) * 12
+  const nScale = 1.05 + fnRand() * 0.25
+  const nTilt = (fnRand() - 0.5) * 14
+  const nOffset = nCaveGlyphBox / 2
+  const sCode = `${objConstellation.sHemisphere === 'N' ? 'I' : 'II'}-${nIndex + 1}`
+
+  return `
+    <g class="cave-figure">
+      <title>${objConstellation.sName} (${objConstellation.sSlug})</title>
+      <text class="cave-code" x="${nColumnX.toFixed(1)}" y="${nRowY - 52}">${sCode}</text>
+      <g
+        class="cave-glyph"
+        transform="translate(${nGlyphX.toFixed(1)} ${nGlyphY.toFixed(1)}) rotate(${nTilt.toFixed(1)}) scale(${nScale.toFixed(3)}) translate(${-nOffset} ${-nOffset})"
+      >
+        ${sCardIconPaths(objConstellation.sSlug)}
+      </g>
+      <text class="cave-name" x="${nColumnX.toFixed(1)}" y="${nRowY + 50}">${objConstellation.sName}</text>
+      <text class="cave-bits" x="${nColumnX.toFixed(1)}" y="${nRowY + 64}">${objConstellation.sSlug}</text>
+    </g>
+  `
+}
+
+export function sCavePaintingMarkup(): string {
+  const fnRand = nMulberry32(nCaveSeed)
+  const arrOrdered = [
+    ...arrConstellations.filter((objConstellation) => objConstellation.sHemisphere === 'N'),
+    ...arrConstellations.filter((objConstellation) => objConstellation.sHemisphere === 'S'),
+  ]
+  const sFigures = arrOrdered
+    .map((objConstellation, nIndex) => {
+      return sCaveFigureMarkup(objConstellation, nIndex % nCaveColumns, fnRand)
+    })
+    .join('')
+  const sCracks = arrCaveCracks
+    .map((sCrack) => `<path class="cave-crack" d="${sCrack}"/>`)
+    .join('')
+
+  return `
+    <figure class="cave">
+      <svg
+        class="cave-svg"
+        viewBox="0 0 ${nCaveWidth} ${nCaveHeight}"
+        role="img"
+        aria-label="Survey tracing of a cave painting recording all sixteen binarot pictographs"
+      >
+        <defs>
+          <linearGradient id="cave-rock" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#1d1324"/>
+            <stop offset="0.55" stop-color="#140c1d"/>
+            <stop offset="1" stop-color="#0b0612"/>
+          </linearGradient>
+          <filter id="cave-grain">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="${nCaveSeed}"/>
+            <feColorMatrix type="saturate" values="0"/>
+          </filter>
+          <clipPath id="cave-clip">
+            <path d="${sCaveWallOutline}"/>
+          </clipPath>
+        </defs>
+        <path class="cave-wall" d="${sCaveWallOutline}"/>
+        <g clip-path="url(#cave-clip)">
+          <path class="cave-grain" d="${sCaveWallOutline}" filter="url(#cave-grain)"/>
+          ${sCracks}
+          ${sCaveGridMarkup()}
+          ${sFigures}
+        </g>
+        <g class="cave-scale">
+          <rect class="cave-scale-fill" x="${nCaveMarginX}" y="408" width="40" height="7"/>
+          <rect class="cave-scale-void" x="${nCaveMarginX + 40}" y="408" width="40" height="7"/>
+          <text class="cave-note" x="${nCaveMarginX}" y="430">SCALE 0–50 CM</text>
+        </g>
+        <g class="cave-north">
+          <path class="cave-north-arrow" d="M 900 432 V 408 M 894 416 L 900 408 L 906 416"/>
+          <text class="cave-tick" x="900" y="402">N</text>
+        </g>
+      </svg>
+      <figcaption class="cave-caption">
+        Tracing survey of the panel: sixteen pictographs pecked and daubed in two registers, read
+        left to right in ascending bit order. Grid squares are 50 cm; dashed lines mark the
+        surveyor’s frame, not the original paint.
+      </figcaption>
+    </figure>
   `
 }
 

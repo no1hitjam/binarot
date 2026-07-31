@@ -8,6 +8,8 @@ type tPlanetBody = {
   sBinaryValue: string
   sNote: string
   sShort: string
+  /** CSS color for the body swatch. */
+  sHue: string
   /** Moons without their own heliocentric elements sit near this parent. */
   sOrbitOf?: string
   /** Degrees of ecliptic longitude ahead of the parent. */
@@ -62,6 +64,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'star',
     sBinaryValue: '0',
     sShort: 'Sun',
+    sHue: '#f6c445',
     sNote:
       'The zero point at the center—light before form, the origin everything else orbits. The Seed is the sun as beginning.',
   },
@@ -70,6 +73,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1',
     sShort: 'Mer',
+    sHue: '#9c8f82',
     sNote:
       'Closest claim to the fire—will as sovereignty on a tight loop. The Flag is the stake planted nearest the sun.',
   },
@@ -78,6 +82,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '10',
     sShort: 'Ven',
+    sHue: '#e6c07b',
     sNote:
       'The bright summons in the dawn and dusk sky. Signals, timing, and interrupt belong to The Call.',
   },
@@ -86,6 +91,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '11',
     sShort: 'Ear',
+    sHue: '#4a90d9',
     sNote:
       'Bonds, networks, and the handshake that holds a living world. The Link is home as connection.',
   },
@@ -94,6 +100,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '110',
     sShort: 'Lun',
+    sHue: '#cfcfd6',
     sOrbitOf: 'Earth',
     nLeadDeg: 20,
     sNote:
@@ -104,6 +111,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '100',
     sShort: 'Mar',
+    sHue: '#c1502e',
     sNote:
       'Shelter and stewardship on dust—the world we mean to host next. The Host is home as infrastructure.',
   },
@@ -112,6 +120,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '111',
     sShort: 'Jup',
+    sHue: '#d8a06a',
     sNote:
       'Fullness, growth, and a canopy of moons that casts shade across the outer belt. The Tree is reach made structure.',
   },
@@ -120,6 +129,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '101',
     sShort: 'Io',
+    sHue: '#e0d24a',
     sOrbitOf: 'Jupiter',
     nLeadDeg: -22,
     sNote:
@@ -130,6 +140,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1011',
     sShort: 'Eur',
+    sHue: '#cfe0ea',
     sOrbitOf: 'Jupiter',
     nLeadDeg: 12,
     sNote:
@@ -140,6 +151,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1111',
     sShort: 'Gan',
+    sHue: '#a08f7d',
     sOrbitOf: 'Jupiter',
     nLeadDeg: 32,
     sNote:
@@ -150,6 +162,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1101',
     sShort: 'Sat',
+    sHue: '#e3cb8f',
     sNote:
       'Rings as hard edge—boundaries that keep chaos out. The Shell is armor with a purpose.',
   },
@@ -158,6 +171,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1001',
     sShort: 'Tit',
+    sHue: '#d98b3a',
     sOrbitOf: 'Saturn',
     nLeadDeg: 18,
     sNote:
@@ -168,6 +182,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1000',
     sShort: 'Ura',
+    sHue: '#86d8dc',
     sNote:
       'Tipped on its own axis, motion chosen without permission. The Agent does not ask the plane for leave.',
   },
@@ -176,6 +191,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1100',
     sShort: 'Nep',
+    sHue: '#4a68d8',
     sNote:
       'Depth, dream, and the viewport that shifts the scene. The Frame is perspective as weather.',
   },
@@ -184,6 +200,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'dwarf',
     sBinaryValue: '1110',
     sShort: 'Plu',
+    sHue: '#b8a48f',
     sNote:
       'Far, small, and forever argued over—the world that forced the public square to redefine a planet. The Forum is status earned in debate.',
   },
@@ -192,6 +209,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1010',
     sShort: 'Cha',
+    sHue: '#93989f',
     sOrbitOf: 'Pluto',
     nLeadDeg: 18,
     sNote:
@@ -647,7 +665,10 @@ function sPlanetItemMarkup(
   return `
     <li class="planet-item" data-slug="${objBody.sBinaryValue}" tabindex="0">
       <div class="planet-heading">
-        <h3 class="planet-name">${objBody.sName}</h3>
+        <h3 class="planet-name">
+          <span class="planet-swatch" style="--planet-hue: ${objBody.sHue}" aria-hidden="true"></span>
+          ${objBody.sName}
+        </h3>
         <span class="planet-kind">${sKindLabel(objBody.sKind)}</span>
       </div>
       <a class="planet-sign card-item-link" href="#card/${objCard.sBinaryValue}">

@@ -429,6 +429,15 @@ export function sMatrixMarkup(): string {
       <div class="matrix-agent-viewport" id="matrix-agent-viewport" aria-hidden="true"></div>
       <p class="matrix-agent-caption">node 09 · operator</p>
     </div>
+    <div class="matrix-talk" id="matrix-talk">
+      <div class="matrix-talk-bar">
+        <span class="matrix-talk-traffic" aria-hidden="true"></span>
+        <span class="matrix-talk-title">uplink · operator channel</span>
+      </div>
+      <div class="matrix-talk-log" id="matrix-talk-log" aria-live="polite"></div>
+      <div class="matrix-talk-choices" id="matrix-talk-choices" hidden></div>
+      <p class="matrix-talk-caption">tty 21 · dialogue</p>
+    </div>
   `
 }
 
@@ -1309,6 +1318,9 @@ const nAgentKeyG = 0
 const nAgentKeyB = 255
 const nAgentKeyTol = 72
 const nAgentFigureH = 2.35
+const nAgentParticleCount = 110
+const nAgentFadeOutMs = 700
+const nAgentFadeInMs = 700
 const sAgentImageUrl = `${import.meta.env.BASE_URL}matrix-hacker.png`
 
 let objAgentHost: HTMLElement | null = null
@@ -1316,11 +1328,23 @@ let objAgentScene: THREE.Scene | null = null
 let objAgentCamera: THREE.PerspectiveCamera | null = null
 let objAgentRenderer: THREE.WebGLRenderer | null = null
 let objAgentFigure: THREE.Mesh | null = null
+let objAgentFigureMat: THREE.MeshBasicMaterial | null = null
 let objAgentWorld: THREE.Group | null = null
+let objAgentParticles: THREE.Points | null = null
+let objAgentParticleMat: THREE.PointsMaterial | null = null
+let arrAgentPVel: Float32Array | null = null
+let arrAgentPLife: Float32Array | null = null
 let nAgentAnimFrame = 0
 let bAgentRunning = false
 let nAgentStart = 0
+let nAgentLastTs = 0
 let bAgentTextureReady = false
+/** 1 = fully present, 0 = fully gone */
+let nAgentFade = 1
+type tAgentFx = 'idle' | 'out' | 'gone' | 'in'
+let sAgentFx: tAgentFx = 'idle'
+let nAgentFxStart = 0
+let fnAgentFxDone: (() => void) | null = null
 
 function objAgentKeyTexture(objSource: HTMLImageElement): THREE.CanvasTexture {
   const objCanvas = document.createElement('canvas')
@@ -1364,6 +1388,223 @@ function objAgentKeyTexture(objSource: HTMLImageElement): THREE.CanvasTexture {
   return objTex
 }
 
+function vBuildAgentParticles(): void {
+  if (!objAgentScene || objAgentParticles) {
+    return
+  }
+
+  const arrPos = new Float32Array(nAgentParticleCount * 3)
+  const arrCol = new Float32Array(nAgentParticleCount * 3)
+  arrAgentPVel = new Float32Array(nAgentParticleCount * 3)
+  arrAgentPLife = new Float32Array(nAgentParticleCount)
+
+  for (let nI = 0; nI < nAgentParticleCount; nI++) {
+    arrPos[nI * 3] = 0
+    arrPos[nI * 3 + 1] = -10
+    arrPos[nI * 3 + 2] = 0
+    const bGold = nI % 5 === 0
+    if (bGold) {
+      arrCol[nI * 3] = 0.77
+      arrCol[nI * 3 + 1] = 0.63
+      arrCol[nI * 3 + 2] = 0.19
+    } else {
+      arrCol[nI * 3] = 0.42
+      arrCol[nI * 3 + 1] = 0.47
+      arrCol[nI * 3 + 2] = 0.91
+    }
+    arrAgentPLife[nI] = 0
+  }
+
+  const objGeo = new THREE.BufferGeometry()
+  objGeo.setAttribute('position', new THREE.BufferAttribute(arrPos, 3))
+  objGeo.setAttribute('color', new THREE.BufferAttribute(arrCol, 3))
+
+  objAgentParticleMat = new THREE.PointsMaterial({
+    size: 0.055,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+  })
+  objAgentParticles = new THREE.Points(objGeo, objAgentParticleMat)
+  objAgentParticles.frustumCulled = false
+  objAgentParticles.visible = false
+  objAgentScene.add(objAgentParticles)
+}
+
+function vSeedAgentParticles(bBurst: boolean): void {
+  if (!objAgentParticles || !arrAgentPVel || !arrAgentPLife) {
+    return
+  }
+
+  const objPos = objAgentParticles.geometry.getAttribute('position') as THREE.BufferAttribute
+  const nCx = 0
+  const nCy = nAgentFigureH * 0.52
+  const nCz = 0.05
+
+  for (let nI = 0; nI < nAgentParticleCount; nI++) {
+    const nAngle = Math.random() * Math.PI * 2
+    const nLift = (Math.random() - 0.35) * 1.4
+    if (bBurst) {
+      // Spawn inside the figure volume, fire outward.
+      const nRx = (Math.random() - 0.5) * 0.7
+      const nRy = Math.random() * nAgentFigureH * 0.92
+      const nRz = (Math.random() - 0.5) * 0.25
+      objPos.setXYZ(nI, nCx + nRx, nRy, nCz + nRz)
+      const nSpeed = 0.9 + Math.random() * 1.8
+      arrAgentPVel[nI * 3] = Math.cos(nAngle) * nSpeed * (0.55 + Math.random())
+      arrAgentPVel[nI * 3 + 1] = nLift * nSpeed * 0.55 + 0.35
+      arrAgentPVel[nI * 3 + 2] = Math.sin(nAngle) * nSpeed * (0.55 + Math.random())
+    } else {
+      // Spawn in a ring around the figure, pull inward.
+      const nRad = 1.1 + Math.random() * 1.4
+      objPos.setXYZ(
+        nI,
+        nCx + Math.cos(nAngle) * nRad,
+        nCy + nLift * 0.85,
+        nCz + Math.sin(nAngle) * nRad * 0.65,
+      )
+      const nTx = nCx + (Math.random() - 0.5) * 0.35
+      const nTy = Math.random() * nAgentFigureH * 0.9
+      const nTz = nCz + (Math.random() - 0.5) * 0.15
+      const nDx = nTx - objPos.getX(nI)
+      const nDy = nTy - objPos.getY(nI)
+      const nDz = nTz - objPos.getZ(nI)
+      const nSpeed = 1.2 + Math.random() * 1.6
+      arrAgentPVel[nI * 3] = nDx * nSpeed
+      arrAgentPVel[nI * 3 + 1] = nDy * nSpeed
+      arrAgentPVel[nI * 3 + 2] = nDz * nSpeed
+    }
+    arrAgentPLife[nI] = 0.55 + Math.random() * 0.45
+  }
+
+  objPos.needsUpdate = true
+  objAgentParticles.visible = true
+  if (objAgentParticleMat) {
+    objAgentParticleMat.opacity = 1
+  }
+}
+
+function vApplyAgentFade(): void {
+  if (objAgentFigureMat) {
+    objAgentFigureMat.opacity = nAgentFade
+  }
+  if (objAgentFigure) {
+    objAgentFigure.visible = nAgentFade > 0.02
+  }
+}
+
+function vResetAgentFx(): void {
+  sAgentFx = 'idle'
+  nAgentFade = 1
+  fnAgentFxDone = null
+  vApplyAgentFade()
+  if (objAgentParticles) {
+    objAgentParticles.visible = false
+  }
+  if (objAgentParticleMat) {
+    objAgentParticleMat.opacity = 0
+  }
+}
+
+function vStartAgentFadeOut(fnDone: () => void): void {
+  sAgentFx = 'out'
+  nAgentFxStart = performance.now()
+  fnAgentFxDone = fnDone
+  nAgentFade = 1
+  vApplyAgentFade()
+  vSeedAgentParticles(true)
+}
+
+function vStartAgentFadeIn(fnDone: () => void): void {
+  sAgentFx = 'in'
+  nAgentFxStart = performance.now()
+  fnAgentFxDone = fnDone
+  nAgentFade = 0
+  vApplyAgentFade()
+  if (objAgentFigure) {
+    objAgentFigure.visible = true
+  }
+  vSeedAgentParticles(false)
+}
+
+function vTickAgentParticles(nDt: number): void {
+  if (!objAgentParticles || !arrAgentPVel || !arrAgentPLife || !objAgentParticleMat) {
+    return
+  }
+  if (!objAgentParticles.visible) {
+    return
+  }
+
+  const objPos = objAgentParticles.geometry.getAttribute('position') as THREE.BufferAttribute
+  let nAlive = 0
+  for (let nI = 0; nI < nAgentParticleCount; nI++) {
+    let nLife = arrAgentPLife[nI]!
+    if (nLife <= 0) {
+      continue
+    }
+    nLife -= nDt * 0.85
+    arrAgentPLife[nI] = nLife
+    if (nLife <= 0) {
+      objPos.setY(nI, -10)
+      continue
+    }
+    nAlive++
+    const nX = objPos.getX(nI) + arrAgentPVel[nI * 3]! * nDt
+    const nY = objPos.getY(nI) + arrAgentPVel[nI * 3 + 1]! * nDt
+    const nZ = objPos.getZ(nI) + arrAgentPVel[nI * 3 + 2]! * nDt
+    objPos.setXYZ(nI, nX, nY, nZ)
+    // Drag
+    arrAgentPVel[nI * 3]! *= 0.98
+    arrAgentPVel[nI * 3 + 1]! *= 0.98
+    arrAgentPVel[nI * 3 + 2]! *= 0.98
+    if (sAgentFx === 'out') {
+      arrAgentPVel[nI * 3 + 1]! += nDt * 0.55
+    }
+  }
+  objPos.needsUpdate = true
+
+  const nFxAge =
+    sAgentFx === 'out' || sAgentFx === 'in'
+      ? (performance.now() - nAgentFxStart) / (sAgentFx === 'out' ? nAgentFadeOutMs : nAgentFadeInMs)
+      : 1
+  const nBurst = sAgentFx === 'out' ? 1 - Math.min(1, nFxAge) : Math.min(1, nFxAge)
+  objAgentParticleMat.opacity = Math.max(0, Math.min(1, nBurst * 1.15)) * (nAlive > 0 ? 1 : 0)
+  if (nAlive === 0 && (sAgentFx === 'idle' || sAgentFx === 'gone')) {
+    objAgentParticles.visible = false
+  }
+}
+
+function vTickAgentFx(): void {
+  if (sAgentFx !== 'out' && sAgentFx !== 'in') {
+    return
+  }
+
+  const nDur = sAgentFx === 'out' ? nAgentFadeOutMs : nAgentFadeInMs
+  const nT = Math.min(1, Math.max(0, (performance.now() - nAgentFxStart) / nDur))
+  // Smoothstep
+  const nS = nT * nT * (3 - 2 * nT)
+  nAgentFade = sAgentFx === 'out' ? 1 - nS : nS
+  vApplyAgentFade()
+
+  if (nT >= 1) {
+    const fnDone = fnAgentFxDone
+    fnAgentFxDone = null
+    if (sAgentFx === 'out') {
+      sAgentFx = 'gone'
+      nAgentFade = 0
+      vApplyAgentFade()
+    } else {
+      sAgentFx = 'idle'
+      nAgentFade = 1
+      vApplyAgentFade()
+    }
+    fnDone?.()
+  }
+}
+
 function vLoadAgentFigure(): void {
   if (!objAgentScene || bAgentTextureReady) {
     return
@@ -1380,17 +1621,19 @@ function vLoadAgentFigure(): void {
     const nAspect = (objImg.naturalWidth || objImg.width) / (objImg.naturalHeight || objImg.height)
     const nH = nAgentFigureH
     const nW = nH * nAspect
-    const objMat = new THREE.MeshBasicMaterial({
+    objAgentFigureMat = new THREE.MeshBasicMaterial({
       map: objTex,
       transparent: true,
-      alphaTest: 0.08,
+      opacity: nAgentFade,
+      alphaTest: 0.04,
       depthWrite: false,
       side: THREE.DoubleSide,
     })
-    objAgentFigure = new THREE.Mesh(new THREE.PlaneGeometry(nW, nH), objMat)
+    objAgentFigure = new THREE.Mesh(new THREE.PlaneGeometry(nW, nH), objAgentFigureMat)
     objAgentFigure.position.set(0, nH * 0.5, 0)
     objAgentScene.add(objAgentFigure)
     bAgentTextureReady = true
+    vApplyAgentFade()
   }
   objImg.onerror = () => {
     console.warn('matrix agent: failed to load operator cutout')
@@ -1460,6 +1703,7 @@ function vBuildAgentScene(): void {
   objAgentWorld.add(objWireBox(0.85, 0.03, 0.85, nAgentLineGold, 0, 0.05, 0.05))
 
   objAgentCamera.lookAt(0, 1.15, 0)
+  vBuildAgentParticles()
   vLoadAgentFigure()
   vResizeAgent()
 }
@@ -1481,7 +1725,11 @@ function vTickAgent(): void {
     return
   }
 
-  const nT = (performance.now() - nAgentStart) * 0.001
+  const nNow = performance.now()
+  const nDt = nAgentLastTs === 0 ? 0.016 : Math.min(0.05, (nNow - nAgentLastTs) * 0.001)
+  nAgentLastTs = nNow
+
+  const nT = (nNow - nAgentStart) * 0.001
   objAgentCamera.position.set(
     Math.sin(nT * 0.22) * 0.35,
     1.32 + Math.sin(nT * 0.17) * 0.06,
@@ -1489,14 +1737,19 @@ function vTickAgent(): void {
   )
   objAgentCamera.lookAt(0, 1.15 + Math.sin(nT * 0.14) * 0.02, 0)
 
-  if (objAgentFigure) {
+  if (objAgentFigure && sAgentFx === 'idle') {
     objAgentFigure.position.y = nAgentFigureH * 0.5 + Math.sin(nT * 1.1) * 0.025
     objAgentFigure.rotation.y = Math.sin(nT * 0.45) * 0.04
+  } else if (objAgentFigure) {
+    objAgentFigure.position.y = nAgentFigureH * 0.5
   }
 
   if (objAgentWorld) {
     objAgentWorld.rotation.y = Math.sin(nT * 0.12) * 0.03
   }
+
+  vTickAgentFx()
+  vTickAgentParticles(nDt)
 
   objAgentRenderer.render(objAgentScene, objAgentCamera)
   nAgentAnimFrame = window.requestAnimationFrame(vTickAgent)
@@ -1518,6 +1771,8 @@ function vStartAgent(): void {
 
   bAgentRunning = true
   nAgentStart = performance.now()
+  nAgentLastTs = 0
+  vResetAgentFx()
   vResizeAgent()
   objAgentHost.classList.add('is-revealed')
   nAgentAnimFrame = window.requestAnimationFrame(vTickAgent)
@@ -1525,11 +1780,379 @@ function vStartAgent(): void {
 
 function vStopAgent(): void {
   bAgentRunning = false
+  nAgentLastTs = 0
+  vResetAgentFx()
   if (nAgentAnimFrame !== 0) {
     window.cancelAnimationFrame(nAgentAnimFrame)
     nAgentAnimFrame = 0
   }
   objAgentHost?.classList.remove('is-revealed')
+}
+
+type tTalkChoice = {
+  sLabel: string
+  sNext: string
+}
+
+type tTalkNode = {
+  sId: string
+  arrSys?: string[]
+  arrThem?: string[]
+  arrChoices?: tTalkChoice[]
+  bRestart?: boolean
+  /** After this node, vanish and restart the same dialogue. */
+  bLoop?: boolean
+}
+
+const sTalkStartId = 'start'
+
+const mapTalkNodes: Record<string, tTalkNode> = {
+  start: {
+    sId: 'start',
+    arrSys: ['channel open · latency 12ms · cipher ok'],
+    arrThem: ['You’re late. The rain already ate half the district.'],
+    arrChoices: [
+      { sLabel: 'Still reading the spill. What do you need?', sNext: 'need' },
+      { sLabel: 'Took the long route through the conduit.', sNext: 'route' },
+      { sLabel: 'Cut the theatrics. Open the channel.', sNext: 'blunt' },
+    ],
+    bRestart: true,
+  },
+  need: {
+    sId: 'need',
+    arrThem: ['A clean handshake. Say the word and I’ll open the conduit.'],
+    arrChoices: [
+      { sLabel: 'Handshake. Let’s go.', sNext: 'open' },
+      { sLabel: 'What’s on the other side?', sNext: 'other_side' },
+      { sLabel: 'Not yet. I need more signal.', sNext: 'wait' },
+    ],
+  },
+  route: {
+    sId: 'route',
+    arrThem: ['Conduit’s twitchy tonight. You feel the lag?'],
+    arrChoices: [
+      { sLabel: 'Yeah. Glyph rain’s thicker than usual.', sNext: 'glyphs' },
+      { sLabel: 'Just get me a path north.', sNext: 'open' },
+      { sLabel: 'Lag’s a feature. Keeps hunters slow.', sNext: 'wait' },
+    ],
+  },
+  blunt: {
+    sId: 'blunt',
+    arrThem: ['Fine. No poetry. Node 09 standing by — pick a payload.'],
+    arrChoices: [
+      { sLabel: 'Dump the apt cam feed.', sNext: 'cam' },
+      { sLabel: 'Trace the sheath sync.', sNext: 'trace' },
+      { sLabel: 'Keep the uplink idle.', sNext: 'end_idle' },
+    ],
+  },
+  other_side: {
+    sId: 'other_side',
+    arrThem: [
+      'Same city, different mask. Forks that never got compiled. Some of them still answer.',
+    ],
+    arrChoices: [
+      { sLabel: 'Open it.', sNext: 'open' },
+      { sLabel: 'Then I’m not ready.', sNext: 'wait' },
+    ],
+  },
+  glyphs: {
+    sId: 'glyphs',
+    arrThem: ['Sixteen signs falling like weather. Don’t catch the gold ones unless you mean it.'],
+    arrChoices: [
+      { sLabel: 'Open the conduit.', sNext: 'open' },
+      { sLabel: 'Tell me about the gold heads.', sNext: 'gold' },
+      { sLabel: 'I’ll watch a while longer.', sNext: 'wait' },
+    ],
+  },
+  gold: {
+    sId: 'gold',
+    arrThem: ['Gold heads are claims. Flags in the rain. Touch one and the city remembers your name.'],
+    arrChoices: [
+      { sLabel: 'I’ll take that risk. Open it.', sNext: 'open' },
+      { sLabel: 'Remembering sounds expensive.', sNext: 'wait' },
+    ],
+  },
+  cam: {
+    sId: 'cam',
+    arrThem: ['Cam 03 is yours. Don’t stare too long — rooms stare back.'],
+    bLoop: true,
+  },
+  trace: {
+    sId: 'trace',
+    arrThem: ['Trace 07’s live. Sheath bias is dancing. Don’t trip the ring locks.'],
+    bLoop: true,
+  },
+  open: {
+    sId: 'open',
+    arrThem: ['Handshake ack. Conduit open. Don’t waste the window.'],
+    arrChoices: [
+      { sLabel: 'Copy. Moving.', sNext: 'end_go' },
+      { sLabel: 'Hold — one more question.', sNext: 'more' },
+    ],
+  },
+  more: {
+    sId: 'more',
+    arrThem: ['Make it count.'],
+    arrChoices: [
+      { sLabel: 'Who are you, really?', sNext: 'who' },
+      { sLabel: 'Why help me?', sNext: 'why' },
+      { sLabel: 'Never mind. Moving.', sNext: 'end_go' },
+    ],
+  },
+  who: {
+    sId: 'who',
+    arrThem: ['Operator. Node 09. The rest is noise the rain hasn’t eaten yet.'],
+    arrChoices: [
+      { sLabel: 'Fair enough.', sNext: 'end_go' },
+      { sLabel: 'Leave me on standby.', sNext: 'end_idle' },
+    ],
+  },
+  why: {
+    sId: 'why',
+    arrThem: ['Because someone has to keep a door unlocked. And you showed up on time enough.'],
+    arrChoices: [
+      { sLabel: 'Thanks. Moving.', sNext: 'end_go' },
+      { sLabel: 'I’ll hold here.', sNext: 'end_idle' },
+    ],
+  },
+  wait: {
+    sId: 'wait',
+    arrThem: ['Standing by. Channel stays warm.'],
+    arrChoices: [
+      { sLabel: 'I’m ready now.', sNext: 'need' },
+      { sLabel: 'I’ll hold the line.', sNext: 'end_idle' },
+    ],
+  },
+  end_go: {
+    sId: 'end_go',
+    arrThem: ['Link sealed on my side. Hunt well.'],
+    arrSys: ['channel idle · window closed'],
+    bLoop: true,
+  },
+  end_idle: {
+    sId: 'end_idle',
+    arrThem: ['Idle it is. Don’t ghost the uplink forever.'],
+    bLoop: true,
+  },
+}
+
+let objTalkLog: HTMLElement | null = null
+let objTalkChoices: HTMLElement | null = null
+let bTalkBound = false
+let bTalkRunning = false
+let bTalkGap = false
+let nTalkGapTimer = 0
+const nTalkGapMs = 2000
+
+function vClearTalkGap(): void {
+  if (nTalkGapTimer !== 0) {
+    window.clearTimeout(nTalkGapTimer)
+    nTalkGapTimer = 0
+  }
+  bTalkGap = false
+  fnAgentFxDone = null
+  if (sAgentFx === 'out' || sAgentFx === 'in' || sAgentFx === 'gone') {
+    vResetAgentFx()
+  }
+}
+
+function objTalkLine(sTone: 'sys' | 'them' | 'you', sText: string): HTMLParagraphElement {
+  const objLine = document.createElement('p')
+  objLine.className = `matrix-talk-line is-${sTone}`
+  if (sTone === 'sys') {
+    objLine.textContent = sText
+    return objLine
+  }
+
+  const objWho = document.createElement('span')
+  objWho.className = 'matrix-talk-who'
+  objWho.textContent = sTone === 'them' ? 'operator' : 'you'
+  objLine.append(objWho, document.createTextNode(` ${sText}`))
+  return objLine
+}
+
+function vAppendTalkLine(sTone: 'sys' | 'them' | 'you', sText: string): void {
+  if (!objTalkLog) {
+    return
+  }
+  objTalkLog.appendChild(objTalkLine(sTone, sText))
+  objTalkLog.scrollTop = objTalkLog.scrollHeight
+}
+
+function vClearTalkChoices(): void {
+  if (!objTalkChoices) {
+    return
+  }
+  objTalkChoices.replaceChildren()
+  objTalkChoices.hidden = true
+}
+
+function vBeginTalkGap(sNext: string, nHoldMs = 0): void {
+  vClearTalkGap()
+  bTalkGap = true
+  vClearTalkChoices()
+
+  const vAfterGone = (): void => {
+    if (!bTalkRunning) {
+      bTalkGap = false
+      return
+    }
+    nTalkGapTimer = window.setTimeout(() => {
+      nTalkGapTimer = 0
+      if (!bTalkRunning) {
+        bTalkGap = false
+        return
+      }
+      vStartAgentFadeIn(() => {
+        bTalkGap = false
+        if (!bTalkRunning) {
+          return
+        }
+        if (sNext === sTalkStartId) {
+          vEnterTalkNode(sTalkStartId)
+        } else {
+          vEnterTalkNode(sNext, true)
+        }
+      })
+    }, nTalkGapMs)
+  }
+
+  const vVanish = (): void => {
+    if (!bTalkRunning) {
+      bTalkGap = false
+      return
+    }
+    vAppendTalkLine('sys', 'operator offline · reacquiring…')
+    vStartAgentFadeOut(vAfterGone)
+  }
+
+  if (nHoldMs > 0) {
+    nTalkGapTimer = window.setTimeout(vVanish, nHoldMs)
+  } else {
+    vVanish()
+  }
+}
+
+function vRenderTalkChoices(arrChoices: tTalkChoice[]): void {
+  if (!objTalkChoices) {
+    return
+  }
+
+  objTalkChoices.replaceChildren()
+  arrChoices.forEach((objChoice, nIndex) => {
+    const objBtn = document.createElement('button')
+    objBtn.type = 'button'
+    objBtn.className = 'matrix-talk-choice'
+    objBtn.dataset.next = objChoice.sNext
+
+    const objKey = document.createElement('span')
+    objKey.className = 'matrix-talk-choice-key'
+    objKey.textContent = String.fromCharCode(65 + nIndex)
+
+    const objText = document.createElement('span')
+    objText.className = 'matrix-talk-choice-text'
+    objText.textContent = objChoice.sLabel
+
+    objBtn.append(objKey, objText)
+    objTalkChoices!.appendChild(objBtn)
+  })
+  objTalkChoices.hidden = false
+}
+
+function vEnterTalkNode(sNodeId: string, bFromChoice = false): void {
+  const objNode = mapTalkNodes[sNodeId]
+  if (!objNode || !objTalkLog) {
+    return
+  }
+
+  if (objNode.bRestart || (!bFromChoice && sNodeId === sTalkStartId)) {
+    objTalkLog.replaceChildren()
+  }
+
+  for (const sSys of objNode.arrSys ?? []) {
+    vAppendTalkLine('sys', sSys)
+  }
+  for (const sThem of objNode.arrThem ?? []) {
+    vAppendTalkLine('them', sThem)
+  }
+
+  if (objNode.bLoop) {
+    vClearTalkChoices()
+    // Closing beat, then operator drops out for 2s and the same dialogue restarts.
+    vBeginTalkGap(sTalkStartId, 900)
+    return
+  }
+
+  const arrChoices = objNode.arrChoices ?? []
+  if (arrChoices.length > 0) {
+    vRenderTalkChoices(arrChoices)
+  } else {
+    vClearTalkChoices()
+  }
+}
+
+function vPickTalkChoice(sNext: string, sLabel: string): void {
+  if (bTalkGap) {
+    return
+  }
+
+  vAppendTalkLine('you', sLabel)
+  vClearTalkChoices()
+  vEnterTalkNode(sNext, true)
+}
+
+function vOnTalkClick(objEvent: MouseEvent): void {
+  if (bTalkGap) {
+    return
+  }
+
+  const objTarget = objEvent.target
+  if (!(objTarget instanceof Element)) {
+    return
+  }
+
+  const objBtn = objTarget.closest<HTMLButtonElement>('.matrix-talk-choice')
+  if (!objBtn || !objTalkChoices?.contains(objBtn)) {
+    return
+  }
+
+  const sNext = objBtn.dataset.next
+  const objText = objBtn.querySelector('.matrix-talk-choice-text')
+  const sLabel = objText?.textContent?.trim() ?? ''
+  if (!sNext || !sLabel) {
+    return
+  }
+
+  vPickTalkChoice(sNext, sLabel)
+}
+
+function vStartTalk(): void {
+  if (bTalkRunning) {
+    return
+  }
+
+  objTalkLog = document.querySelector<HTMLElement>('#matrix-talk-log')
+  objTalkChoices = document.querySelector<HTMLElement>('#matrix-talk-choices')
+  if (!objTalkLog || !objTalkChoices) {
+    return
+  }
+
+  if (!bTalkBound) {
+    bTalkBound = true
+    objTalkChoices.addEventListener('click', vOnTalkClick)
+  }
+
+  bTalkRunning = true
+  vClearTalkGap()
+  vResetAgentFx()
+  vEnterTalkNode(sTalkStartId)
+}
+
+function vStopTalk(): void {
+  bTalkRunning = false
+  vClearTalkGap()
+  vClearTalkChoices()
+  vResetAgentFx()
 }
 
 const arrPoetry = [
@@ -1661,6 +2284,7 @@ export function vBindMatrixRain(): void {
     vStartWire()
     vStartFeed()
     vStartAgent()
+    vStartTalk()
   }
 }
 
@@ -1672,6 +2296,7 @@ export function vSetMatrixActive(bActive: boolean): void {
     vStartWire()
     vStartFeed()
     vStartAgent()
+    vStartTalk()
   } else {
     vStop()
     vStopPoetry()
@@ -1679,5 +2304,6 @@ export function vSetMatrixActive(bActive: boolean): void {
     vStopWire()
     vStopFeed()
     vStopAgent()
+    vStopTalk()
   }
 }

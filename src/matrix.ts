@@ -696,6 +696,9 @@ function vStopRoom(): void {
 const nWireLine = 0x6a78e8
 const nWireLineDim = 0x3d4578
 const nWireLineGold = 0xc4a030
+const nWireLineDark = 0x1e2448
+const nWireLineDimDark = 0x12162a
+const nWireLineGoldDark = 0x3a2e10
 const nWireBg = 0x050308
 const nWirePointStep = 1.15
 const nWireSpeed = 0.15
@@ -705,6 +708,7 @@ const nWireStrandR = 0.9
 const nWireChunkPoints = 5
 const nWireAhead = 14
 const nWireBehind = 2.5
+const nWirePulseSpeed = 1.35
 
 type tWireChunk = {
   nStart: number
@@ -739,6 +743,29 @@ const objWireLookTan = new THREE.Vector3()
 const objWireShake = new THREE.Vector3()
 const objWireQuat = new THREE.Quaternion()
 const objWireZAxis = new THREE.Vector3(0, 0, 1)
+const objWirePulseBlue = new THREE.Color()
+const objWirePulseDim = new THREE.Color()
+const objWirePulseGold = new THREE.Color()
+const objWireColorBlue = new THREE.Color(nWireLine)
+const objWireColorBlueDark = new THREE.Color(nWireLineDark)
+const objWireColorDim = new THREE.Color(nWireLineDim)
+const objWireColorDimDark = new THREE.Color(nWireLineDimDark)
+const objWireColorGold = new THREE.Color(nWireLineGold)
+const objWireColorGoldDark = new THREE.Color(nWireLineGoldDark)
+
+function vPulseWireMat(
+  objMat: THREE.MeshBasicMaterial | null,
+  objBright: THREE.Color,
+  objDark: THREE.Color,
+  objScratch: THREE.Color,
+  nPulse: number,
+): void {
+  if (!objMat) {
+    return
+  }
+  objScratch.copy(objDark).lerp(objBright, nPulse)
+  objMat.color.copy(objScratch)
+}
 
 function objWirePointAt(nIndex: number): THREE.Vector3 {
   const nBend = nIndex * 0.62
@@ -1033,6 +1060,15 @@ function vTickWire(nTs: number): void {
   objWireSample(nWireCamT + 0.45, objWireLookPos, objWireLookTan)
 
   const nElapsed = nTs * 0.001
+  const nPulseA = 0.5 + 0.5 * Math.sin(nElapsed * nWirePulseSpeed)
+  const nPulseB = 0.5 + 0.5 * Math.sin(nElapsed * nWirePulseSpeed + 1.1)
+  vPulseWireMat(objWireSheathMat, objWireColorBlue, objWireColorBlueDark, objWirePulseBlue, nPulseA)
+  vPulseWireMat(objWireStrandMatA, objWireColorDim, objWireColorDimDark, objWirePulseDim, nPulseA)
+  vPulseWireMat(objWireRingMatA, objWireColorDim, objWireColorDimDark, objWirePulseDim, nPulseA)
+  vPulseWireMat(objWireCoreMat, objWireColorGold, objWireColorGoldDark, objWirePulseGold, nPulseB)
+  vPulseWireMat(objWireStrandMatB, objWireColorGold, objWireColorGoldDark, objWirePulseGold, nPulseB)
+  vPulseWireMat(objWireRingMatB, objWireColorGold, objWireColorGoldDark, objWirePulseGold, nPulseB)
+
   objWireShake.set(Math.sin(nElapsed * 2.1) * 0.012, Math.cos(nElapsed * 1.7) * 0.01, 0)
   objWireQuat.setFromUnitVectors(objWireZAxis, objWireSampleTan)
   objWireShake.applyQuaternion(objWireQuat)

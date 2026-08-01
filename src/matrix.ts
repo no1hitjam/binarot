@@ -1321,14 +1321,19 @@ const nAgentFigureH = 2.35
 const nAgentParticleCount = 110
 const nAgentFadeOutMs = 700
 const nAgentFadeInMs = 700
-const sAgentImageUrl = `${import.meta.env.BASE_URL}matrix-hacker.png`
+const arrAgentImageUrls = [
+  `${import.meta.env.BASE_URL}matrix-hacker.png`,
+  `${import.meta.env.BASE_URL}matrix-hacker-f.png`,
+]
 
 let objAgentHost: HTMLElement | null = null
 let objAgentScene: THREE.Scene | null = null
 let objAgentCamera: THREE.PerspectiveCamera | null = null
 let objAgentRenderer: THREE.WebGLRenderer | null = null
-let objAgentFigure: THREE.Mesh | null = null
-let objAgentFigureMat: THREE.MeshBasicMaterial | null = null
+let arrAgentFigures: THREE.Mesh[] = []
+let arrAgentFigureMats: THREE.MeshBasicMaterial[] = []
+let nAgentIndex = 0
+let nAgentLoadCount = 0
 let objAgentWorld: THREE.Group | null = null
 let objAgentParticles: THREE.Points | null = null
 let objAgentParticleMat: THREE.PointsMaterial | null = null
@@ -1338,13 +1343,79 @@ let nAgentAnimFrame = 0
 let bAgentRunning = false
 let nAgentStart = 0
 let nAgentLastTs = 0
-let bAgentTextureReady = false
+let bAgentLoadStarted = false
+/** After boy then girl finish, pedestal stays empty until refresh. */
+let bAgentSessionDone = false
 /** 1 = fully present, 0 = fully gone */
 let nAgentFade = 1
 type tAgentFx = 'idle' | 'out' | 'gone' | 'in'
 let sAgentFx: tAgentFx = 'idle'
 let nAgentFxStart = 0
 let fnAgentFxDone: (() => void) | null = null
+
+function objAgentFigure(): THREE.Mesh | null {
+  if (nAgentIndex < 0) {
+    return null
+  }
+  return arrAgentFigures[nAgentIndex] ?? null
+}
+
+function objAgentFigureMat(): THREE.MeshBasicMaterial | null {
+  if (nAgentIndex < 0) {
+    return null
+  }
+  return arrAgentFigureMats[nAgentIndex] ?? null
+}
+
+function vHideInactiveAgentFigures(): void {
+  for (let nI = 0; nI < arrAgentFigures.length; nI++) {
+    if (nI === nAgentIndex) {
+      continue
+    }
+    const objFig = arrAgentFigures[nI]
+    const objMat = arrAgentFigureMats[nI]
+    if (objFig) {
+      objFig.visible = false
+    }
+    if (objMat) {
+      objMat.opacity = 0
+    }
+  }
+}
+
+function bAgentHasNextFigure(): boolean {
+  return nAgentIndex >= 0 && nAgentIndex < arrAgentImageUrls.length - 1
+}
+
+function vAdvanceAgentFigure(): void {
+  if (!bAgentHasNextFigure()) {
+    return
+  }
+  nAgentIndex += 1
+  vHideInactiveAgentFigures()
+}
+
+function vClearAgentFigures(): void {
+  nAgentIndex = -1
+  nAgentFade = 0
+  sAgentFx = 'gone'
+  for (let nI = 0; nI < arrAgentFigures.length; nI++) {
+    const objFig = arrAgentFigures[nI]
+    const objMat = arrAgentFigureMats[nI]
+    if (objFig) {
+      objFig.visible = false
+    }
+    if (objMat) {
+      objMat.opacity = 0
+    }
+  }
+  if (objAgentParticles) {
+    objAgentParticles.visible = false
+  }
+  if (objAgentParticleMat) {
+    objAgentParticleMat.opacity = 0
+  }
+}
 
 function objAgentKeyTexture(objSource: HTMLImageElement): THREE.CanvasTexture {
   const objCanvas = document.createElement('canvas')
@@ -1488,18 +1559,25 @@ function vSeedAgentParticles(bBurst: boolean): void {
 }
 
 function vApplyAgentFade(): void {
-  if (objAgentFigureMat) {
-    objAgentFigureMat.opacity = nAgentFade
+  const objMat = objAgentFigureMat()
+  const objFig = objAgentFigure()
+  if (objMat) {
+    objMat.opacity = nAgentFade
   }
-  if (objAgentFigure) {
-    objAgentFigure.visible = nAgentFade > 0.02
+  if (objFig) {
+    objFig.visible = nAgentFade > 0.02
   }
+  vHideInactiveAgentFigures()
 }
 
 function vResetAgentFx(): void {
+  fnAgentFxDone = null
+  if (bAgentSessionDone) {
+    vClearAgentFigures()
+    return
+  }
   sAgentFx = 'idle'
   nAgentFade = 1
-  fnAgentFxDone = null
   vApplyAgentFade()
   if (objAgentParticles) {
     objAgentParticles.visible = false
@@ -1519,13 +1597,15 @@ function vStartAgentFadeOut(fnDone: () => void): void {
 }
 
 function vStartAgentFadeIn(fnDone: () => void): void {
+  vAdvanceAgentFigure()
   sAgentFx = 'in'
   nAgentFxStart = performance.now()
   fnAgentFxDone = fnDone
   nAgentFade = 0
   vApplyAgentFade()
-  if (objAgentFigure) {
-    objAgentFigure.visible = true
+  const objFig = objAgentFigure()
+  if (objFig) {
+    objFig.visible = true
   }
   vSeedAgentParticles(false)
 }
@@ -1605,40 +1685,50 @@ function vTickAgentFx(): void {
   }
 }
 
-function vLoadAgentFigure(): void {
-  if (!objAgentScene || bAgentTextureReady) {
+function vLoadAgentFigures(): void {
+  if (!objAgentScene || bAgentLoadStarted) {
     return
   }
+  bAgentLoadStarted = true
 
-  const objImg = new Image()
-  objImg.decoding = 'async'
-  objImg.onload = () => {
-    if (!objAgentScene) {
-      return
+  for (let nSlot = 0; nSlot < arrAgentImageUrls.length; nSlot++) {
+    const nIndex = nSlot
+    const sUrl = arrAgentImageUrls[nIndex]!
+    const objImg = new Image()
+    objImg.decoding = 'async'
+    objImg.onload = () => {
+      if (!objAgentScene) {
+        return
+      }
+
+      const objTex = objAgentKeyTexture(objImg)
+      const nAspect = (objImg.naturalWidth || objImg.width) / (objImg.naturalHeight || objImg.height)
+      const nH = nAgentFigureH
+      const nW = nH * nAspect
+      const objMat = new THREE.MeshBasicMaterial({
+        map: objTex,
+        transparent: true,
+        opacity: nIndex === nAgentIndex ? nAgentFade : 0,
+        alphaTest: 0.04,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      })
+      const objMesh = new THREE.Mesh(new THREE.PlaneGeometry(nW, nH), objMat)
+      objMesh.position.set(0, nH * 0.5, 0)
+      objMesh.visible = nIndex === nAgentIndex && nAgentFade > 0.02
+      objAgentScene.add(objMesh)
+      arrAgentFigureMats[nIndex] = objMat
+      arrAgentFigures[nIndex] = objMesh
+      nAgentLoadCount++
+      if (nIndex === nAgentIndex) {
+        vApplyAgentFade()
+      }
     }
-
-    const objTex = objAgentKeyTexture(objImg)
-    const nAspect = (objImg.naturalWidth || objImg.width) / (objImg.naturalHeight || objImg.height)
-    const nH = nAgentFigureH
-    const nW = nH * nAspect
-    objAgentFigureMat = new THREE.MeshBasicMaterial({
-      map: objTex,
-      transparent: true,
-      opacity: nAgentFade,
-      alphaTest: 0.04,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    })
-    objAgentFigure = new THREE.Mesh(new THREE.PlaneGeometry(nW, nH), objAgentFigureMat)
-    objAgentFigure.position.set(0, nH * 0.5, 0)
-    objAgentScene.add(objAgentFigure)
-    bAgentTextureReady = true
-    vApplyAgentFade()
+    objImg.onerror = () => {
+      console.warn(`matrix agent: failed to load operator cutout (${sUrl})`)
+    }
+    objImg.src = sUrl
   }
-  objImg.onerror = () => {
-    console.warn('matrix agent: failed to load operator cutout')
-  }
-  objImg.src = sAgentImageUrl
 }
 
 function vBuildAgentScene(): void {
@@ -1704,7 +1794,7 @@ function vBuildAgentScene(): void {
 
   objAgentCamera.lookAt(0, 1.15, 0)
   vBuildAgentParticles()
-  vLoadAgentFigure()
+  vLoadAgentFigures()
   vResizeAgent()
 }
 
@@ -1737,11 +1827,12 @@ function vTickAgent(): void {
   )
   objAgentCamera.lookAt(0, 1.15 + Math.sin(nT * 0.14) * 0.02, 0)
 
-  if (objAgentFigure && sAgentFx === 'idle') {
-    objAgentFigure.position.y = nAgentFigureH * 0.5 + Math.sin(nT * 1.1) * 0.025
-    objAgentFigure.rotation.y = Math.sin(nT * 0.45) * 0.04
-  } else if (objAgentFigure) {
-    objAgentFigure.position.y = nAgentFigureH * 0.5
+  const objFig = objAgentFigure()
+  if (objFig && sAgentFx === 'idle') {
+    objFig.position.y = nAgentFigureH * 0.5 + Math.sin(nT * 1.1) * 0.025
+    objFig.rotation.y = Math.sin(nT * 0.45) * 0.04
+  } else if (objFig) {
+    objFig.position.y = nAgentFigureH * 0.5
   }
 
   if (objAgentWorld) {
@@ -1806,7 +1897,7 @@ type tTalkNode = {
 
 const sTalkStartId = 'start'
 
-const mapTalkNodes: Record<string, tTalkNode> = {
+const mapTalkNodesGuy: Record<string, tTalkNode> = {
   start: {
     sId: 'start',
     arrSys: ['channel open · latency 12ms · cipher ok'],
@@ -1936,6 +2027,153 @@ const mapTalkNodes: Record<string, tTalkNode> = {
   },
 }
 
+const mapTalkNodesGirl: Record<string, tTalkNode> = {
+  start: {
+    sId: 'start',
+    arrSys: ['relay patch · latency 9ms · cipher ok'],
+    arrThem: ['Oh good — you didn’t drop. I was about to start talking to the rain.'],
+    arrChoices: [
+      { sLabel: 'I’m here. What’s the job?', sNext: 'need' },
+      { sLabel: 'Caught static on the way in. You clean?', sNext: 'route' },
+      { sLabel: 'Skip the warm-up. Patch me through.', sNext: 'blunt' },
+    ],
+    bRestart: true,
+  },
+  need: {
+    sId: 'need',
+    arrThem: ['Simple. I hold the mirror open; you walk through before it forgets your shape.'],
+    arrChoices: [
+      { sLabel: 'Open the mirror.', sNext: 'open' },
+      { sLabel: 'Forget my shape — how?', sNext: 'other_side' },
+      { sLabel: 'Give me a second to lock in.', sNext: 'wait' },
+    ],
+  },
+  route: {
+    sId: 'route',
+    arrThem: ['Clean enough. The sheath’s humming like it wants an audience.'],
+    arrChoices: [
+      { sLabel: 'That hum — glyph weather?', sNext: 'glyphs' },
+      { sLabel: 'Then punch me a lane.', sNext: 'open' },
+      { sLabel: 'Let it hum. I’m not rushing.', sNext: 'wait' },
+    ],
+  },
+  blunt: {
+    sId: 'blunt',
+    arrThem: ['Bossy. Fine — Node 12, live board. Pick something shiny.'],
+    arrChoices: [
+      { sLabel: 'Give me the apt cam.', sNext: 'cam' },
+      { sLabel: 'Pull the conduit trace.', sNext: 'trace' },
+      { sLabel: 'Park the board. Idle.', sNext: 'end_idle' },
+    ],
+  },
+  other_side: {
+    sId: 'other_side',
+    arrThem: [
+      'Mirrors don’t keep guests. Stay too long and you come back wearing someone else’s lag.',
+    ],
+    arrChoices: [
+      { sLabel: 'I’ll be quick. Open it.', sNext: 'open' },
+      { sLabel: 'Yeah… hold that thought.', sNext: 'wait' },
+    ],
+  },
+  glyphs: {
+    sId: 'glyphs',
+    arrThem: ['Sixteen little futures, dripping. Gold ones bite. Blue ones gossip.'],
+    arrChoices: [
+      { sLabel: 'Open the lane anyway.', sNext: 'open' },
+      { sLabel: 'What do the gold ones want?', sNext: 'gold' },
+      { sLabel: 'I’ll listen to the gossip first.', sNext: 'wait' },
+    ],
+  },
+  gold: {
+    sId: 'gold',
+    arrThem: ['They want a name on file. Once the city files you, good luck becoming weather again.'],
+    arrChoices: [
+      { sLabel: 'File me. Open the mirror.', sNext: 'open' },
+      { sLabel: 'I’d rather stay unlabeled.', sNext: 'wait' },
+    ],
+  },
+  cam: {
+    sId: 'cam',
+    arrThem: ['Cam 03 unlocked. Wave at the empty chair for me.'],
+    bLoop: true,
+  },
+  trace: {
+    sId: 'trace',
+    arrThem: ['Trace 07 spinning. If a ring lock winks, pretend you didn’t see it.'],
+    bLoop: true,
+  },
+  open: {
+    sId: 'open',
+    arrThem: ['Mirror’s up. Don’t admire yourself — move.'],
+    arrChoices: [
+      { sLabel: 'Moving.', sNext: 'end_go' },
+      { sLabel: 'Wait — one question.', sNext: 'more' },
+    ],
+  },
+  more: {
+    sId: 'more',
+    arrThem: ['Make it cute. Or useful. Prefer useful.'],
+    arrChoices: [
+      { sLabel: 'Who are you under the relay?', sNext: 'who' },
+      { sLabel: 'Why keep pulling me through?', sNext: 'why' },
+      { sLabel: 'Forget it. Going.', sNext: 'end_go' },
+    ],
+  },
+  who: {
+    sId: 'who',
+    arrThem: ['Call me the patch between dropped packets. Names are for people who stay.'],
+    arrChoices: [
+      { sLabel: 'Understood.', sNext: 'end_go' },
+      { sLabel: 'Then stay on the line a bit.', sNext: 'end_idle' },
+    ],
+  },
+  why: {
+    sId: 'why',
+    arrThem: ['Because the city edits people who walk alone. I hate bad edits.'],
+    arrChoices: [
+      { sLabel: 'Appreciate it. Moving.', sNext: 'end_go' },
+      { sLabel: 'Then keep the patch warm.', sNext: 'end_idle' },
+    ],
+  },
+  wait: {
+    sId: 'wait',
+    arrThem: ['Take your beat. I’ll keep the mirror fogged so nobody else peeks.'],
+    arrChoices: [
+      { sLabel: 'Ready. Open it.', sNext: 'need' },
+      { sLabel: 'Hold that fog.', sNext: 'end_idle' },
+    ],
+  },
+  end_go: {
+    sId: 'end_go',
+    arrThem: ['Go soft. Come back loud.'],
+    arrSys: ['relay idle · mirror folded'],
+    bLoop: true,
+  },
+  end_idle: {
+    sId: 'end_idle',
+    arrThem: ['Idle accepted. Don’t let the rain rewrite you while I’m gone.'],
+    bLoop: true,
+  },
+}
+
+const arrTalkTrees = [mapTalkNodesGuy, mapTalkNodesGirl]
+const arrTalkWho = ['operator', 'relay']
+
+function mapTalkActive(): Record<string, tTalkNode> {
+  if (nAgentIndex < 0) {
+    return mapTalkNodesGuy
+  }
+  return arrTalkTrees[nAgentIndex] ?? mapTalkNodesGuy
+}
+
+function sTalkWhoLabel(): string {
+  if (nAgentIndex < 0) {
+    return 'operator'
+  }
+  return arrTalkWho[nAgentIndex] ?? 'operator'
+}
+
 let objTalkLog: HTMLElement | null = null
 let objTalkChoices: HTMLElement | null = null
 let bTalkBound = false
@@ -1966,7 +2204,7 @@ function objTalkLine(sTone: 'sys' | 'them' | 'you', sText: string): HTMLParagrap
 
   const objWho = document.createElement('span')
   objWho.className = 'matrix-talk-who'
-  objWho.textContent = sTone === 'them' ? 'operator' : 'you'
+  objWho.textContent = sTone === 'them' ? sTalkWhoLabel() : 'you'
   objLine.append(objWho, document.createTextNode(` ${sText}`))
   return objLine
 }
@@ -1987,16 +2225,36 @@ function vClearTalkChoices(): void {
   objTalkChoices.hidden = true
 }
 
+function vEnterTalkClosed(): void {
+  if (!objTalkLog) {
+    return
+  }
+  objTalkLog.replaceChildren()
+  vAppendTalkLine('sys', 'channel closed · no operators on node')
+  vClearTalkChoices()
+}
+
 function vBeginTalkGap(sNext: string, nHoldMs = 0): void {
   vClearTalkGap()
   bTalkGap = true
   vClearTalkChoices()
+
+  const bHadNext = bAgentHasNextFigure()
 
   const vAfterGone = (): void => {
     if (!bTalkRunning) {
       bTalkGap = false
       return
     }
+
+    if (!bHadNext) {
+      bAgentSessionDone = true
+      vClearAgentFigures()
+      bTalkGap = false
+      vEnterTalkClosed()
+      return
+    }
+
     nTalkGapTimer = window.setTimeout(() => {
       nTalkGapTimer = 0
       if (!bTalkRunning) {
@@ -2022,7 +2280,10 @@ function vBeginTalkGap(sNext: string, nHoldMs = 0): void {
       bTalkGap = false
       return
     }
-    vAppendTalkLine('sys', 'operator offline · reacquiring…')
+    vAppendTalkLine(
+      'sys',
+      bHadNext ? 'operator offline · reacquiring…' : 'operator offline · channel closing…',
+    )
     vStartAgentFadeOut(vAfterGone)
   }
 
@@ -2060,7 +2321,7 @@ function vRenderTalkChoices(arrChoices: tTalkChoice[]): void {
 }
 
 function vEnterTalkNode(sNodeId: string, bFromChoice = false): void {
-  const objNode = mapTalkNodes[sNodeId]
+  const objNode = mapTalkActive()[sNodeId]
   if (!objNode || !objTalkLog) {
     return
   }
@@ -2144,6 +2405,11 @@ function vStartTalk(): void {
 
   bTalkRunning = true
   vClearTalkGap()
+  if (bAgentSessionDone) {
+    vResetAgentFx()
+    vEnterTalkClosed()
+    return
+  }
   vResetAgentFx()
   vEnterTalkNode(sTalkStartId)
 }

@@ -415,6 +415,10 @@ export function sMatrixMarkup(): string {
       <div class="matrix-room-viewport" id="matrix-room-viewport" aria-hidden="true"></div>
       <p class="matrix-room-caption">cam 03 · apt feed</p>
     </div>
+    <div class="matrix-wire" id="matrix-wire">
+      <div class="matrix-wire-viewport" id="matrix-wire-viewport" aria-hidden="true"></div>
+      <p class="matrix-wire-caption">trace 07 · conduit</p>
+    </div>
   `
 }
 
@@ -689,6 +693,389 @@ function vStopRoom(): void {
   objRoomHost?.classList.remove('is-revealed')
 }
 
+const nWireLine = 0x6a78e8
+const nWireLineDim = 0x3d4578
+const nWireLineGold = 0xc4a030
+const nWireBg = 0x050308
+const nWirePointStep = 1.15
+const nWireSpeed = 0.15
+const nWireSheathR = 1.9
+const nWireCoreR = 0.42
+const nWireStrandR = 0.9
+const nWireChunkPoints = 5
+const nWireAhead = 14
+const nWireBehind = 2.5
+
+type tWireChunk = {
+  nStart: number
+  nEnd: number
+  objGroup: THREE.Group
+}
+
+type tWireSample = {
+  objPos: THREE.Vector3
+  objTangent: THREE.Vector3
+}
+
+let objWireHost: HTMLElement | null = null
+let objWireScene: THREE.Scene | null = null
+let objWireCamera: THREE.PerspectiveCamera | null = null
+let objWireRenderer: THREE.WebGLRenderer | null = null
+let arrWireChunks: tWireChunk[] = []
+let nWireCamT = 0
+let nWireAnimFrame = 0
+let bWireRunning = false
+let nWireLastTs = 0
+let objWireSheathMat: THREE.MeshBasicMaterial | null = null
+let objWireCoreMat: THREE.MeshBasicMaterial | null = null
+let objWireStrandMatA: THREE.MeshBasicMaterial | null = null
+let objWireStrandMatB: THREE.MeshBasicMaterial | null = null
+let objWireRingMatA: THREE.MeshBasicMaterial | null = null
+let objWireRingMatB: THREE.MeshBasicMaterial | null = null
+const objWireSamplePos = new THREE.Vector3()
+const objWireSampleTan = new THREE.Vector3()
+const objWireLookPos = new THREE.Vector3()
+const objWireLookTan = new THREE.Vector3()
+const objWireShake = new THREE.Vector3()
+const objWireQuat = new THREE.Quaternion()
+const objWireZAxis = new THREE.Vector3(0, 0, 1)
+
+function objWirePointAt(nIndex: number): THREE.Vector3 {
+  const nBend = nIndex * 0.62
+  return new THREE.Vector3(
+    Math.sin(nBend * 0.9) * 1.8 + Math.sin(nBend * 2.1) * 0.45,
+    Math.cos(nBend * 0.65) * 1.2 + Math.sin(nBend * 1.4) * 0.4,
+    nIndex * nWirePointStep,
+  )
+}
+
+function vCatmullLerp(
+  objP0: THREE.Vector3,
+  objP1: THREE.Vector3,
+  objP2: THREE.Vector3,
+  objP3: THREE.Vector3,
+  nT: number,
+  objOut: THREE.Vector3,
+): void {
+  const nT2 = nT * nT
+  const nT3 = nT2 * nT
+  objOut.set(0, 0, 0)
+  objOut.addScaledVector(objP0, -0.5 * nT3 + nT2 - 0.5 * nT)
+  objOut.addScaledVector(objP1, 1.5 * nT3 - 2.5 * nT2 + 1)
+  objOut.addScaledVector(objP2, -1.5 * nT3 + 2 * nT2 + 0.5 * nT)
+  objOut.addScaledVector(objP3, 0.5 * nT3 - 0.5 * nT2)
+}
+
+function vCatmullTangent(
+  objP0: THREE.Vector3,
+  objP1: THREE.Vector3,
+  objP2: THREE.Vector3,
+  objP3: THREE.Vector3,
+  nT: number,
+  objOut: THREE.Vector3,
+): void {
+  const nT2 = nT * nT
+  objOut.set(0, 0, 0)
+  objOut.addScaledVector(objP0, -1.5 * nT2 + 2 * nT - 0.5)
+  objOut.addScaledVector(objP1, 4.5 * nT2 - 5 * nT)
+  objOut.addScaledVector(objP2, -4.5 * nT2 + 4 * nT + 0.5)
+  objOut.addScaledVector(objP3, 1.5 * nT2 - nT)
+  if (objOut.lengthSq() < 1e-8) {
+    objOut.subVectors(objP2, objP1)
+  }
+  objOut.normalize()
+}
+
+function objWireSample(nT: number, objPos: THREE.Vector3, objTangent: THREE.Vector3): tWireSample {
+  const nI = Math.floor(nT)
+  const nU = nT - nI
+  const objP0 = objWirePointAt(nI - 1)
+  const objP1 = objWirePointAt(nI)
+  const objP2 = objWirePointAt(nI + 1)
+  const objP3 = objWirePointAt(nI + 2)
+  vCatmullLerp(objP0, objP1, objP2, objP3, nU, objPos)
+  vCatmullTangent(objP0, objP1, objP2, objP3, nU, objTangent)
+  return { objPos, objTangent }
+}
+
+function vDisposeObject3D(objRoot: THREE.Object3D): void {
+  objRoot.traverse((objChild) => {
+    const objMesh = objChild as THREE.Mesh
+    if (objMesh.geometry) {
+      objMesh.geometry.dispose()
+    }
+  })
+}
+
+function arrStrandPointsForRange(nStart: number, nCount: number, nPhase: number): THREE.Vector3[] {
+  const arrStrand: THREE.Vector3[] = []
+  const nSamples = Math.max(12, (nCount - 1) * 14)
+  const objPos = new THREE.Vector3()
+  const objTangent = new THREE.Vector3()
+  const objNormal = new THREE.Vector3()
+  const objBinormal = new THREE.Vector3()
+
+  for (let nI = 0; nI <= nSamples; nI++) {
+    const nT = nStart + ((nCount - 1) * nI) / nSamples
+    objWireSample(nT, objPos, objTangent)
+    objNormal.set(0, 1, 0)
+    if (Math.abs(objTangent.dot(objNormal)) > 0.92) {
+      objNormal.set(1, 0, 0)
+    }
+    objBinormal.crossVectors(objTangent, objNormal).normalize()
+    objNormal.crossVectors(objBinormal, objTangent).normalize()
+    const nTwist = nT * 0.55 + nPhase
+    arrStrand.push(
+      objPos
+        .clone()
+        .addScaledVector(objNormal, Math.cos(nTwist) * nWireStrandR)
+        .addScaledVector(objBinormal, Math.sin(nTwist) * nWireStrandR),
+    )
+  }
+  return arrStrand
+}
+
+function objBuildWireChunk(nStart: number): tWireChunk {
+  const objGroup = new THREE.Group()
+  const nCount = nWireChunkPoints
+  const nEnd = nStart + nCount - 1
+  const arrPts: THREE.Vector3[] = []
+  for (let nI = 0; nI < nCount; nI++) {
+    arrPts.push(objWirePointAt(nStart + nI))
+  }
+
+  const objCurve = new THREE.CatmullRomCurve3(arrPts, false, 'catmullrom', 0.45)
+  const nTubular = Math.max(24, (nCount - 1) * 18)
+
+  if (objWireSheathMat) {
+    objGroup.add(
+      new THREE.Mesh(
+        new THREE.TubeGeometry(objCurve, nTubular, nWireSheathR, 16, false),
+        objWireSheathMat,
+      ),
+    )
+  }
+  if (objWireCoreMat) {
+    objGroup.add(
+      new THREE.Mesh(
+        new THREE.TubeGeometry(objCurve, nTubular, nWireCoreR, 8, false),
+        objWireCoreMat,
+      ),
+    )
+  }
+
+  for (let nStrand = 0; nStrand < 3; nStrand++) {
+    const objMat = nStrand === 1 ? objWireStrandMatB : objWireStrandMatA
+    if (!objMat) {
+      continue
+    }
+    const objStrandCurve = new THREE.CatmullRomCurve3(
+      arrStrandPointsForRange(nStart, nCount, (nStrand / 3) * Math.PI * 2),
+    )
+    objGroup.add(
+      new THREE.Mesh(new THREE.TubeGeometry(objStrandCurve, Math.max(20, nTubular - 8), 0.1, 5, false), objMat),
+    )
+  }
+
+  for (let nI = 0; nI < nCount - 1; nI++) {
+    const nIndex = nStart + nI
+    const objMat = nIndex % 4 === 0 ? objWireRingMatB : objWireRingMatA
+    if (!objMat) {
+      continue
+    }
+    const objRing = new THREE.Mesh(new THREE.RingGeometry(1.55, nWireSheathR, 18), objMat)
+    objWireSample(nIndex, objWireSamplePos, objWireSampleTan)
+    objRing.position.copy(objWireSamplePos)
+    objRing.quaternion.setFromUnitVectors(objWireZAxis, objWireSampleTan)
+    objGroup.add(objRing)
+  }
+
+  return { nStart, nEnd, objGroup }
+}
+
+function vCullWireChunks(): void {
+  if (!objWireScene) {
+    return
+  }
+
+  const nCullBefore = nWireCamT - nWireBehind
+  arrWireChunks = arrWireChunks.filter((objChunk) => {
+    if (objChunk.nEnd < nCullBefore) {
+      objWireScene!.remove(objChunk.objGroup)
+      vDisposeObject3D(objChunk.objGroup)
+      return false
+    }
+    return true
+  })
+}
+
+function vSpawnWireChunks(): void {
+  if (!objWireScene) {
+    return
+  }
+
+  let nNextStart = 0
+  if (arrWireChunks.length > 0) {
+    const objLast = arrWireChunks[arrWireChunks.length - 1]!
+    nNextStart = objLast.nStart + nWireChunkPoints - 1
+  }
+
+  const nNeedUntil = Math.ceil(nWireCamT + nWireAhead)
+  while (nNextStart < nNeedUntil) {
+    const objChunk = objBuildWireChunk(nNextStart)
+    arrWireChunks.push(objChunk)
+    objWireScene.add(objChunk.objGroup)
+    nNextStart = objChunk.nStart + nWireChunkPoints - 1
+  }
+}
+
+function vSyncWireChunks(): void {
+  vCullWireChunks()
+  vSpawnWireChunks()
+}
+
+function vBuildWireScene(): void {
+  if (!objWireHost) {
+    return
+  }
+
+  objWireScene = new THREE.Scene()
+  objWireScene.background = new THREE.Color(nWireBg)
+  objWireScene.fog = new THREE.Fog(nWireBg, 2.5, 13)
+
+  objWireCamera = new THREE.PerspectiveCamera(78, 1, 0.02, 18)
+  objWireRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+  objWireRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+  objWireRenderer.setClearColor(nWireBg, 1)
+  objWireHost.replaceChildren(objWireRenderer.domElement)
+
+  objWireSheathMat = new THREE.MeshBasicMaterial({
+    color: nWireLine,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.78,
+    fog: true,
+  })
+  objWireCoreMat = new THREE.MeshBasicMaterial({
+    color: nWireLineGold,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.9,
+    fog: true,
+  })
+  objWireStrandMatA = new THREE.MeshBasicMaterial({
+    color: nWireLineDim,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.85,
+    fog: true,
+  })
+  objWireStrandMatB = new THREE.MeshBasicMaterial({
+    color: nWireLineGold,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.85,
+    fog: true,
+  })
+  objWireRingMatA = new THREE.MeshBasicMaterial({
+    color: nWireLineDim,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.55,
+    side: THREE.DoubleSide,
+    fog: true,
+  })
+  objWireRingMatB = new THREE.MeshBasicMaterial({
+    color: nWireLineGold,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.55,
+    side: THREE.DoubleSide,
+    fog: true,
+  })
+
+  for (const objChunk of arrWireChunks) {
+    vDisposeObject3D(objChunk.objGroup)
+  }
+  arrWireChunks = []
+  nWireCamT = 2.2
+  vSyncWireChunks()
+  vResizeWire()
+}
+
+function vResizeWire(): void {
+  if (!objWireHost || !objWireCamera || !objWireRenderer) {
+    return
+  }
+
+  const nW = Math.max(1, objWireHost.clientWidth)
+  const nH = Math.max(1, objWireHost.clientHeight)
+  objWireCamera.aspect = nW / nH
+  objWireCamera.updateProjectionMatrix()
+  objWireRenderer.setSize(nW, nH, false)
+}
+
+function vTickWire(nTs: number): void {
+  if (!bWireRunning || !objWireRenderer || !objWireScene || !objWireCamera) {
+    return
+  }
+
+  if (nWireLastTs === 0) {
+    nWireLastTs = nTs
+  }
+  const nDt = Math.min(0.05, (nTs - nWireLastTs) * 0.001)
+  nWireLastTs = nTs
+
+  nWireCamT += nDt * nWireSpeed
+  vSyncWireChunks()
+
+  objWireSample(nWireCamT, objWireSamplePos, objWireSampleTan)
+  objWireSample(nWireCamT + 0.45, objWireLookPos, objWireLookTan)
+
+  const nElapsed = nTs * 0.001
+  objWireShake.set(Math.sin(nElapsed * 2.1) * 0.012, Math.cos(nElapsed * 1.7) * 0.01, 0)
+  objWireQuat.setFromUnitVectors(objWireZAxis, objWireSampleTan)
+  objWireShake.applyQuaternion(objWireQuat)
+
+  objWireCamera.position.copy(objWireSamplePos).add(objWireShake)
+  objWireCamera.lookAt(objWireLookPos)
+  objWireCamera.rotateZ(Math.sin(nElapsed * 0.35) * 0.08)
+
+  objWireRenderer.render(objWireScene, objWireCamera)
+  nWireAnimFrame = window.requestAnimationFrame(vTickWire)
+}
+
+function vStartWire(): void {
+  if (bWireRunning) {
+    return
+  }
+
+  objWireHost = document.querySelector<HTMLElement>('#matrix-wire-viewport')
+  if (!objWireHost) {
+    return
+  }
+
+  if (!objWireRenderer || !objWireScene) {
+    vBuildWireScene()
+  }
+
+  bWireRunning = true
+  nWireLastTs = 0
+  vResizeWire()
+  objWireHost.classList.add('is-revealed')
+  nWireAnimFrame = window.requestAnimationFrame(vTickWire)
+}
+
+function vStopWire(): void {
+  bWireRunning = false
+  nWireLastTs = 0
+  if (nWireAnimFrame !== 0) {
+    window.cancelAnimationFrame(nWireAnimFrame)
+    nWireAnimFrame = 0
+  }
+  objWireHost?.classList.remove('is-revealed')
+}
+
 const arrPoetry = [
   'The Seed sleeps in cold silicon—sixteen futures coiled in a single unlit bit.',
   'Plant The Flag on a rooftop server; sovereignty boots before dawn.',
@@ -802,6 +1189,9 @@ export function vBindMatrixRain(): void {
     if (bRoomRunning) {
       vResizeRoom()
     }
+    if (bWireRunning) {
+      vResizeWire()
+    }
   })
 
   const objPanel = document.querySelector<HTMLElement>('[data-panel="matrix"]')
@@ -809,6 +1199,7 @@ export function vBindMatrixRain(): void {
     vStart()
     vStartPoetry()
     vStartRoom()
+    vStartWire()
   }
 }
 
@@ -817,9 +1208,11 @@ export function vSetMatrixActive(bActive: boolean): void {
     vStart()
     vStartPoetry()
     vStartRoom()
+    vStartWire()
   } else {
     vStop()
     vStopPoetry()
     vStopRoom()
+    vStopWire()
   }
 }

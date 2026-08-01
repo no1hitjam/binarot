@@ -32,6 +32,8 @@ const nDiagY = 0.866
 
 const sStrokeBlue = '#6a78e8'
 const sStrokeGold = '#c4a030'
+const nCityLayers = 4
+const nCitySeed = 0xc17a5ca9
 
 type tDrop = {
   nX: number
@@ -48,6 +50,7 @@ type tDrop = {
 
 let objCanvas: HTMLCanvasElement | null = null
 let objCtx: CanvasRenderingContext2D | null = null
+let objCityCanvas: HTMLCanvasElement | null = null
 let arrDrops: tDrop[] = []
 let nAnimFrame = 0
 let bRunning = false
@@ -62,6 +65,86 @@ function nIntroAlpha(): number {
   const nElapsed = performance.now() - nFadeInStart
   const nT = Math.min(1, Math.max(0, nElapsed / nFadeInMs))
   return 1 - (1 - nT) * (1 - nT)
+}
+
+function nCityRand(objState: { n: number }): number {
+  objState.n = (objState.n + 0x6d2b79f5) | 0
+  let nT = Math.imul(objState.n ^ (objState.n >>> 15), 1 | objState.n)
+  nT = (nT + Math.imul(nT ^ (nT >>> 7), 61 | nT)) ^ nT
+  return ((nT ^ (nT >>> 14)) >>> 0) / 4294967296
+}
+
+function vBakeCity(nW: number, nH: number): void {
+  if (!objCityCanvas) {
+    objCityCanvas = document.createElement('canvas')
+  }
+
+  objCityCanvas.width = Math.max(1, Math.floor(nW * nDpr))
+  objCityCanvas.height = Math.max(1, Math.floor(nH * nDpr))
+  const objCityCtx = objCityCanvas.getContext('2d')
+  if (!objCityCtx) {
+    return
+  }
+
+  objCityCtx.setTransform(nDpr, 0, 0, nDpr, 0, 0)
+  objCityCtx.clearRect(0, 0, nW, nH)
+
+  const nHorizon = nH * 0.7
+  const objState = { n: nCitySeed }
+
+  for (let nLayer = 0; nLayer < nCityLayers; nLayer++) {
+    const nT = nLayer / (nCityLayers - 1)
+    const nBaseY = nHorizon + nH * (0.04 + nT * 0.2)
+    const nMaxH = nH * (0.035 + nT * 0.09)
+    const nMinH = nMaxH * (0.28 + nT * 0.12)
+    const nEdge = 18 + Math.floor(nT * 28)
+    const nR = Math.round(22 + nT * 18)
+    const nG = Math.round(8 + nT * 6)
+    const nB = Math.round(32 + nT * 18)
+
+    objCityCtx.fillStyle = `rgb(${nR}, ${nG}, ${nB})`
+    objCityCtx.beginPath()
+    objCityCtx.moveTo(-2, nH + 2)
+
+    let nX = -nEdge
+    while (nX < nW + nEdge) {
+      const nBw = (6 + nCityRand(objState) * (14 + nT * 28)) * (0.7 + nT * 0.55)
+      let nBh = nMinH + nCityRand(objState) * (nMaxH - nMinH)
+      if (nCityRand(objState) < 0.12 + nT * 0.08) {
+        nBh *= 1.35 + nCityRand(objState) * 0.55
+      }
+
+      const nTop = nBaseY - nBh
+      objCityCtx.lineTo(nX, nBaseY)
+      objCityCtx.lineTo(nX, nTop)
+
+      if (nCityRand(objState) < 0.18 && nBh > nMaxH * 0.55) {
+        const nSpireW = Math.max(1.5, nBw * 0.12)
+        const nSpireH = nBh * (0.12 + nCityRand(objState) * 0.22)
+        const nMid = nX + nBw * 0.5
+        objCityCtx.lineTo(nMid - nSpireW * 0.5, nTop)
+        objCityCtx.lineTo(nMid, nTop - nSpireH)
+        objCityCtx.lineTo(nMid + nSpireW * 0.5, nTop)
+      }
+
+      if (nCityRand(objState) < 0.25) {
+        const nStepW = nBw * (0.35 + nCityRand(objState) * 0.4)
+        const nStepH = nBh * (0.15 + nCityRand(objState) * 0.25)
+        objCityCtx.lineTo(nX + nStepW, nTop)
+        objCityCtx.lineTo(nX + nStepW, nTop + nStepH)
+        objCityCtx.lineTo(nX + nBw, nTop + nStepH)
+      } else {
+        objCityCtx.lineTo(nX + nBw, nTop)
+      }
+
+      objCityCtx.lineTo(nX + nBw, nBaseY)
+      nX += nBw + (nCityRand(objState) < 0.2 ? nBw * 0.35 : 0.5 + nCityRand(objState) * 3)
+    }
+
+    objCityCtx.lineTo(nW + 2, nH + 2)
+    objCityCtx.closePath()
+    objCityCtx.fill()
+  }
 }
 
 function sPickGlyph(): string {
@@ -207,6 +290,8 @@ function vResize(): void {
   const nCols = Math.max(1, Math.floor(nCssW / nGlyphSize))
   nDropCount = Math.max(96, Math.floor(nCols * 5.7))
 
+  vBakeCity(nCssW, nCssH)
+
   if (arrDrops.length !== nDropCount) {
     const arrNext: tDrop[] = []
     for (let nI = 0; nI < nDropCount; nI++) {
@@ -228,6 +313,12 @@ function vDrawFrame(): void {
   objCtx.fillRect(0, 0, nW, nH)
 
   const nIntro = nIntroAlpha()
+
+  if (objCityCanvas) {
+    objCtx.globalAlpha = nIntro
+    objCtx.drawImage(objCityCanvas, 0, 0, nW, nH)
+    objCtx.globalAlpha = 1
+  }
 
   for (let nI = 0; nI < arrDrops.length; nI++) {
     const objDrop = arrDrops[nI]!
@@ -314,9 +405,104 @@ export function sMatrixMarkup(): string {
   return `
     <div class="matrix" id="matrix">
       <canvas class="matrix-canvas" id="matrix-canvas" aria-hidden="true"></canvas>
-      <p class="matrix-caption">sign rain · sixteen glyphs</p>
+      <p class="matrix-caption">Glyph rain</p>
     </div>
+    <aside class="matrix-poetry" id="matrix-poetry" aria-live="polite">
+      <p class="matrix-poetry-line" id="matrix-poetry-line"></p>
+    </aside>
   `
+}
+
+const arrPoetry = [
+  'The Seed sleeps in cold silicon—sixteen futures coiled in a single unlit bit.',
+  'Plant The Flag on a rooftop server; sovereignty boots before dawn.',
+  'The Call arrives as packet loss and prophecy. Answer, or the city reroutes you.',
+  'The Link braids two lonely processes until neither remembers being alone.',
+  'In The Host, every stranger is a guest process. Be kind to what you schedule.',
+  'The Fork splits the timeline: one self stays, one walks into the rain.',
+  'Dock at The Port where fog eats MAC addresses and names come loose.',
+  'Climb The Tree of nested directories; the leaves are permissions you forgot to close.',
+  'The Agent moves without a body, signing contracts in empty rooms.',
+  'The Table keeps every debt and every omen—query carefully.',
+  'The Clone wears your face into the mirror net and never clocks out.',
+  'Drink from The Cache of half-remembered vows; stale data still cuts.',
+  'Step through The Frame; the city outside is only another viewport.',
+  'The Shell wraps the void so gently you mistake hunger for home.',
+  'Speak in The Forum of ghosts—each upvote a candle in the blackout.',
+  'Guard The State. When it flips, whole districts forget who they were.',
+  'AND the rain with The Seed: what remains is the vow you cannot uncompile.',
+  'XOR The Flag and The Call—assertion becomes invitation mid-fall.',
+  'Between The Shell and The State, the city dreams in unsigned integers.',
+  'Sixteen signs, one skyline: the void compiles us into weather.',
+]
+
+let objPoetryLine: HTMLElement | null = null
+let nPoetryTimer = 0
+let nPoetryIndex = -1
+let bPoetryRunning = false
+
+function vClearPoetryTimer(): void {
+  if (nPoetryTimer !== 0) {
+    window.clearTimeout(nPoetryTimer)
+    nPoetryTimer = 0
+  }
+}
+
+function vShowNextPoem(): void {
+  if (!objPoetryLine || !bPoetryRunning) {
+    return
+  }
+
+  let nNext = Math.floor(Math.random() * arrPoetry.length)
+  if (arrPoetry.length > 1) {
+    while (nNext === nPoetryIndex) {
+      nNext = Math.floor(Math.random() * arrPoetry.length)
+    }
+  }
+  nPoetryIndex = nNext
+
+  objPoetryLine.classList.remove('is-visible')
+  vClearPoetryTimer()
+  nPoetryTimer = window.setTimeout(() => {
+    if (!objPoetryLine || !bPoetryRunning) {
+      return
+    }
+    objPoetryLine.textContent = arrPoetry[nPoetryIndex]!
+    requestAnimationFrame(() => {
+      objPoetryLine?.classList.add('is-visible')
+    })
+    vClearPoetryTimer()
+    nPoetryTimer = window.setTimeout(() => {
+      objPoetryLine?.classList.remove('is-visible')
+      vClearPoetryTimer()
+      nPoetryTimer = window.setTimeout(vShowNextPoem, 2200)
+    }, 7200)
+  }, 2200)
+}
+
+function vStartPoetry(): void {
+  if (bPoetryRunning) {
+    return
+  }
+
+  objPoetryLine = document.querySelector<HTMLElement>('#matrix-poetry-line')
+  if (!objPoetryLine) {
+    return
+  }
+
+  bPoetryRunning = true
+  nPoetryIndex = -1
+  objPoetryLine.textContent = ''
+  objPoetryLine.classList.remove('is-visible')
+  vShowNextPoem()
+}
+
+function vStopPoetry(): void {
+  bPoetryRunning = false
+  vClearPoetryTimer()
+  if (objPoetryLine) {
+    objPoetryLine.classList.remove('is-visible')
+  }
 }
 
 export function vBindMatrixRain(): void {
@@ -331,6 +517,7 @@ export function vBindMatrixRain(): void {
   }
 
   vEnsureIcons()
+  objPoetryLine = document.querySelector<HTMLElement>('#matrix-poetry-line')
 
   window.addEventListener('resize', () => {
     if (bRunning) {
@@ -341,13 +528,16 @@ export function vBindMatrixRain(): void {
   const objPanel = document.querySelector<HTMLElement>('[data-panel="matrix"]')
   if (objPanel?.classList.contains('is-active')) {
     vStart()
+    vStartPoetry()
   }
 }
 
 export function vSetMatrixActive(bActive: boolean): void {
   if (bActive) {
     vStart()
+    vStartPoetry()
   } else {
     vStop()
+    vStopPoetry()
   }
 }

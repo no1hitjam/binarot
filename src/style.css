@@ -2240,7 +2240,7 @@ code {
 .matrix-canvas {
   display: block;
   width: 100%;
-  height: min(62vh, 520px);
+  height: min(164vh, 1560px);
   background-color: var(--void);
 }
 
@@ -4559,11 +4559,20 @@ code {
   width: 100%;
 }
 
+.alchemy-vessel-graphic,
+.alchemy-product-flask {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .alchemy-flask-svg,
+.alchemy-matter-svg,
 .alchemy-furnace-svg {
   display: block;
   width: min(100%, 7.5rem);
   height: auto;
+  margin-inline: auto;
   filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.45));
 }
 
@@ -4595,10 +4604,25 @@ code {
   stroke-linecap: round;
 }
 
+.alchemy-dish-shadow {
+  fill: rgba(0, 0, 0, 0.35);
+}
+
+.alchemy-dish-bowl {
+  fill: #2a2420;
+  stroke: color-mix(in srgb, var(--gold) 35%, #5a4030);
+  stroke-width: 1.3;
+}
+
+.alchemy-dish-rim {
+  fill: none;
+  stroke: color-mix(in srgb, #d8d0c0 45%, transparent);
+  stroke-width: 1.4;
+}
+
 .alchemy-flask-liquid {
   fill: var(--flask-hue, #8b4dff);
   opacity: 0.88;
-  transition: fill 0.45s ease;
   animation: alchemy-liquid-swell 3.6s ease-in-out infinite;
 }
 
@@ -4616,6 +4640,114 @@ code {
 
 .alchemy-bubble-c {
   animation: alchemy-bubble 2.2s ease-in 0.9s infinite;
+}
+
+.alchemy-matter-vapor {
+  fill: color-mix(in srgb, var(--flask-hue) 55%, rgba(255, 255, 255, 0.35));
+  opacity: 0.72;
+  animation: alchemy-vapor-drift 4s ease-in-out infinite alternate;
+}
+
+.alchemy-matter-vapor-b {
+  animation-delay: 0.6s;
+  opacity: 0.5;
+}
+
+.alchemy-matter-wisp {
+  fill: none;
+  stroke: color-mix(in srgb, var(--flask-hue) 70%, #fff);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 2 4;
+  animation: alchemy-vapor 2.8s linear infinite;
+}
+
+.alchemy-matter-wisp-b {
+  animation-delay: 0.4s;
+}
+
+.alchemy-matter-wisp-c {
+  animation-delay: 0.8s;
+}
+
+.alchemy-matter-flame {
+  transform-origin: 45px 100px;
+  fill: #ff8a2a;
+}
+
+.alchemy-matter-flame-a {
+  fill: color-mix(in srgb, var(--flask-hue) 70%, #ffb040);
+  animation: alchemy-flame 0.85s ease-in-out infinite alternate;
+}
+
+.alchemy-matter-flame-b {
+  fill: color-mix(in srgb, var(--flask-hue) 55%, #ff6a18);
+  animation: alchemy-flame 0.7s ease-in-out 0.15s infinite alternate;
+}
+
+.alchemy-matter-flame-c {
+  fill: color-mix(in srgb, var(--flask-hue) 40%, #ffd080);
+  animation: alchemy-flame 0.95s ease-in-out 0.3s infinite alternate;
+}
+
+.alchemy-matter-flame-core {
+  fill: #ffe8a8;
+  animation: alchemy-flame 0.75s ease-in-out 0.1s infinite alternate;
+}
+
+.alchemy-matter-stone {
+  fill: var(--flask-hue);
+  stroke: color-mix(in srgb, #000 35%, var(--flask-hue));
+  stroke-width: 1.2;
+}
+
+.alchemy-matter-stone-b {
+  fill: color-mix(in srgb, var(--flask-hue) 80%, #fff 8%);
+}
+
+.alchemy-matter-stone-c {
+  fill: color-mix(in srgb, var(--flask-hue) 70%, #000 18%);
+}
+
+.alchemy-matter-crystal {
+  fill: color-mix(in srgb, var(--flask-hue) 75%, #fff 18%);
+  stroke: color-mix(in srgb, #fff 40%, var(--flask-hue));
+  stroke-width: 1;
+}
+
+.alchemy-matter-crystal-b,
+.alchemy-matter-crystal-c {
+  fill: color-mix(in srgb, var(--flask-hue) 60%, #fff 28%);
+  opacity: 0.9;
+}
+
+.alchemy-matter-crystal-d {
+  fill: color-mix(in srgb, var(--flask-hue) 50%, #fff 40%);
+}
+
+.alchemy-matter-powder {
+  fill: var(--flask-hue);
+}
+
+.alchemy-matter-grain {
+  fill: color-mix(in srgb, #fff 45%, var(--flask-hue));
+  opacity: 0.7;
+}
+
+.alchemy-matter-ingot {
+  fill: var(--flask-hue);
+  stroke: color-mix(in srgb, #000 30%, var(--flask-hue));
+  stroke-width: 1.2;
+}
+
+.alchemy-matter-ingot-facet {
+  fill: color-mix(in srgb, #fff 28%, var(--flask-hue));
+  opacity: 0.85;
+}
+
+.alchemy-matter-ingot-edge {
+  fill: color-mix(in srgb, #000 22%, var(--flask-hue));
+  opacity: 0.9;
 }
 
 .alchemy-furnace-body {
@@ -4670,14 +4802,42 @@ code {
   animation: alchemy-flame 0.95s ease-in-out 0.3s infinite alternate;
 }
 
-.alchemy-bench[data-op='AND'] .alchemy-flame-b,
-.alchemy-bench[data-op='AND'] .alchemy-flame-c {
-  opacity: 0.35;
-  transform: scale(0.72);
+.alchemy-bench[data-op='AND'] .alchemy-furnace-fire {
+  opacity: 1;
 }
 
-.alchemy-bench[data-op='OR'] .alchemy-flame-a {
-  transform: scale(1.12);
+.alchemy-bench[data-op='OR'] .alchemy-furnace-fire {
+  opacity: 0;
+}
+
+.alchemy-furnace-water {
+  opacity: 0;
+}
+
+.alchemy-bench[data-op='OR'] .alchemy-furnace-water {
+  opacity: 1;
+}
+
+.alchemy-water {
+  fill: none;
+  stroke: #5a9fd4;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.alchemy-water-a {
+  fill: color-mix(in srgb, #3a7ec8 70%, transparent);
+  stroke: #7ab8e8;
+  animation: alchemy-water-swell 2.4s ease-in-out infinite alternate;
+}
+
+.alchemy-water-b {
+  animation: alchemy-water-swell 2.8s ease-in-out 0.3s infinite alternate;
+}
+
+.alchemy-water-c {
+  stroke: #a8d4e8;
+  animation: alchemy-water-swell 2.2s ease-in-out 0.6s infinite alternate;
 }
 
 .alchemy-vapor {
@@ -4711,6 +4871,10 @@ code {
 
 .alchemy-furnace-mode {
   color: color-mix(in srgb, #ffb060 70%, var(--gold-bright));
+}
+
+.alchemy-bench[data-op='OR'] .alchemy-furnace-mode {
+  color: color-mix(in srgb, #7ab8e8 75%, var(--gold-bright));
 }
 
 .alchemy-field {
@@ -4813,35 +4977,77 @@ code {
   background:
     linear-gradient(135deg, rgba(224, 184, 58, 0.07), transparent 42%),
     rgba(0, 0, 0, 0.28);
-  animation: alchemy-product-reveal 0.45s ease-out;
 }
 
-.alchemy-product[hidden] {
-  display: none;
+.alchemy-product:not(.is-filled) {
+  border-color: color-mix(in srgb, var(--border) 80%, transparent);
+  background: rgba(0, 0, 0, 0.18);
 }
 
-.alchemy-product-flask .alchemy-flask-svg {
+.alchemy-product:not(.is-filled) .alchemy-product-name {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.alchemy-product-flask .alchemy-matter-svg {
   width: 5.5rem;
+}
+
+.alchemy-empty-dish .alchemy-dish-bowl {
+  fill: #1a1614;
+}
+
+.alchemy-empty-dish .alchemy-dish-rim {
+  stroke: color-mix(in srgb, #d8d0c0 28%, transparent);
+}
+
+.alchemy-product .alchemy-matter-fill {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transition: none;
+}
+
+.alchemy-product[data-form='liquid'] .alchemy-matter-fill,
+.alchemy-product[data-form='vapor'] .alchemy-matter-fill {
+  transform: translateY(46px);
+}
+
+.alchemy-product[data-form='flame'] .alchemy-matter-fill,
+.alchemy-product[data-form='stone'] .alchemy-matter-fill,
+.alchemy-product[data-form='crystal'] .alchemy-matter-fill,
+.alchemy-product[data-form='powder'] .alchemy-matter-fill,
+.alchemy-product[data-form='metal'] .alchemy-matter-fill {
+  transform: scaleY(0.15);
+  opacity: 0.15;
 }
 
 .alchemy-product .alchemy-flask-liquid {
   animation: none;
-  transform: translateY(46px);
-  transition: none;
 }
 
-.alchemy-product.is-filled .alchemy-flask-liquid {
-  transform: translateY(0);
-  transition: transform 1.35s cubic-bezier(0.22, 0.7, 0.28, 1);
+.alchemy-product.is-filled .alchemy-matter-fill {
+  transform: none;
+  opacity: 1;
+  transition:
+    transform 1.35s cubic-bezier(0.22, 0.7, 0.28, 1),
+    opacity 0.9s ease;
 }
 
-.alchemy-product .alchemy-flask-bubbles {
+.alchemy-product .alchemy-flask-bubbles,
+.alchemy-product .alchemy-matter-wisp,
+.alchemy-product .alchemy-matter-flame {
   opacity: 0;
 }
 
-.alchemy-product.is-filled .alchemy-flask-bubbles {
+.alchemy-product.is-filled .alchemy-flask-bubbles,
+.alchemy-product.is-filled .alchemy-matter-wisp {
   opacity: 1;
   transition: opacity 0.4s ease 0.9s;
+}
+
+.alchemy-product.is-filled .alchemy-matter-flame {
+  opacity: 1;
+  transition: opacity 0.35s ease 0.45s;
 }
 
 .alchemy-product.is-filled .alchemy-bubble-a {
@@ -4862,16 +5068,10 @@ code {
   align-items: baseline;
   gap: 0.25rem 0.55rem;
   min-width: 0;
-  opacity: 0;
-  transform: translateY(0.35rem);
 }
 
 .alchemy-product.is-filled .alchemy-product-copy {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 0.5s ease 0.55s,
-    transform 0.5s ease 0.55s;
+  animation: alchemy-product-reveal 0.5s ease 0.35s both;
 }
 
 .alchemy-product-kicker {
@@ -4995,6 +5195,26 @@ code {
   }
 }
 
+@keyframes alchemy-vapor-drift {
+  from {
+    transform: translateY(2px) scale(0.98);
+  }
+
+  to {
+    transform: translateY(-4px) scale(1.03);
+  }
+}
+
+@keyframes alchemy-water-swell {
+  from {
+    transform: translateY(1px);
+  }
+
+  to {
+    transform: translateY(-3px);
+  }
+}
+
 @keyframes alchemy-flame {
   from {
     transform: scaleY(0.92) scaleX(0.96);
@@ -5065,28 +5285,43 @@ code {
   .alchemy-vapor-b,
   .alchemy-vapor-c,
   .alchemy-pipe-flow,
+  .alchemy-matter-vapor,
+  .alchemy-matter-wisp,
+  .alchemy-matter-flame-a,
+  .alchemy-matter-flame-b,
+  .alchemy-matter-flame-c,
+  .alchemy-matter-flame-core,
+  .alchemy-water-a,
+  .alchemy-water-b,
+  .alchemy-water-c,
   .alchemy-product,
-  .alchemy-product .alchemy-flask-liquid,
-  .alchemy-product.is-filled .alchemy-flask-liquid,
+  .alchemy-product .alchemy-matter-fill,
+  .alchemy-product.is-filled .alchemy-matter-fill,
   .alchemy-product-copy,
   .alchemy-product.is-filled .alchemy-product-copy {
     animation: none;
     transition: none;
   }
 
-  .alchemy-product .alchemy-flask-liquid,
-  .alchemy-product.is-filled .alchemy-flask-liquid {
+  .alchemy-product .alchemy-matter-fill,
+  .alchemy-product.is-filled .alchemy-matter-fill {
     transform: none;
+    opacity: 1;
   }
 
   .alchemy-product-copy,
   .alchemy-product.is-filled .alchemy-product-copy {
     opacity: 1;
     transform: none;
+    animation: none;
   }
 
   .alchemy-product .alchemy-flask-bubbles,
-  .alchemy-product.is-filled .alchemy-flask-bubbles {
+  .alchemy-product.is-filled .alchemy-flask-bubbles,
+  .alchemy-product .alchemy-matter-wisp,
+  .alchemy-product.is-filled .alchemy-matter-wisp,
+  .alchemy-product .alchemy-matter-flame,
+  .alchemy-product.is-filled .alchemy-matter-flame {
     opacity: 1;
   }
 }

@@ -105,6 +105,15 @@ const mapCardIconPaths: Record<string, string> = {
     <circle cx="32" cy="32" r="18" stroke-dasharray="3 4"/>
     <circle cx="32" cy="32" r="4"/>
   `,
+  and: `
+    <circle cx="24" cy="32" r="14"/>
+    <circle cx="40" cy="32" r="14"/>
+  `,
+  or: `
+    <path d="M32 12 V52"/>
+    <path d="M20 20 C12 28 12 36 20 44"/>
+    <path d="M44 20 C52 28 52 36 44 44"/>
+  `,
 }
 
 export function sCardIconPaths(sSlug: string): string {

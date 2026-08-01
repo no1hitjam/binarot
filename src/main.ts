@@ -507,7 +507,6 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <button type="button" class="tab-button" data-tab="starmap" aria-selected="false">Starmap</button>
       <button type="button" class="tab-button" data-tab="planets" aria-selected="false">Planets</button>
       <button type="button" class="tab-button" data-tab="elements" aria-selected="false">Elements</button>
-      <button type="button" class="tab-button" data-tab="gems" aria-selected="false">Gems</button>
       <button type="button" class="tab-button" data-tab="matrix" aria-selected="false">Matrix</button>
       <button type="button" class="tab-button" data-tab="sparkles" aria-selected="false">Sparkles</button>
       <button type="button" class="tab-button" data-tab="pilgrim" aria-selected="false">Pilgrim</button>
@@ -679,25 +678,27 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <section class="tab-panel" data-panel="elements">
       <h2>Elements</h2>
       <p class="reading-intro">
-        Each binarot sign has an alchemical substance paired for fit—from The Seed’s prima materia
-        through The State’s gold. Principia, metals, and reagents, not a modern periodic table.
+        Each binarot sign has an alchemical substance paired for fit—from The Seed’s air through
+        The State’s gold. Fire and water belong to the operations (<code>AND</code> /
+        <code>OR</code>); the signs hold reagents, metals, and earth.
       </p>
       ${sElementsMarkup(arrCards)}
       <h3>History of the Binarot elements</h3>
       <p>
         Before they cut gemstones, the Order of the Silent Grid worked the furnace. Having bound
         the planets to the 4-bit register, their alchemists asked whether the same sequence governed
-        the substances of the work itself. In sealed ateliers they matched each sign to a classical
-        element, a member of the tria prima, or a metal of the Great Work: prima materia for The
-        Seed (<code>0</code>) as formless stock, fire for The Flag (<code>1</code>), water for The
-        Link (<code>11</code>), and earth for The Host (<code>100</code>). The Northern Array
-        (<code>0</code>–<code>111</code>) took the volatiles and salts—mercury for The Fork
-        (<code>101</code>), salt for The Port (<code>110</code>), sulfur for The Tree
-        (<code>111</code>)—while the Southern Array (<code>1000</code>–<code>1111</code>) claimed
-        the harder metals and reagents: iron for The Agent (<code>1000</code>), lead for The Cache
-        (<code>1011</code>), vitriol for The Frame (<code>1100</code>), and gold for The State
-        (<code>1111</code>). Only once this elemental correspondence was sealed did they dare
-        assign the same register to cut stone.
+        the substances of the work itself. Fire and water they reserved for the operators—fire for
+        <code>AND</code>, the focused burn that keeps only overlap; water for <code>OR</code>, the
+        flood that gathers either gift. The signs took the remaining materia: air for The Seed
+        (<code>0</code>) as breath before form, cinnabar for The Flag (<code>1</code>), nitre for
+        The Call (<code>10</code>), oil for The Link (<code>11</code>), and earth for The Host
+        (<code>100</code>). The Northern Array (<code>0</code>–<code>111</code>) kept the volatiles
+        and salts—mercury for The Fork (<code>101</code>), salt for The Port (<code>110</code>),
+        sulfur for The Tree (<code>111</code>)—while the Southern Array (<code>1000</code>–
+        <code>1111</code>) claimed the harder stock of the work: iron for The Agent
+        (<code>1000</code>), lead for The Cache (<code>1011</code>), wood for The Frame
+        (<code>1100</code>), and gold for The State (<code>1111</code>). Only once this elemental
+        correspondence was sealed did they dare assign the same register to cut stone.
       </p>
       ${sAlchemyMarkup()}
     </section>
@@ -923,7 +924,6 @@ const arrUnlockOrder = [
   'starmap',
   'planets',
   'elements',
-  'gems',
   'matrix',
   'sparkles',
   'pilgrim',
@@ -975,6 +975,9 @@ function sAliasTabId(sTabId: string): string {
   }
   if (sTabId === 'birthday') {
     return 'quiz'
+  }
+  if (sTabId === 'gems') {
+    return 'matrix'
   }
   if (sTabId === 'collect') {
     return 'packs'

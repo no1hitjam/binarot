@@ -20,15 +20,15 @@ const arrGlyphs = [
 ]
 
 const nGlyphSize = 28
-const nMinTrail = 8
-const nMaxTrail = 22
+const nMinTrail = 4
+const nMaxTrail = 10
 const nHeadGoldChance = 0.2
 const nGlyphMutateChance = 0.015
 const nFadeInMs = 4500
 const nIconBake = 128
-/** Shared down-right diagonal (unit vector). */
-const nDiagX = Math.SQRT1_2
-const nDiagY = Math.SQRT1_2
+/** Shared down-right diagonal (unit vector). Steeper fall so trails read more vertical. */
+const nDiagX = 0.5
+const nDiagY = 0.866
 
 const sStrokeBlue = '#6a78e8'
 const sStrokeGold = '#c4a030'
@@ -41,6 +41,7 @@ type tDrop = {
   nSpeed: number
   nGap: number
   nSize: number
+  nBright: number
   bGoldHead: boolean
   arrTrail: string[]
 }
@@ -91,9 +92,14 @@ function objSpawnDrop(nW: number, nH: number, bSeeded: boolean): tDrop {
     nY = Math.random() * nH
   }
 
-  const nSpeed = 0.55 + Math.random() * 0.95
-  const nGap = nGlyphSize * (0.72 + Math.random() * 0.55)
-  const nSize = nGlyphSize * (0.78 + Math.random() * 0.4)
+  const nDepth = Math.max(0, Math.min(1, nY / nH))
+  const nDist = Math.random() < 0.42 ? 0.35 + Math.random() * 0.65 : Math.random() * 0.28
+  const nNear = 1 - nDist
+  const nScale = (1.0 - nDepth * 0.98) * (0.28 + nNear * 0.72)
+  const nSpeed = (0.55 + Math.random() * 0.95) * (0.45 + nNear * 0.55)
+  const nSize = nGlyphSize * (0.78 + Math.random() * 0.4) * nScale
+  const nGap = nSize * (1.12 + Math.random() * 0.4)
+  const nBright = 0.18 + nNear * 0.82
 
   return {
     nX,
@@ -103,7 +109,8 @@ function objSpawnDrop(nW: number, nH: number, bSeeded: boolean): tDrop {
     nSpeed,
     nGap,
     nSize,
-    bGoldHead: Math.random() < nHeadGoldChance,
+    nBright,
+    bGoldHead: nDist < 0.4 && Math.random() < nHeadGoldChance,
     arrTrail: arrNewTrail(),
   }
 }
@@ -198,7 +205,7 @@ function vResize(): void {
   objCtx.setTransform(nDpr, 0, 0, nDpr, 0, 0)
 
   const nCols = Math.max(1, Math.floor(nCssW / nGlyphSize))
-  nDropCount = Math.max(32, Math.floor(nCols * 1.9))
+  nDropCount = Math.max(96, Math.floor(nCols * 5.7))
 
   if (arrDrops.length !== nDropCount) {
     const arrNext: tDrop[] = []
@@ -217,7 +224,7 @@ function vDrawFrame(): void {
   const nW = objCanvas.clientWidth
   const nH = objCanvas.clientHeight
 
-  objCtx.fillStyle = 'rgba(5, 3, 8, 0.1)'
+  objCtx.fillStyle = 'rgba(5, 3, 8, 0.28)'
   objCtx.fillRect(0, 0, nW, nH)
 
   const nIntro = nIntroAlpha()
@@ -249,16 +256,16 @@ function vDrawFrame(): void {
       if (nStep === 0) {
         if (objDrop.bGoldHead) {
           bGold = true
-          nAlpha = nIntro * (0.55 + 0.45 * nFade)
-          nShadow = 6
+          nAlpha = nIntro * objDrop.nBright * (0.55 + 0.45 * nFade)
+          nShadow = 6 * objDrop.nBright
         } else {
-          nAlpha = nIntro * (0.6 + 0.4 * nFade)
-          nShadow = 6
+          nAlpha = nIntro * objDrop.nBright * (0.6 + 0.4 * nFade)
+          nShadow = 6 * objDrop.nBright
         }
       } else if (nStep < 4) {
-        nAlpha = nIntro * (0.28 + 0.45 * nFade)
+        nAlpha = nIntro * objDrop.nBright * (0.28 + 0.45 * nFade)
       } else {
-        nAlpha = nIntro * (0.08 + 0.32 * nFade)
+        nAlpha = nIntro * objDrop.nBright * (0.08 + 0.32 * nFade)
       }
 
       const nDrawSize = objDrop.nSize * (0.88 + 0.12 * nFade)

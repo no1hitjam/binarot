@@ -1,3 +1,4 @@
+import * as THREE from 'three'
 import { sCardIconPaths } from './cardIcons'
 
 const arrGlyphs = [
@@ -410,7 +411,214 @@ export function sMatrixMarkup(): string {
     <aside class="matrix-poetry" id="matrix-poetry" aria-live="polite">
       <p class="matrix-poetry-line" id="matrix-poetry-line"></p>
     </aside>
+    <div class="matrix-room" id="matrix-room">
+      <div class="matrix-room-viewport" id="matrix-room-viewport" aria-hidden="true"></div>
+      <p class="matrix-room-caption">cam 03 · apt feed</p>
+    </div>
   `
+}
+
+const nRoomLine = 0x6a78e8
+const nRoomLineDim = 0x3d4578
+const nRoomLineGold = 0xc4a030
+const nRoomBg = 0x050308
+const nRoomStretchX = 1.45
+
+let objRoomHost: HTMLElement | null = null
+let objRoomScene: THREE.Scene | null = null
+let objRoomCamera: THREE.PerspectiveCamera | null = null
+let objRoomRenderer: THREE.WebGLRenderer | null = null
+let nRoomAnimFrame = 0
+let bRoomRunning = false
+let nRoomStart = 0
+
+function objWireMesh(objGeo: THREE.BufferGeometry, nColor: number): THREE.LineSegments {
+  const objEdges = new THREE.EdgesGeometry(objGeo)
+  objGeo.dispose()
+  return new THREE.LineSegments(
+    objEdges,
+    new THREE.LineBasicMaterial({ color: nColor, transparent: true, opacity: 0.92 }),
+  )
+}
+
+function objWireBox(
+  nW: number,
+  nH: number,
+  nD: number,
+  nColor: number,
+  nX: number,
+  nY: number,
+  nZ: number,
+): THREE.LineSegments {
+  const objMesh = objWireMesh(new THREE.BoxGeometry(nW, nH, nD), nColor)
+  objMesh.position.set(nX, nY, nZ)
+  return objMesh
+}
+
+function vBuildRoomScene(): void {
+  if (!objRoomHost) {
+    return
+  }
+
+  objRoomScene = new THREE.Scene()
+  objRoomScene.background = new THREE.Color(nRoomBg)
+
+  objRoomCamera = new THREE.PerspectiveCamera(58, 1, 0.05, 40)
+  objRoomCamera.position.set(-2.35, 2.62, 1.85)
+
+  objRoomRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+  objRoomRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+  objRoomRenderer.setClearColor(nRoomBg, 1)
+  objRoomHost.replaceChildren(objRoomRenderer.domElement)
+
+  const objRoot = new THREE.Group()
+  objRoot.scale.set(nRoomStretchX, 1, 1)
+  objRoomScene.add(objRoot)
+
+  // Room shell — open front omitted; camera sits in ceiling corner.
+  const nRoomW = 5.2
+  const nRoomH = 2.85
+  const nRoomD = 4.4
+  objRoot.add(objWireBox(nRoomW, 0.04, nRoomD, nRoomLineDim, 0, 0.02, 0))
+  objRoot.add(objWireBox(nRoomW, 0.04, nRoomD, nRoomLineDim, 0, nRoomH, 0))
+  objRoot.add(objWireBox(0.04, nRoomH, nRoomD, nRoomLineDim, -nRoomW * 0.5, nRoomH * 0.5, 0))
+  objRoot.add(objWireBox(0.04, nRoomH, nRoomD, nRoomLineDim, nRoomW * 0.5, nRoomH * 0.5, 0))
+  objRoot.add(objWireBox(nRoomW, nRoomH, 0.04, nRoomLineDim, 0, nRoomH * 0.5, -nRoomD * 0.5))
+
+  // Window on back wall
+  objRoot.add(objWireBox(1.6, 1.15, 0.05, nRoomLine, -0.9, 1.55, -nRoomD * 0.5 + 0.03))
+  objRoot.add(objWireBox(0.04, 1.15, 0.05, nRoomLineDim, -0.9, 1.55, -nRoomD * 0.5 + 0.04))
+  objRoot.add(objWireBox(1.6, 0.04, 0.05, nRoomLineDim, -0.9, 1.55, -nRoomD * 0.5 + 0.04))
+
+  // Door
+  objRoot.add(objWireBox(0.9, 2.05, 0.06, nRoomLine, 1.85, 1.025, -nRoomD * 0.5 + 0.03))
+
+  // Desk against right-back area
+  const nDeskY = 0.74
+  objRoot.add(objWireBox(1.7, 0.06, 0.78, nRoomLine, 0.95, nDeskY, -0.85))
+  objRoot.add(objWireBox(0.07, 0.72, 0.07, nRoomLineDim, 0.2, 0.36, -0.55))
+  objRoot.add(objWireBox(0.07, 0.72, 0.07, nRoomLineDim, 1.7, 0.36, -0.55))
+  objRoot.add(objWireBox(0.07, 0.72, 0.07, nRoomLineDim, 0.2, 0.36, -1.15))
+  objRoot.add(objWireBox(0.07, 0.72, 0.07, nRoomLineDim, 1.7, 0.36, -1.15))
+
+  // Laptop base + open screen
+  const objLaptop = new THREE.Group()
+  objLaptop.position.set(0.85, nDeskY + 0.05, -0.75)
+  objLaptop.add(objWireBox(0.42, 0.02, 0.28, nRoomLine, 0, 0, 0))
+  const objScreen = objWireBox(0.42, 0.28, 0.02, nRoomLineGold, 0, 0.15, -0.12)
+  objScreen.rotation.x = -1.05
+  objLaptop.add(objScreen)
+  objRoot.add(objLaptop)
+
+  // Second monitor
+  objRoot.add(objWireBox(0.55, 0.36, 0.04, nRoomLine, 1.45, nDeskY + 0.32, -1.05))
+  objRoot.add(objWireBox(0.08, 0.18, 0.08, nRoomLineDim, 1.45, nDeskY + 0.1, -1.05))
+
+  // Chair
+  objRoot.add(objWireBox(0.42, 0.05, 0.42, nRoomLine, 0.9, 0.46, -0.15))
+  objRoot.add(objWireBox(0.42, 0.48, 0.05, nRoomLine, 0.9, 0.72, 0.05))
+  objRoot.add(objWireBox(0.06, 0.44, 0.06, nRoomLineDim, 0.72, 0.22, -0.32))
+  objRoot.add(objWireBox(0.06, 0.44, 0.06, nRoomLineDim, 1.08, 0.22, -0.32))
+  objRoot.add(objWireBox(0.06, 0.44, 0.06, nRoomLineDim, 0.72, 0.22, 0.02))
+  objRoot.add(objWireBox(0.06, 0.44, 0.06, nRoomLineDim, 1.08, 0.22, 0.02))
+
+  // Bed
+  objRoot.add(objWireBox(2.1, 0.32, 1.15, nRoomLine, -1.35, 0.28, 0.95))
+  objRoot.add(objWireBox(0.55, 0.18, 1.05, nRoomLineDim, -2.05, 0.52, 0.95))
+
+  // Server rack / shelf
+  objRoot.add(objWireBox(0.55, 1.5, 0.4, nRoomLine, 2.15, 0.75, 0.9))
+  objRoot.add(objWireBox(0.5, 0.03, 0.36, nRoomLineDim, 2.15, 0.45, 0.9))
+  objRoot.add(objWireBox(0.5, 0.03, 0.36, nRoomLineDim, 2.15, 0.85, 0.9))
+  objRoot.add(objWireBox(0.5, 0.03, 0.36, nRoomLineDim, 2.15, 1.25, 0.9))
+
+  // Desk clutter — mug, lamp
+  objRoot.add(objWireBox(0.08, 0.1, 0.08, nRoomLineDim, 1.55, nDeskY + 0.08, -0.55))
+  objRoot.add(objWireBox(0.05, 0.35, 0.05, nRoomLine, 0.35, nDeskY + 0.2, -1.05))
+  objRoot.add(objWireBox(0.18, 0.04, 0.18, nRoomLineGold, 0.35, nDeskY + 0.4, -1.05))
+
+  // Floor cable runs
+  const objCableGeo = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(1.45, 0.03, -1.05),
+    new THREE.Vector3(1.7, 0.03, -0.4),
+    new THREE.Vector3(2.0, 0.03, 0.4),
+    new THREE.Vector3(2.15, 0.03, 0.7),
+  ])
+  objRoot.add(
+    new THREE.Line(
+      objCableGeo,
+      new THREE.LineBasicMaterial({ color: nRoomLineDim, transparent: true, opacity: 0.7 }),
+    ),
+  )
+
+  // Hidden camera body in the viewing corner
+  objRoot.add(objWireBox(0.12, 0.08, 0.12, nRoomLineGold, -2.4, 2.7, 1.95))
+
+  objRoomCamera.lookAt(0.85 * nRoomStretchX, 0.95, -0.55)
+  vResizeRoom()
+}
+
+function vResizeRoom(): void {
+  if (!objRoomHost || !objRoomCamera || !objRoomRenderer) {
+    return
+  }
+
+  const nW = Math.max(1, objRoomHost.clientWidth)
+  const nH = Math.max(1, objRoomHost.clientHeight)
+  objRoomCamera.aspect = nW / nH
+  objRoomCamera.updateProjectionMatrix()
+  objRoomRenderer.setSize(nW, nH, false)
+}
+
+function vTickRoom(): void {
+  if (!bRoomRunning || !objRoomRenderer || !objRoomScene || !objRoomCamera) {
+    return
+  }
+
+  const nT = (performance.now() - nRoomStart) * 0.001
+  objRoomCamera.position.set(
+    -2.35 + Math.sin(nT * 0.17) * 0.04,
+    2.62 + Math.sin(nT * 0.13) * 0.02,
+    1.85 + Math.cos(nT * 0.15) * 0.035,
+  )
+  objRoomCamera.lookAt(
+    0.85 * nRoomStretchX + Math.sin(nT * 0.11) * 0.03,
+    0.95,
+    -0.55 + Math.cos(nT * 0.09) * 0.025,
+  )
+
+  objRoomRenderer.render(objRoomScene, objRoomCamera)
+  nRoomAnimFrame = window.requestAnimationFrame(vTickRoom)
+}
+
+function vStartRoom(): void {
+  if (bRoomRunning) {
+    return
+  }
+
+  objRoomHost = document.querySelector<HTMLElement>('#matrix-room-viewport')
+  if (!objRoomHost) {
+    return
+  }
+
+  if (!objRoomRenderer || !objRoomScene) {
+    vBuildRoomScene()
+  }
+
+  bRoomRunning = true
+  nRoomStart = performance.now()
+  vResizeRoom()
+  objRoomHost.classList.add('is-revealed')
+  nRoomAnimFrame = window.requestAnimationFrame(vTickRoom)
+}
+
+function vStopRoom(): void {
+  bRoomRunning = false
+  if (nRoomAnimFrame !== 0) {
+    window.cancelAnimationFrame(nRoomAnimFrame)
+    nRoomAnimFrame = 0
+  }
+  objRoomHost?.classList.remove('is-revealed')
 }
 
 const arrPoetry = [
@@ -523,12 +731,16 @@ export function vBindMatrixRain(): void {
     if (bRunning) {
       vResize()
     }
+    if (bRoomRunning) {
+      vResizeRoom()
+    }
   })
 
   const objPanel = document.querySelector<HTMLElement>('[data-panel="matrix"]')
   if (objPanel?.classList.contains('is-active')) {
     vStart()
     vStartPoetry()
+    vStartRoom()
   }
 }
 
@@ -536,8 +748,10 @@ export function vSetMatrixActive(bActive: boolean): void {
   if (bActive) {
     vStart()
     vStartPoetry()
+    vStartRoom()
   } else {
     vStop()
     vStopPoetry()
+    vStopRoom()
   }
 }

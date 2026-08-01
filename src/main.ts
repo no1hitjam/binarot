@@ -19,7 +19,7 @@ import { sPickupMarkup, vBindPickup, vSetPickupActive } from './pickup'
 import { sDreamMarkup, vBindDream, vSetDreamActive } from './dream'
 import { sFortuneMarkup, vSetFortuneActive } from './fortune'
 import { sGemsMarkup } from './gems'
-import { sElementsMarkup } from './elements'
+import { sAlchemyMarkup, sElementsMarkup, vBindAlchemy } from './elements'
 import { sOrbitLineMarkup, sPlanetPictogramMarkup, sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sCavePaintingMarkup, sStarmapMarkup, vBindStarmapHover } from './starmap'
 
@@ -699,6 +699,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         (<code>1111</code>). Only once this elemental correspondence was sealed did they dare
         assign the same register to cut stone.
       </p>
+      ${sAlchemyMarkup()}
     </section>
 
     <section class="tab-panel" data-panel="gems">
@@ -1852,6 +1853,7 @@ function vRenderQuiz(): void {
 vRenderQuiz()
 vBindStarmapHover()
 vBindPlanetsOrbitHover()
+vBindAlchemy()
 vBindMatrixRain()
 vBindFloat(arrCards)
 vBindExplore(arrCards)

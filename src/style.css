@@ -4049,6 +4049,31 @@ code {
   gap: 0.65rem;
 }
 
+.orbit-line-chart {
+  margin-top: 2rem;
+}
+
+.planet-pictogram {
+  margin: 2rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.85rem 1.1rem;
+}
+
+.planet-pair {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.planet-pair-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0;
+}
+
 .orbit-svg {
   width: min(100%, 560px);
   height: auto;
@@ -4113,6 +4138,35 @@ code {
   transition: opacity 0.18s ease;
 }
 
+.orbit-axis {
+  stroke: var(--gold-dim);
+  stroke-width: 1;
+}
+
+.orbit-tick {
+  stroke: color-mix(in srgb, var(--gold) 28%, transparent);
+  stroke-width: 0.8;
+}
+
+.orbit-tick-label {
+  fill: color-mix(in srgb, var(--gold) 45%, transparent);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  text-anchor: middle;
+}
+
+.orbit-stem {
+  stroke: color-mix(in srgb, var(--purple) 42%, transparent);
+  stroke-width: 0.8;
+  transition: stroke 0.18s ease;
+}
+
+.planets.is-highlighting .orbit-body.is-active .orbit-stem,
+[data-panel="planets"].is-highlighting .orbit-body.is-active .orbit-stem {
+  stroke: var(--gold-bright);
+}
+
 .orbit-caption {
   margin: 0;
   font-family: var(--font-mono);
@@ -4124,30 +4178,38 @@ code {
 }
 
 .planets.is-highlighting .orbit-path,
-.planets.is-highlighting .orbit-body {
+.planets.is-highlighting .orbit-body,
+[data-panel="planets"].is-highlighting .orbit-path,
+[data-panel="planets"].is-highlighting .orbit-body {
   opacity: 0.18;
 }
 
 .planets.is-highlighting .orbit-path.is-active,
-.planets.is-highlighting .orbit-body.is-active {
+.planets.is-highlighting .orbit-body.is-active,
+[data-panel="planets"].is-highlighting .orbit-path.is-active,
+[data-panel="planets"].is-highlighting .orbit-body.is-active {
   opacity: 1;
 }
 
-.planets.is-highlighting .orbit-path.is-active {
+.planets.is-highlighting .orbit-path.is-active,
+[data-panel="planets"].is-highlighting .orbit-path.is-active {
   stroke: var(--gold-bright);
   stroke-width: 2;
 }
 
-.planets.is-highlighting .orbit-body.is-active .orbit-marker {
+.planets.is-highlighting .orbit-body.is-active .orbit-marker,
+[data-panel="planets"].is-highlighting .orbit-body.is-active .orbit-marker {
   fill: #fff6c8;
 }
 
-.planets.is-highlighting .orbit-body.is-active .orbit-marker-moon {
+.planets.is-highlighting .orbit-body.is-active .orbit-marker-moon,
+[data-panel="planets"].is-highlighting .orbit-body.is-active .orbit-marker-moon {
   fill: var(--purple);
   filter: drop-shadow(0 0 6px rgba(139, 77, 255, 0.55));
 }
 
-.planets.is-highlighting .orbit-body.is-active .orbit-label {
+.planets.is-highlighting .orbit-body.is-active .orbit-label,
+[data-panel="planets"].is-highlighting .orbit-body.is-active .orbit-label {
   fill: var(--gold-bright);
 }
 
@@ -4192,11 +4254,13 @@ code {
   outline-offset: 2px;
 }
 
-.planets.is-highlighting .planet-item {
+.planets.is-highlighting .planet-item,
+[data-panel="planets"].is-highlighting .planet-item {
   opacity: 0.45;
 }
 
-.planets.is-highlighting .planet-item.is-active {
+.planets.is-highlighting .planet-item.is-active,
+[data-panel="planets"].is-highlighting .planet-item.is-active {
   opacity: 1;
   background-color: rgba(139, 77, 255, 0.08);
 }

@@ -8,6 +8,8 @@ type tPlanetBody = {
   sBinaryValue: string
   sNote: string
   sShort: string
+  /** Mean radius in km, for relative swatch sizing. */
+  nRadiusKm: number
   /** CSS color for the body swatch. */
   sHue: string
   /** Moons without their own heliocentric elements sit near this parent. */
@@ -46,6 +48,12 @@ type tOrbitPoint = {
   nLonDeg: number
 }
 
+type tBodyPlacement = {
+  objBody: tPlanetBody
+  objCard: tPlanetCardRef
+  objPos: tOrbitPoint
+}
+
 const nViewSize = 560
 const nCenter = nViewSize / 2
 const nChartRadius = 248
@@ -53,6 +61,19 @@ const nOrbitSamples = 96
 const nAuLogMin = 0.28
 const nAuLogMax = 100
 const nMoonRadiusScale = 1.08
+const arrGuideAu = [0.4, 1, 5, 10, 30, 40]
+const arrLineGuideAu = [0.4, 1, 5, 10, 40]
+const nLineViewHeight = 150
+const nLineAxisY = 104
+const nLineLaneCount = 4
+const nLineLaneStep = 17
+const nLineLabelGap = 15
+const nLineMinGap = 30
+const nLineTickHalf = 4
+const nSwatchRemMin = 0.35
+const nSwatchRemMax = 2.4
+const nRadiusKmMin = 600
+const nRadiusKmMax = 700000
 
 /**
  * Sun + planets by heliocentric distance, major moons, and Pluto. The Sun is
@@ -64,6 +85,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'star',
     sBinaryValue: '0',
     sShort: 'Sun',
+    nRadiusKm: 696340,
     sHue: '#f6c445',
     sNote:
       'The zero point at the center—light before form, the origin everything else orbits. The Seed is the sun as beginning.',
@@ -73,6 +95,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1',
     sShort: 'Mer',
+    nRadiusKm: 2439.7,
     sHue: '#9c8f82',
     sNote:
       'Closest claim to the fire—will as sovereignty on a tight loop. The Flag is the stake planted nearest the sun.',
@@ -82,6 +105,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '10',
     sShort: 'Ven',
+    nRadiusKm: 6051.8,
     sHue: '#e6c07b',
     sNote:
       'The bright summons in the dawn and dusk sky. Signals, timing, and interrupt belong to The Call.',
@@ -91,6 +115,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '11',
     sShort: 'Ear',
+    nRadiusKm: 6371,
     sHue: '#4a90d9',
     sNote:
       'Bonds, networks, and the handshake that holds a living world. The Link is home as connection.',
@@ -100,6 +125,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '110',
     sShort: 'Lun',
+    nRadiusKm: 1737.4,
     sHue: '#cfcfd6',
     sOrbitOf: 'Earth',
     nLeadDeg: 20,
@@ -111,6 +137,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '100',
     sShort: 'Mar',
+    nRadiusKm: 3389.5,
     sHue: '#c1502e',
     sNote:
       'Shelter and stewardship on dust—the world we mean to host next. The Host is home as infrastructure.',
@@ -120,6 +147,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '111',
     sShort: 'Jup',
+    nRadiusKm: 69911,
     sHue: '#d8a06a',
     sNote:
       'Fullness, growth, and a canopy of moons that casts shade across the outer belt. The Tree is reach made structure.',
@@ -129,6 +157,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '101',
     sShort: 'Io',
+    nRadiusKm: 1821.6,
     sHue: '#e0d24a',
     sOrbitOf: 'Jupiter',
     nLeadDeg: -22,
@@ -140,6 +169,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1011',
     sShort: 'Eur',
+    nRadiusKm: 1560.8,
     sHue: '#cfe0ea',
     sOrbitOf: 'Jupiter',
     nLeadDeg: 12,
@@ -151,6 +181,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1111',
     sShort: 'Gan',
+    nRadiusKm: 2634.1,
     sHue: '#a08f7d',
     sOrbitOf: 'Jupiter',
     nLeadDeg: 32,
@@ -162,6 +193,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1101',
     sShort: 'Sat',
+    nRadiusKm: 58232,
     sHue: '#e3cb8f',
     sNote:
       'Rings as hard edge—boundaries that keep chaos out. The Shell is armor with a purpose.',
@@ -171,6 +203,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1001',
     sShort: 'Tit',
+    nRadiusKm: 2574.7,
     sHue: '#d98b3a',
     sOrbitOf: 'Saturn',
     nLeadDeg: 18,
@@ -182,6 +215,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1000',
     sShort: 'Ura',
+    nRadiusKm: 25362,
     sHue: '#86d8dc',
     sNote:
       'Tipped on its own axis, motion chosen without permission. The Agent does not ask the plane for leave.',
@@ -191,6 +225,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'planet',
     sBinaryValue: '1100',
     sShort: 'Nep',
+    nRadiusKm: 24622,
     sHue: '#4a68d8',
     sNote:
       'Depth, dream, and the viewport that shifts the scene. The Frame is perspective as weather.',
@@ -200,6 +235,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'dwarf',
     sBinaryValue: '1110',
     sShort: 'Plu',
+    nRadiusKm: 1188.3,
     sHue: '#b8a48f',
     sNote:
       'Far, small, and forever argued over—the world that forced the public square to redefine a planet. The Forum is status earned in debate.',
@@ -209,6 +245,7 @@ const arrPlanetBodies: tPlanetBody[] = [
     sKind: 'moon',
     sBinaryValue: '1010',
     sShort: 'Cha',
+    nRadiusKm: 606,
     sHue: '#93989f',
     sOrbitOf: 'Pluto',
     nLeadDeg: 18,
@@ -576,13 +613,59 @@ function sOrbitBodyMarkup(
   `
 }
 
-function sOrbitChartMarkup(mapCard: Map<string, tPlanetCardRef>): string {
-  const objNow = new Date()
-  const nT = nCenturiesPastJ2000(nJulianDayFromDate(objNow))
-  const mapBody = new Map(arrPlanetBodies.map((objBody) => [objBody.sName, objBody] as const))
+function arrBodyPlacements(
+  mapCard: Map<string, tPlanetCardRef>,
+  nT: number,
+): tBodyPlacement[] {
   const mapEl = new Map(arrOrbitElements.map((objEl) => [objEl.sName, objEl] as const))
+  const arrPlacements: tBodyPlacement[] = []
 
-  const arrGuideAu = [0.4, 1, 5, 10, 30, 40]
+  for (const objBody of arrPlanetBodies) {
+    const objCard = mapCard.get(objBody.sBinaryValue)
+    if (!objCard) {
+      continue
+    }
+
+    if (objBody.sKind === 'star') {
+      arrPlacements.push({
+        objBody,
+        objCard,
+        objPos: { nXAu: 0, nYAu: 0, nRAu: 0, nLonDeg: 0 },
+      })
+      continue
+    }
+
+    if (objBody.sOrbitOf) {
+      const objParentEl = mapEl.get(objBody.sOrbitOf)
+      if (!objParentEl) {
+        continue
+      }
+      const objParentPos = objBodyPosition(objParentEl, nT)
+      arrPlacements.push({
+        objBody,
+        objCard,
+        objPos: objMoonPosition(objParentPos, objBody.nLeadDeg ?? 0),
+      })
+      continue
+    }
+
+    const objEl = mapEl.get(objBody.sName)
+    if (!objEl) {
+      continue
+    }
+    arrPlacements.push({ objBody, objCard, objPos: objBodyPosition(objEl, nT) })
+  }
+
+  return arrPlacements
+}
+
+function sOrbitChartMarkup(
+  arrPlacements: tBodyPlacement[],
+  nT: number,
+  objNow: Date,
+): string {
+  const mapBody = new Map(arrPlanetBodies.map((objBody) => [objBody.sName, objBody] as const))
+
   const sGuides = arrGuideAu
     .map((nAu) => {
       const nR = nAuToChartR(nAu)
@@ -603,38 +686,18 @@ function sOrbitChartMarkup(mapCard: Map<string, tPlanetCardRef>): string {
     })
     .join('')
 
-  const sBodies = arrPlanetBodies
-    .map((objBody) => {
-      const objCard = mapCard.get(objBody.sBinaryValue)
-      if (!objCard) {
-        return ''
-      }
-
-      if (objBody.sKind === 'star') {
+  const sBodies = arrPlacements
+    .map((objPlacement) => {
+      if (objPlacement.objBody.sKind === 'star') {
         return `
-          <g class="orbit-body is-sun" data-slug="${objBody.sBinaryValue}">
+          <g class="orbit-body is-sun" data-slug="${objPlacement.objBody.sBinaryValue}">
             <circle class="orbit-marker orbit-marker-sun" cx="${nCenter}" cy="${nCenter}" r="7" />
-            <text class="orbit-label" x="${nCenter}" y="${nCenter - 14}">${objBody.sShort}</text>
-            <title>${objBody.sName} · ${objCard.sName} (${objCard.sBinaryValue})</title>
+            <text class="orbit-label" x="${nCenter}" y="${nCenter - 14}">${objPlacement.objBody.sShort}</text>
+            <title>${objPlacement.objBody.sName} · ${objPlacement.objCard.sName} (${objPlacement.objCard.sBinaryValue})</title>
           </g>
         `
       }
-
-      if (objBody.sOrbitOf) {
-        const objParentEl = mapEl.get(objBody.sOrbitOf)
-        if (!objParentEl) {
-          return ''
-        }
-        const objParentPos = objBodyPosition(objParentEl, nT)
-        const objPos = objMoonPosition(objParentPos, objBody.nLeadDeg ?? 0)
-        return sOrbitBodyMarkup(objBody, objCard, objPos)
-      }
-
-      const objEl = mapEl.get(objBody.sName)
-      if (!objEl) {
-        return ''
-      }
-      return sOrbitBodyMarkup(objBody, objCard, objBodyPosition(objEl, nT))
+      return sOrbitBodyMarkup(objPlacement.objBody, objPlacement.objCard, objPlacement.objPos)
     })
     .join('')
 
@@ -653,6 +716,77 @@ function sOrbitChartMarkup(mapCard: Map<string, tPlanetCardRef>): string {
   `
 }
 
+/** Same chart dropped to one axis: each body keeps its horizontal position only. */
+function sOrbitLineFromPlacements(arrPlacements: tBodyPlacement[], objNow: Date): string {
+  const sTicks = arrLineGuideAu
+    .map((nAu) => {
+      const nR = nAuToChartR(nAu)
+      return [nCenter - nR, nCenter + nR]
+        .map(
+          (nX) => `
+            <line class="orbit-tick" x1="${nX.toFixed(2)}" y1="${nLineAxisY - nLineTickHalf}" x2="${nX.toFixed(2)}" y2="${nLineAxisY + nLineTickHalf}" />
+            <text class="orbit-tick-label" x="${nX.toFixed(2)}" y="${nLineAxisY + 20}">${nAu}</text>
+          `,
+        )
+        .join('')
+    })
+    .join('')
+
+  const arrLaneX = new Array<number>(nLineLaneCount).fill(-Infinity)
+  const sBodies = arrPlacements
+    .map((objPlacement) => ({
+      objPlacement,
+      nX: objAuToXy(objPlacement.objPos.nXAu, objPlacement.objPos.nYAu).nX,
+    }))
+    .sort((objLeft, objRight) => objLeft.nX - objRight.nX)
+    .map(({ objPlacement, nX }) => {
+      const objBody = objPlacement.objBody
+      let nLane = 0
+      for (let nIndex = 0; nIndex < nLineLaneCount; nIndex += 1) {
+        if (nX - arrLaneX[nIndex] >= nLineMinGap) {
+          nLane = nIndex
+          break
+        }
+        if (arrLaneX[nIndex] < arrLaneX[nLane]) {
+          nLane = nIndex
+        }
+      }
+      arrLaneX[nLane] = nX
+
+      const nLabelY = nLineAxisY - nLineLabelGap - nLane * nLineLaneStep
+      const bIsStar = objBody.sKind === 'star'
+      const sMarkerClass = bIsStar
+        ? 'orbit-marker orbit-marker-sun'
+        : objBody.sKind === 'planet'
+          ? 'orbit-marker'
+          : 'orbit-marker orbit-marker-moon'
+      const sDistance = bIsStar ? '' : ` · ${objPlacement.objPos.nRAu.toFixed(2)} au`
+
+      return `
+        <g class="orbit-body" data-slug="${objBody.sBinaryValue}">
+          <line class="orbit-stem" x1="${nX.toFixed(2)}" y1="${nLineAxisY - 6}" x2="${nX.toFixed(2)}" y2="${nLabelY + 5}" />
+          <circle class="${sMarkerClass}" cx="${nX.toFixed(2)}" cy="${nLineAxisY}" r="${bIsStar ? 6 : 4.5}" />
+          <text class="orbit-label" x="${nX.toFixed(2)}" y="${nLabelY}">${objBody.sShort}</text>
+          <title>${objBody.sName} · ${objPlacement.objCard.sName} (${objPlacement.objCard.sBinaryValue})${sDistance}</title>
+        </g>
+      `
+    })
+    .join('')
+
+  return `
+    <figure class="orbit-chart orbit-line-chart" id="orbit-line">
+      <svg class="orbit-svg orbit-line-svg" viewBox="0 0 ${nViewSize} ${nLineViewHeight}" role="img" aria-label="Solar system flattened to one axis for ${sDateStamp(objNow)}">
+        <line class="orbit-axis" x1="0" y1="${nLineAxisY}" x2="${nViewSize}" y2="${nLineAxisY}" />
+        ${sTicks}
+        ${sBodies}
+      </svg>
+      <figcaption class="orbit-caption">
+        The same sky flattened · au from the sun, left and right · ${sDateStamp(objNow)} UTC (approximate)
+      </figcaption>
+    </figure>
+  `
+}
+
 function sPlanetItemMarkup(
   objBody: tPlanetBody,
   mapCard: Map<string, tPlanetCardRef>,
@@ -662,11 +796,17 @@ function sPlanetItemMarkup(
     return ''
   }
 
+  const sSize = `${nSwatchRem(objBody.nRadiusKm).toFixed(2)}rem`
+
   return `
     <li class="planet-item" data-slug="${objBody.sBinaryValue}" tabindex="0">
       <div class="planet-heading">
         <h3 class="planet-name">
-          <span class="planet-swatch" style="--planet-hue: ${objBody.sHue}" aria-hidden="true"></span>
+          <span
+            class="planet-swatch"
+            style="--planet-hue: ${objBody.sHue}; width: ${sSize}; height: ${sSize}"
+            aria-hidden="true"
+          ></span>
           ${objBody.sName}
         </h3>
         <span class="planet-kind">${sKindLabel(objBody.sKind)}</span>
@@ -697,24 +837,84 @@ function sPlanetGroupMarkup(
   `
 }
 
+/** Log scale so Charon stays visible next to a sun a thousand times wider. */
+function nSwatchRem(nRadiusKm: number): number {
+  const nClamped = Math.min(nRadiusKmMax, Math.max(nRadiusKmMin, nRadiusKm))
+  const nT =
+    (Math.log(nClamped) - Math.log(nRadiusKmMin)) /
+    (Math.log(nRadiusKmMax) - Math.log(nRadiusKmMin))
+  return nSwatchRemMin + nT * (nSwatchRemMax - nSwatchRemMin)
+}
+
+function sPlanetPairMarkup(
+  objBody: tPlanetBody,
+  mapCard: Map<string, tPlanetCardRef>,
+): string {
+  const objCard = mapCard.get(objBody.sBinaryValue)
+  if (!objCard) {
+    return ''
+  }
+
+  const sSize = `${nSwatchRem(objBody.nRadiusKm).toFixed(2)}rem`
+
+  return `
+    <div
+      class="planet-pair"
+      title="${objBody.sName} · ${objCard.sName} (${objCard.sBinaryValue})"
+    >
+      <span
+        class="planet-swatch planet-pair-swatch"
+        style="--planet-hue: ${objBody.sHue}; width: ${sSize}; height: ${sSize}"
+        aria-hidden="true"
+      ></span>
+      ${sCardIconMarkup(objCard.sBinaryValue, 'planet-pair-icon')}
+    </div>
+  `
+}
+
+export function sPlanetPictogramMarkup(arrCards: tPlanetCardRef[]): string {
+  const mapCard = new Map(
+    arrCards.map((objCard) => [objCard.sBinaryValue, objCard] as const),
+  )
+  const sPairs = arrPlanetBodies.map((objBody) => sPlanetPairMarkup(objBody, mapCard)).join('')
+
+  return `
+    <div class="planet-pictogram" id="planet-pictogram" aria-label="Planet symbols and their binarot signs">
+      ${sPairs}
+    </div>
+  `
+}
+
 export function sPlanetsMarkup(arrCards: tPlanetCardRef[]): string {
   const mapCard = new Map(
     arrCards.map((objCard) => [objCard.sBinaryValue, objCard] as const),
   )
   const arrMajor = arrPlanetBodies.filter((objBody) => objBody.sKind !== 'moon')
   const arrMoon = arrPlanetBodies.filter((objBody) => objBody.sKind === 'moon')
+  const objNow = new Date()
+  const nT = nCenturiesPastJ2000(nJulianDayFromDate(objNow))
+  const arrPlacements = arrBodyPlacements(mapCard, nT)
 
   return `
     <div class="planets" id="planets">
-      ${sOrbitChartMarkup(mapCard)}
+      ${sOrbitChartMarkup(arrPlacements, nT, objNow)}
       ${sPlanetGroupMarkup('Solar System', arrMajor, mapCard)}
       ${sPlanetGroupMarkup('Moons', arrMoon, mapCard)}
     </div>
   `
 }
 
+export function sOrbitLineMarkup(arrCards: tPlanetCardRef[]): string {
+  const mapCard = new Map(
+    arrCards.map((objCard) => [objCard.sBinaryValue, objCard] as const),
+  )
+  const objNow = new Date()
+  const nT = nCenturiesPastJ2000(nJulianDayFromDate(objNow))
+  return sOrbitLineFromPlacements(arrBodyPlacements(mapCard, nT), objNow)
+}
+
 export function vBindPlanetsOrbitHover(): void {
-  const objRoot = document.querySelector<HTMLElement>('#planets')
+  const objRoot = document.querySelector<HTMLElement>('[data-panel="planets"]')
   if (!objRoot) {
     return
   }
@@ -726,17 +926,18 @@ export function vBindPlanetsOrbitHover(): void {
   const arrOrbitPaths = Array.from(
     objRoot.querySelectorAll<SVGElement>('.orbit-path[data-slug]'),
   )
+  const arrHighlightable = [...arrItems, ...arrOrbitBodies, ...arrOrbitPaths]
 
   const vClear = (): void => {
     objRoot.classList.remove('is-highlighting')
-    for (const objEl of [...arrItems, ...arrOrbitBodies, ...arrOrbitPaths]) {
+    for (const objEl of arrHighlightable) {
       objEl.classList.remove('is-active')
     }
   }
 
   const vHighlight = (sSlug: string): void => {
     objRoot.classList.add('is-highlighting')
-    for (const objEl of [...arrItems, ...arrOrbitBodies, ...arrOrbitPaths]) {
+    for (const objEl of arrHighlightable) {
       objEl.classList.toggle('is-active', objEl.dataset.slug === sSlug)
     }
   }

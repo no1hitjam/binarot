@@ -20,7 +20,7 @@ import { sDreamMarkup, vBindDream, vSetDreamActive } from './dream'
 import { sFortuneMarkup, vSetFortuneActive } from './fortune'
 import { sGemsMarkup } from './gems'
 import { sElementsMarkup } from './elements'
-import { sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
+import { sOrbitLineMarkup, sPlanetPictogramMarkup, sPlanetsMarkup, vBindPlanetsOrbitHover } from './planets'
 import { sCavePaintingMarkup, sStarmapMarkup, vBindStarmapHover } from './starmap'
 
 type tCard = {
@@ -662,7 +662,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         approximate heliocentric positions for today (log radius; moons drawn near their parent).
       </p>
       ${sPlanetsMarkup(arrCards)}
-      <h3>History of the Binarot planets</h3>
+      ${sPlanetPictogramMarkup(arrCards)}
+      <h3>History of the Binarot planets and moons</h3>
       <p>
         In the winter of 1608, a secret scholarly network known as the Order of the Silent Grid
         recovered the ancient dual-hemisphere slate tablets from an upland Pyrenean cave.
@@ -672,18 +673,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
         across Europe, constructing massive aerial telescopes to systematically observe the heavens
         and assign every major body to its corresponding Binarot sign.
       </p>
-      <p>
-        The inner solar system was bound to the Northern Array (<code>0</code>–<code>111</code>),
-        anchoring Sol as The Seed (<code>0</code>) and Mercury as The Flag (<code>1</code>), with
-        the Earth-Moon system as The Link (<code>11</code>) and The Port (<code>110</code>), while
-        Mars served as The Host (<code>100</code>) and Jupiter as The Tree (<code>111</code>) for its
-        canopy of moons. Pushing their long-focal lenses into the outer darkness, the Order mapped
-        the Southern Array (<code>1000</code>–<code>1111</code>), secretly identifying Uranus as The
-        Agent (<code>1000</code>) for its sideways axis, Saturn as The Shell (<code>1101</code>)
-        guarding the icy perimeter, Neptune as The Frame (<code>1100</code>), and Europa as The Cache
-        (<code>1011</code>). By 1700, their hidden codices asserted that the planetary architecture
-        was not random, but a physical execution of the ancient binary sequence.
-      </p>
+      ${sOrbitLineMarkup(arrCards)}
     </section>
 
     <section class="tab-panel" data-panel="elements">

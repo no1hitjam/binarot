@@ -22,6 +22,7 @@ const nFortuneMin = -100
 const nFortuneMax = 100
 const nHourMs = 60 * 60 * 1000
 const nHalfSize = 8
+const nFortuneMeanderHours = 6
 
 let bFortuneActive = false
 let nFortuneTimer = 0
@@ -50,11 +51,14 @@ function sFortuneColor(nIndex: number): string {
 }
 
 function nFortuneAtHour(nSignSeed: number, nHour: number): number {
-  const fnCurrent = fnSeededRandom(nSignSeed ^ Math.imul(nHour, 0x85ebca6b))
-  const fnPrevious = fnSeededRandom(nSignSeed ^ Math.imul(nHour - 1, 0x85ebca6b))
-  const nCurrent = fnCurrent() * 200 - 100
-  const nPrevious = fnPrevious() * 200 - 100
-  return Math.round(nClampFortune(nCurrent * 0.7 + nPrevious * 0.3))
+  const nAnchor = Math.floor(nHour / nFortuneMeanderHours)
+  const nProgress = (nHour - nAnchor * nFortuneMeanderHours) / nFortuneMeanderHours
+  const nBlend = nProgress * nProgress * (3 - 2 * nProgress)
+  const fnStart = fnSeededRandom(nSignSeed ^ Math.imul(nAnchor, 0x85ebca6b))
+  const fnEnd = fnSeededRandom(nSignSeed ^ Math.imul(nAnchor + 1, 0x85ebca6b))
+  const nStart = fnStart() * 200 - 100
+  const nEnd = fnEnd() * 200 - 100
+  return Math.round(nClampFortune(nStart + (nEnd - nStart) * nBlend))
 }
 
 function sSignedFortune(nValue: number): string {

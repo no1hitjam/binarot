@@ -423,6 +423,9 @@ const nRoomLineDim = 0x3d4578
 const nRoomLineGold = 0xc4a030
 const nRoomBg = 0x050308
 const nRoomStretchX = 1.45
+const nRoomPanMaxX = 0.85
+const nRoomPanMaxY = 0.45
+const nRoomPanSens = 0.0022
 
 let objRoomHost: HTMLElement | null = null
 let objRoomScene: THREE.Scene | null = null
@@ -431,6 +434,67 @@ let objRoomRenderer: THREE.WebGLRenderer | null = null
 let nRoomAnimFrame = 0
 let bRoomRunning = false
 let nRoomStart = 0
+let nRoomPanX = 0
+let nRoomPanY = 0
+let nRoomDragX = 0
+let nRoomDragY = 0
+let bRoomDragging = false
+let nRoomPointerId = -1
+let bRoomPointerBound = false
+
+function nClamp(nValue: number, nMin: number, nMax: number): number {
+  return Math.min(nMax, Math.max(nMin, nValue))
+}
+
+function vOnRoomPointerDown(objEvent: PointerEvent): void {
+  if (!objRoomHost || objEvent.button !== 0) {
+    return
+  }
+
+  bRoomDragging = true
+  nRoomPointerId = objEvent.pointerId
+  nRoomDragX = objEvent.clientX
+  nRoomDragY = objEvent.clientY
+  objRoomHost.classList.add('is-dragging')
+  objRoomHost.setPointerCapture(objEvent.pointerId)
+  objEvent.preventDefault()
+}
+
+function vOnRoomPointerMove(objEvent: PointerEvent): void {
+  if (!bRoomDragging || objEvent.pointerId !== nRoomPointerId) {
+    return
+  }
+
+  const nDx = objEvent.clientX - nRoomDragX
+  const nDy = objEvent.clientY - nRoomDragY
+  nRoomDragX = objEvent.clientX
+  nRoomDragY = objEvent.clientY
+  nRoomPanX = nClamp(nRoomPanX - nDx * nRoomPanSens, -nRoomPanMaxX, nRoomPanMaxX)
+  nRoomPanY = nClamp(nRoomPanY + nDy * nRoomPanSens, -nRoomPanMaxY, nRoomPanMaxY)
+}
+
+function vOnRoomPointerUp(objEvent: PointerEvent): void {
+  if (objEvent.pointerId !== nRoomPointerId) {
+    return
+  }
+
+  bRoomDragging = false
+  nRoomPointerId = -1
+  objRoomHost?.classList.remove('is-dragging')
+}
+
+function vBindRoomPointer(): void {
+  if (!objRoomHost || bRoomPointerBound) {
+    return
+  }
+
+  bRoomPointerBound = true
+  objRoomHost.addEventListener('pointerdown', vOnRoomPointerDown)
+  objRoomHost.addEventListener('pointermove', vOnRoomPointerMove)
+  objRoomHost.addEventListener('pointerup', vOnRoomPointerUp)
+  objRoomHost.addEventListener('pointercancel', vOnRoomPointerUp)
+  objRoomHost.addEventListener('lostpointercapture', vOnRoomPointerUp)
+}
 
 function objWireMesh(objGeo: THREE.BufferGeometry, nColor: number): THREE.LineSegments {
   const objEdges = new THREE.EdgesGeometry(objGeo)
@@ -577,13 +641,13 @@ function vTickRoom(): void {
 
   const nT = (performance.now() - nRoomStart) * 0.001
   objRoomCamera.position.set(
-    -2.35 + Math.sin(nT * 0.17) * 0.04,
-    2.62 + Math.sin(nT * 0.13) * 0.02,
+    -2.35 + Math.sin(nT * 0.17) * 0.04 + nRoomPanX * 0.18,
+    2.62 + Math.sin(nT * 0.13) * 0.02 + nRoomPanY * 0.12,
     1.85 + Math.cos(nT * 0.15) * 0.035,
   )
   objRoomCamera.lookAt(
-    0.85 * nRoomStretchX + Math.sin(nT * 0.11) * 0.03,
-    0.95,
+    0.85 * nRoomStretchX + Math.sin(nT * 0.11) * 0.03 + nRoomPanX,
+    0.95 + nRoomPanY,
     -0.55 + Math.cos(nT * 0.09) * 0.025,
   )
 
@@ -605,6 +669,7 @@ function vStartRoom(): void {
     vBuildRoomScene()
   }
 
+  vBindRoomPointer()
   bRoomRunning = true
   nRoomStart = performance.now()
   vResizeRoom()
@@ -614,6 +679,9 @@ function vStartRoom(): void {
 
 function vStopRoom(): void {
   bRoomRunning = false
+  bRoomDragging = false
+  nRoomPointerId = -1
+  objRoomHost?.classList.remove('is-dragging')
   if (nRoomAnimFrame !== 0) {
     window.cancelAnimationFrame(nRoomAnimFrame)
     nRoomAnimFrame = 0

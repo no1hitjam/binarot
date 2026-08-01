@@ -2309,6 +2309,12 @@ code {
   width: 100%;
   height: min(52vh, 420px);
   background-color: var(--void);
+  cursor: grab;
+  touch-action: none;
+}
+
+.matrix-room-viewport.is-dragging {
+  cursor: grabbing;
 }
 
 .matrix-room-viewport canvas {

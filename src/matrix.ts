@@ -425,6 +425,10 @@ export function sMatrixMarkup(): string {
         <p class="matrix-feed-caption">tty 12 · spill</p>
       </aside>
     </div>
+    <div class="matrix-agent" id="matrix-agent">
+      <div class="matrix-agent-viewport" id="matrix-agent-viewport" aria-hidden="true"></div>
+      <p class="matrix-agent-caption">node 09 · operator</p>
+    </div>
   `
 }
 
@@ -1296,6 +1300,238 @@ function vStopFeed(): void {
   vClearFeedTimer()
 }
 
+const nAgentLine = 0x6a78e8
+const nAgentLineDim = 0x3d4578
+const nAgentLineGold = 0xc4a030
+const nAgentBg = 0x050308
+const nAgentKeyR = 255
+const nAgentKeyG = 0
+const nAgentKeyB = 255
+const nAgentKeyTol = 72
+const nAgentFigureH = 2.35
+const sAgentImageUrl = `${import.meta.env.BASE_URL}matrix-hacker.png`
+
+let objAgentHost: HTMLElement | null = null
+let objAgentScene: THREE.Scene | null = null
+let objAgentCamera: THREE.PerspectiveCamera | null = null
+let objAgentRenderer: THREE.WebGLRenderer | null = null
+let objAgentFigure: THREE.Mesh | null = null
+let objAgentWorld: THREE.Group | null = null
+let nAgentAnimFrame = 0
+let bAgentRunning = false
+let nAgentStart = 0
+let bAgentTextureReady = false
+
+function objAgentKeyTexture(objSource: HTMLImageElement): THREE.CanvasTexture {
+  const objCanvas = document.createElement('canvas')
+  objCanvas.width = objSource.naturalWidth || objSource.width
+  objCanvas.height = objSource.naturalHeight || objSource.height
+  const objCtx = objCanvas.getContext('2d')
+  if (!objCtx) {
+    return new THREE.CanvasTexture(objCanvas)
+  }
+
+  objCtx.drawImage(objSource, 0, 0)
+  const objImage = objCtx.getImageData(0, 0, objCanvas.width, objCanvas.height)
+  const arrData = objImage.data
+  for (let nI = 0; nI < arrData.length; nI += 4) {
+    const nR = arrData[nI]!
+    const nG = arrData[nI + 1]!
+    const nB = arrData[nI + 2]!
+    const nDr = nR - nAgentKeyR
+    const nDg = nG - nAgentKeyG
+    const nDb = nB - nAgentKeyB
+    const nDist = Math.sqrt(nDr * nDr + nDg * nDg + nDb * nDb)
+    if (nDist < nAgentKeyTol) {
+      arrData[nI + 3] = 0
+      continue
+    }
+
+    // Soften magenta bleed through translucent holograms / fringes.
+    const nMagenta = Math.min(nR, nB) - nG
+    if (nMagenta > 28) {
+      const nPull = Math.min(1, (nMagenta - 28) / 140)
+      arrData[nI] = Math.round(nR - nMagenta * nPull * 0.85)
+      arrData[nI + 2] = Math.round(nB - nMagenta * nPull * 0.85)
+      arrData[nI + 3] = Math.round(arrData[nI + 3]! * (1 - nPull * 0.55))
+    }
+  }
+  objCtx.putImageData(objImage, 0, 0)
+
+  const objTex = new THREE.CanvasTexture(objCanvas)
+  objTex.colorSpace = THREE.SRGBColorSpace
+  objTex.needsUpdate = true
+  return objTex
+}
+
+function vLoadAgentFigure(): void {
+  if (!objAgentScene || bAgentTextureReady) {
+    return
+  }
+
+  const objImg = new Image()
+  objImg.decoding = 'async'
+  objImg.onload = () => {
+    if (!objAgentScene) {
+      return
+    }
+
+    const objTex = objAgentKeyTexture(objImg)
+    const nAspect = (objImg.naturalWidth || objImg.width) / (objImg.naturalHeight || objImg.height)
+    const nH = nAgentFigureH
+    const nW = nH * nAspect
+    const objMat = new THREE.MeshBasicMaterial({
+      map: objTex,
+      transparent: true,
+      alphaTest: 0.08,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+    })
+    objAgentFigure = new THREE.Mesh(new THREE.PlaneGeometry(nW, nH), objMat)
+    objAgentFigure.position.set(0, nH * 0.5, 0)
+    objAgentScene.add(objAgentFigure)
+    bAgentTextureReady = true
+  }
+  objImg.onerror = () => {
+    console.warn('matrix agent: failed to load operator cutout')
+  }
+  objImg.src = sAgentImageUrl
+}
+
+function vBuildAgentScene(): void {
+  if (!objAgentHost) {
+    return
+  }
+
+  objAgentScene = new THREE.Scene()
+  objAgentScene.background = new THREE.Color(nAgentBg)
+  objAgentScene.fog = new THREE.Fog(nAgentBg, 6.5, 18)
+
+  objAgentCamera = new THREE.PerspectiveCamera(42, 1, 0.05, 40)
+  objAgentCamera.position.set(0, 1.35, 4.6)
+
+  objAgentRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false })
+  objAgentRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+  objAgentRenderer.setClearColor(nAgentBg, 1)
+  objAgentHost.replaceChildren(objAgentRenderer.domElement)
+
+  objAgentWorld = new THREE.Group()
+  objAgentScene.add(objAgentWorld)
+
+  // Infinite-feeling wire floor grid facing the camera.
+  const objGrid = new THREE.GridHelper(18, 28, nAgentLineDim, nAgentLineDim)
+  objGrid.position.y = 0
+  const objGridMat = objGrid.material
+  if (Array.isArray(objGridMat)) {
+    for (const objMat of objGridMat) {
+      objMat.transparent = true
+      objMat.opacity = 0.45
+    }
+  } else {
+    objGridMat.transparent = true
+    objGridMat.opacity = 0.45
+  }
+  objAgentWorld.add(objGrid)
+
+  // Rear wall frame
+  objAgentWorld.add(objWireBox(7.2, 3.4, 0.04, nAgentLineDim, 0, 1.7, -3.2))
+  objAgentWorld.add(objWireBox(4.4, 2.4, 0.03, nAgentLine, 0, 1.55, -3.15))
+
+  // Side pylons
+  objAgentWorld.add(objWireBox(0.18, 2.8, 0.18, nAgentLine, -2.55, 1.4, -1.1))
+  objAgentWorld.add(objWireBox(0.18, 2.8, 0.18, nAgentLine, 2.55, 1.4, -1.1))
+  objAgentWorld.add(objWireBox(0.12, 2.2, 0.12, nAgentLineDim, -2.55, 1.1, 0.6))
+  objAgentWorld.add(objWireBox(0.12, 2.2, 0.12, nAgentLineDim, 2.55, 1.1, 0.6))
+
+  // Floating node cubes
+  const arrNodes: Array<[number, number, number, number]> = [
+    [-1.85, 2.15, -1.8, 0.28],
+    [1.95, 2.35, -1.55, 0.22],
+    [-2.2, 0.55, -0.4, 0.18],
+    [2.15, 0.7, -0.55, 0.2],
+    [0.0, 2.75, -2.4, 0.16],
+  ]
+  for (const [nX, nY, nZ, nS] of arrNodes) {
+    objAgentWorld.add(objWireBox(nS, nS, nS, nAgentLineGold, nX, nY, nZ))
+  }
+
+  // Pedestal ring under the operator
+  objAgentWorld.add(objWireBox(1.15, 0.04, 1.15, nAgentLine, 0, 0.02, 0.05))
+  objAgentWorld.add(objWireBox(0.85, 0.03, 0.85, nAgentLineGold, 0, 0.05, 0.05))
+
+  objAgentCamera.lookAt(0, 1.15, 0)
+  vLoadAgentFigure()
+  vResizeAgent()
+}
+
+function vResizeAgent(): void {
+  if (!objAgentHost || !objAgentCamera || !objAgentRenderer) {
+    return
+  }
+
+  const nW = Math.max(1, objAgentHost.clientWidth)
+  const nH = Math.max(1, objAgentHost.clientHeight)
+  objAgentCamera.aspect = nW / nH
+  objAgentCamera.updateProjectionMatrix()
+  objAgentRenderer.setSize(nW, nH, false)
+}
+
+function vTickAgent(): void {
+  if (!bAgentRunning || !objAgentRenderer || !objAgentScene || !objAgentCamera) {
+    return
+  }
+
+  const nT = (performance.now() - nAgentStart) * 0.001
+  objAgentCamera.position.set(
+    Math.sin(nT * 0.22) * 0.35,
+    1.32 + Math.sin(nT * 0.17) * 0.06,
+    4.55 + Math.cos(nT * 0.19) * 0.12,
+  )
+  objAgentCamera.lookAt(0, 1.15 + Math.sin(nT * 0.14) * 0.02, 0)
+
+  if (objAgentFigure) {
+    objAgentFigure.position.y = nAgentFigureH * 0.5 + Math.sin(nT * 1.1) * 0.025
+    objAgentFigure.rotation.y = Math.sin(nT * 0.45) * 0.04
+  }
+
+  if (objAgentWorld) {
+    objAgentWorld.rotation.y = Math.sin(nT * 0.12) * 0.03
+  }
+
+  objAgentRenderer.render(objAgentScene, objAgentCamera)
+  nAgentAnimFrame = window.requestAnimationFrame(vTickAgent)
+}
+
+function vStartAgent(): void {
+  if (bAgentRunning) {
+    return
+  }
+
+  objAgentHost = document.querySelector<HTMLElement>('#matrix-agent-viewport')
+  if (!objAgentHost) {
+    return
+  }
+
+  if (!objAgentRenderer || !objAgentScene) {
+    vBuildAgentScene()
+  }
+
+  bAgentRunning = true
+  nAgentStart = performance.now()
+  vResizeAgent()
+  objAgentHost.classList.add('is-revealed')
+  nAgentAnimFrame = window.requestAnimationFrame(vTickAgent)
+}
+
+function vStopAgent(): void {
+  bAgentRunning = false
+  if (nAgentAnimFrame !== 0) {
+    window.cancelAnimationFrame(nAgentAnimFrame)
+    nAgentAnimFrame = 0
+  }
+  objAgentHost?.classList.remove('is-revealed')
+}
+
 const arrPoetry = [
   'The Seed sleeps in cold silicon—sixteen futures coiled in a single unlit bit.',
   'Plant The Flag on a rooftop server; sovereignty boots before dawn.',
@@ -1412,6 +1648,9 @@ export function vBindMatrixRain(): void {
     if (bWireRunning) {
       vResizeWire()
     }
+    if (bAgentRunning) {
+      vResizeAgent()
+    }
   })
 
   const objPanel = document.querySelector<HTMLElement>('[data-panel="matrix"]')
@@ -1421,6 +1660,7 @@ export function vBindMatrixRain(): void {
     vStartRoom()
     vStartWire()
     vStartFeed()
+    vStartAgent()
   }
 }
 
@@ -1431,11 +1671,13 @@ export function vSetMatrixActive(bActive: boolean): void {
     vStartRoom()
     vStartWire()
     vStartFeed()
+    vStartAgent()
   } else {
     vStop()
     vStopPoetry()
     vStopRoom()
     vStopWire()
     vStopFeed()
+    vStopAgent()
   }
 }

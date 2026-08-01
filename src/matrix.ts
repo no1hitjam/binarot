@@ -415,9 +415,15 @@ export function sMatrixMarkup(): string {
       <div class="matrix-room-viewport" id="matrix-room-viewport" aria-hidden="true"></div>
       <p class="matrix-room-caption">cam 03 · apt feed</p>
     </div>
-    <div class="matrix-wire" id="matrix-wire">
-      <div class="matrix-wire-viewport" id="matrix-wire-viewport" aria-hidden="true"></div>
-      <p class="matrix-wire-caption">trace 07 · conduit</p>
+    <div class="matrix-trace" id="matrix-trace">
+      <div class="matrix-wire" id="matrix-wire">
+        <div class="matrix-wire-viewport" id="matrix-wire-viewport" aria-hidden="true"></div>
+        <p class="matrix-wire-caption">trace 07 · conduit</p>
+      </div>
+      <aside class="matrix-feed" id="matrix-feed" aria-live="polite">
+        <div class="matrix-feed-log" id="matrix-feed-log"></div>
+        <p class="matrix-feed-caption">tty 12 · spill</p>
+      </aside>
     </div>
   `
 }
@@ -1112,6 +1118,184 @@ function vStopWire(): void {
   objWireHost?.classList.remove('is-revealed')
 }
 
+const nFeedMaxLines = 48
+const nFeedMinMs = 55
+const nFeedMaxMs = 180
+
+const arrFeedShort = [
+  'ok',
+  'ack',
+  'nop',
+  '···',
+  'sync',
+  'wait',
+  'ping',
+  'ttl?',
+  'rx',
+  'tx',
+  '---',
+  '0x{hex2}',
+  'n={n}',
+  '+{n2}µs',
+  'eof',
+]
+
+const arrFeedMid = [
+  'strand/{n} sync ok',
+  'pulse {n} · lag {n2}µs',
+  'ack 0x{hex} · f{n}',
+  'sheath bias {n}.{n2}',
+  'route · node {n}',
+  'ttl hop {n}',
+  'ring {n} locked',
+  'spill {n} · {hex}',
+  'xor {hex}{hex2}',
+  'hitch · retry {n}',
+  'chk {hex}',
+  'jitter {n2}ms',
+  'pkt {n} drop 0',
+  'latch · {hex}',
+  'void win {n}',
+  'cam t+{n}.{n2}',
+  'fork deny {n}',
+  'cache slot {n}',
+  'floor -{n}dB',
+  'echo {hex}',
+]
+
+const arrFeedLong = [
+  'conduit/{n} sheath sync · lag {n2}µs · mask 0x{hex}{hex2}',
+  'route rewrite node {n} → {n2} · checksum {hex} ok',
+  'spill buf[{n}] dump {dump} · frames queued',
+  'uplink handshake retry {n} · peer {hex}:{hex2} · rtt {n2}ms',
+  'glyph stream mutate · seed {hex}{hex2}{hex} · bias {n}.{n2}',
+  'mirror latch hold · path /void/cam/{n} · token {hex}{hex2}',
+  'noise scan pass {n} · floor -{n2}dB · residue {dump}',
+  'core ring {n} rephase · delta {n2} · xor {hex}{hex2}{hex}',
+  'packet {n} ack chain {hex} {hex2} {hex} {hex2} · drop 0',
+  'trace hitch @ t+{n}.{n2} · rewind {hex} · resume ok',
+]
+
+let objFeedLog: HTMLElement | null = null
+let nFeedTimer = 0
+let bFeedRunning = false
+let nFeedSeq = 0
+
+function sFeedHex(nLen: number): string {
+  let sOut = ''
+  for (let nI = 0; nI < nLen; nI++) {
+    sOut += Math.floor(Math.random() * 16).toString(16)
+  }
+  return sOut
+}
+
+function sFeedDump(): string {
+  const nWords = 3 + Math.floor(Math.random() * 6)
+  const arrParts: string[] = []
+  for (let nI = 0; nI < nWords; nI++) {
+    arrParts.push(sFeedHex(2 + Math.floor(Math.random() * 3)))
+  }
+  return arrParts.join(' ')
+}
+
+function sFeedFill(sTemplate: string): string {
+  nFeedSeq = (nFeedSeq + 1) % 10000
+  return sTemplate
+    .replaceAll('{dump}', sFeedDump())
+    .replaceAll('{n2}', String(10 + Math.floor(Math.random() * 90)))
+    .replaceAll('{n}', String(nFeedSeq % 997))
+    .replaceAll('{hex2}', sFeedHex(2))
+    .replaceAll('{hex}', sFeedHex(4))
+}
+
+function sFeedLine(): string {
+  const nRoll = Math.random()
+  if (nRoll < 0.18) {
+    return sFeedFill(arrFeedShort[Math.floor(Math.random() * arrFeedShort.length)]!)
+  }
+  if (nRoll < 0.28) {
+    return sFeedDump()
+  }
+  if (nRoll < 0.38) {
+    return `${sFeedHex(8 + Math.floor(Math.random() * 24))}`
+  }
+  if (nRoll < 0.55) {
+    return sFeedFill(arrFeedLong[Math.floor(Math.random() * arrFeedLong.length)]!)
+  }
+  return sFeedFill(arrFeedMid[Math.floor(Math.random() * arrFeedMid.length)]!)
+}
+
+function sFeedTone(): string {
+  const nRoll = Math.random()
+  if (nRoll < 0.12) {
+    return 'is-warn'
+  }
+  if (nRoll < 0.45) {
+    return 'is-ok'
+  }
+  if (nRoll < 0.7) {
+    return 'is-dim'
+  }
+  return ''
+}
+
+function vClearFeedTimer(): void {
+  if (nFeedTimer !== 0) {
+    window.clearTimeout(nFeedTimer)
+    nFeedTimer = 0
+  }
+}
+
+function vAppendFeedLine(): void {
+  if (!objFeedLog || !bFeedRunning) {
+    return
+  }
+
+  const objLine = document.createElement('p')
+  const sTone = sFeedTone()
+  objLine.className = `matrix-feed-line${sTone ? ` ${sTone}` : ''}`
+  objLine.textContent = sFeedLine()
+  objFeedLog.appendChild(objLine)
+
+  while (objFeedLog.childElementCount > nFeedMaxLines) {
+    objFeedLog.firstElementChild?.remove()
+  }
+
+  vClearFeedTimer()
+  const nDelay = nFeedMinMs + Math.floor(Math.random() * (nFeedMaxMs - nFeedMinMs))
+  nFeedTimer = window.setTimeout(vAppendFeedLine, nDelay)
+}
+
+function vStartFeed(): void {
+  if (bFeedRunning) {
+    return
+  }
+
+  objFeedLog = document.querySelector<HTMLElement>('#matrix-feed-log')
+  if (!objFeedLog) {
+    return
+  }
+
+  bFeedRunning = true
+  nFeedSeq = Math.floor(Math.random() * 400)
+  objFeedLog.replaceChildren()
+  for (let nI = 0; nI < 10; nI++) {
+    const objLine = document.createElement('p')
+    const sTone = sFeedTone()
+    objLine.className = `matrix-feed-line${sTone ? ` ${sTone}` : ''}`
+    objLine.textContent = sFeedLine()
+    objLine.style.animation = 'none'
+    objLine.style.opacity = '1'
+    objFeedLog.appendChild(objLine)
+  }
+  vAppendFeedLine()
+}
+
+function vStopFeed(): void {
+  bFeedRunning = false
+  vClearFeedTimer()
+}
+
 const arrPoetry = [
   'The Seed sleeps in cold silicon—sixteen futures coiled in a single unlit bit.',
   'Plant The Flag on a rooftop server; sovereignty boots before dawn.',
@@ -1236,6 +1420,7 @@ export function vBindMatrixRain(): void {
     vStartPoetry()
     vStartRoom()
     vStartWire()
+    vStartFeed()
   }
 }
 
@@ -1245,10 +1430,12 @@ export function vSetMatrixActive(bActive: boolean): void {
     vStartPoetry()
     vStartRoom()
     vStartWire()
+    vStartFeed()
   } else {
     vStop()
     vStopPoetry()
     vStopRoom()
     vStopWire()
+    vStopFeed()
   }
 }
